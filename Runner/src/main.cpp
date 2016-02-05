@@ -10,7 +10,7 @@
 
 namespace po = boost::program_options;
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(DARUNNER, "darunner tool root logger");
+XBT_LOG_NEW_DEFAULT_CATEGORY(darunner, "darunner tool root logger");
 
 namespace darunner {
   // Simplistic scope guard. Single-use only )
@@ -51,6 +51,7 @@ namespace darunner {
     XBT_INFO("Loading network from '%s'", network_path.c_str());
     SD_create_environment(network_path.c_str());
 
+    // Schedule tasks
     const SD_workstation_t* workstations = SD_workstation_get_list();
     const unsigned nworkstations = SD_workstation_get_number();
     unsigned wsIdx = 0;
@@ -65,19 +66,31 @@ namespace darunner {
       }
     }
 
+    // Dump platform configuration
     for (unsigned wsIdx = 0; wsIdx < nworkstations; ++wsIdx) {
       SD_workstation_dump(workstations[wsIdx]);
     }
+    const SD_link_t* links = SD_link_get_list();
+    const unsigned nlinks = SD_link_get_number();
+    for (unsigned lIdx = 0; lIdx < nlinks; ++lIdx) {
+      XBT_INFO("Link:");
+      XBT_INFO("  %s: %f", SD_link_get_name(links[lIdx]), SD_link_get_current_bandwidth(links[lIdx]));
+    }
+
 
     while (!xbt_dynar_is_empty(SD_simulate(-1))) {
     }
+    XBT_INFO("Simulation time: %f seconds\n", SD_get_clock());
 
+    // Sort results
     std::multimap<double, SD_task_t> results;
     for (auto& task: graph) {
       const double start = SD_task_get_start_time(task.get());
       results.insert({start, task.get()});
     }
 
+    // Dump results
+    // TODO: format?
     for (auto& result: results) {
       const SD_task_t task = result.second;
       const double start = SD_task_get_start_time(task);
@@ -92,7 +105,6 @@ namespace darunner {
       std::cout << std::endl;
     }
 
-    XBT_INFO("Simulation time: %f seconds\n", SD_get_clock());
   }
 }
 
