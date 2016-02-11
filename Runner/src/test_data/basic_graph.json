@@ -1,0 +1,23 @@
+{
+  "tasks": [
+    {
+      "name": "task_1",
+      "size": 2e9
+    },
+    {
+      "name": "task_2",
+      "size": 5e9
+    },
+    {
+      "name": "task_3",
+      "size": 2e9
+    }
+  ],
+  "links": [
+    {
+      "src": "task_1",
+      "dst": "task_2",
+      "size": 2e8
+    }
+  ]
+}

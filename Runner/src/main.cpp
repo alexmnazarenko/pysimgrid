@@ -1,5 +1,6 @@
 // (c) DATADVANCE 2016
 
+#include "simulator.hpp"
 // weirdass simgrid miserably fails if platf is not included first. it's also included in simdag.h, but order seems to be incorrect.
 #include "simgrid/platf.h"
 #include "simgrid/simdag.h"
@@ -10,7 +11,7 @@
 
 namespace po = boost::program_options;
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(darunner, "darunner tool root logger");
+XBT_LOG_NEW_DEFAULT_CATEGORY(darunner, "darunner tool root");
 
 namespace darunner {
   // Simplistic scope guard. Single-use only )
@@ -42,18 +43,28 @@ namespace darunner {
 
 
   void execute(const po::variables_map& config) {
+    Simulator simulator(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
+
+    return;
 
     const std::string tasks_path = config["tasks"].as<std::string>();
     XBT_INFO("Loading graph from '%s'", tasks_path.c_str());
     auto graph = xbt_to_vector<SD_task_t>(SD_dotload(tasks_path.c_str()), SD_task_destroy);
 
-    const std::string network_path = config["network"].as<std::string>();
-    XBT_INFO("Loading network from '%s'", network_path.c_str());
-    SD_create_environment(network_path.c_str());
-
-    // Schedule tasks
     const SD_workstation_t* workstations = SD_workstation_get_list();
     const unsigned nworkstations = SD_workstation_get_number();
+    // Dump platform configuration
+    for (unsigned wsIdx = 0; wsIdx < nworkstations; ++wsIdx) {
+      SD_workstation_dump(workstations[wsIdx]);
+    }
+    const SD_link_t* links = SD_link_get_list();
+    const unsigned nlinks = SD_link_get_number();
+    for (unsigned lIdx = 0; lIdx < nlinks; ++lIdx) {
+      XBT_INFO("Link:");
+      XBT_INFO("  %s: %f", SD_link_get_name(links[lIdx]), SD_link_get_current_bandwidth(links[lIdx]));
+    }
+
+    // Schedule tasks
     unsigned wsIdx = 0;
     for (auto& task: graph) {
       if (SD_task_get_kind(task.get()) == SD_TASK_COMP_SEQ) {
@@ -66,16 +77,6 @@ namespace darunner {
       }
     }
 
-    // Dump platform configuration
-    for (unsigned wsIdx = 0; wsIdx < nworkstations; ++wsIdx) {
-      SD_workstation_dump(workstations[wsIdx]);
-    }
-    const SD_link_t* links = SD_link_get_list();
-    const unsigned nlinks = SD_link_get_number();
-    for (unsigned lIdx = 0; lIdx < nlinks; ++lIdx) {
-      XBT_INFO("Link:");
-      XBT_INFO("  %s: %f", SD_link_get_name(links[lIdx]), SD_link_get_current_bandwidth(links[lIdx]));
-    }
 
 
     while (!xbt_dynar_is_empty(SD_simulate(-1))) {
@@ -111,8 +112,8 @@ namespace darunner {
 int main(int argc, char* argv[]) {
   // 1.
   // Init SimDAG library and ensure it's cleanup
-  // Don't feed it with command line to avoid strange interactions
-  int fakeArgc = 1;
+  //
+  // Feed it with command line to be able to pass SimGrid configuration options.
   SD_init(&argc, argv);
   darunner::OnScopeExit guard(SD_exit);
   (void) guard;
@@ -124,27 +125,34 @@ int main(int argc, char* argv[]) {
   cmdlineDesc.add_options()
       ("help", "produce help message")
       ("tasks", po::value<std::string>()->required(), "path to task graph definition in .dot format")
-      ("network", po::value<std::string>()->required(), "path to network definition in .xml format")
+      ("platform", po::value<std::string>()->required(), "path to platform definition in .xml format")
   ;
   po::positional_options_description cmdlinePositional;
   cmdlinePositional.add("tasks", 1);
-  cmdlinePositional.add("network", 1);
+  cmdlinePositional.add("platform", 1);
 
   po::variables_map config;
   try {
     po::store(po::command_line_parser(argc, argv).options(cmdlineDesc).positional(cmdlinePositional).run(), config);
     po::notify(config);
   } catch (std::exception& e) {
-    std::cout << "Usage: darunner [options] <task_graph> <network_description>\n" << std::endl;
+    std::cout << "Usage: darunner [options] <task_graph> <platform_description>\n" << std::endl;
     std::cout << e.what() << "\n" << std::endl;
-    std::cout << cmdlineDesc << "\n";
+    std::cout << cmdlineDesc << std::endl;
     return 1;
   }
   // -------------------------
 
   // 3.
   // Go
-  darunner::execute(config);
+  try {
+    darunner::execute(config);
+  } catch (std::exception& e) {
+    std::cout << "----------------------------------" << std::endl;
+    std::cout << "\nSimulation failed\n" << std::endl;
+    std::cout << "  Error: " << e.what() << std::endl;
+    std::cout << "----------------------------------" << std::endl;
+  }
 
   return 0;
 }
