@@ -42,7 +42,12 @@ message(STATUS)
 
 message(STATUS)
 message(STATUS "Looking for Boost...")
-find_package(Boost REQUIRED COMPONENTS program_options)
+find_package(Boost REQUIRED COMPONENTS program_options filesystem system)
+message(STATUS)
+
+message(STATUS)
+message(STATUS "Using bundled RapidJSON...")
+set(RapidJSON_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/rapidjson-1.0.2/include")
 message(STATUS)
 
 message(STATUS)
@@ -58,16 +63,17 @@ message(STATUS)
 #
 include_directories(${SIMGRID_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${RapidJSON_INCLUDE_DIRS})
 # SimGrid required c++11 usage
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
 add_executable(darunner ${SOURCES})
 target_link_libraries(darunner ${SIMGRID_LIBRARIES})
-target_link_libraries(darunner ${Boost_PROGRAM_OPTIONS_LIBRARIES})
+target_link_libraries(darunner ${Boost_PROGRAM_OPTIONS_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES})
 # --------------------------
 
 # 4. Tests definition
 set(TEST_DATA_ROOT "${CMAKE_SOURCE_DIR}/test_data")
 enable_testing()
-add_test(NAME load_basic_graph COMMAND "$<TARGET_FILE:darunner>" "${TEST_DATA_ROOT}/basic_graph.dot" "${TEST_DATA_ROOT}/pl_4hosts.xml" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+add_test(NAME load_basic_graph COMMAND "$<TARGET_FILE:darunner>" "${TEST_DATA_ROOT}/basic_graph.json" "${TEST_DATA_ROOT}/pl_4hosts.xml" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 # --------------------------
