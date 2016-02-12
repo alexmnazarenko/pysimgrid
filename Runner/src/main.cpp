@@ -44,7 +44,7 @@ namespace darunner {
 
   void execute(const po::variables_map& config) {
     Simulator simulator(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
-
+    simulator.simulate(Scheduler::Algorithm::GREEDY);
     return;
 
     const std::string tasks_path = config["tasks"].as<std::string>();
