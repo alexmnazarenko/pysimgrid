@@ -21,13 +21,10 @@ public:
   };
 
   struct TaskData {
-    SD_workstation_t executor_guess = nullptr;
-    double completion_guess = 0;
   };
 
   struct WorkstationData {
     bool is_submission_node = false;
-    double available_at = 0.;
   };
 
   static const std::string ROOT_TASK;

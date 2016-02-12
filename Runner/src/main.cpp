@@ -1,9 +1,11 @@
 // (c) DATADVANCE 2016
 
 #include "simulator.hpp"
+#include "scheduler.hpp"
 // weirdass simgrid miserably fails if platf is not included first. it's also included in simdag.h, but order seems to be incorrect.
 #include "simgrid/platf.h"
 #include "simgrid/simdag.h"
+
 #include <boost/program_options.hpp>
 #include <iostream>
 #include <functional>
@@ -111,37 +113,61 @@ namespace darunner {
 
 int main(int argc, char* argv[]) {
   // 1.
-  // Init SimDAG library and ensure it's cleanup
-  //
-  // Feed it with command line to be able to pass SimGrid configuration options.
-  SD_init(&argc, argv);
-  darunner::OnScopeExit guard(SD_exit);
-  (void) guard;
-  // -------------------------
-
-  // 2.
   // Parse command line options
-  po::options_description cmdlineDesc("Allowed options");
-  cmdlineDesc.add_options()
+  po::options_description cmdline_desc("Allowed options");
+  cmdline_desc.add_options()
       ("help", "produce help message")
+      ("help-simgrid", "show simgrid config parameters")
       ("tasks", po::value<std::string>()->required(), "path to task graph definition in .dot format")
       ("platform", po::value<std::string>()->required(), "path to platform definition in .xml format")
+      ("simgrid", po::value<std::vector<std::string>>(), "simgrid config parameters; may be passed multiple times")
   ;
-  po::positional_options_description cmdlinePositional;
-  cmdlinePositional.add("tasks", 1);
-  cmdlinePositional.add("platform", 1);
+  darunner::Scheduler::register_options(cmdline_desc);
+
+  po::positional_options_description cmdline_positional;
+  cmdline_positional.add("tasks", 1);
+  cmdline_positional.add("platform", 1);
 
   po::variables_map config;
   try {
-    po::store(po::command_line_parser(argc, argv).options(cmdlineDesc).positional(cmdlinePositional).run(), config);
+    po::store(po::command_line_parser(argc, argv).options(cmdline_desc).positional(cmdline_positional).run(), config);
     po::notify(config);
   } catch (std::exception& e) {
     std::cout << "Usage: darunner [options] <task_graph> <platform_description>\n" << std::endl;
     std::cout << e.what() << "\n" << std::endl;
-    std::cout << cmdlineDesc << std::endl;
+    std::cout << cmdline_desc << std::endl;
     return 1;
   }
+
   // -------------------------
+
+  // 2.
+  // Init SimDAG library and ensure it's cleanup
+  //
+  // Don't feed it with command line, so it doesn't mess up our own cmdline syntax.
+  int fakeArgc = config.count("help-simgrid") ? 2 : 1;
+  const char* fakeArgv[] = {
+    argv[0],
+    "--help"
+  };
+  SD_init(&fakeArgc, const_cast<char**>(fakeArgv));
+  darunner::OnScopeExit guard(SD_exit);
+  (void) guard;
+
+  if (config.count("simgrid")) {
+    auto simgrid_options = config["simgrid"].as<std::vector<std::string>>();
+    for (const auto& cfg_param: simgrid_options) {
+      const auto delim_pos = cfg_param.find(":");
+      if (delim_pos == std::string::npos) {
+        throw std::runtime_error("malformed simgrid config parameter");
+      }
+      const auto name = cfg_param.substr(0, delim_pos);
+      const auto value = cfg_param.substr(delim_pos + 1);
+      SD_config(name.c_str(), value.c_str());
+    }
+  }
+  // -------------------------
+
 
   // 3.
   // Go
