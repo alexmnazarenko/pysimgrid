@@ -75,5 +75,5 @@ target_link_libraries(darunner ${Boost_PROGRAM_OPTIONS_LIBRARIES} ${Boost_FILESY
 # 4. Tests definition
 set(TEST_DATA_ROOT "${CMAKE_SOURCE_DIR}/test_data")
 enable_testing()
-add_test(NAME load_basic_graph COMMAND "$<TARGET_FILE:darunner>" "${TEST_DATA_ROOT}/basic_graph.json" "${TEST_DATA_ROOT}/pl_4hosts.xml" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+add_test(NAME load_basic_graph COMMAND "$<TARGET_FILE:darunner>" "${TEST_DATA_ROOT}/basic_graph.dot" "${TEST_DATA_ROOT}/pl_4hosts.xml" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 # --------------------------
