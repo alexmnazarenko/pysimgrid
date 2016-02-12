@@ -109,7 +109,8 @@ SD_task_t Simulator::task_by_name(const std::string& name) {
 
 
 void Simulator::simulate(Scheduler::Algorithm schedule) {
-  std::unique_ptr<Scheduler> scheduler = Scheduler::create(schedule, *this);
+  std::unique_ptr<Scheduler> scheduler = Scheduler::create(schedule);
+  scheduler->init(*this);
   switch (scheduler->type()) {
   case Scheduler::Type::STATIC:
     scheduler->schedule();

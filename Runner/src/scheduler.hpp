@@ -2,7 +2,12 @@
 
 #pragma once
 
+#include "simgrid/platf.h"
+#include "simgrid/simdag.h"
+
+#include <boost/program_options.hpp>
 #include <memory>
+#include <map>
 
 namespace darunner {
 
@@ -21,16 +26,21 @@ public:
     DYNAMIC
   };
 
-  static const std::string ROOT_TASK;
-  static const std::string END_TASK;
+  static std::unique_ptr<Scheduler> create(Algorithm algo);
+  static void register_options(boost::program_options::options_description& options);
 
-  static std::unique_ptr<Scheduler> create(Algorithm algo, Simulator& simulator);
-
+  virtual void init(Simulator& simulator);
   virtual Type type() const;
-  virtual void schedule() = 0;
+  virtual void schedule();
 
 protected:
-  Simulator* _simulator;
+  virtual void _schedule() = 0;
+
+  static SD_workstation_t _get_submission_node(Simulator& simulator);
+  static void _schedule_special_tasks(Simulator& simulator);
+
+  unsigned _step_no = 0;
+  Simulator* _simulator = nullptr;
 };
 
 }
