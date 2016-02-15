@@ -19,7 +19,10 @@ public:
   static std::string name() { return "random"; }
   static void register_options(boost::program_options::options_description&) {}
 protected:
+  virtual void _init(const boost::program_options::variables_map& vm);
   virtual void _schedule();
+private:
+  int _seed;
 };
 
 

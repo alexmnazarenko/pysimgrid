@@ -13,13 +13,19 @@ public:
 
   virtual Type type() const;
 protected:
+  enum class Strategy {
+    MIN_FIRST,
+    MAX_FIRST,
+    SUFFERAGE,
+    UKNOWN
+  };
+
   struct WorkstationState {
     double available_at = 0.;
   };
 
   struct TaskState {
-    SD_workstation_t executor_guess = nullptr;
-    double completion_guess = 0;
+    std::vector<std::pair<SD_workstation_t, double>> estimates;
   };
 
   virtual void _init(const boost::program_options::variables_map& config);
@@ -28,6 +34,7 @@ protected:
 
   std::map<SD_workstation_t, WorkstationState> _workstation_states;
   std::map<SD_task_t, TaskState> _task_states;
+  Strategy _strategy = Strategy::UKNOWN;
 };
 
 

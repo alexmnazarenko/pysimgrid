@@ -31,6 +31,14 @@ void execute(const po::variables_map& config) {
   SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
   const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
   scheduler->run(simulator_state, config);
+
+//  std::cout << "Final schedule:";
+//  for (auto task: simulator_state.get_tasks()) {
+//    if (SD_task_get_kind(task) == SD_TASK_COMP_SEQ) {
+//      BOOST_ASSERT(SD_task_get_workstation_count(task) == 1);
+//      std::cout << "  " << SD_task_get_name(task) << ": " << SD_workstation_get_name(SD_task_get_workstation_list(task)[0]) << std::endl;
+//    }
+//  }
 }
 
 }
@@ -50,8 +58,8 @@ int main(int argc, char* argv[]) {
   darunner::Scheduler::register_options(cmdline_desc);
 
   po::positional_options_description cmdline_positional;
-  cmdline_positional.add("tasks", 1);
   cmdline_positional.add("platform", 1);
+  cmdline_positional.add("tasks", 1);
 
   po::variables_map config;
   try {

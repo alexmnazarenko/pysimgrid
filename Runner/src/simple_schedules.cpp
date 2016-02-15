@@ -20,11 +20,19 @@ void RoundRobinScheduler::_schedule() {
   }
 }
 
+// ----------------------------------------------------------------------
+
+
+void RandomScheduler::_init(const po::variables_map& config) {
+  Scheduler::_init(config);
+  _seed = config["seed"].as<int>();
+}
+
 
 void RandomScheduler::_schedule() {
   _schedule_special_tasks(*_simulator);
   std::mt19937 generator;
-  generator.seed(std::random_device{}());
+  generator.seed(_seed ? _seed : std::random_device{}());
   auto workstations = _simulator->get_workstations();
   for (auto& task: _simulator->get_tasks()) {
     if (SD_task_get_kind(task) == SD_TASK_COMP_SEQ && SD_task_get_state(task) == SD_NOT_SCHEDULED) {
