@@ -7,6 +7,8 @@
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(list_heuristics, "darunner list heuristics");
 
+namespace po = boost::program_options;
+
 namespace darunner {
 
 template<class T>
@@ -26,12 +28,31 @@ std::vector<T> xbt_to_vector_noown(xbt_dynar_t array) {
 }
 
 
-GreedyScheduler::Type GreedyScheduler::type() const {
+void ListHeuristic::register_options(po::options_description& global_options) {
+  po::options_description description("List heuristic options");
+  description.add_options()
+      ("strategy", po::value<std::string>()->default_value("min"), "strategy to priotirize tasks in list - when scheduling multiple parallel tasks, which of them should be its best resource. "
+                                                                   "valid values are: min, max, sufferage")
+  ;
+  global_options.add(description);
+}
+
+
+ListHeuristic::Type ListHeuristic::type() const {
   return Type::DYNAMIC;
 }
 
 
-void GreedyScheduler::_schedule() {
+void ListHeuristic::_init(const boost::program_options::variables_map& config) {
+  Scheduler::_init(config);
+}
+
+
+void ListHeuristic::_schedule() {
+  if (_step_no == 0) {
+    _schedule_special_tasks(*_simulator);
+  }
+
   auto workstations = _simulator->get_workstations();
 
   std::vector<SD_task_t> schedulable_tasks;
@@ -83,7 +104,7 @@ void GreedyScheduler::_schedule() {
 }
 
 
-double GreedyScheduler::_completion_estimate(SD_task_t task, SD_workstation_t workstation) {
+double ListHeuristic::_completion_estimate(SD_task_t task, SD_workstation_t workstation) {
   auto ws_data = _workstation_states[workstation];
   const double comp_time = SD_workstation_get_computation_time(workstation, SD_task_get_amount(task));
 

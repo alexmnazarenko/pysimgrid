@@ -11,7 +11,7 @@
 
 namespace darunner {
 
-class Simulator;
+class SimulatorState;
 
 class Scheduler {
 public:
@@ -26,21 +26,22 @@ public:
     DYNAMIC
   };
 
-  static std::unique_ptr<Scheduler> create(Algorithm algo);
+  static std::unique_ptr<Scheduler> create(const std::string& algoritm_name);
+  static std::vector<std::string> names();
   static void register_options(boost::program_options::options_description& options);
 
-  virtual void init(Simulator& simulator);
   virtual Type type() const;
-  virtual void schedule();
+  void run(SimulatorState& simulator, const boost::program_options::variables_map& config);
 
 protected:
+  virtual void _init(const boost::program_options::variables_map&);
   virtual void _schedule() = 0;
 
-  static SD_workstation_t _get_submission_node(Simulator& simulator);
-  static void _schedule_special_tasks(Simulator& simulator);
+  static SD_workstation_t _get_submission_node(SimulatorState& simulator);
+  static void _schedule_special_tasks(SimulatorState& simulator);
 
   unsigned _step_no = 0;
-  Simulator* _simulator = nullptr;
+  SimulatorState* _simulator = nullptr;
 };
 
 }

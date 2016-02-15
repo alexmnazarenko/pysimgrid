@@ -16,99 +16,23 @@ namespace po = boost::program_options;
 XBT_LOG_NEW_DEFAULT_CATEGORY(darunner, "darunner tool root");
 
 namespace darunner {
-  // Simplistic scope guard. Single-use only )
-  class OnScopeExit {
-  public:
-    OnScopeExit(const std::function<void()>& e) : _exit(e) {}
-    ~OnScopeExit() throw() { _exit(); }
-  private:
-    std::function<void()> _exit;
-  };
 
-  template <class T>
-  using Handle = std::shared_ptr<class std::remove_pointer<T>::type>;
-
-  template<class T>
-  std::vector<Handle<T>> xbt_to_vector(xbt_dynar_t array, std::function<void(T)> dealloc) {
-    if (!array) {
-      throw std::runtime_error("cannot convert empty array");
-    }
-    std::vector<Handle<T>> result;
-    unsigned int cpt;
-    T element;
-    xbt_dynar_foreach(array, cpt, element) {
-      result.push_back({element, dealloc});
-    }
-    xbt_dynar_free_container(&array);
-    return result;
-  }
+// Simplistic scope guard. Single-use only )
+class OnScopeExit {
+public:
+  OnScopeExit(const std::function<void()>& e) : _exit(e) {}
+  ~OnScopeExit() throw() { _exit(); }
+private:
+  std::function<void()> _exit;
+};
 
 
-  void execute(const po::variables_map& config) {
-    Simulator simulator(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
-    simulator.simulate(Scheduler::Algorithm::GREEDY);
-    return;
+void execute(const po::variables_map& config) {
+  SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
+  const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
+  scheduler->run(simulator_state, config);
+}
 
-    const std::string tasks_path = config["tasks"].as<std::string>();
-    XBT_INFO("Loading graph from '%s'", tasks_path.c_str());
-    auto graph = xbt_to_vector<SD_task_t>(SD_dotload(tasks_path.c_str()), SD_task_destroy);
-
-    const SD_workstation_t* workstations = SD_workstation_get_list();
-    const unsigned nworkstations = SD_workstation_get_number();
-    // Dump platform configuration
-    for (unsigned wsIdx = 0; wsIdx < nworkstations; ++wsIdx) {
-      SD_workstation_dump(workstations[wsIdx]);
-    }
-    const SD_link_t* links = SD_link_get_list();
-    const unsigned nlinks = SD_link_get_number();
-    for (unsigned lIdx = 0; lIdx < nlinks; ++lIdx) {
-      XBT_INFO("Link:");
-      XBT_INFO("  %s: %f", SD_link_get_name(links[lIdx]), SD_link_get_current_bandwidth(links[lIdx]));
-    }
-
-    // Schedule tasks
-    unsigned wsIdx = 0;
-    for (auto& task: graph) {
-      if (SD_task_get_kind(task.get()) == SD_TASK_COMP_SEQ) {
-        unsigned scheduledTo = 0;
-        if (SD_task_get_name(task.get()) != std::string("root") && SD_task_get_name(task.get()) != std::string("end")) {
-          scheduledTo = wsIdx++ % nworkstations;
-        }
-        SD_task_schedulel(task.get(), 1, workstations[scheduledTo]);
-        //SD_task_dump(task.get());
-      }
-    }
-
-
-
-    while (!xbt_dynar_is_empty(SD_simulate(-1))) {
-    }
-    XBT_INFO("Simulation time: %f seconds\n", SD_get_clock());
-
-    // Sort results
-    std::multimap<double, SD_task_t> results;
-    for (auto& task: graph) {
-      const double start = SD_task_get_start_time(task.get());
-      results.insert({start, task.get()});
-    }
-
-    // Dump results
-    // TODO: format?
-    for (auto& result: results) {
-      const SD_task_t task = result.second;
-      const double start = SD_task_get_start_time(task);
-      const double end = SD_task_get_finish_time(task);
-      const unsigned wsCount = SD_task_get_workstation_count(task);
-      const SD_workstation_t* ws = SD_task_get_workstation_list(task);
-      std::cout << SD_task_get_name(task) << ": " << start << " " << (end - start) << std::endl;
-      std::cout << " ";
-      for (unsigned wsIdx = 0; wsIdx < wsCount; ++wsIdx) {
-        std::cout << " " << SD_workstation_get_name(ws[wsIdx]);
-      }
-      std::cout << std::endl;
-    }
-
-  }
 }
 
 int main(int argc, char* argv[]) {
@@ -120,6 +44,7 @@ int main(int argc, char* argv[]) {
       ("help-simgrid", "show simgrid config parameters")
       ("tasks", po::value<std::string>()->required(), "path to task graph definition in .dot format")
       ("platform", po::value<std::string>()->required(), "path to platform definition in .xml format")
+      ("algorithm", po::value<std::string>()->default_value("list_heuristic"), "scheduling algorithm to use")
       ("simgrid", po::value<std::vector<std::string>>(), "simgrid config parameters; may be passed multiple times")
   ;
   darunner::Scheduler::register_options(cmdline_desc);
@@ -132,10 +57,19 @@ int main(int argc, char* argv[]) {
   try {
     po::store(po::command_line_parser(argc, argv).options(cmdline_desc).positional(cmdline_positional).run(), config);
     po::notify(config);
+
+    const auto algorithms = darunner::Scheduler::names();
+    if (std::count(algorithms.begin(), algorithms.end(), config["algorithm"].as<std::string>()) != 1) {
+      throw std::runtime_error("unknown scheduling algorithm requested");
+    }
   } catch (std::exception& e) {
     std::cout << "Usage: darunner [options] <task_graph> <platform_description>\n" << std::endl;
     std::cout << e.what() << "\n" << std::endl;
     std::cout << cmdline_desc << std::endl;
+    std::cout << "Available algorithms:" << std::endl;
+    for (const auto& scheduler: darunner::Scheduler::names()) {
+      std::cout << "  " << scheduler << std::endl;
+    }
     return 1;
   }
 
