@@ -141,6 +141,7 @@ void Scheduler::run(SimulatorState& simulator, const boost::program_options::var
 
   _init(config);
 
+  const double start = SD_get_clock();
   switch (type()) {
   case Type::STATIC:
     _schedule();
@@ -162,7 +163,7 @@ void Scheduler::run(SimulatorState& simulator, const boost::program_options::var
   default:
     throw std::runtime_error("unknown scheduler type");
   }
-  XBT_INFO("Scheduling time: %f seconds\n", SD_get_clock());
+  XBT_INFO("Execution time: %f seconds\n", SD_get_clock() - start);
 }
 
 
