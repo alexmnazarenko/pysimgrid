@@ -6,8 +6,11 @@
 
 namespace darunner {
 
-class GreedyScheduler: public Scheduler {
+class ListHeuristic: public Scheduler {
 public:
+  static std::string name() { return "list_heuristic"; }
+  static void register_options(boost::program_options::options_description& global_options);
+
   virtual Type type() const;
 protected:
   struct WorkstationState {
@@ -19,6 +22,7 @@ protected:
     double completion_guess = 0;
   };
 
+  virtual void _init(const boost::program_options::variables_map& config);
   virtual void _schedule();
   double _completion_estimate(SD_task_t task, SD_workstation_t workstation);
 

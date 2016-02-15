@@ -13,7 +13,7 @@
 
 namespace darunner {
 
-class Simulator {
+class SimulatorState {
 public:
   enum TaskFormat {
     TASK_FORMAT_DOT,
@@ -30,8 +30,8 @@ public:
   static const std::string ROOT_TASK;
   static const std::string END_TASK;
 
-  Simulator(const std::string& platform_path, const std::string& tasks_path, TaskFormat task_format = TASK_FORMAT_DOT);
-  ~Simulator() noexcept;
+  SimulatorState(const std::string& platform_path, const std::string& tasks_path, TaskFormat task_format = TASK_FORMAT_DOT);
+  ~SimulatorState() noexcept;
 
   std::vector<SD_workstation_t>& get_workstations() { return _workstations; }
   std::vector<SD_link_t>& get_links() { return _links; }
@@ -43,13 +43,13 @@ public:
   SD_task_t task_by_name(const std::string& name);
 
   /**
-   * Run SimGrid simulation, probably in multiple steps if dynamic scheduling is used.
+   * Run SimGrid simulation and report true if there any tasks that changed their state.
    */
-  void simulate(Scheduler::Algorithm schedule);
+  bool simulate();
 
 private:
   // Shouldn't be ever copied
-  Simulator(const Simulator&);
+  SimulatorState(const SimulatorState&);
 
   void _load_tasks_dot(const std::string& tasks_path);
   void _load_tasks_json(const std::string& tasks_path);

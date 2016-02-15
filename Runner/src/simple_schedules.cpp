@@ -10,6 +10,7 @@ namespace po = boost::program_options;
 namespace darunner {
 
 void RoundRobinScheduler::_schedule() {
+  _schedule_special_tasks(*_simulator);
   unsigned ws_idx = 0;
   auto workstations = _simulator->get_workstations();
   for (auto& task: _simulator->get_tasks()) {
@@ -21,6 +22,7 @@ void RoundRobinScheduler::_schedule() {
 
 
 void RandomScheduler::_schedule() {
+  _schedule_special_tasks(*_simulator);
   std::mt19937 generator;
   generator.seed(std::random_device{}());
   auto workstations = _simulator->get_workstations();
@@ -29,15 +31,6 @@ void RandomScheduler::_schedule() {
       SD_task_schedulel(task, 1, workstations[generator() % workstations.size()]);
     }
   }
-}
-
-
-boost::program_options::options_description RandomScheduler::get_options() {
-  boost::program_options::options_description description("Random schedule options");
-  description.add_options()
-      ("seed", po::value<int>()->default_value(0), "random seed to use, 0 means random initialization")
-  ;
-  return description;
 }
 
 

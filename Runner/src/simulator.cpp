@@ -32,11 +32,11 @@ namespace bfs = boost::filesystem;
 
 namespace darunner {
 
-const std::string Simulator::ROOT_TASK = "root";
-const std::string Simulator::END_TASK = "end";
+const std::string SimulatorState::ROOT_TASK = "root";
+const std::string SimulatorState::END_TASK = "end";
 
 
-Simulator::Simulator(const std::string& platform_path, const std::string& tasks_path, TaskFormat task_format) {
+SimulatorState::SimulatorState(const std::string& platform_path, const std::string& tasks_path, TaskFormat task_format) {
   if (!bfs::is_regular_file(platform_path)) {
     throw std::runtime_error("platform configuration file does not exist");
   }
@@ -71,7 +71,7 @@ Simulator::Simulator(const std::string& platform_path, const std::string& tasks_
 }
 
 
-Simulator::~Simulator() noexcept {
+SimulatorState::~SimulatorState() noexcept {
   for (auto& task: _tasks) {
     TaskData* const data = reinterpret_cast<TaskData*>(SD_task_get_data(task));
     delete data;
@@ -84,21 +84,21 @@ Simulator::~Simulator() noexcept {
 }
 
 
-Simulator::WorkstationData* Simulator::workstation_get_data(SD_workstation_t const workstation) {
+SimulatorState::WorkstationData* SimulatorState::workstation_get_data(SD_workstation_t const workstation) {
   void* const data = SD_workstation_get_data(workstation);
   BOOST_ASSERT(data && "no attached data on workstation");
   return reinterpret_cast<WorkstationData*>(data);
 }
 
 
-Simulator::TaskData* Simulator::task_get_data(SD_task_t const task) {
+SimulatorState::TaskData* SimulatorState::task_get_data(SD_task_t const task) {
   void* const data = SD_task_get_data(task);
   BOOST_ASSERT(data && "no attached data on task");
   return reinterpret_cast<TaskData*>(data);
 }
 
 
-SD_task_t Simulator::task_by_name(const std::string& name) {
+SD_task_t SimulatorState::task_by_name(const std::string& name) {
   for (auto& task: _tasks) {
     if (SD_task_get_name(task) == name) {
       return task;
@@ -108,33 +108,12 @@ SD_task_t Simulator::task_by_name(const std::string& name) {
 }
 
 
-void Simulator::simulate(Scheduler::Algorithm schedule) {
-  std::unique_ptr<Scheduler> scheduler = Scheduler::create(schedule);
-  scheduler->init(*this);
-  switch (scheduler->type()) {
-  case Scheduler::Type::STATIC:
-    scheduler->schedule();
-    SD_simulate(-1);
-    break;
-  case Scheduler::Type::DYNAMIC:
-    for (auto task: _tasks) {
-      if (SD_task_get_kind(task) == SD_TASK_COMP_SEQ) {
-        SD_task_watch(task, SD_DONE);
-      }
-    }
-    scheduler->schedule();
-    while (!xbt_dynar_is_empty(SD_simulate(-1))) {
-      scheduler->schedule();
-    }
-    break;
-  default:
-    throw std::runtime_error("unknown scheduler type");
-  }
-  XBT_INFO("Simulation time: %f seconds\n", SD_get_clock());
+bool SimulatorState::simulate() {
+  return !xbt_dynar_is_empty(SD_simulate(-1));
 }
 
 
-void Simulator::_load_tasks_dot(const std::string& tasks_path) {
+void SimulatorState::_load_tasks_dot(const std::string& tasks_path) {
   xbt_dynar_t task_array = SD_dotload(tasks_path.c_str());
   unsigned idx;
   SD_task_t element;
@@ -145,7 +124,7 @@ void Simulator::_load_tasks_dot(const std::string& tasks_path) {
 }
 
 
-void Simulator::_load_tasks_json(const std::string& tasks_path) {
+void SimulatorState::_load_tasks_json(const std::string& tasks_path) {
   // TODO: finalize when extended load will be required
   std::ifstream file_stream(tasks_path);
   if (!file_stream.is_open()) {
