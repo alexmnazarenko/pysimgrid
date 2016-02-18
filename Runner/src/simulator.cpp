@@ -30,19 +30,36 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simulator, "darunner simulator");
 
 namespace bfs = boost::filesystem;
 
-namespace darunner {
+namespace simulate {
 
 const std::string SimulatorState::ROOT_TASK = "root";
 const std::string SimulatorState::END_TASK = "end";
 
 
 SimulatorState::SimulatorState(const std::string& platform_path, const std::string& tasks_path, TaskFormat task_format) {
+  // Check that required paths exist
   if (!bfs::is_regular_file(platform_path)) {
     throw std::runtime_error("platform configuration file does not exist");
   }
   if (!bfs::is_regular_file(tasks_path)) {
-    throw std::runtime_error("platform configuration file does not exist");
+    throw std::runtime_error("tasks description file does not exist");
   }
+  // Select loader for task description
+  if (task_format == TaskFormat::AUTO) {
+    const auto task_ext = bfs::path(tasks_path).extension().string();
+    const std::map<std::string, TaskFormat> ext_map = {
+      {".dot", TaskFormat::DOT},
+      {".dax", TaskFormat::DAX},
+      {".xml", TaskFormat::DAX},
+      {".json", TaskFormat::JSON},
+    };
+    if (!ext_map.count(task_ext)) {
+      throw std::runtime_error("unable to determine task description file format");
+    }
+    task_format = ext_map.at(task_ext);
+    XBT_INFO("Autodetected task file type by extension ('%s')", task_ext.c_str());
+  }
+
   // Load platform info and store it for convenience
   XBT_INFO("Loading platform from '%s'", platform_path.c_str());
   SD_create_environment(platform_path.c_str());
@@ -53,18 +70,25 @@ SimulatorState::SimulatorState(const std::string& platform_path, const std::stri
     SD_workstation_set_data(workstation, new WorkstationData);
   }
 
-  switch (task_format) {
-  case TASK_FORMAT_DOT:
+  // Load tasks description
+  switch (task_format) {  
+  case TaskFormat::DOT:
+    XBT_INFO("Loading tasks definition (Pegasus DAX format, '%s')", tasks_path.c_str());
     _load_tasks_dot(tasks_path);
     break;
-  case TASK_FORMAT_JSON:
+  case TaskFormat::DAX:
+    XBT_INFO("Loading tasks definition (SimGrid dot format, path '%s')", tasks_path.c_str());
+    _load_tasks_dax(tasks_path);
+    break;
+  case TaskFormat::JSON:
     throw std::runtime_error("json task format not implemented yet");
+    XBT_INFO("Loading tasks definition (Custom json format, '%s')", tasks_path.c_str());
     _load_tasks_json(tasks_path);
     break;
   default:
     throw std::runtime_error("unknown task format");
   }
-
+  // Attach data to tasks
   for (auto& task: _tasks) {
     SD_task_set_data(task, new TaskData);
   }
@@ -73,7 +97,7 @@ SimulatorState::SimulatorState(const std::string& platform_path, const std::stri
 
 SimulatorState::~SimulatorState() noexcept {
   for (auto& task: _tasks) {
-    TaskData* const data = reinterpret_cast<TaskData*>(SD_task_get_data(task));
+    TaskData* const data = &task_data(task);
     delete data;
     SD_task_destroy(task);
   }
@@ -84,17 +108,17 @@ SimulatorState::~SimulatorState() noexcept {
 }
 
 
-SimulatorState::WorkstationData* SimulatorState::workstation_get_data(SD_workstation_t const workstation) {
+SimulatorState::WorkstationData& SimulatorState::workstation_data(SD_workstation_t const workstation) {
   void* const data = SD_workstation_get_data(workstation);
   BOOST_ASSERT(data && "no attached data on workstation");
-  return reinterpret_cast<WorkstationData*>(data);
+  return *reinterpret_cast<WorkstationData*>(data);
 }
 
 
-SimulatorState::TaskData* SimulatorState::task_get_data(SD_task_t const task) {
+SimulatorState::TaskData& SimulatorState::task_data(SD_task_t const task) {
   void* const data = SD_task_get_data(task);
   BOOST_ASSERT(data && "no attached data on task");
-  return reinterpret_cast<TaskData*>(data);
+  return *reinterpret_cast<TaskData*>(data);
 }
 
 
@@ -115,6 +139,17 @@ bool SimulatorState::simulate() {
 
 void SimulatorState::_load_tasks_dot(const std::string& tasks_path) {
   xbt_dynar_t task_array = SD_dotload(tasks_path.c_str());
+  unsigned idx;
+  SD_task_t element;
+  xbt_dynar_foreach(task_array, idx, element) {
+    _tasks.push_back(element);
+  }
+  xbt_dynar_free_container(&task_array);
+}
+
+
+void SimulatorState::_load_tasks_dax(const std::string& tasks_path) {
+  xbt_dynar_t task_array = SD_daxload(tasks_path.c_str());
   unsigned idx;
   SD_task_t element;
   xbt_dynar_foreach(task_array, idx, element) {
@@ -146,6 +181,8 @@ void SimulatorState::_load_tasks_json(const std::string& tasks_path) {
     SIMULATOR_RAPIDJSON_CHECK_TYPE(task, "task", Object);
     const std::string name(task["name"].GetString(), task["name"].GetStringLength());
     const double flops = task["size"].GetDouble();
+    (void)name;
+    (void)flops;
   }
 }
 

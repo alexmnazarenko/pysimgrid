@@ -1,9 +1,10 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #include "scheduler.hpp"
 #include "simple_schedules.hpp"
 #include "list_heuristics.hpp"
 #include "simulator.hpp"
+#include "mp_utils.hpp"
 
 #include <boost/assert.hpp>
 #include <algorithm>
@@ -12,54 +13,15 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(scheduler, "darunner scheduler");
 
 namespace po = boost::program_options;
 
-namespace darunner {
+namespace simulate {
 
-template <class Head, typename... Types>
-struct mp_typelist {
-  typedef Head head;
-  typedef mp_typelist<Types...> tail;
+/**
+ * Schedulers registry
+ */
+typedef mp::Typelist<RoundRobinScheduler, RandomScheduler, ListHeuristic> SchedulerTypes;
 
-  typedef std::true_type has_next;
-};
-
-
-// Specialization for single value
-template <typename Head>
-struct mp_typelist<Head> {
-    typedef Head head;
-    typedef std::nullptr_t tail;
-
-    typedef std::false_type has_next;
-};
-
-
-template<class Typelist, class Proceed=std::true_type>
-struct mp_visit {
-  template<class Visitor>
-  static void visit(Visitor& action) {
-    if (action.template visit<class Typelist::head>()) {
-      mp_visit<class Typelist::tail, class Typelist::has_next>::visit(action);
-    }
-  }
-};
-
-
-template<class Typelist>
-struct mp_visit<Typelist, std::false_type> {
-  template<class Visitor>
-  static void visit(Visitor& action) {}
-};
-
-
-template<class Visitor, class Typelist, class... Args>
-Visitor mp_foreach(Args&&... args) {
-  Visitor result{std::forward<Args>(args)...};
-  mp_visit<Typelist>::visit(result);
-  return result;
-}
-
-
-struct mp_get_names {
+namespace mp {
+struct GetNames {
   std::vector<std::string> result;
 
   template<class T>
@@ -71,11 +33,11 @@ struct mp_get_names {
 
 
 template<class Base>
-struct mp_create {
+struct Create {
   std::unique_ptr<Base> result;
   std::string requested_name;
 
-  mp_create(const std::string& requested): requested_name(requested) {}
+  Create(const std::string& requested): requested_name(requested) {}
 
   template<class T>
   bool visit() {
@@ -88,10 +50,10 @@ struct mp_create {
 };
 
 
-struct mp_register_options {
+struct RegisterOptions {
   po::options_description& global_description;
 
-  mp_register_options(po::options_description& global_description_): global_description(global_description_) {}
+  RegisterOptions(po::options_description& global_description_): global_description(global_description_) {}
 
   template<class T>
   bool visit() {
@@ -99,13 +61,10 @@ struct mp_register_options {
     return true;
   }
 };
-
-
-typedef mp_typelist<RoundRobinScheduler, RandomScheduler, ListHeuristic> SchedulerTypes;
-
+}
 
 std::unique_ptr<Scheduler> Scheduler::create(const std::string& algoritm_name) {
-  std::unique_ptr<Scheduler> result(mp_foreach<mp_create<Scheduler>, SchedulerTypes>(algoritm_name).result);
+  std::unique_ptr<Scheduler> result(mp::apply_visitor<mp::Create<Scheduler>, SchedulerTypes>(algoritm_name).result);
   if (!result) {
     throw std::runtime_error("unknown scheduler algorithm requested");
   }
@@ -114,7 +73,7 @@ std::unique_ptr<Scheduler> Scheduler::create(const std::string& algoritm_name) {
 
 
 std::vector<std::string> Scheduler::names() {
-  return mp_foreach<mp_get_names, SchedulerTypes>().result;
+  return mp::apply_visitor<mp::GetNames, SchedulerTypes>().result;
 }
 
 
@@ -126,12 +85,7 @@ void Scheduler::register_options(po::options_description& options) {
   ;
   options.add(description);
   // Add per-algorithm options
-  mp_foreach<mp_register_options, SchedulerTypes>(options);
-}
-
-
-Scheduler::Type Scheduler::type() const {
-  return Type::STATIC;
+  mp::apply_visitor<mp::RegisterOptions, SchedulerTypes>(options);
 }
 
 
@@ -142,12 +96,12 @@ void Scheduler::run(SimulatorState& simulator, const boost::program_options::var
   _init(config);
 
   const double start = SD_get_clock();
-  switch (type()) {
+  switch (_type()) {
   case Type::STATIC:
     _schedule();
     _simulator->simulate();
     break;
-  case Type::DYNAMIC:
+  case Type::REACTIVE:
     for (auto task: _simulator->get_tasks()) {
       if (SD_task_get_kind(task) == SD_TASK_COMP_SEQ) {
         SD_task_watch(task, SD_DONE);
@@ -171,11 +125,16 @@ void Scheduler::_init(const boost::program_options::variables_map&) {
 }
 
 
+Scheduler::Type Scheduler::_type() const {
+  return Type::STATIC;
+}
+
+
 SD_workstation_t Scheduler::_get_submission_node(SimulatorState& simulator) {
   SD_workstation_t result = nullptr;
   for (auto& ws: simulator.get_workstations()) {
-    SimulatorState::WorkstationData* const data = simulator.workstation_get_data(ws);
-    if (data->is_submission_node) {
+    const auto data = simulator.workstation_data(ws);
+    if (data.is_submission_node) {
       result = ws;
       break;
     }

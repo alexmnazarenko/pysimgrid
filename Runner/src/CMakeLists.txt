@@ -64,8 +64,8 @@ message(STATUS)
 include_directories(${SIMGRID_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${RapidJSON_INCLUDE_DIRS})
-# SimGrid required c++11 usage
-set(CMAKE_CXX_FLAGS "-std=c++11")
+# SimGrid for some reason requires c++11 usage
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall")
 
 add_executable(darunner ${SOURCES})
 target_link_libraries(darunner ${SIMGRID_LIBRARIES})

@@ -7,7 +7,7 @@
 
 namespace po = boost::program_options;
 
-namespace darunner {
+namespace simulate {
 
 void RoundRobinScheduler::_schedule() {
   _schedule_special_tasks(*_simulator);
