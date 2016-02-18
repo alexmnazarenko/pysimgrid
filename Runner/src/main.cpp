@@ -1,8 +1,8 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #include "simulator.hpp"
 #include "scheduler.hpp"
-// weirdass simgrid miserably fails if platf is not included first. it's also included in simdag.h, but order seems to be incorrect.
+// weird*** simgrid miserably fails if platf is not included first. it's also included in simdag.h, but order seems to be incorrect.
 #include "simgrid/platf.h"
 #include "simgrid/simdag.h"
 
@@ -13,11 +13,13 @@
 
 namespace po = boost::program_options;
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(darunner, "darunner tool root");
+XBT_LOG_NEW_DEFAULT_CATEGORY(simulate, "simulate tool root");
 
-namespace darunner {
+namespace simulate {
 
-// Simplistic scope guard. Single-use only )
+/**
+ * Simplistic scope guard. Single-use only )
+ */
 class OnScopeExit {
 public:
   OnScopeExit(const std::function<void()>& e) : _exit(e) {}
@@ -27,7 +29,7 @@ private:
 };
 
 
-void execute(const po::variables_map& config) {
+void main(const po::variables_map& config) {
   SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
   const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
   scheduler->run(simulator_state, config);
@@ -55,7 +57,7 @@ int main(int argc, char* argv[]) {
       ("algorithm", po::value<std::string>()->default_value("list_heuristic"), "scheduling algorithm to use")
       ("simgrid", po::value<std::vector<std::string>>(), "simgrid config parameters; may be passed multiple times")
   ;
-  darunner::Scheduler::register_options(cmdline_desc);
+  simulate::Scheduler::register_options(cmdline_desc);
 
   po::positional_options_description cmdline_positional;
   cmdline_positional.add("platform", 1);
@@ -66,7 +68,7 @@ int main(int argc, char* argv[]) {
     po::store(po::command_line_parser(argc, argv).options(cmdline_desc).positional(cmdline_positional).run(), config);
     po::notify(config);
 
-    const auto algorithms = darunner::Scheduler::names();
+    const auto algorithms = simulate::Scheduler::names();
     if (std::count(algorithms.begin(), algorithms.end(), config["algorithm"].as<std::string>()) != 1) {
       throw std::runtime_error("unknown scheduling algorithm requested");
     }
@@ -75,12 +77,11 @@ int main(int argc, char* argv[]) {
     std::cout << e.what() << "\n" << std::endl;
     std::cout << cmdline_desc << std::endl;
     std::cout << "Available algorithms:" << std::endl;
-    for (const auto& scheduler: darunner::Scheduler::names()) {
+    for (const auto& scheduler: simulate::Scheduler::names()) {
       std::cout << "  " << scheduler << std::endl;
     }
     return 1;
   }
-
   // -------------------------
 
   // 2.
@@ -93,8 +94,8 @@ int main(int argc, char* argv[]) {
     "--help"
   };
   SD_init(&fakeArgc, const_cast<char**>(fakeArgv));
-  darunner::OnScopeExit guard(SD_exit);
-  (void) guard;
+  simulate::OnScopeExit guard(SD_exit);
+  (void) guard; // supress 'unused' warning
 
   if (config.count("simgrid")) {
     auto simgrid_options = config["simgrid"].as<std::vector<std::string>>();
@@ -114,7 +115,7 @@ int main(int argc, char* argv[]) {
   // 3.
   // Go
   try {
-    darunner::execute(config);
+    simulate::main(config);
   } catch (std::exception& e) {
     std::cout << "----------------------------------" << std::endl;
     std::cout << "\nSimulation failed\n" << std::endl;

@@ -1,17 +1,17 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #pragma once
 
 #include "scheduler.hpp"
 
-namespace darunner {
+namespace simulate {
 
 class ListHeuristic: public Scheduler {
 public:
   static std::string name() { return "list_heuristic"; }
   static void register_options(boost::program_options::options_description& global_options);
 
-  virtual Type type() const;
+  virtual Type _type() const;
 protected:
   enum class Strategy {
     MIN_FIRST,

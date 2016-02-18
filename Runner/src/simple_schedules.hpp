@@ -1,10 +1,10 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #pragma once
 
 #include "scheduler.hpp"
 
-namespace darunner {
+namespace simulate {
 
 class RoundRobinScheduler: public Scheduler {
 public:
