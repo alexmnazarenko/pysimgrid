@@ -19,7 +19,7 @@ class SimulatorState;
  * - Defines scheduler virtual interface
  * - Enables easy instantiation & configuration of derived classes
  *
- * NOTE: to register a new scheduler you need to add to SchedulerTypes list.
+ * @note to register a new scheduler you need to add to SchedulerTypes list.
  */
 class Scheduler {
 public:
@@ -53,6 +53,8 @@ protected:
 
   static SD_workstation_t _get_submission_node(SimulatorState& simulator);
   static void _schedule_special_tasks(SimulatorState& simulator);
+
+  void _dump_state(double start_time, const std::string& path);
 
   unsigned _step_no = 0;
   SimulatorState* _simulator = nullptr;

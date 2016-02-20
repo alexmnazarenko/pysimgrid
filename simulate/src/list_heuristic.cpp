@@ -5,7 +5,9 @@
 
 #include <random>
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(list_heuristics, "list heuristics");
+
+XBT_LOG_EXTERNAL_CATEGORY(simulate);
+XBT_LOG_NEW_DEFAULT_SUBCATEGORY(list_heuristics, simulate, "list heuristics");
 
 namespace po = boost::program_options;
 

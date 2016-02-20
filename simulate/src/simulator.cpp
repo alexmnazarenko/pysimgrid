@@ -8,6 +8,8 @@
 #include <fstream>
 #include <stdexcept>
 
+XBT_LOG_EXTERNAL_CATEGORY(simulate);
+XBT_LOG_NEW_DEFAULT_SUBCATEGORY(state, simulate, "simulator state");
 
 #define SIMULATOR_RAPIDJSON_CHECK_TYPE(jsonvalue, name, type)     \
   do {                                                            \
@@ -25,8 +27,6 @@ namespace {
     return root[name];
   }
 }
-
-XBT_LOG_NEW_DEFAULT_CATEGORY(simulator, "simulator state");
 
 namespace bfs = boost::filesystem;
 
