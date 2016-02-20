@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid.dtd">
 <platform version="3">
-  <AS  id="AS0"  routing="Full">
+  <AS  id="AS0"  routing="Floyd">
     <host id="host0" core="1" power="2000000000"/>
     <host id="host1" core="1" power="2000000000"/>
     <host id="host2" core="1" power="2000000000"/>

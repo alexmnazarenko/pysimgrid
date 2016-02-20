@@ -30,6 +30,10 @@ private:
 
 
 void main(const po::variables_map& config) {
+  if (config.count("verbose")) {
+    xbt_log_control_set("simulate.thres:TRACE");
+  }
+
   SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
   const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
   scheduler->run(simulator_state, config);
@@ -52,9 +56,11 @@ int main(int argc, char* argv[]) {
   cmdline_desc.add_options()
       ("help", "produce help message")
       ("help-simgrid", "show simgrid config parameters")
+      ("verbose,-v", "enable verbose output")
       ("tasks", po::value<std::string>()->required(), "path to task graph definition in .dot format")
       ("platform", po::value<std::string>()->required(), "path to platform definition in .xml format")
-      ("algorithm", po::value<std::string>()->default_value("list_heuristic"), "scheduling algorithm to use")
+      ("output,o", po::value<std::string>()->default_value(""), "path to output file")
+      ("algorithm,a", po::value<std::string>()->default_value("list_heuristic"), "scheduling algorithm to use")
       ("simgrid", po::value<std::vector<std::string>>(), "simgrid config parameters; may be passed multiple times")
   ;
   simulate::Scheduler::register_options(cmdline_desc);

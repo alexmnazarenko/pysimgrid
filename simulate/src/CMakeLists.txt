@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 
 # 0. Utility defintions
 #
@@ -7,37 +7,38 @@ macro(set_if_not_set VAR VAL)
     set(${VAR} ${VAL})
     message(STATUS "Using default ${VAR} = ${VAL}")
   else ()
-    message(STATUS "Using externally defined ${VAR} = ${VAL}")
+    message(STATUS "Using defined ${VAR} = ${VAL}")
   endif ()
 endmacro()
 # --------------------------
 
 # 1. Project header
 #
-project(Simulate CXX)
+project(simulate CXX)
 
 message(STATUS "
-  Simulate SimGrid frontend.
+  simulate SimGrid frontend.
 
   Cmake version ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}
 ")
+
 # --------------------------
 
 
 # 2. Dependency search
 #
-set_if_not_set(SIMGRID_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../../SimGrid")
+set_if_not_set(SimGrid_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../../SimGrid")
 
 message(STATUS)
 message(STATUS "Looking for SimGrid...")
-find_path(SIMGRID_ROOT "include/simgrid.h" PATHS "${SIMGRID_SEARCH_PATH}" NO_DEFAULT_PATH)
-if (NOT SIMGRID_ROOT)
-  message(FATAL_ERROR "Failed to find SimGrid. Search path: ${SIMGRID_SEARCH_PATH}")
+find_path(SimGrid_ROOT "include/simgrid.h" PATHS "${SimGrid_SEARCH_PATH}" NO_DEFAULT_PATH)
+if (NOT SimGrid_ROOT)
+  message(FATAL_ERROR "Failed to find SimGrid. Search path: ${SimGrid_SEARCH_PATH}")
 endif ()
-message(STATUS "SimGrid root: ${SIMGRID_ROOT}")
-find_library(SIMGRID_LIBRARIES "simgrid" PATHS "${SIMGRID_ROOT}/lib" NO_DEFAULT_PATH)
-message(STATUS "SimGrid library: ${SIMGRID_LIBRARIES}")
-set(SIMGRID_INCLUDE_DIRS "${SIMGRID_ROOT}/include")
+message(STATUS "SimGrid root: ${SimGrid_ROOT}")
+find_library(SimGrid_LIBRARIES "simgrid" PATHS "${SimGrid_ROOT}/lib" NO_DEFAULT_PATH)
+message(STATUS "SimGrid library: ${SimGrid_LIBRARIES}")
+set(SimGrid_INCLUDE_DIRS "${SimGrid_ROOT}/include")
 message(STATUS)
 
 message(STATUS)
@@ -61,15 +62,18 @@ foreach(SOURCE ${SOURCES})
 endforeach()
 message(STATUS)
 
-include_directories(${SIMGRID_INCLUDE_DIRS})
+include_directories(${SimGrid_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${RapidJSON_INCLUDE_DIRS})
 # SimGrid for some reason requires c++11 usage
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall")
 
 add_executable(simulate ${SOURCES})
-target_link_libraries(simulate ${SIMGRID_LIBRARIES})
+target_link_libraries(simulate ${SimGrid_LIBRARIES})
 target_link_libraries(simulate ${Boost_PROGRAM_OPTIONS_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES})
+
+install(TARGETS simulate
+        RUNTIME DESTINATION bin)
 # --------------------------
 
 # 4. Tests

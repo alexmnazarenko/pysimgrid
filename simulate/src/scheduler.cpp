@@ -6,10 +6,15 @@
 #include "simulator.hpp"
 #include "mp_utils.hpp"
 
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/filewritestream.h>
+#include <rapidjson/prettywriter.h>
 #include <boost/assert.hpp>
 #include <algorithm>
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(scheduler, "scheduler");
+XBT_LOG_EXTERNAL_CATEGORY(simulate);
+XBT_LOG_NEW_DEFAULT_SUBCATEGORY(scheduler, simulate, "basic scheduler");
 
 namespace po = boost::program_options;
 
@@ -121,6 +126,8 @@ void Scheduler::run(SimulatorState& simulator, const boost::program_options::var
     throw std::runtime_error("unknown scheduler type");
   }
   XBT_INFO("Execution time: %f seconds\n", SD_get_clock() - start);
+
+  _dump_state(start, config["output"].as<std::string>());
 }
 
 
@@ -159,6 +166,66 @@ void Scheduler::_schedule_special_tasks(SimulatorState& simulator) {
   }
   if (SD_task_get_state(end) != SD_SCHEDULED && SD_task_get_state(end) != SD_DONE) {
     SD_task_schedulel(end, 1, submission_node);
+  }
+}
+
+
+void Scheduler::_dump_state(const double start_time, const std::string& target_file) {
+  using namespace rapidjson;
+  Document jresult;
+  jresult.SetObject();
+
+  Value jtasks(kArrayType);
+  jtasks.Reserve(_simulator->get_tasks().size(), jresult.GetAllocator());
+  for (auto task: _simulator->get_tasks()) {
+    auto task_kind = SD_task_get_kind(task);
+
+    Value jtask(kObjectType);
+    jtask.AddMember("name", Value().SetString(SD_task_get_name(task), jresult.GetAllocator()), jresult.GetAllocator());
+    jtask.AddMember("type", Value().SetString(task_kind == SD_TASK_COMM_E2E ? "comm" : "comp", jresult.GetAllocator()), jresult.GetAllocator());
+    jtask.AddMember("start", SD_task_get_start_time(task) - start_time, jresult.GetAllocator());
+    jtask.AddMember("end", SD_task_get_finish_time(task) - start_time, jresult.GetAllocator());
+    jtask.AddMember("amount", SD_task_get_amount(task), jresult.GetAllocator());
+
+    Value jwslist(rapidjson::kArrayType);
+    std::vector<SD_workstation_t> workstations{SD_task_get_workstation_list(task), SD_task_get_workstation_list(task) + SD_task_get_workstation_count(task)};
+    for (auto ws: workstations) {
+      jwslist.PushBack(Value().SetString(SD_workstation_get_name(ws), jresult.GetAllocator()), jresult.GetAllocator());
+    }
+    jtask.AddMember("hosts", jwslist, jresult.GetAllocator());
+
+    jtasks.PushBack(jtask.Move(), jresult.GetAllocator());
+  }
+  jresult.AddMember("tasks", jtasks.Move(), jresult.GetAllocator());
+
+
+  Value jhosts(kArrayType);
+  jhosts.Reserve(_simulator->get_workstations().size(), jresult.GetAllocator());
+  for (auto ws: _simulator->get_workstations()) {
+    Value jhost(kObjectType);
+    jhost.AddMember("name", Value().SetString(SD_workstation_get_name(ws), jresult.GetAllocator()), jresult.GetAllocator());
+    jhost.AddMember("power", SD_workstation_get_power(ws), jresult.GetAllocator());
+    jhost.AddMember("cores", SD_workstation_get_cores(ws), jresult.GetAllocator());
+
+    jhosts.PushBack(jhost.Move(), jresult.GetAllocator());
+  }
+  jresult.AddMember("hosts", jhosts.Move(), jresult.GetAllocator());
+
+  StringBuffer buffer;
+  PrettyWriter<StringBuffer> writer(buffer);
+  jresult.Accept(writer);
+
+  XBT_DEBUG("Result:\n%s", buffer.GetString());
+
+  if (!target_file.empty()) {
+    FILE* const file = fopen(target_file.c_str(), "wb");
+    if (!file) {
+      perror("Failed to open output file");
+      throw std::runtime_error("Failed to write output");
+    }
+    fwrite(buffer.GetString(), buffer.GetSize(), sizeof(StringBuffer::Ch), file);
+    fwrite("\n", 1, 1, file);
+    fclose(file);
   }
 }
 
