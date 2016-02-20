@@ -37,14 +37,6 @@ void main(const po::variables_map& config) {
   SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
   const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
   scheduler->run(simulator_state, config);
-
-//  std::cout << "Final schedule:";
-//  for (auto task: simulator_state.get_tasks()) {
-//    if (SD_task_get_kind(task) == SD_TASK_COMP_SEQ) {
-//      BOOST_ASSERT(SD_task_get_workstation_count(task) == 1);
-//      std::cout << "  " << SD_task_get_name(task) << ": " << SD_workstation_get_name(SD_task_get_workstation_list(task)[0]) << std::endl;
-//    }
-//  }
 }
 
 }
@@ -112,7 +104,13 @@ int main(int argc, char* argv[]) {
       }
       const auto name = cfg_param.substr(0, delim_pos);
       const auto value = cfg_param.substr(delim_pos + 1);
-      SD_config(name.c_str(), value.c_str());
+
+      xbt_ex_t exception;
+      TRY {
+        SD_config(name.c_str(), value.c_str());
+      } CATCH (exception) {
+        std::cout << "Failed to set SimGrid parameter '" << name << "': " << exception.msg << std::endl;
+      }
     }
   }
   // -------------------------
