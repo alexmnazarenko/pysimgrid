@@ -161,6 +161,7 @@ void SimulatorState::_load_tasks_dax(const std::string& tasks_path) {
 
 void SimulatorState::_load_tasks_json(const std::string& tasks_path) {
   // TODO: finalize when extended load will be required
+  // TODO: maybe use 'trunk' rapidjson for jsonschema support? validation seems to be even more pain than usual.
   std::ifstream file_stream(tasks_path);
   if (!file_stream.is_open()) {
     throw std::runtime_error("failed to open tasks configration file");
