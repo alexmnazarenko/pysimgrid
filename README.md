@@ -20,13 +20,15 @@ Dependencies
 ============
 
 C++
+
 * C++11 capable compiler (tested with GCC/G++ 4.8.4)
 * CMake 3.2+
-* SimGrid itself (tested v3.12)
+* SimGrid itself built with graphviz support (tested v3.12) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
 * RapidJSON (bundled for now, v1.0.2)
 * Boost libraries: program_options, filesystem, system (tested v1.54)
 
 Python
+
 * python 3.4+
 * python-gantt [https://bitbucket.org/xael/python-gantt]
 
@@ -53,8 +55,8 @@ SimGrid source distribution contains quite a few of platform examples of differe
 --------------------------------
 
 * Pegasus workflows, DAX format  
-  * See [Pegasus Workfow Generator](https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator)
-  * Direct download (warning: ~400Mb) [[link](https://download.pegasus.isi.edu/misc/SyntheticWorkflows.tar.gz)]
+    * See [Pegasus Workfow Generator](https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator)
+    * Direct download (warning: ~400Mb) [[link](https://download.pegasus.isi.edu/misc/SyntheticWorkflows.tar.gz)]
 
 
 3. What about multi-core tasks?

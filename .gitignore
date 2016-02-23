@@ -1,2 +1,4 @@
+# build dirs
 /**/build*
-/SimGrid
+# dependencies
+/opt

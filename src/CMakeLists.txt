@@ -27,7 +27,8 @@ message(STATUS "
 
 # 2. Dependency search
 #
-set_if_not_set(SimGrid_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../../SimGrid")
+set_if_not_set(SimGrid_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../opt/SimGrid")
+set_if_not_set(RapidJSON_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../opt/rapidjson")
 
 message(STATUS)
 message(STATUS "Looking for SimGrid...")
@@ -42,13 +43,18 @@ set(SimGrid_INCLUDE_DIRS "${SimGrid_ROOT}/include")
 message(STATUS)
 
 message(STATUS)
-message(STATUS "Looking for Boost...")
-find_package(Boost REQUIRED COMPONENTS program_options filesystem system)
+message(STATUS "Looking for RapidJSON...")
+find_path(RapidJSON_ROOT "include/rapidjson/rapidjson.h" PATHS "${RapidJSON_SEARCH_PATH}" NO_DEFAULT_PATH)
+if (NOT RapidJSON_ROOT)
+  message(FATAL_ERROR "Failed to find RapidJSON. Search path: ${RapidJSON_SEARCH_PATH}")
+endif ()
+message(STATUS "RapidJSON root: ${RapidJSON_ROOT}")
+set(RapidJSON_INCLUDE_DIRS "${RapidJSON_ROOT}/include")
 message(STATUS)
 
 message(STATUS)
-message(STATUS "Using bundled RapidJSON...")
-set(RapidJSON_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/rapidjson-1.0.2/include")
+message(STATUS "Looking for Boost...")
+find_package(Boost REQUIRED COMPONENTS program_options filesystem system)
 message(STATUS)
 # --------------------------
 
