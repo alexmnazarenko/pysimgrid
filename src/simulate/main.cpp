@@ -30,10 +30,6 @@ private:
 
 
 void main(const po::variables_map& config) {
-  if (config.count("verbose")) {
-    xbt_log_control_set("simulate.thres:TRACE");
-  }
-
   SimulatorState simulator_state(config["platform"].as<std::string>(), config["tasks"].as<std::string>());
   const auto scheduler = Scheduler::create(config["algorithm"].as<std::string>());
   scheduler->run(simulator_state, config);
@@ -48,7 +44,7 @@ int main(int argc, char* argv[]) {
   cmdline_desc.add_options()
       ("help", "produce help message")
       ("help-simgrid", "show simgrid config parameters")
-      ("verbose,-v", "enable verbose output")
+      ("verbose,v", "verbose output")
       ("tasks", po::value<std::string>()->required(), "path to task graph definition in .dot format")
       ("platform", po::value<std::string>()->required(), "path to platform definition in .xml format")
       ("output,o", po::value<std::string>()->default_value(""), "path to output file")
@@ -71,7 +67,7 @@ int main(int argc, char* argv[]) {
       throw std::runtime_error("unknown scheduling algorithm requested");
     }
   } catch (std::exception& e) {
-    std::cout << "Usage: simulate [options] <task_graph> <platform_description>\n" << std::endl;
+    std::cout << "Usage: simulate [options] <platform_description> <task_graph>\n" << std::endl;
     std::cout << e.what() << "\n" << std::endl;
     std::cout << cmdline_desc << std::endl;
     std::cout << "Available algorithms:" << std::endl;
@@ -79,6 +75,11 @@ int main(int argc, char* argv[]) {
       std::cout << "  " << scheduler << std::endl;
     }
     return 1;
+  }
+
+  // Configure logging
+  if (config.count("verbose")) {
+    xbt_log_control_set("simulate.thres:DEBUG");
   }
   // -------------------------
 

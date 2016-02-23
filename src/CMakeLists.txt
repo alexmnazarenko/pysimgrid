@@ -58,28 +58,14 @@ find_package(Boost REQUIRED COMPONENTS program_options filesystem system)
 message(STATUS)
 # --------------------------
 
-# 3. Main binary configuration
+# 3. Subprojects
 #
-message(STATUS)
-message(STATUS "Collecting sources...")
-file(GLOB SOURCES *.cpp *.hpp)
-foreach(SOURCE ${SOURCES})
-  message(STATUS "  source: ${SOURCE}")
-endforeach()
-message(STATUS)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include_directories(${SimGrid_INCLUDE_DIRS})
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${RapidJSON_INCLUDE_DIRS})
-# SimGrid for some reason requires c++11 usage
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall")
-
-add_executable(simulate ${SOURCES})
-target_link_libraries(simulate ${SimGrid_LIBRARIES})
-target_link_libraries(simulate ${Boost_PROGRAM_OPTIONS_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES})
-
-install(TARGETS simulate
-        RUNTIME DESTINATION bin)
+add_subdirectory(simulate)
+add_subdirectory(plot)
 # --------------------------
 
 # 4. Tests
