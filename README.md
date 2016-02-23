@@ -4,12 +4,6 @@ DAG simulation tool
 * Simulate different scheduling schemes using SimGrid framework.
 * Visualize simulations as Gantt charts
 
-Subprojects:
-* Simulator itself (C++, project 'simulate')
-* Visualize module (Python, project 'visualize')
-* Batch run module (Python, project 'runner')
-
-
 Examples
 ========
 
@@ -39,8 +33,41 @@ Build instructions
 Ubuntu 14.04+
 -------------
 
-TODO
+Install system dependencies:
 
+```
+#!bash
+
+sudo apt-get install libboost-context-dev libboost-program-options-dev libboost-filesystem-dev doxygen graphviz-dev
+```
+
+Use provided scripts to get dependecies: 
+
+```
+#!bash
+
+./get_simgrid.sh
+./get_rapidjson.sh
+```
+
+Create build dir, run cmake, make:
+
+```
+#!bash
+
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ../src
+make -j12
+```
+
+Test the build:
+
+```
+#!bash
+
+ctest
+```
 
 FAQ
 ===
