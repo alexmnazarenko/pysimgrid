@@ -1,4 +1,4 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #include "simple_schedules.hpp"
 #include "simulator.hpp"

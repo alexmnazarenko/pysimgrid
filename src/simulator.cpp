@@ -1,4 +1,4 @@
-// (c) DATADVANCE 2016
+// A. Nazarenko 2016
 
 #include "simulator.hpp"
 #include "scheduler.hpp"
@@ -71,7 +71,7 @@ SimulatorState::SimulatorState(const std::string& platform_path, const std::stri
   }
 
   // Load tasks description
-  switch (task_format) {  
+  switch (task_format) {
   case TaskFormat::DOT:
     XBT_INFO("Loading tasks definition (Pegasus DAX format, '%s')", tasks_path.c_str());
     _load_tasks_dot(tasks_path);
