@@ -73,11 +73,11 @@ SimulatorState::SimulatorState(const std::string& platform_path, const std::stri
   // Load tasks description
   switch (task_format) {
   case TaskFormat::DOT:
-    XBT_INFO("Loading tasks definition (Pegasus DAX format, '%s')", tasks_path.c_str());
+    XBT_INFO("Loading tasks definition (SimGrid dot format, path '%s')", tasks_path.c_str());
     _load_tasks_dot(tasks_path);
     break;
   case TaskFormat::DAX:
-    XBT_INFO("Loading tasks definition (SimGrid dot format, path '%s')", tasks_path.c_str());
+    XBT_INFO("Loading tasks definition (Pegasus DAX format, '%s')", tasks_path.c_str());
     _load_tasks_dax(tasks_path);
     break;
   case TaskFormat::JSON:

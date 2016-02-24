@@ -32,12 +32,20 @@ public:
    * Create scheduler by algorithm name.
    */
   static std::unique_ptr<Scheduler> create(const std::string& algoritm_name);
+  /**
+   * Get all known algorithm names.
+   */
   static std::vector<std::string> names();
+  /**
+   * Register options for all algorithms.
+   */
   static void register_options(boost::program_options::options_description& options);
 
   void run(SimulatorState& simulator, const boost::program_options::variables_map& config);
 
 protected:
+  Scheduler();
+
   /**
    * Read configuration & inintialize aux data before scheduling.
    */

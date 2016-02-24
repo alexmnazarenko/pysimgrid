@@ -126,6 +126,7 @@ int main(int argc, char* argv[]) {
     std::cout << "\nSimulation failed\n" << std::endl;
     std::cout << "  Error: " << e.what() << std::endl;
     std::cout << "----------------------------------" << std::endl;
+    return 1;
   }
 
   return 0;

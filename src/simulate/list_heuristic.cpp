@@ -33,7 +33,7 @@ std::vector<T> xbt_to_vector_noown(xbt_dynar_t array) {
 void ListHeuristic::register_options(po::options_description& global_options) {
   po::options_description description("List heuristic options");
   description.add_options()
-      ("lh_strategy", po::value<std::string>()->default_value("min"), "strategy to priotirize tasks in batch. highest priority task gets its best resource. "
+      ("lh-strategy", po::value<std::string>()->default_value("min"), "strategy to priotirize tasks in batch. highest priority task gets its best resource. "
                                                                       "valid values are: min, max, sufferage.")
   ;
   global_options.add(description);
@@ -48,7 +48,7 @@ ListHeuristic::Type ListHeuristic::_type() const {
 void ListHeuristic::_init(const boost::program_options::variables_map& config) {
   Scheduler::_init(config);
 
-  const std::string strategy = config["lh_strategy"].as<std::string>();
+  const std::string strategy = config["lh-strategy"].as<std::string>();
   if (strategy == "min") {
     _strategy = Strategy::MIN_FIRST;
   } else if (strategy == "max") {
