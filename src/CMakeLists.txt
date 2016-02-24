@@ -76,4 +76,5 @@ set(TEST_DATA_ROOT "${CMAKE_SOURCE_DIR}/test_data")
 add_test(NAME basic_list_heuristics COMMAND "$<TARGET_FILE:simulate>" --algorithm=list_heuristic "${TEST_DATA_ROOT}/pl_4hosts.xml" "${TEST_DATA_ROOT}/basic_graph.dot" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 add_test(NAME basic_random          COMMAND "$<TARGET_FILE:simulate>" --algorithm=random --seed=42 "${TEST_DATA_ROOT}/pl_4hosts.xml" "${TEST_DATA_ROOT}/basic_graph.dot" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 add_test(NAME basic_round_robin     COMMAND "$<TARGET_FILE:simulate>" --algorithm=round_robin "${TEST_DATA_ROOT}/pl_4hosts.xml" "${TEST_DATA_ROOT}/basic_graph.dot" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+add_test(NAME basic_trivial         COMMAND "$<TARGET_FILE:simulate>" --algorithm=trivial "${TEST_DATA_ROOT}/pl_4hosts.xml" "${TEST_DATA_ROOT}/basic_graph.dot" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 # --------------------------

@@ -23,8 +23,8 @@ C++
 
 Python
 
-* python 3.4+
-* python-gantt [https://bitbucket.org/xael/python-gantt]
+* python 2.7.x
+* matplotlib
 
 
 Build instructions
@@ -33,7 +33,7 @@ Build instructions
 Ubuntu 14.04+
 -------------
 
-Install system dependencies:
+Install system dependencies (list is not full):
 
 ```
 #!bash
@@ -41,7 +41,7 @@ Install system dependencies:
 sudo apt-get install libboost-context-dev libboost-program-options-dev libboost-filesystem-dev doxygen graphviz-dev
 ```
 
-Use provided scripts to get dependecies: 
+Use provided scripts to get dependencies:
 
 ```
 #!bash

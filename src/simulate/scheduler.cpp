@@ -23,7 +23,7 @@ namespace simulate {
 /**
  * Schedulers registry
  */
-typedef mp::Typelist<RoundRobinScheduler, RandomScheduler, ListHeuristic> SchedulerTypes;
+typedef mp::Typelist<TrivialScheduler, RoundRobinScheduler, RandomScheduler, ListHeuristic> SchedulerTypes;
 
 namespace mp {
 struct GetNames {
@@ -128,6 +128,10 @@ void Scheduler::run(SimulatorState& simulator, const boost::program_options::var
   XBT_INFO("Execution time: %f seconds\n", SD_get_clock() - start);
 
   _dump_state(start, config["output"].as<std::string>());
+}
+
+
+Scheduler::Scheduler() {
 }
 
 
