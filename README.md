@@ -17,8 +17,8 @@ C++
 
 * C++11 capable compiler (tested with GCC/G++ 4.8.4)
 * CMake 3.2+ [Cmake download page](https://cmake.org/download/)
-* SimGrid itself built with graphviz support (tested v3.12) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
-* RapidJSON (tested with v1.0.2) [RapidJSON github](https://github.com/miloyip/rapidjson)
+* SimGrid built with graphviz support (build script provided, tested v3.12) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
+* RapidJSON (build script provided, tested v1.0.2) [RapidJSON github](https://github.com/miloyip/rapidjson)
 * Boost libraries: program_options, filesystem, system (tested v1.54)
 
 Python
