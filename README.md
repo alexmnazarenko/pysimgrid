@@ -16,14 +16,12 @@ Dependencies
 C++
 
 * C++11 capable compiler (tested with GCC/G++ 4.8.4)
-* CMake 3.2+ [Cmake download page](https://cmake.org/download/)
-* SimGrid built with graphviz support (build script provided, tested v3.12) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
-* RapidJSON (build script provided, tested v1.0.2) [RapidJSON github](https://github.com/miloyip/rapidjson)
-* Boost libraries: program_options, filesystem, system (tested v1.54)
+* SimGrid built with graphviz support (build script provided, tested v3.13) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
 
 Python
 
-* python 2.7.x
+* python 2.7 or 3.4+
+* cython (for full rebuild)
 * matplotlib
 
 
