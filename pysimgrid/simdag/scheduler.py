@@ -28,7 +28,7 @@ class StaticScheduler(Scheduler):
     self._simulation = simulation
 
   def run(self):
-    self._schedule(self._simulation)
+    self.schedule(self._simulation)
     unscheduled = self._simulation.tasks.by_func(lambda t: t.state not in {csimdag.TASK_STATE_RUNNABLE, csimdag.TASK_STATE_SCHEDULED})
     if any(unscheduled):
       raise Exception("some tasks are left unscheduled by static algorithm: {}".format([t.name for t in unscheduled]))
@@ -36,27 +36,27 @@ class StaticScheduler(Scheduler):
     self._check_done()
 
   @abc.abstractmethod
-  def _schedule(self, simulation):
+  def schedule(self, simulation):
     raise NotImplementedError()
 
 
 class DynamicScheduler(Scheduler):
   def run(self):
-    self._prepare(self._simulation)
+    self.prepare(self._simulation)
     for t in self._simulation.tasks:
       t.watch(csimdag.TASK_STATE_DONE)
     # a bit ugly kludge - cannot just pass an empty list there, needs to be a _TaskList
-    self._schedule(self._simulation, self._simulation.all_tasks.by_func(lambda t: False))
+    self.schedule(self._simulation, self._simulation.all_tasks.by_func(lambda t: False))
     changed = self._simulation.simulate()
     while changed:
-      self._schedule(self._simulation, changed)
+      self.schedule(self._simulation, changed)
       changed = self._simulation.simulate()
     self._check_done()
 
   @abc.abstractmethod
-  def _prepare(self, simulation):
+  def prepare(self, simulation):
     raise NotImplementedError()
 
   @abc.abstractmethod
-  def _schedule(self, simulation, changed):
+  def schedule(self, simulation, changed):
     raise NotImplementedError()
