@@ -19,17 +19,17 @@ _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
 logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
 
 class RandomSchedule(simdag.StaticScheduler):
-  def _schedule(self, simulation):
+  def schedule(self, simulation):
     for t in simulation.tasks:
       t.schedule(random.choice(simulation.hosts))
 
 
-class GreedyDynamic(simdag.DynamicScheduler):
-  def _prepare(self, simulation):
+class SimpleDynamic(simdag.DynamicScheduler):
+  def prepare(self, simulation):
     for h in simulation.hosts:
       h.data = {}
 
-  def _schedule(self, simulation, changed):
+  def schedule(self, simulation, changed):
     for h in simulation.hosts:
       h.data["free"] = True
     for task in simulation.tasks[simdag.TaskState.TASK_STATE_RUNNING]:
@@ -47,4 +47,4 @@ with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") a
   if False:
     RandomSchedule(simulation).run()
   else:
-    GreedyDynamic(simulation).run()
+    SimpleDynamic(simulation).run()
