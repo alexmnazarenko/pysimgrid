@@ -11,6 +11,8 @@ from __future__ import print_function
 import random
 import logging
 
+import multiprocessing
+
 #import networkx
 from pysimgrid import simdag
 
@@ -43,8 +45,16 @@ class SimpleDynamic(simdag.DynamicScheduler):
         break
 
 
-with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-  if False:
-    RandomSchedule(simulation).run()
-  else:
-    SimpleDynamic(simulation).run()
+def run_simulation(static):
+  with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+    if static:
+      RandomSchedule(simulation).run()
+    else:
+      SimpleDynamic(simulation).run()
+
+
+if __name__ == '__main__':
+  for args in [(True,), (False,)]:
+    p = multiprocessing.Process(target=run_simulation, args=args)
+    p.start()
+    p.join()
