@@ -214,7 +214,7 @@ cdef class Task:
       raise Exception("cannot estimate execution time for communication task")
     return self.amount / host.speed
 
-  def get_ect(self, cplatform.Host src not None, cplatform.Host dst not None):
+  def get_ecomt(self, cplatform.Host src not None, cplatform.Host dst not None):
     """
     Estimate communication between given hosts.
 
