@@ -37,7 +37,7 @@ class SimpleDynamic(simdag.DynamicScheduler):
     for task in simulation.tasks[simdag.TaskState.TASK_STATE_RUNNING]:
       task.hosts[0].data["free"] = False
     for t in simulation.tasks[simdag.TaskState.TASK_STATE_SCHEDULABLE]:
-      free_hosts = simulation.hosts.by_data("free", True)
+      free_hosts = simulation.hosts.by_data("free", True).sorted(lambda h: t.get_eet(h))
       if free_hosts:
         t.schedule(free_hosts[0])
         free_hosts[0].data["free"] = False
