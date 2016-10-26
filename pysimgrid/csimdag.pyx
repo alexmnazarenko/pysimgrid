@@ -196,8 +196,38 @@ cdef class Task:
     """
     self.__check_impl()
     if not host.impl:
-      raise RuntimeError("Give host instance is uninitialized")
+      raise RuntimeError("host instance is invalid")
     csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
+
+  def get_eet(self, cplatform.Host host not None):
+    """
+    Estimate task execution time on a given host.
+
+    Note: valid only for computational tasks
+    """
+    self.__check_impl()
+    if not host.impl:
+      raise RuntimeError("host instance is invalid")
+    if self.kind == TASK_KIND_NOT_TYPED:
+      raise Exception("cannot estimate execution time for untyped task")
+    if self.kind == TASK_KIND_COMM_E2E:
+      raise Exception("cannot estimate execution time for communication task")
+    return self.amount / host.speed
+
+  def get_ect(self, cplatform.Host src not None, cplatform.Host dst not None):
+    """
+    Estimate communication between given hosts.
+
+    Note: valid only for communication tasks
+    """
+    self.__check_impl()
+    if (not src.impl) or (not dst.impl):
+      raise RuntimeError("host instance is invalid")
+    if self.kind == TASK_KIND_NOT_TYPED:
+      raise Exception("cannot estimate communication time for untyped task")
+    if self.kind != TASK_KIND_COMM_E2E:
+      raise Exception("cannot estimate communication time for computational task")
+    return cplatform.SD_route_get_latency(src.impl, dst.impl) + self.amount / cplatform.SD_route_get_bandwidth(src.impl, dst.impl)
 
   def dump(self):
     """
