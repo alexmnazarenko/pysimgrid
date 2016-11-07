@@ -8,6 +8,7 @@
 import abc
 from ..six import with_metaclass
 from .. import csimdag
+from .. import cplatform
 
 class Scheduler(with_metaclass(abc.ABCMeta)):
   def __init__(self, simulation):
@@ -28,16 +29,46 @@ class StaticScheduler(Scheduler):
     self._simulation = simulation
 
   def run(self):
-    self.schedule(self._simulation)
-    unscheduled = self._simulation.tasks.by_func(lambda t: t.state not in {csimdag.TASK_STATE_RUNNABLE, csimdag.TASK_STATE_SCHEDULED})
-    if any(unscheduled):
+    schedule = self.get_schedule(self._simulation)
+    if not isinstance(schedule, dict):
+      raise Exception("'get_schedule' must return a dictionary")
+    for t, h in schedule.items():
+      if not (isinstance(t, csimdag.Task) and isinstance(h, cplatform.Host)):
+        raise Exception("'get_schedule' must return a dictionary Task:Host")
+    if set(schedule.keys()) != set(self._simulation.tasks):
       raise Exception("some tasks are left unscheduled by static algorithm: {}".format([t.name for t in unscheduled]))
-    self._simulation.simulate()
+
+    unscheduled = self._simulation.tasks[csimdag.TASK_STATE_NOT_SCHEDULED, csimdag.TASK_STATE_SCHEDULABLE]
+    if len(unscheduled) != len(self._simulation.tasks):
+      raise Exception("static scheduler should not directly schedule tasks")
+
+    hosts_status = {h: True for h in self._simulation.hosts}
+
+    for t in self._simulation.tasks:
+      t.watch(csimdag.TASK_STATE_DONE)
+
+    changed = self._simulation.tasks.by_func(lambda t: False)
+    while True:
+      self.__schedule_to_free_hosts(schedule, hosts_status, changed)
+      changed = self._simulation.simulate()
+      if not changed:
+        break
+
     self._check_done()
 
   @abc.abstractmethod
-  def schedule(self, simulation):
+  def get_schedule(self, simulation):
     raise NotImplementedError()
+
+  def __schedule_to_free_hosts(self, schedule, hosts_status, changed):
+    for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:
+      for h in t.hosts:
+        hosts_status[h] = True
+    for t in self._simulation.tasks[csimdag.TASK_STATE_SCHEDULABLE]:
+      target_host = schedule[t]
+      if hosts_status[target_host]:
+        t.schedule(target_host)
+        hosts_status[target_host] = False
 
 
 class DynamicScheduler(Scheduler):
