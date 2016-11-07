@@ -6,6 +6,7 @@
 #           and contributor agreement.
 
 import os
+import collections
 import logging
 from .. import csimdag
 
@@ -95,7 +96,6 @@ class Simulation(object):
   def clock(self):
     return csimdag.get_clock()
 
-
   def __enter__(self):
     """
     Context interface implementation.
@@ -132,6 +132,7 @@ class Simulation(object):
     self.__logger.info("Finalizing the simulation (clock: %.2f)", self.clock)
     csimdag.exit()
     return False
+
 
 class _SimulationTask(csimdag.Task):
   """
@@ -237,6 +238,7 @@ class _InstanceList(object):
     """
     return str(self._list)
 
+
 class _TaskList(_InstanceList):
   """
   Task list wrapper to simplify common filtering even more.
@@ -245,7 +247,20 @@ class _TaskList(_InstanceList):
     """
     Sequence interface implementation.
     """
-    if isinstance(arg, csimdag.TaskState):
+    if isinstance(arg, collections.Sequence):
+      values = [v for v in arg]
+      if not values:
+        return type(self)([])
+      if len(set(map(type, values))) != 1:
+        raise TypeError("sequence-based indexer must contain only one value type")
+      arg0 = values[0]
+      if isinstance(arg0, csimdag.TaskState):
+        return self.by_func(lambda t: t.state in values)
+      elif isinstance(arg0, csimdag.TaskKind):
+        return self.by_func(lambda t: t.kind in values)
+      else:
+        raise TypeError("sequence-based indexing is supported only for TaskState and TaskKind lists")
+    elif isinstance(arg, csimdag.TaskState):
       return self.by_prop("state", arg)
     elif isinstance(arg, csimdag.TaskKind):
       return self.by_prop("kind", arg)
