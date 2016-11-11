@@ -5,7 +5,9 @@
 # License:  Standard 3-clause BSD; see "license.txt" for full license terms
 #           and contributor agreement.
 
+
 from copy import deepcopy
+
 
 class Taskflow(object):
   """
@@ -14,12 +16,12 @@ class Taskflow(object):
   Attributes:
   tasks - List of tasks ids. Also uses as the connection matrix header
   matrix - Connection matrix
-  complexities - Tasks complexities dictionary
+  complexities - Tasks computation cost dictionary
   """
 
   def __init__(self, simdag_tasks):
     self.tasks, self.matrix = self._construct_connection_matrix(simdag_tasks)
-    self.complexities = self._get_tasks_complexity(simdag_tasks)
+    self._complexities = {task.native: task.amount for task in simdag_tasks}
 
   def _construct_connection_matrix(self, tasks):
     """
@@ -35,12 +37,42 @@ class Taskflow(object):
       matrix.append(matrix_line)
     return (header, matrix)
 
-  def _get_tasks_complexity(self, tasks):
-    return {task.native: task.amount for task in tasks}
+  @property
+  def complexities(self):
+    """
+    Return the computation cost dictionary.
+    """
+    return self._complexities
+
+  @property
+  def root(self):
+    """
+    Return the root task.
+    Every graph contains only one root task.
+    """
+    # HACK: rewrite to numpy.array
+    transposed = [
+      [self.matrix[i][j]
+      for i in range(len(self.tasks))]
+      for j in range(len(self.tasks))
+    ]
+    for i, line in enumerate(transposed):
+      if not any(line):
+        return self.tasks[i]
+
+  @property
+  def end(self):
+    """
+    Return the end task.
+    Every graph contains only one end task.
+    """
+    for i, line in enumerate(self.matrix):
+      if not any(line):
+        return self.tasks[i]
 
   def get_parents(self, task_id):
     """
-    Get the list of parents of the task_id task.
+    Get the parents list of the task_id task.
     """
     return [
       id_
@@ -53,7 +85,7 @@ class Taskflow(object):
 
   def get_children(self, task_id):
     """
-    Get the list of children of the task_id task.
+    Get the children list of the task_id task.
     """
     return [
       id_
