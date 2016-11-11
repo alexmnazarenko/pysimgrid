@@ -8,12 +8,14 @@ For bettter examples on C API wrappers look at test/test_capi.py.
 
 from __future__ import print_function
 
+import sys
 import random
 import logging
 
 import multiprocessing
 
 from pysimgrid import simdag
+from pysimgrid.simdag.algorithms import hcpt, heft
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
@@ -51,7 +53,11 @@ class SimpleDynamic(simdag.DynamicScheduler):
 
 def run_simulation(static):
   with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-    if static:
+    if sys.argv[-1] == "hcpt":
+      hcpt.HCPTScheduler(simulation).run()
+    elif sys.argv[-1] == "heft":
+      heft.HEFTScheduler(simulation).run()
+    elif static:
       RandomSchedule(simulation).run()
     else:
       SimpleDynamic(simulation).run()
