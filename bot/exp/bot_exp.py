@@ -33,14 +33,16 @@ class StaticScheduler(simdag.DynamicScheduler):
         raise NotImplementedError()
 
     def schedule(self, simulation, changed):
-        logging.debug("----------------------------")
+        logging.debug("%.2f -----------------------------------------------------------------------" % simulation.clock)
         # mark freed hosts
         for task in changed:
-            logging.debug(task.name + " -> " + str(task.state))
             if task.kind == simdag.TaskKind.TASK_KIND_COMP_SEQ and task.state == simdag.TaskState.TASK_STATE_DONE:
                 host = task.hosts[0]
                 if host.name != 'master':
                     self.host_states[host.name] = 'FREE'
+                logging.debug("%20s: %s (%s)" % (task.name, str(task.state), host.name))
+            else:
+                logging.debug("%20s: %s" % (task.name, str(task.state)))
         # schedule tasks on free hosts
         for host in self.hosts:
             if self.host_states[host.name] == 'FREE':
@@ -49,7 +51,7 @@ class StaticScheduler(simdag.DynamicScheduler):
                     task = tasks.pop(0)
                     task.schedule(host)
                     self.host_states[host.name] = 'BUSY'
-                    logging.debug("%s -> %s" % (task.name, host.name))
+                    logging.debug("%20s -> %s" % (task.name, host.name))
 
 
 class Random(StaticScheduler):
@@ -89,6 +91,7 @@ class ListHeuristic(StaticScheduler):
             for h, host in enumerate(self.hosts):
                 ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
                 ECT[t][h] = ect
+        # print(ECT)
 
         # build schedule
         task_idx = np.arange(num_tasks)
@@ -118,7 +121,9 @@ class ListHeuristic(StaticScheduler):
 
             task_idx = np.delete(task_idx, t)
             ECT = np.delete(ECT, t, 0)
-            ECT[:,h] += ect
+            task_ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
+            ECT[:,h] += task_ect
+            # print(ECT)
 
 
 class MinMin(ListHeuristic):
@@ -149,16 +154,16 @@ class OLB(simdag.DynamicScheduler):
             self.host_states[host.name] = 'FREE'
 
     def schedule(self, simulation, changed):
-        logging.debug("----------------------------")
-
+        logging.debug("%.2f -----------------------------------------------------------------------" % simulation.clock)
         # mark freed hosts
         for task in changed:
-            logging.debug(task.name + " -> " + str(task.state))
             if task.kind == simdag.TaskKind.TASK_KIND_COMP_SEQ and task.state == simdag.TaskState.TASK_STATE_DONE:
                 host = task.hosts[0]
                 if host.name != 'master':
                     self.host_states[host.name] = 'FREE'
-
+                logging.debug("%20s: %s (%s)" % (task.name, str(task.state), host.name))
+            else:
+                logging.debug("%20s: %s" % (task.name, str(task.state)))
         # schedule tasks on free hosts
         for host in self.hosts:
             if self.host_states[host.name] == 'FREE':
@@ -167,7 +172,7 @@ class OLB(simdag.DynamicScheduler):
                     task.schedule(host)
                     self.scheduled_count += 1
                     self.host_states[host.name] = 'BUSY'
-                    logging.debug("%s -> %s" % (task.name, host.name))
+                    logging.debug("%20s -> %s" % (task.name, host.name))
                 else:
                     break
 
@@ -215,14 +220,16 @@ if __name__ == '__main__':
     else:
         for root, directories, filenames in os.walk(args.system_path):
             for filename in filenames:
-                 systems.append(os.path.join(root, filename))
+                if filename.endswith('.xml'):
+                    systems.append(os.path.join(root, filename))
 
     if os.path.isfile(args.workload_path):
         workloads.append(args.workload_path)
     else:
         for root, directories, filenames in os.walk(args.workload_path):
             for filename in filenames:
-                 workloads.append(os.path.join(root, filename))
+                if filename.endswith('.dot'):
+                    workloads.append(os.path.join(root, filename))
 
     scheduler_runs = []
     for scheduler in schedulers:
