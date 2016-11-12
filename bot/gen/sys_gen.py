@@ -1,10 +1,9 @@
 import argparse
 import os
 import random
-import sys
 
 
-def generate_system(num_hosts, host_speed, link_bandwidth, link_latency):
+def generate_cluster(num_hosts, host_speed, host_bandwidth, host_latency, master_bandwidth, master_latency):
     hosts = []
     links = []
     routes = []
@@ -12,13 +11,28 @@ def generate_system(num_hosts, host_speed, link_bandwidth, link_latency):
     # master host
     master = {
         'id': 'master',
-        'speed': 1e10
+        'speed': 1
     }
     hosts.append(master)
+    master_link = {
+        'id': "link_master",
+        'bandwidth': generate_values(master_bandwidth, 1)[0],
+        'latency': generate_values(master_latency, 1)[0],
+    }
+    links.append(master_link)
+    master_route = {
+        'src': 'master',
+        'dst': 'router',
+        'links': [
+            master_link['id']
+        ]
+    }
+    routes.append(master_route)
 
+    # worker hosts
     host_speeds = generate_values(host_speed, num_hosts)
-    link_bandwidths = generate_values(link_bandwidth, num_hosts)
-    link_latencies = generate_values(link_latency, num_hosts)
+    link_bandwidths = generate_values(host_bandwidth, num_hosts)
+    link_latencies = generate_values(host_latency, num_hosts)
     for i in xrange(0, num_hosts):
         host = {
             'id': "host%d" % i,
@@ -32,9 +46,11 @@ def generate_system(num_hosts, host_speed, link_bandwidth, link_latency):
         }
         links.append(link)
         route = {
-            'src': 'master',
-            'dst': host['id'],
-            'link': link['id']
+            'src': host['id'],
+            'dst': 'router',
+            'links': [
+                link['id']
+            ]
         }
         routes.append(route)
 
@@ -46,41 +62,18 @@ def generate_system(num_hosts, host_speed, link_bandwidth, link_latency):
     return system
 
 
-def generate_values(spec, num, inputs=None):
+def generate_values(spec, num):
     try:
         # fixed value
         fixed = float(spec)
         values = [fixed] * num
 
     except ValueError:
-        parts = spec.split(':')
-        type = parts[0]
-        params = parts[1:]
-
-        # uniform distribution: u:min:max
-        if type == "u":
-            min = float(params[0])
-            max = float(params[1])
-            values = [random.uniform(min, max) for _ in xrange(0, num)]
-
-        # normal distribution: n:mean:std_dev
-        elif type == "n":
-            mean = float(params[0])
-            std_dev = float(params[1])
-            values = [random.normalvariate(mean, std_dev) for _ in xrange(0, num)]
-
-        # scaled values: x:factor
-        elif type == "x":
-            factor = float(params[0])
-            if inputs is not None:
-                values = [inputs[i] * factor for i in xrange(0, num)]
-            else:
-                print "Inputs are not specified"
-                sys.exit(-1)
-
-        else:
-            print "Unknown distribution"
-            sys.exit(-1)
+        # uniform distribution: min-max
+        parts = spec.split('-')
+        min = float(parts[0])
+        max = float(parts[1])
+        values = [random.uniform(min, max) for _ in xrange(0, num)]
 
     return values
 
@@ -90,35 +83,73 @@ def save_as_xml_file(system, output_path):
         f.write("<?xml version='1.0'?>\n")
         f.write('<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">\n')
         f.write('<platform version="4">\n')
-        f.write('  <AS id="AS0" routing="Full">\n')
+        f.write('  <AS id="AS0" routing="Floyd">\n')
+
         for host in system['hosts']:
-            f.write('    <host id="%s" core="1" speed="%eflops"/>\n' % (host['id'], host['speed']))
+            f.write('    <host id="%s" core="1" speed="%fGf"/>\n' % (host['id'], host['speed']))
         f.write("\n")
+
         for link in system['links']:
-            f.write('    <link id="%s" bandwidth="%eBps" latency="%es"/>\n' % (link['id'], link['bandwidth'], link['latency']))
+            f.write('    <link id="%s" bandwidth="%fMBps" latency="%fus"/>\n' % (
+            link['id'], link['bandwidth'], link['latency']))
         f.write("\n")
+
+        f.write('    <router id="router"/>\n')
         for route in system['routes']:
-            f.write('    <route src="%s" dst="%s"><link_ctn id="%s"/></route>\n' % (route['src'], route['dst'], route['link']))
+            f.write('    <route src="%s" dst="%s">\n' % (route['src'], route['dst']))
+            for link in route['links']:
+                f.write('      <link_ctn id="%s"/>\n' % link)
+            f.write('    </route>\n')
+
         f.write("  </AS>\n")
         f.write("</platform>\n")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generator of synthetic systems for running bag-of-tasks applications")
-    parser.add_argument("num_hosts", type=int, help="number of hosts")
-    parser.add_argument("host_speed", type=str, help="host speed (flops)")
-    parser.add_argument("link_bandwidth", type=str, help="link bandwidth (bytes/second)")
-    parser.add_argument("link_latency", type=str, help="link latency (seconds)")
+    parser = argparse.ArgumentParser(description="Generator of synthetic systems")
     parser.add_argument("output_dir", type=str, help="output directory")
-    parser.add_argument("num_files", type=int, help="number of generated systems")
+    parser.add_argument("num_systems", type=int, help="number of generated systems")
+    subparsers = parser.add_subparsers(dest='system_type', help="system type")
+
+    # cluster
+    parser_cluster = subparsers.add_parser("cluster", help="collection of hosts with a flat topology")
+    parser_cluster.add_argument("num_hosts", type=int, help="number of hosts (excluding master)")
+    parser_cluster.add_argument("host_speed", type=str, help="host speed in GFLOPS (e.g. '1', '1-10')")
+    parser_cluster.add_argument("link_bandwidth", type=str,
+                                help="link bandwidth in MBps as 'bandwidth[:master_bandwidth]' (e.g. '125', '10-100:100')")
+    parser_cluster.add_argument("link_latency", type=str,
+                                help="link latency in us as 'latency[:master_latency]' (e.g. '10', '10-100:10')")
+
     args = parser.parse_args()
 
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
 
-    for i in xrange(0, args.num_files):
-        system = generate_system(args.num_hosts, args.host_speed, args.link_bandwidth, args.link_latency)
-        file_name = 'simple_%d_%s_%s_%s_%d.xml' % (args.num_hosts, args.host_speed, args.link_bandwidth, args.link_latency, i)
+    for i in xrange(0, args.num_systems):
+        # cluster
+        if args.system_type == 'cluster':
+            # parse host/master bandwidth and latency
+            if ':' in args.link_bandwidth:
+                parts = args.link_bandwidth.split(':')
+                host_bandwidth = parts[0]
+                master_bandwidth = parts[1]
+            else:
+                host_bandwidth = args.link_bandwidth
+                master_bandwidth = args.link_bandwidth
+            if ':' in args.link_latency:
+                parts = args.link_latency.split(':')
+                host_latency = parts[0]
+                master_latency = parts[1]
+            else:
+                host_latency = args.link_latency
+                master_latency = args.link_latency
+
+            # generate cluster
+            system = generate_cluster(args.num_hosts, args.host_speed, host_bandwidth, host_latency, master_bandwidth,
+                                      master_latency)
+            file_name = 'cluster_%d_%s_%s_%s_%d.xml' % (
+            args.num_hosts, args.host_speed, args.link_bandwidth, args.link_latency, i)
+
         file_path = args.output_dir + '/' + file_name
         save_as_xml_file(system, file_path)
         print('Generated file: %s' % file_path)
