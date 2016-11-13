@@ -82,16 +82,16 @@ def save_as_dot_file(tasks, output_path):
 def main():
     parser = argparse.ArgumentParser(description="Generator of synthetic graphs for bag-of-tasks applications")
     parser.add_argument("num_tasks", type=int, help="number of tasks")
-    parser.add_argument("input_size", type=str, help="task input size (bytes)")
-    parser.add_argument("comp_size", type=str, help="task computational size (flops)")
-    parser.add_argument("output_size", type=str, help="task output size (bytes)")
+    parser.add_argument("input_size", type=str, help="task input size in bytes")
+    parser.add_argument("comp_size", type=str, help="task computational size in flops")
+    parser.add_argument("output_size", type=str, help="task output size in bytes")
     parser.add_argument("output_dir", type=str, help="output directory")
-    parser.add_argument("num_files", type=int, help="number of generated graphs")
+    parser.add_argument("num_graphs", type=int, help="number of generated graphs")
     args = parser.parse_args()
 
     os.mkdir(args.output_dir)
 
-    for i in xrange(0, args.num_files):
+    for i in xrange(0, args.num_graphs):
         tasks = generate_tasks(args.num_tasks, args.input_size, args.comp_size, args.output_size)
         file_name = 'bot_%d_%s_%s_%s_%d.dot' % (args.num_tasks, args.input_size, args.comp_size, args.output_size, i)
         file_path = args.output_dir + '/' + file_name
