@@ -89,7 +89,10 @@ class ListHeuristic(StaticScheduler):
         for t, task in enumerate(self.tasks):
             stage_in = task.parents[0]
             for h, host in enumerate(self.hosts):
-                ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
+                if stage_in.amount > 0:
+                    ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
+                else:
+                    ect = task.get_eet(host)
                 ECT[t][h] = ect
         # print(ECT)
 
@@ -121,7 +124,11 @@ class ListHeuristic(StaticScheduler):
 
             task_idx = np.delete(task_idx, t)
             ECT = np.delete(ECT, t, 0)
-            task_ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
+            stage_in = task.parents[0]
+            if stage_in.amount > 0:
+                task_ect = stage_in.get_ecomt(self.master, host) + task.get_eet(host)
+            else:
+                task_ect = task.get_eet(host)
             ECT[:,h] += task_ect
             # print(ECT)
 
