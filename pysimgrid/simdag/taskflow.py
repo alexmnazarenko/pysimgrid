@@ -21,19 +21,19 @@ class Taskflow(object):
 
   def __init__(self, simdag_tasks):
     self.tasks, self.matrix = self._construct_connection_matrix(simdag_tasks)
-    self._complexities = {task.native: task.amount for task in simdag_tasks}
+    self._complexities = {task.name: task.amount for task in simdag_tasks}
 
   def _construct_connection_matrix(self, tasks):
     """
     Create the connection matrix from the set of tasks with links between them.
     """
     length = len(tasks)
-    header = [task.native for task in tasks]
+    header = [task.name for task in tasks]
     matrix = []
     for task in tasks:
       matrix_line = [False] * length
       for child in task.children:
-        matrix_line[header.index(child.children[0].native)] = child.amount
+        matrix_line[header.index(child.children[0].name)] = child.amount
       matrix.append(matrix_line)
     return (header, matrix)
 
@@ -75,7 +75,7 @@ class Taskflow(object):
     Get the parents list of the task_id task.
     """
     return [
-      id_
+      self.tasks[i]
       for (i, id_) in enumerate([
         line[self.tasks.index(task_id)]
         for line in self.matrix
@@ -88,7 +88,7 @@ class Taskflow(object):
     Get the children list of the task_id task.
     """
     return [
-      id_
+      self.tasks[i]
       for (i, id_) in enumerate(self.matrix[self.tasks.index(task_id)])
       if id_ != False
     ]

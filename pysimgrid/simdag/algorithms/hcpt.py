@@ -8,6 +8,7 @@
 
 from numpy import average
 from collections import deque
+from itertools import chain
 
 from ..scheduler import StaticScheduler
 from ..taskflow import Taskflow
@@ -35,6 +36,9 @@ class HCPTScheduler(StaticScheduler):
     ordered_tasks = taskflow.topological_order()
     for task_id in ordered_tasks:
       parents = taskflow.get_parents(task_id)
+      if not parents:
+        aest[task_id] = 0
+        continue
       aest[task_id] = max([
         aest[p] + aec[p] + float(taskflow.matrix[tasks.index(p)][tasks.index(task_id)])
         for p in parents
@@ -43,9 +47,12 @@ class HCPTScheduler(StaticScheduler):
     # Average latest start time
     alst = {}
     alst[taskflow.end] = aest[taskflow.end]
-    ordered_tasks = ordered_tasks.reverse()
+    ordered_tasks.reverse()
     for task_id in ordered_tasks:
       children = taskflow.get_children(task_id)
+      if not children:
+        alst[task_id] = aest[task_id]
+        continue
       alst[task_id] = min([
         alst[c] - float(taskflow.matrix[tasks.index(task_id)][tasks.index(c)])
         for c in children
@@ -73,19 +80,19 @@ class HCPTScheduler(StaticScheduler):
 
     # Schedule has a format: (Task name, Start time, End time)
     schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.native: task for task in simulation.tasks}
+    ids_tasks = {task.name: task for task in simulation.tasks}
     while len(queue):
       task_id = queue.popleft()
       parents = taskflow.get_parents(task_id)
       parents_end = [
-        elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0])][taskflow.tasks.index(task_id)]
+        elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0].name)][taskflow.tasks.index(task_id)]
         for elem in chain.from_iterable(schedule.values())
       ]
       hosts_eeft = {}
       for host in simulation.hosts:
-        host_end = schedule[host][-1][2] if len(schedule[host]) else 0
+        host_end = [schedule[host][-1][2]] if len(schedule[host]) else [0.0]
         eeft = (
-          min(parents_end.append(host_end)) +
+          min(parents_end + host_end) +
           float(taskflow.complexities[task_id]) / host.speed
         )
         hosts_eeft[eeft] = host
@@ -95,4 +102,6 @@ class HCPTScheduler(StaticScheduler):
         min(hosts_eeft) - float(taskflow.complexities[task_id]) / host_to_assign.speed,
         min(hosts_eeft)
       ))
+    for host in schedule:
+      schedule[host] = [elem[0] for elem in schedule[host]]
     return schedule
