@@ -16,12 +16,12 @@ class HEFTScheduler(StaticScheduler):
 
   def _rankify_tasks(self, taskflow):
     ranked_tasks = {}
-    for task in taskflow.topological_order(reverse=False):
+    for task in taskflow.topological_order(reverse=True):
       ecomt_and_rank = [
-        ranked_tasks[t] + matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)]
+        ranked_tasks[t] + taskflow.matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)]
         for t in taskflow.get_children(task)
         if t in ranked_tasks
-        if not matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)] is False
+        if not taskflow.matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)] is False
       ] or [0]
       ranked_tasks[task] = taskflow.complexities[task] + max(ecomt_and_rank)
     return ranked_tasks
@@ -31,7 +31,7 @@ class HEFTScheduler(StaticScheduler):
 
   def _timesheet_gaps(self, timesheet):
     pairs = zip(timesheet, timesheet[1:])
-    return [(p[0][1], p[1][0]) for p in pairs]
+    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 
   def _calc_host_start(self, est, amount, hosts):
     e_host_st = []
@@ -58,7 +58,7 @@ class HEFTScheduler(StaticScheduler):
 
   def get_schedule(self, simulation):
     taskflow = Taskflow(simulation.tasks)
-    tasks_map = {t.native: t for t in simulation.tasks}
+    tasks_map = {t.name: t for t in simulation.tasks}
     ranked_tasks = self._rankify_tasks(taskflow)
     ordered_tasks = self._order_tasks(ranked_tasks)
 
