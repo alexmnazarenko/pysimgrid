@@ -25,7 +25,7 @@ logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_F
 class RandomSchedule(simdag.StaticScheduler):
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.native: task for task in simulation.tasks}
+    ids_tasks = {task.name: task for task in simulation.tasks}
     taskflow = simdag.Taskflow(simulation.tasks)
     for task in taskflow.topological_order():
       schedule[random.choice(simulation.hosts)].append(ids_tasks[task])
