@@ -8,21 +8,28 @@ For bettter examples on C API wrappers look at test/test_capi.py.
 
 from __future__ import print_function
 
+import sys
 import random
 import logging
 
 import multiprocessing
 
-#import networkx
 from pysimgrid import simdag
+from pysimgrid.simdag.algorithms import hcpt, heft
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
 logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
 
+
 class RandomSchedule(simdag.StaticScheduler):
   def get_schedule(self, simulation):
-    return {t: random.choice(simulation.hosts) for t in simulation.tasks}
+    schedule = {host: [] for host in simulation.hosts}
+    ids_tasks = {task.name: task for task in simulation.tasks}
+    taskflow = simdag.Taskflow(simulation.tasks)
+    for task in taskflow.topological_order():
+      schedule[random.choice(simulation.hosts)].append(ids_tasks[task])
+    return schedule
 
 
 class SimpleDynamic(simdag.DynamicScheduler):
@@ -46,7 +53,11 @@ class SimpleDynamic(simdag.DynamicScheduler):
 
 def run_simulation(static):
   with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-    if static:
+    if sys.argv[-1] == "hcpt":
+      hcpt.HCPTScheduler(simulation).run()
+    elif sys.argv[-1] == "heft":
+      heft.HEFTScheduler(simulation).run()
+    elif static:
       RandomSchedule(simulation).run()
     else:
       SimpleDynamic(simulation).run()

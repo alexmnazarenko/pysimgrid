@@ -6,6 +6,7 @@
 #           and contributor agreement.
 
 import abc
+from itertools import chain
 from ..six import with_metaclass
 from .. import csimdag
 from .. import cplatform
@@ -32,13 +33,13 @@ class StaticScheduler(Scheduler):
     schedule = self.get_schedule(self._simulation)
     if not isinstance(schedule, dict):
       raise Exception("'get_schedule' must return a dictionary")
-    for t, h in schedule.items():
-      if not (isinstance(t, csimdag.Task) and isinstance(h, cplatform.Host)):
-        raise Exception("'get_schedule' must return a dictionary Task:Host")
-    if set(schedule.keys()) != set(self._simulation.tasks):
-      raise Exception("some tasks are left unscheduled by static algorithm: {}".format([t.name for t in unscheduled]))
+    for host, task_list in schedule.items():
+      if not (isinstance(host, cplatform.Host) and isinstance(task_list, list)):
+        raise Exception("'get_schedule' must return a dictionary Host:List_of_tasks")
 
     unscheduled = self._simulation.tasks[csimdag.TASK_STATE_NOT_SCHEDULED, csimdag.TASK_STATE_SCHEDULABLE]
+    if set(chain.from_iterable(schedule.values())) != set(self._simulation.tasks):
+      raise Exception("some tasks are left unscheduled by static algorithm: {}".format([t.name for t in unscheduled]))
     if len(unscheduled) != len(self._simulation.tasks):
       raise Exception("static scheduler should not directly schedule tasks")
 
@@ -64,11 +65,11 @@ class StaticScheduler(Scheduler):
     for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:
       for h in t.hosts:
         hosts_status[h] = True
-    for t in self._simulation.tasks[csimdag.TASK_STATE_SCHEDULABLE]:
-      target_host = schedule[t]
-      if hosts_status[target_host]:
-        t.schedule(target_host)
-        hosts_status[target_host] = False
+    for host in schedule:
+      if schedule[host] and hosts_status[host] == True:
+        task = schedule[host].pop(0)
+        task.schedule(host)
+        hosts_status[host] = False
 
 
 class DynamicScheduler(Scheduler):
