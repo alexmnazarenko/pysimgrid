@@ -53,8 +53,9 @@ class HEFTScheduler(StaticScheduler):
           if len(hosts[host]["timesheet"])
           else 0
         )
+        start = max(start, est)
         e_host_st.append((host, start, start + duration))
-    return min(e_host_st, key=lambda x: x[1])
+    return min(e_host_st, key=lambda x: x[2])
 
   def get_schedule(self, simulation):
     taskflow = Taskflow(simulation.tasks)
@@ -78,7 +79,7 @@ class HEFTScheduler(StaticScheduler):
         taskflow.complexities[task[0]],
         hosts
       )
-      tasks_info[task] = {
+      tasks_info[task[0]] = {
         "host": host,
         "start_time": start_time,
         "end_time": end_time
