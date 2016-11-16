@@ -6,6 +6,9 @@
 #           and contributor agreement.
 
 
+import sys
+
+
 def show_plot(raw_trace):
   import matplotlib.pyplot as plt
   trace = raw_trace.strip().split('\n')
@@ -52,4 +55,10 @@ def show_plot(raw_trace):
   ax.set_yticks(range(len(hosts) * 2))
   ax.grid(True)
   plt.show()
-  
+
+if __name__ == '__main__':
+  if len(sys.argv) < 2:
+    raise Exception('Trace file is required.')
+  with open(sys.argv[1], 'r') as f:
+    raw_trace = f.read()
+    show_plot(raw_trace)
