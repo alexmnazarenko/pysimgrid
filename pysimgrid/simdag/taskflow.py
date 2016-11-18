@@ -7,6 +7,7 @@
 
 
 from copy import deepcopy
+import numpy as np
 
 
 class Taskflow(object):
@@ -31,11 +32,11 @@ class Taskflow(object):
     header = [task.name for task in tasks]
     matrix = []
     for task in tasks:
-      matrix_line = [False] * length
+      matrix_line = [np.nan] * length
       for child in task.children:
         matrix_line[header.index(child.children[0].name)] = child.amount
       matrix.append(matrix_line)
-    return (header, matrix)
+    return (header, np.array(matrix))
 
   @property
   def complexities(self):
@@ -49,26 +50,22 @@ class Taskflow(object):
     """
     Return the root task.
     Every graph contains only one root task.
+
+    np.where returns a 1-element tuple with a 1-element array with result,
+    so the np.where(...)[0][0] returns the index of the root task
     """
-    # HACK: rewrite to numpy.array
-    transposed = [
-      [self.matrix[i][j]
-      for i in range(len(self.tasks))]
-      for j in range(len(self.tasks))
-    ]
-    for i, line in enumerate(transposed):
-      if not any(line):
-        return self.tasks[i]
+    return self.tasks[np.where(np.isnan(self.matrix).all(axis=0))[0][0]]
 
   @property
   def end(self):
     """
     Return the end task.
     Every graph contains only one end task.
+
+    np.where returns a 1-element tuple with a 1-element array with result,
+    so the np.where(...)[0][0] returns the index of the end task
     """
-    for i, line in enumerate(self.matrix):
-      if not any(line):
-        return self.tasks[i]
+    return self.tasks[np.where(np.isnan(self.matrix).all(axis=1))[0][0]]
 
   def get_parents(self, task_id):
     """
@@ -80,7 +77,7 @@ class Taskflow(object):
         line[self.tasks.index(task_id)]
         for line in self.matrix
       ])
-      if id_ != False
+      if not np.isnan(id_)
     ]
 
   def get_children(self, task_id):
@@ -90,25 +87,25 @@ class Taskflow(object):
     return [
       self.tasks[i]
       for (i, id_) in enumerate(self.matrix[self.tasks.index(task_id)])
-      if id_ != False
+      if not np.isnan(id_)
     ]
 
   def topological_order(self, reverse=False):
     """
-    Return the list of all tasks ordered topologically.
+    Return the list of all tasks in topological order.
     """
     matrix = deepcopy(self.matrix)
     ordered_tasks = []
     tasks_count = len(self.tasks)
     while len(ordered_tasks) < tasks_count:
-      indicies = [i for (i, line) in enumerate(matrix) if not any(line)]
+      indicies = [i for (i, line) in enumerate(matrix) if all(np.isnan(line))]
       for i in indicies:
         task = self.tasks[i]
         if task not in ordered_tasks:
           ordered_tasks.append(task)
-        matrix[i] = [False] * tasks_count
+        matrix[i] = [np.nan] * tasks_count
         for line in matrix:
-          line[i] = False
+          line[i] = np.nan
     if not reverse:
       ordered_tasks.reverse()
     return ordered_tasks
