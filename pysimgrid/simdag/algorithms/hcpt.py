@@ -40,7 +40,7 @@ class HCPTScheduler(StaticScheduler):
         aest[task_id] = 0
         continue
       aest[task_id] = max([
-        aest[p] + aec[p] + float(taskflow.matrix[tasks.index(p)][tasks.index(task_id)])
+        aest[p] + aec[p] + float(taskflow.matrix[tasks.index(p), tasks.index(task_id)])
         for p in parents
       ])
 
@@ -54,7 +54,7 @@ class HCPTScheduler(StaticScheduler):
         alst[task_id] = aest[task_id]
         continue
       alst[task_id] = min([
-        alst[c] - float(taskflow.matrix[tasks.index(task_id)][tasks.index(c)])
+        alst[c] - float(taskflow.matrix[tasks.index(task_id), tasks.index(c)])
         for c in children
       ]) - aec[task_id]
 
@@ -85,7 +85,7 @@ class HCPTScheduler(StaticScheduler):
       task_id = queue.popleft()
       parents = taskflow.get_parents(task_id)
       parents_end = [
-        elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0].name)][taskflow.tasks.index(task_id)]
+        elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0].name), taskflow.tasks.index(task_id)]
         for elem in chain.from_iterable(schedule.values())
         if elem[0].name in parents
       ]

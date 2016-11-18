@@ -18,10 +18,10 @@ class HEFTScheduler(StaticScheduler):
     ranked_tasks = {}
     for task in taskflow.topological_order(reverse=True):
       ecomt_and_rank = [
-        ranked_tasks[t] + taskflow.matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)]
+        ranked_tasks[t] + taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)]
         for t in taskflow.get_children(task)
         if t in ranked_tasks
-        if not taskflow.matrix[taskflow.tasks.index(task)][taskflow.tasks.index(t)] is False
+        if not taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)] is False
       ] or [0]
       ranked_tasks[task] = taskflow.complexities[task] + max(ecomt_and_rank)
     return ranked_tasks
