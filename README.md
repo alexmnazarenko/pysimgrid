@@ -22,7 +22,7 @@ Python
 
 * python 2.7 or 3.4+
 * cython (for full rebuild)
-* matplotlib
+* matplotlib (optional)
 
 
 Build instructions
@@ -45,18 +45,14 @@ Use provided scripts to get dependencies:
 #!bash
 
 ./get_simgrid.sh
-./get_rapidjson.sh
 ```
 
-Create build dir, run cmake, make:
+Development build (inplace)
 
 ```
 #!bash
 
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Debug ../src
-make -j12
+python3 setup.py build_ext --inplace
 ```
 
 Test the build:
@@ -64,7 +60,7 @@ Test the build:
 ```
 #!bash
 
-ctest
+python3 run_tests.py
 ```
 
 FAQ
