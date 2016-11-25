@@ -6,9 +6,9 @@
 #           and contributor agreement.
 
 
-from numpy import average
 from collections import deque
 from itertools import chain
+import numpy as np
 
 from ..scheduler import StaticScheduler
 from ..taskflow import Taskflow
@@ -17,14 +17,14 @@ from ..taskflow import Taskflow
 class HCPTScheduler(StaticScheduler):
 
   def get_schedule(self, simulation):
-    taskflow = Taskflow(simulation.tasks)
+    taskflow = Taskflow().from_simulation(simulation)
     tasks = taskflow.tasks
 
     # Average execution cost
     aec = {}
     for task in tasks:
       cost = taskflow.complexities[task]
-      task_aec = average([
+      task_aec = np.average([
         float(cost) / host.speed
         for host in simulation.hosts
       ])
@@ -60,7 +60,7 @@ class HCPTScheduler(StaticScheduler):
 
     # All nodes in the critical path must have AEST=ALST
     critical_path = sorted(
-      set(aest.items()) & set(alst.items()),
+      [(t, aest[t]) for t in aest if np.isclose(aest[t], alst[t])],
       key=lambda x: x[1]
     )
     critical_path.reverse()
@@ -81,6 +81,15 @@ class HCPTScheduler(StaticScheduler):
     # Schedule has a format: (Task name, Start time, End time)
     schedule = {host: [] for host in simulation.hosts}
     ids_tasks = {task.name: task for task in simulation.tasks}
+
+    hosts = {
+      host.name: {
+        "speed": host.speed,
+        "timesheet": []
+      }
+      for host in simulation.hosts
+    }
+
     while len(queue):
       task_id = queue.popleft()
       parents = taskflow.get_parents(task_id)
@@ -89,20 +98,44 @@ class HCPTScheduler(StaticScheduler):
         for elem in chain.from_iterable(schedule.values())
         if elem[0].name in parents
       ]
-      hosts_eeft = {}
-      for host in simulation.hosts:
-        host_end = [schedule[host][-1][2]] if len(schedule[host]) else [0.0]
-        eeft = (
-          min(parents_end + host_end) +
-          float(taskflow.complexities[task_id]) / host.speed
-        )
-        hosts_eeft[host] = eeft
-      host_to_assign, time = min(hosts_eeft.items(), key=lambda e: e[1])
-      schedule[host_to_assign].append((
-        ids_tasks[task_id],
-        time - float(taskflow.complexities[task_id]) / host_to_assign.speed,
-        time
-      ))
-    for host in schedule:
-      schedule[host] = [elem[0] for elem in schedule[host]]
+      est = min(parents_end or [0])
+      host, start_time, end_time = self._calc_host_start(
+        est,
+        taskflow.complexities[task_id],
+        hosts
+      )
+      hosts[host]["timesheet"].append((start_time, end_time, task_id))
+
+    for host in simulation.hosts:
+      schedule[host] = []
+      for elem in hosts[host.name]["timesheet"]:
+        task_name = elem[2]
+        if task_name not in [taskflow.TRUE_ROOT, taskflow.TRUE_END]:
+          schedule[host].append(ids_tasks[task_name])
+
     return schedule
+
+  def _calc_host_start(self, est, amount, hosts):
+    e_host_st = []
+    for host in hosts:
+      # Check host gaps
+      duration = float(amount) / hosts[host]["speed"]
+      pairs = zip(hosts[host]["timesheet"], hosts[host]["timesheet"][1:])
+      gaps = [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+      for gap in gaps:
+        start = max(gap[0], est)
+        end = gap[1]
+        if end < est or duration > end - start:
+          continue
+        e_host_st.append((host, start, start + duration))
+        break
+      if host not in e_host_st:
+        # End time of the last host task
+        start = (
+          hosts[host]["timesheet"][-1][1]
+          if len(hosts[host]["timesheet"])
+          else 0
+        )
+        start = max(start, est)
+        e_host_st.append((host, start, start + duration))
+    return min(e_host_st, key=lambda x: x[2])
