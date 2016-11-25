@@ -20,23 +20,75 @@ class Taskflow(object):
   complexities - Tasks computation cost dictionary
   """
 
-  def __init__(self, simdag_tasks):
-    self.tasks, self.matrix = self._construct_connection_matrix(simdag_tasks)
-    self._complexities = {task.name: task.amount for task in simdag_tasks}
+  def __init__(self):
+    self.TRUE_ROOT = '<TRUE_ROOT>'
+    self.TRUE_END = '<TRUE_END>'
 
-  def _construct_connection_matrix(self, tasks):
+  def from_simulation(self, simulation):
+    self.tasks, self.matrix = self._construct_connection_matrix(simulation)
+    self._complexities = {task.name: task.amount for task in simulation.tasks}
+    if self.TRUE_ROOT in self.tasks:
+      self._complexities[self.TRUE_ROOT] = 0
+    if self.TRUE_END in self.tasks:
+      self._complexities[self.TRUE_END] = 0
+    return self
+
+  def from_data(self, tasks, matrix, complexities):
+    self.tasks = tasks
+    self.matrix = matrix
+    self._complexities = complexities
+    if self.TRUE_ROOT in self.tasks:
+      self._complexities[self.TRUE_ROOT] = 0
+    if self.TRUE_END in self.tasks:
+      self._complexities[self.TRUE_END] = 0
+    return self
+
+  def _construct_connection_matrix(self, simulation):
     """
     Create the connection matrix from the set of tasks with links between them.
     """
-    length = len(tasks)
-    header = [task.name for task in tasks]
+    length = len(simulation.tasks)
+    header = [task.name for task in simulation.tasks]
     matrix = []
-    for task in tasks:
+    for task in simulation.tasks:
       matrix_line = [np.nan] * length
       for child in task.children:
-        matrix_line[header.index(child.children[0].name)] = child.amount
+        if str(child.kind) != 'TaskKind.TASK_KIND_COMM_E2E':
+          continue
+        matrix_line[header.index(child.children[0].name)] = np.average([
+          child.get_ecomt(src, dst)
+          for src in simulation.hosts
+          for dst in simulation.hosts
+          if src != dst
+        ])
       matrix.append(matrix_line)
-    return (header, np.array(matrix))
+    numpy_matrix = np.array(matrix)
+
+    # Add pseudo-root and -end tasks if the taskflow has several roots/ends
+    roots = np.where(np.isnan(numpy_matrix).all(axis=0))[0]
+    ends = np.where(np.isnan(numpy_matrix).all(axis=1))[0]
+    if len(roots) > 1:
+      numpy_matrix = np.r_[
+        np.array([[(0. if i in roots else np.nan) for i in range(len(header))]]),
+        numpy_matrix
+      ]
+      header = [self.TRUE_ROOT] + header
+      numpy_matrix = np.c_[
+        np.array([[np.nan] for i in range(len(header))]),
+        numpy_matrix
+      ]
+    if len(ends) > 1:
+      numpy_matrix = np.c_[
+        numpy_matrix,
+        np.array([[0. if i in ends else np.nan] for i in range(len(header))])
+      ]
+      header = header + [self.TRUE_END]
+      numpy_matrix = np.r_[
+        numpy_matrix,
+        np.array([[np.nan] * range(len(header))])
+      ]
+
+    return (header, numpy_matrix)
 
   @property
   def complexities(self):
