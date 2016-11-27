@@ -6,11 +6,12 @@
 #           and contributor agreement.
 
 
+import argparse
 import sys
+import matplotlib.pyplot as plt
 
 
 def show_plot(raw_trace):
-  import matplotlib.pyplot as plt
   trace = raw_trace.strip().split('\n')
 
   types  = {}
@@ -49,16 +50,17 @@ def show_plot(raw_trace):
 
   fig, ax = plt.subplots()
   for i, host in enumerate(sorted(schedule)):
-      ax.broken_barh(schedule[host], (i*2, 1), facecolors='grey')
+      ax.broken_barh(schedule[host], (i*2, 1), facecolors="grey")
   ax.set_ylim(0, len(hosts) * 2 + 1)
   ax.set_xlim(0, end)
   ax.set_yticks(range(len(hosts) * 2))
   ax.grid(True)
   plt.show()
 
-if __name__ == '__main__':
-  if len(sys.argv) < 2:
-    raise Exception('Trace file is required.')
-  with open(sys.argv[1], 'r') as f:
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description="Host utilization visualization from SimGrid Paje trace files")
+  parser.add_argument("trace_file", type=str, help="path to trace file to visualize")
+  args = parser.parse_args()
+  with open(args.trace_file, "r") as f:
     raw_trace = f.read()
     show_plot(raw_trace)
