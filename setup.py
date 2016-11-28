@@ -26,7 +26,7 @@ plwrapper = Extension("pysimgrid.cplatform",
                       **EXT_OPTIONS)
 
 setup(name="pysimgrid",
-version="1.0.0",
-author="Alexey Nazarenko",
-packages=["pysimgrid", "pysimgrid.simdag"],
-ext_modules=cythonize([sdwrapper, plwrapper]))
+      version="1.0.0",
+      author="Alexey Nazarenko",
+      packages=["pysimgrid", "pysimgrid.simdag"],
+      ext_modules=cythonize([sdwrapper, plwrapper]))
