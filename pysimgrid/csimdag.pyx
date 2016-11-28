@@ -82,6 +82,14 @@ def config(key, value):
   csimdag.SD_config(ckey, cvalue)
 
 
+def log_config(config_string):
+  """
+  Set SimGrid XBT logging parameter.
+  """
+  cdef bytes cvalue = common.utf8_string(config_string)
+  xbt.xbt_log_control_set(cvalue)
+
+
 def load_platform(path):
   """
   Load simulated cplatform definition.

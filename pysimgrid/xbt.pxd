@@ -26,3 +26,7 @@ cdef extern from "xbt/dynar.h":
 
 cdef extern from "xbt/dict.h":
   ctypedef void* xbt_dict_t
+
+
+cdef extern from "xbt/log.h":
+  void xbt_log_control_set(const char* cs);

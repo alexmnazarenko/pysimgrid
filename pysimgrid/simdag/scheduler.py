@@ -6,7 +6,8 @@
 #           and contributor agreement.
 
 import abc
-from itertools import chain
+import itertools
+import logging
 from ..six import with_metaclass
 from .. import csimdag
 from .. import cplatform
@@ -14,6 +15,7 @@ from .. import cplatform
 class Scheduler(with_metaclass(abc.ABCMeta)):
   def __init__(self, simulation):
     self._simulation = simulation
+    self._log = logging.getLogger(type(self).__name__)
 
   @abc.abstractmethod
   def run(self):
@@ -38,7 +40,7 @@ class StaticScheduler(Scheduler):
         raise Exception("'get_schedule' must return a dictionary Host:List_of_tasks")
 
     unscheduled = self._simulation.tasks[csimdag.TASK_STATE_NOT_SCHEDULED, csimdag.TASK_STATE_SCHEDULABLE]
-    if set(chain.from_iterable(schedule.values())) != set(self._simulation.tasks):
+    if set(itertools.chain.from_iterable(schedule.values())) != set(self._simulation.tasks):
       raise Exception("some tasks are left unscheduled by static algorithm: {}".format([t.name for t in unscheduled]))
     if len(unscheduled) != len(self._simulation.tasks):
       raise Exception("static scheduler should not directly schedule tasks")

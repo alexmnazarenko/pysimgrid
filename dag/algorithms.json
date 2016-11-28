@@ -14,5 +14,13 @@
   {
     "class": "pysimgrid.simdag.algorithms.peft.PEFTScheduler",
     "name": "PEFT"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.mct.MCTScheduler",
+    "name": "MCT"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.olb.OLBScheduler",
+    "name": "OLB"
   }
 ]

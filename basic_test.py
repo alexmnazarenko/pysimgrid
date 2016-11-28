@@ -15,7 +15,7 @@ import logging
 import multiprocessing
 
 from pysimgrid import simdag
-from pysimgrid.simdag.algorithms import hcpt, heft
+from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
@@ -61,7 +61,8 @@ def run_simulation(static):
     elif static:
       RandomSchedule(simulation).run()
     else:
-      SimpleDynamic(simulation).run()
+      #mct.MCTScheduler(simulation).run()
+      olb.OLBScheduler(simulation).run()
 
 
 if __name__ == '__main__':

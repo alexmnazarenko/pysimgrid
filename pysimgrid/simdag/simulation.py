@@ -26,10 +26,11 @@ class Simulation(object):
     "network/model": "LV08"
   }
 
-  def __init__(self, platform, tasks, config=None):
+  def __init__(self, platform, tasks, config=None, log_config=None):
     self.__platform_src = platform
     self.__tasks_src = tasks
     self.__config = self._DEFAULT_CONFIG
+    self.__log_config = log_config
     if config:
       assert isinstance(config, dict)
       self.__config.update(config)
@@ -106,10 +107,15 @@ class Simulation(object):
     self.__logger.debug("Initialization started")
     csimdag.initialize()
 
+    if self.__log_config:
+      self.__logger.debug("Setting XBT log configuration")
+      csimdag.log_config(self.__log_config)
+
     self.__logger.debug("Setting configuration parameters")
     for k, v in self.__config.items():
       self.__logger.debug("  %s = %s", k, v)
       csimdag.config(k, v)
+
 
     self.__logger.debug("Loading platform definition (source: %s)", self.__platform_src)
     self.__hosts = csimdag.load_platform(self.__platform_src)
