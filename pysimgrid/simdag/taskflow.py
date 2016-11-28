@@ -85,7 +85,7 @@ class Taskflow(object):
       ]
       header = [self.TRUE_ROOT] + header
       numpy_matrix = np.c_[
-        np.array([[np.nan] for i in range(len(header))]),
+        np.array([[np.nan] * len(header)]),
         numpy_matrix
       ]
     if len(ends) > 1:
@@ -96,7 +96,7 @@ class Taskflow(object):
       header = header + [self.TRUE_END]
       numpy_matrix = np.r_[
         numpy_matrix,
-        np.array([[np.nan] * range(len(header))])
+        np.array([[np.nan] * len(header)])
       ]
 
     return (header, numpy_matrix)
