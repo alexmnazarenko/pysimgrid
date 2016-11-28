@@ -61,8 +61,8 @@ def run_simulation(static):
     elif static:
       RandomSchedule(simulation).run()
     else:
-      #mct.MCTScheduler(simulation).run()
-      olb.OLBScheduler(simulation).run()
+      mct.MCTScheduler(simulation).run()
+      #olb.OLBScheduler(simulation).run()
 
 
 if __name__ == '__main__':

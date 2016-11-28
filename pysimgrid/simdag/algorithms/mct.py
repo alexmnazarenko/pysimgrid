@@ -24,32 +24,31 @@ from ... import csimdag
 class MCTScheduler(scheduler.DynamicScheduler):
   def prepare(self, simulation):
     for h in simulation.hosts:
-      h.data = {}
-      h.data["est"] = 0.
-    self.queue = []
+      h.data = {
+        "est": 0.
+      }
+    for t in simulation.tasks:
+      t.data = {
+        "target": None
+      }
 
   def schedule(self, simulation, changed):
     for h in simulation.hosts:
       h.data["free"] = True
     for task in simulation.tasks[csimdag.TaskState.TASK_STATE_RUNNING, csimdag.TaskState.TASK_STATE_SCHEDULED]:
       task.hosts[0].data["free"] = False
-    queue_set = set(self.queue)
-    for t in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
-      if t not in queue_set:
-        self.queue.append(t)
     clock = simulation.clock
-    while self.queue:
-      free_hosts = simulation.hosts.by_data("free", True)
-      if free_hosts:
-        t = self.queue.pop(0)
-        free_hosts = free_hosts.sorted(lambda h: self.get_ect(clock, t, h))
-        target_host = free_hosts[0]
-        t.schedule(target_host)
-        target_host.data["free"] = False
+    for t in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
+      if not t.data["target"]:
+        sorted_hosts = simulation.hosts.sorted(lambda h: self.get_ect(clock, t, h))
+        target_host = sorted_hosts[0]
+        t.data["target"] = target_host
         self._log.debug("%.3f: Scheduling %s to %s (old est: %.3f, new est: %.3f)", simulation.clock, t.name, target_host.name, target_host.data["est"], self.get_ect(clock, t, target_host))
         target_host.data["est"] = self.get_ect(clock, t, target_host)
-      else:
-        break
+      target_host = t.data["target"]
+      if target_host.data["free"]:
+        t.schedule(target_host)
+        target_host.data["free"] = False
 
   @staticmethod
   def get_ect(clock, task, host):

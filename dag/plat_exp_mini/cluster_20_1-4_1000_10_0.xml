@@ -1,0 +1,109 @@
+<?xml version='1.0'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4">
+  <AS id="AS0" routing="Floyd">
+  <host id="host0" core="1" speed="1.104486Gf"/>
+  <host id="host1" core="1" speed="3.075072Gf"/>
+  <host id="host2" core="1" speed="3.884909Gf"/>
+  <host id="host3" core="1" speed="1.052714Gf"/>
+  <host id="host4" core="1" speed="3.728076Gf"/>
+  <host id="host5" core="1" speed="3.453884Gf"/>
+  <host id="host6" core="1" speed="2.235396Gf"/>
+  <host id="host7" core="1" speed="1.536685Gf"/>
+  <host id="host8" core="1" speed="1.829220Gf"/>
+  <host id="host9" core="1" speed="3.954258Gf"/>
+  <host id="host10" core="1" speed="3.614883Gf"/>
+  <host id="host11" core="1" speed="1.116001Gf"/>
+  <host id="host12" core="1" speed="3.057394Gf"/>
+  <host id="host13" core="1" speed="2.486085Gf"/>
+  <host id="host14" core="1" speed="1.949515Gf"/>
+  <host id="host15" core="1" speed="1.993646Gf"/>
+  <host id="host16" core="1" speed="1.093944Gf"/>
+  <host id="host17" core="1" speed="3.201879Gf"/>
+  <host id="host18" core="1" speed="3.246914Gf"/>
+  <host id="host19" core="1" speed="1.264636Gf"/>
+
+  <link id="link0" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link1" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link2" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link3" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link4" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link5" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link6" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link7" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link8" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link9" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link10" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link11" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link12" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link13" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link14" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link15" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link16" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link17" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link18" bandwidth="1000.000000MBps" latency="10.000000us"/>
+  <link id="link19" bandwidth="1000.000000MBps" latency="10.000000us"/>
+
+  <router id="router"/>
+  <route src="host0" dst="router">
+    <link_ctn id="link0"/>
+  </route>
+  <route src="host1" dst="router">
+    <link_ctn id="link1"/>
+  </route>
+  <route src="host2" dst="router">
+    <link_ctn id="link2"/>
+  </route>
+  <route src="host3" dst="router">
+    <link_ctn id="link3"/>
+  </route>
+  <route src="host4" dst="router">
+    <link_ctn id="link4"/>
+  </route>
+  <route src="host5" dst="router">
+    <link_ctn id="link5"/>
+  </route>
+  <route src="host6" dst="router">
+    <link_ctn id="link6"/>
+  </route>
+  <route src="host7" dst="router">
+    <link_ctn id="link7"/>
+  </route>
+  <route src="host8" dst="router">
+    <link_ctn id="link8"/>
+  </route>
+  <route src="host9" dst="router">
+    <link_ctn id="link9"/>
+  </route>
+  <route src="host10" dst="router">
+    <link_ctn id="link10"/>
+  </route>
+  <route src="host11" dst="router">
+    <link_ctn id="link11"/>
+  </route>
+  <route src="host12" dst="router">
+    <link_ctn id="link12"/>
+  </route>
+  <route src="host13" dst="router">
+    <link_ctn id="link13"/>
+  </route>
+  <route src="host14" dst="router">
+    <link_ctn id="link14"/>
+  </route>
+  <route src="host15" dst="router">
+    <link_ctn id="link15"/>
+  </route>
+  <route src="host16" dst="router">
+    <link_ctn id="link16"/>
+  </route>
+  <route src="host17" dst="router">
+    <link_ctn id="link17"/>
+  </route>
+  <route src="host18" dst="router">
+    <link_ctn id="link18"/>
+  </route>
+  <route src="host19" dst="router">
+    <link_ctn id="link19"/>
+  </route>
+  </AS>
+</platform>

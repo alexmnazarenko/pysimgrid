@@ -61,11 +61,15 @@ def run_experiment(job):
   logger = logging.getLogger("pysimgrid.tools.Experiment")
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
-  with simdag.Simulation(platform, tasks, log_config="root.threshold:error") as simulation:
-    scheduler = scheduler_class(simulation)
-    scheduler.run()
-    clock = simulation.clock
-  return job, clock
+  clock = 0.
+  try:
+    with simdag.Simulation(platform, tasks, log_config="root.threshold:error") as simulation:
+      scheduler = scheduler_class(simulation)
+      scheduler.run()
+      clock = simulation.clock
+      return job, clock
+  except Exception:
+    raise Exception("Simulation failed! Parameters: %s" % (job,))
 
 
 def progress_reporter(iterable, length, logger):
