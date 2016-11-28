@@ -56,6 +56,7 @@ def import_algorithm(algorithm):
 
 def run_experiment(job):
   platform, tasks, algorithm = job
+  # TODO: pass some configuration along the job
   logging.getLogger().setLevel(logging.WARNING)
   logger = logging.getLogger("pysimgrid.tools.Experiment")
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])

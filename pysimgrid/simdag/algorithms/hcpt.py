@@ -104,8 +104,13 @@ class HCPTScheduler(StaticScheduler):
       for host in simulation.hosts
     }
 
+    scheduled = set()
     while len(queue):
       task_id = queue.popleft()
+      if task_id in scheduled:
+        continue
+      else:
+        scheduled.add(task_id)
       parents = taskflow.get_parents(task_id)
       parents_end = [
         elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0].name), taskflow.tasks.index(task_id)]

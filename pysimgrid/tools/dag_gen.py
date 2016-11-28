@@ -86,7 +86,7 @@ def import_daggen(path):
 def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.5, regular=0.9, density=0.5):
     daggen_path = os.path.normpath(daggen_path)
     params = [
-        ("-n", 10),
+        ("-n", n),
         ("--ccr", ccr),
         ("--mindata", mindata),
         ("--maxdata", maxdata),

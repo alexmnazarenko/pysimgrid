@@ -22,5 +22,13 @@
   {
     "class": "pysimgrid.simdag.algorithms.olb.OLBScheduler",
     "name": "OLB"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.random.RandomScheduler",
+    "name": "Random"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.round_robin.RoundRobinScheduler",
+    "name": "RoundRobin"
   }
 ]

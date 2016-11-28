@@ -4,6 +4,12 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 pushd "$SCRIPT_DIR/.."
 
-python3 -m pysimgrid.tools.experiment dag/plat_exp1 dag/tasks_exp1 dag/algorithms.json dag/exp1.json -j8
+if [ ! -f "$SCRIPT_DIR/exp1.json" ]; then
+  python3 -m pysimgrid.tools.experiment dag/plat_exp1 dag/tasks_exp1 dag/algorithms.json dag/exp1.json -j8
+fi
+
+if [ ! -f "$SCRIPT_DIR/exp2.json" ]; then
+  python3 -m pysimgrid.tools.experiment dag/plat_exp1 dag/tasks_exp2 dag/algorithms.json dag/exp2.json -j8
+fi
 
 popd

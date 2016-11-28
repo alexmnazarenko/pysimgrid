@@ -24,9 +24,9 @@ class RoundRobinScheduler(scheduler.StaticScheduler):
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
     ids_tasks = {task.name: task for task in simulation.tasks}
-    taskflow = taskflow.Taskflow()
-    taskflow.from_simulation(simulation)
-    hosts_count = simulation.hosts
-    for idx, task in enumerate(taskflow.topological_order()):
+    flow = taskflow.Taskflow()
+    flow.from_simulation(simulation)
+    hosts_count = len(simulation.hosts)
+    for idx, task in enumerate(flow.topological_order()):
       schedule[simulation.hosts[idx % hosts_count]].append(ids_tasks[task])
     return schedule
