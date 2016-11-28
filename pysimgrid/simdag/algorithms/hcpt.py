@@ -71,6 +71,9 @@ class HCPTScheduler(StaticScheduler):
       task_id = stack.pop()
       parents = taskflow.get_parents(task_id)
       untracked_parents = set(parents) - set(queue)
+      # Order must be deterministic
+      # TODO: investigate for the right order
+      untracked_parents = [p for p in parents if p in untracked_parents]
       if untracked_parents:
         stack.append(task_id)
         for parent in untracked_parents:

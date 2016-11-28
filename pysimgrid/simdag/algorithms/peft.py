@@ -82,7 +82,6 @@ class PEFTScheduler(StaticScheduler):
     tasks_map = {t.name: t for t in simulation.tasks}
     ranked_tasks = self._rankify_tasks()
     ordered_tasks = self._order_tasks(ranked_tasks)
-    print(ordered_tasks)
 
     hosts = {
       host.name: {

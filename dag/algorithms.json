@@ -1,0 +1,18 @@
+[
+  {
+    "class": "pysimgrid.simdag.algorithms.hcpt.HCPTScheduler",
+    "name": "HCPT"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.heft.HEFTScheduler",
+    "name": "HEFT"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.lookahead.LookaheadScheduler",
+    "name": "Lookahead"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.peft.PEFTScheduler",
+    "name": "PEFT"
+  }
+]

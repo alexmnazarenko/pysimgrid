@@ -12,31 +12,32 @@ import os
 import random
 
 
-def generate_cluster(num_hosts, host_speed, host_bandwidth, host_latency, master_bandwidth, master_latency):
+def generate_cluster(include_master, num_hosts, host_speed, host_bandwidth, host_latency, master_bandwidth, master_latency):
   hosts = []
   links = []
   routes = []
 
   # master host
-  master = {
-    'id': 'master',
-    'speed': 1
-  }
-  hosts.append(master)
-  master_link = {
-    'id': "link_master",
-    'bandwidth': generate_values(master_bandwidth, 1)[0],
-    'latency': generate_values(master_latency, 1)[0],
-  }
-  links.append(master_link)
-  master_route = {
-    'src': 'master',
-    'dst': 'router',
-    'links': [
-      master_link['id']
-    ]
-  }
-  routes.append(master_route)
+  if include_master:
+    master = {
+      'id': 'master',
+      'speed': 1
+    }
+    hosts.append(master)
+    master_link = {
+      'id': "link_master",
+      'bandwidth': generate_values(master_bandwidth, 1)[0],
+      'latency': generate_values(master_latency, 1)[0],
+    }
+    links.append(master_link)
+    master_route = {
+      'src': 'master',
+      'dst': 'router',
+      'links': [
+        master_link['id']
+      ]
+    }
+    routes.append(master_route)
 
   # worker hosts
   host_speeds = generate_values(host_speed, num_hosts)
@@ -122,12 +123,13 @@ def main():
 
   # cluster
   parser_cluster = subparsers.add_parser("cluster", help="collection of hosts with a flat topology")
-  parser_cluster.add_argument("num_hosts", type=int, help="number of hosts (excluding master)")
+  parser_cluster.add_argument("num_hosts", type=int, help="number of hosts (excluding optional master host)")
   parser_cluster.add_argument("host_speed", type=str, help="host speed in GFLOPS (e.g. '1', '1-10')")
   parser_cluster.add_argument("link_bandwidth", type=str,
                 help="link bandwidth in MBps as 'bandwidth[:master_bandwidth]' (e.g. '125', '10-100:100')")
   parser_cluster.add_argument("link_latency", type=str,
                 help="link latency in us as 'latency[:master_latency]' (e.g. '10', '10-100:10')")
+  parser_cluster.add_argument("--include_master", default=False, action="store_true", help="include special 'master' host into the cluster")
 
   args = parser.parse_args()
 
@@ -154,8 +156,8 @@ def main():
         master_latency = args.link_latency
 
       # generate cluster
-      system = generate_cluster(args.num_hosts, args.host_speed, host_bandwidth, host_latency, master_bandwidth,
-                    master_latency)
+      system = generate_cluster(args.include_master, args.num_hosts, args.host_speed,
+                                host_bandwidth, host_latency, master_bandwidth, master_latency)
       file_name = 'cluster_%d_%s_%s_%s_%d.xml' % (
       args.num_hosts, args.host_speed, args.link_bandwidth, args.link_latency, i)
 
