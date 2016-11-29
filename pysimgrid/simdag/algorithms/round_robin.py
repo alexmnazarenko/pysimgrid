@@ -21,6 +21,14 @@ from .. import scheduler
 from .. import taskflow
 
 class RoundRobinScheduler(scheduler.StaticScheduler):
+  """
+  Round robin static scheduler implementation.
+
+  The important part there is static - all tasks are scheduled simultaneously.
+  For more details please see RandomScheduler description.
+
+  Anyway, not a sensible approach by any means.
+  """
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
     ids_tasks = {task.name: task for task in simulation.tasks}

@@ -67,7 +67,9 @@ def run_experiment(job):
       scheduler = scheduler_class(simulation)
       scheduler.run()
       clock = simulation.clock
-      return job, clock
+      exec_time = sum([t.finish_time - t.start_time for t in simulation.tasks])
+      comm_time = sum([t.finish_time - t.start_time for t in simulation.all_tasks[simdag.TaskKind.TASK_KIND_COMM_E2E]])
+      return job, clock, exec_time, comm_time
   except Exception:
     raise Exception("Simulation failed! Parameters: %s" % (job,))
 
@@ -116,13 +118,15 @@ def main():
 
   ctx = multiprocessing.get_context("spawn")
   with ctx.Pool(processes=args.jobs, maxtasksperchild=1) as pool:
-    for job, makespan in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
+    for job, makespan, exec_time, comm_time in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
       platform, tasks, algorithm = job
       results.append({
         "platform": platform,
         "tasks": tasks,
         "algorithm": algorithm,
-        "makespan": makespan
+        "makespan": makespan,
+        "exec_time": exec_time,
+        "comm_time": comm_time
       })
 
 

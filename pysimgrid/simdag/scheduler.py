@@ -19,11 +19,11 @@
 import abc
 import itertools
 import logging
-from ..six import with_metaclass
+from .. import six
 from .. import csimdag
 from .. import cplatform
 
-class Scheduler(with_metaclass(abc.ABCMeta)):
+class Scheduler(six.with_metaclass(abc.ABCMeta)):
   def __init__(self, simulation):
     self._simulation = simulation
     self._log = logging.getLogger(type(self).__name__)
@@ -63,7 +63,8 @@ class StaticScheduler(Scheduler):
 
     changed = self._simulation.tasks.by_func(lambda t: False)
     while True:
-      self.__schedule_to_free_hosts(schedule, hosts_status, changed)
+      self.__update_host_status(hosts_status, changed)
+      self.__schedule_to_free_hosts(schedule, hosts_status)
       changed = self._simulation.simulate()
       if not changed:
         break
@@ -74,10 +75,12 @@ class StaticScheduler(Scheduler):
   def get_schedule(self, simulation):
     raise NotImplementedError()
 
-  def __schedule_to_free_hosts(self, schedule, hosts_status, changed):
+  def __update_host_status(self, hosts_status, changed):
     for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:
       for h in t.hosts:
         hosts_status[h] = True
+
+  def __schedule_to_free_hosts(self, schedule, hosts_status):
     for host in schedule:
       if schedule[host] and hosts_status[host] == True:
         task = schedule[host].pop(0)

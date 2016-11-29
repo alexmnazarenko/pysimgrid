@@ -21,6 +21,17 @@ from .. import scheduler
 from .. import taskflow
 
 class RandomScheduler(scheduler.StaticScheduler):
+  """
+  Random static scheduler implementation.
+
+  The important part there is static - all tasks are scheduled simultaneously.
+  Resulting schedule is significantly worse than dynamic random schedule. In static
+  case task may wait for their parents execution for a quite some time (blocking some other tasks),
+  while dynamic approach guarantees that parents are already done.
+
+  The point of this scheduler is to be an 'worst' static scheduler as a reference point
+  for sensible algorithms.
+  """
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
     ids_tasks = {task.name: task for task in simulation.tasks}

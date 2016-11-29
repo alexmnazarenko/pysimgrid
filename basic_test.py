@@ -66,6 +66,7 @@ def run_simulation(static):
 
 
 if __name__ == '__main__':
+  # example: how to run multiple simulations in a single script (circumventing SimGrid limitation of 'non-restartable' simulator state)
   for args in [(True,), (False,)]:
     p = multiprocessing.Process(target=run_simulation, args=args)
     p.start()

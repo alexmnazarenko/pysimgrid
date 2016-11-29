@@ -22,6 +22,15 @@ from ... import csimdag
 
 
 class OLBScheduler(scheduler.DynamicScheduler):
+  """
+  Opportunistic load balancing implementation.
+
+  Dynamically schedule a free task on a fastest host, disregarding any communication costs.
+  Main practical advantage is avoiding any attempts to estimate task performance on given machine.
+
+  Can be considered baseline algorithm for benchmarking purposes as one of the simplest approaches
+  that actually make sense for DAG scheduling.
+  """
   def prepare(self, simulation):
     for h in simulation.hosts:
       h.data = {}
