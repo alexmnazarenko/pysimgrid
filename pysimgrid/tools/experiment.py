@@ -19,6 +19,7 @@
 from __future__ import print_function
 
 import argparse
+import collections
 import datetime
 import fnmatch
 import itertools
@@ -27,6 +28,7 @@ import logging
 import multiprocessing
 import os
 import time
+import traceback
 from .. import simdag
 
 def file_list(file_or_dir, masks=["*"]):
@@ -55,23 +57,31 @@ def import_algorithm(algorithm):
 
 
 def run_experiment(job):
-  platform, tasks, algorithm = job
-  # TODO: pass some configuration along the job
-  logging.getLogger().setLevel(logging.WARNING)
+  platform, tasks, algorithm, config = job
+  python_log_level, simgrid_log_level = config["log_level"], config["simgrid_log_level"]
+  stop_on_error = config["stop_on_error"]
+  logging.getLogger().setLevel(python_log_level)
   logger = logging.getLogger("pysimgrid.tools.Experiment")
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
-  clock = 0.
+  # init return values with NaN's
+  clock, exec_time, comm_time = [float("NaN")] * 3
   try:
-    with simdag.Simulation(platform, tasks, log_config="root.threshold:error") as simulation:
+    with simdag.Simulation(platform, tasks, log_config="root.threshold:" + simgrid_log_level) as simulation:
       scheduler = scheduler_class(simulation)
       scheduler.run()
       clock = simulation.clock
       exec_time = sum([t.finish_time - t.start_time for t in simulation.tasks])
       comm_time = sum([t.finish_time - t.start_time for t in simulation.all_tasks[simdag.TaskKind.TASK_KIND_COMM_E2E]])
-      return job, clock, exec_time, comm_time
   except Exception:
-    raise Exception("Simulation failed! Parameters: %s" % (job,))
+    # output is not pretty, but complete and robust. it is a crash anyway.
+    #   note the wrapping of job into a tuple
+    message = "Simulation failed! Parameters: %s" % (job,)
+    if stop_on_error:
+      raise Exception(message)
+    else:
+      logger.exception(message)
+  return job, clock, exec_time, comm_time
 
 
 def progress_reporter(iterable, length, logger):
@@ -93,6 +103,13 @@ def progress_reporter(iterable, length, logger):
 def main():
   _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
   _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
+  _LOG_LEVEL_FROM_STRING = {
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warning": logging.WARNING,
+    "error": logging.ERROR,
+    "critical": logging.CRITICAL
+  }
 
   parser = argparse.ArgumentParser(description="Run experiments for a set of scheduling algorithms")
   parser.add_argument("platforms", type=str, help="path to file or directory containing platform definitions (*.xml)")
@@ -100,6 +117,13 @@ def main():
   parser.add_argument("algorithms", type=str, help="path to json defining the algorithms to use")
   parser.add_argument("output", type=str, help="path to the output file")
   parser.add_argument("-j", "--jobs", type=int, default=1, help="number of parallel jobs to run")
+  parser.add_argument("-l", "--log-level", type=str, choices=["debug", "info", "warning", "error", "critical"],
+                      default="warning", help="job log level")
+  parser.add_argument("--simgrid-log-level", type=str, choices=["trace", "debug", "verbose", "info", "warning", "error", "critical"],
+                      default="warning", help="simulator log level")
+  parser.add_argument("--stop-on-error", action="store_true", default=False, help="stop experiment on a first error")
+  # useful for algorithm debugging
+  parser.add_argument("--algo", type=str, nargs="*", help="name(s) of algorithms to use (case-sensitive; must still be defined in algorithms file)")
   args = parser.parse_args()
 
   logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
@@ -109,17 +133,39 @@ def main():
     algorithms = json.load(alg_file)
     if not isinstance(algorithms, list):
       algorithms = [algorithms]
+    # we can allow non-unique algorithm names. but really shoudn't as it can mess up the results.
+    algorithm_names = set([a["name"] for a in algorithms])
+    if len(algorithms) != len(algorithm_names):
+      raise Exception("algorithm names should be unique")
+    if args.algo:
+      for algo_name in args.algo:
+        if algo_name not in algorithm_names:
+          raise Exception("algorithm %s is not defined" % algo_name)
+      algorithms = [a for a in algorithms if a["name"] in args.algo]
 
-  platforms = file_list(args.platforms)
+  platforms = file_list(args.platforms, ["*.xml"])
   tasks = file_list(args.tasks)
+  config = [{
+    "stop_on_error": args.stop_on_error,
+    "log_level": _LOG_LEVEL_FROM_STRING[args.log_level],
+    "simgrid_log_level": args.simgrid_log_level
+  }]
 
-  jobs = list(itertools.product(platforms, tasks, algorithms))
+  # convert to list just get length nicely
+  #   can be left as an iterator, but memory should not be the issue
+  jobs = list(itertools.product(platforms, tasks, algorithms, config))
   results = []
 
+  # using the spawn context is important
+  #    by default, multiprocessing uses fork, which conflicts with coolhacks inside SimGrid/XBT (library constructors)
+  # in more details:
+  #    SimGrid library init stores the id of the main thread & creates some custom TLS (don't ask me why)
+  #    'fork' doesn't lead to the reinit
+  #    SimGrid crashes on unitialized TLS
   ctx = multiprocessing.get_context("spawn")
   with ctx.Pool(processes=args.jobs, maxtasksperchild=1) as pool:
     for job, makespan, exec_time, comm_time in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
-      platform, tasks, algorithm = job
+      platform, tasks, algorithm, _ = job
       results.append({
         "platform": platform,
         "tasks": tasks,

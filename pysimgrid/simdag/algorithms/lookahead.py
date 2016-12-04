@@ -103,8 +103,7 @@ class LookaheadScheduler(StaticScheduler):
     return schedule
 
   def _get_heft_order(self):
-    ranked_tasks = HEFTScheduler.rankify_tasks(self.taskflow)
-    ordered_tasks = HEFTScheduler.order_tasks(ranked_tasks)
+    ordered_tasks = HEFTScheduler.order_tasks(self.taskflow)
     return [t[0] for t in ordered_tasks]
 
   def _construct_subtaskflow(self, task):

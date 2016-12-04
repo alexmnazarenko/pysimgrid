@@ -41,21 +41,20 @@ class HEFTScheduler(StaticScheduler):
     return schedule
 
   @staticmethod
-  def rankify_tasks(taskflow):
-    ranked_tasks = {}
-    for task in taskflow.topological_order(reverse=True):
+  def order_tasks(taskflow):
+    task_ranku = {}
+    task_toporder = {}
+    # use topological_order as an additional sort condition to deal with zero-weight tasks (e.g. root)
+    for idx, task in enumerate(taskflow.topological_order(reverse=True)):
       ecomt_and_rank = [
-        ranked_tasks[t] + taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)]
+        task_ranku[t] + taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)]
         for t in taskflow.get_children(task)
-        if t in ranked_tasks
+        if t in task_ranku
         if not taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)] is False
       ] or [0]
-      ranked_tasks[task] = taskflow.complexities[task] + max(ecomt_and_rank)
-    return ranked_tasks
-
-  @staticmethod
-  def order_tasks(ranked_tasks):
-    return sorted(ranked_tasks.items(), key=lambda x: x[1], reverse=True)
+      task_ranku[task] = taskflow.complexities[task] + max(ecomt_and_rank)
+      task_toporder[task] = idx
+    return sorted(task_ranku.items(), key=lambda x: (x[1], task_toporder[x[0]]), reverse=True)
 
   @staticmethod
   def construct_heft_schedule(taskflow, simulation_hosts, initial_schedule=None, initial_taskname=None):
@@ -88,8 +87,7 @@ class HEFTScheduler(StaticScheduler):
           e_host_st.append((host, start, start + duration))
       return min(e_host_st, key=lambda x: x[2])
 
-    ranked_tasks = HEFTScheduler.rankify_tasks(taskflow)
-    ordered_tasks = HEFTScheduler.order_tasks(ranked_tasks)
+    ordered_tasks = HEFTScheduler.order_tasks(taskflow)
 
     initial_start_time = 0
     tasks_info = {}

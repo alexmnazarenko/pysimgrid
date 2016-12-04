@@ -19,6 +19,8 @@
 
 from copy import deepcopy
 import numpy as np
+from .. import csimdag
+from .. import cplatform
 
 
 class Taskflow(object):
@@ -37,7 +39,8 @@ class Taskflow(object):
 
   def from_simulation(self, simulation):
     self.tasks, self.matrix = self._construct_connection_matrix(simulation)
-    self._complexities = {task.name: task.amount for task in simulation.tasks}
+    host_mean_power = np.mean([h.speed for h in simulation.hosts])
+    self._complexities = {task.name: task.amount / host_mean_power for task in simulation.tasks}
     if self.TRUE_ROOT in self.tasks:
       self._complexities[self.TRUE_ROOT] = 0
     if self.TRUE_END in self.tasks:
@@ -60,18 +63,26 @@ class Taskflow(object):
     """
     length = len(simulation.tasks)
     header = [task.name for task in simulation.tasks]
+
+    bandwidth_matrix = np.zeros((len(simulation.hosts), len(simulation.hosts)))
+    latency_matrix = np.zeros((len(simulation.hosts), len(simulation.hosts)))
+    for i, src in enumerate(simulation.hosts):
+      for j in range(i+1, len(simulation.hosts)):
+        dst = simulation.hosts[j]
+        bandwidth_matrix[i,j] = bandwidth_matrix[j,i] = cplatform.route_bandwidth(src, dst)
+        latency_matrix[i,j] = latency_matrix[j,i] = cplatform.route_latency(src, dst)
+
+    mean_comm = bandwidth_matrix.sum() / (bandwidth_matrix.size - bandwidth_matrix.shape[0])
+    mean_lat = latency_matrix.sum() / (latency_matrix.size - latency_matrix.shape[0])
+
     matrix = []
     for task in simulation.tasks:
       matrix_line = [np.nan] * length
       for child in task.children:
-        if str(child.kind) != 'TaskKind.TASK_KIND_COMM_E2E':
+        if child.kind != csimdag.TaskKind.TASK_KIND_COMM_E2E:
           continue
-        matrix_line[header.index(child.children[0].name)] = np.average([
-          child.get_ecomt(src, dst)
-          for src in simulation.hosts
-          for dst in simulation.hosts
-          if src != dst
-        ])
+        # not stricly correct, but fast approximation of mean ECOMT
+        matrix_line[header.index(child.children[0].name)] = child.amount / mean_comm + mean_lat
       matrix.append(matrix_line)
     numpy_matrix = np.array(matrix)
 
