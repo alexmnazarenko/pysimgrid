@@ -20,6 +20,7 @@
 from collections import deque
 from itertools import chain
 import numpy as np
+from copy import deepcopy
 
 from ..scheduler import StaticScheduler
 from ..taskflow import Taskflow
@@ -134,13 +135,18 @@ class HCPTScheduler(StaticScheduler):
 
     return schedule
 
+  def _timesheet_gaps(self, timesheet):
+    ts = deepcopy(timesheet)
+    ts.insert(0, (0, 0))
+    pairs = zip(ts, ts[1:])
+    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+
   def _calc_host_start(self, est, amount, hosts):
     e_host_st = []
     for host in hosts:
       # Check host gaps
       duration = float(amount) / hosts[host]["speed"]
-      pairs = zip(hosts[host]["timesheet"], hosts[host]["timesheet"][1:])
-      gaps = [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+      gaps = self._timesheet_gaps(hosts[host]["timesheet"])
       for gap in gaps:
         start = max(gap[0], est)
         end = gap[1]

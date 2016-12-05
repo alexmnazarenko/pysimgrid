@@ -60,7 +60,9 @@ class HEFTScheduler(StaticScheduler):
   def construct_heft_schedule(taskflow, simulation_hosts, initial_schedule=None, initial_taskname=None):
 
     def _timesheet_gaps(timesheet):
-      pairs = zip(timesheet, timesheet[1:])
+      ts = deepcopy(timesheet)
+      ts.insert(0, (0, 0))
+      pairs = zip(ts, ts[1:])
       return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 
     def _calc_host_start(est, amount, hosts):
@@ -75,7 +77,6 @@ class HEFTScheduler(StaticScheduler):
           if end < est or duration > end - start:
             continue
           e_host_st.append((host, start, start + duration))
-          break
         if host not in e_host_st:
           # End time of the last host task
           start = (

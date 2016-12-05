@@ -132,11 +132,16 @@ class LookaheadScheduler(StaticScheduler):
     )
     return subtaskflow
 
+  def _timesheet_gaps(self, timesheet):
+    ts = deepcopy(timesheet)
+    ts.insert(0, (0, 0))
+    pairs = zip(ts, ts[1:])
+    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+
   def _assign_task(self, est, amount, host_info):
     # Check host gaps
     duration = float(amount) / host_info["speed"]
-    pairs = zip(host_info["timesheet"], host_info["timesheet"][1:])
-    gaps = [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+    gaps = self._timesheet_gaps(host_info["timesheet"])
     for gap in gaps:
       start = max(gap[0], est)
       end = gap[1]

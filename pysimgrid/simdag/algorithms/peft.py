@@ -61,13 +61,18 @@ class PEFTScheduler(StaticScheduler):
   def _order_tasks(self, ranked_tasks):
     return sorted(ranked_tasks.items(), key=lambda x: x[1], reverse=True)
 
+  def _timesheet_gaps(self, timesheet):
+    ts = deepcopy(timesheet)
+    ts.insert(0, (0, 0))
+    pairs = zip(ts, ts[1:])
+    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+
   def _calc_host_start(self, est, amount, hosts):
     e_host_st = []
     for host in hosts:
       # Check host gaps
       duration = float(amount) / hosts[host]["speed"]
-      pairs = zip(hosts[host]["timesheet"], hosts[host]["timesheet"][1:])
-      gaps = [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+      gaps = self._timesheet_gaps(hosts[host]["timesheet"])
       for gap in gaps:
         start = max(gap[0], est)
         end = gap[1]
@@ -145,4 +150,5 @@ class PEFTScheduler(StaticScheduler):
       for elem in hosts[host.name]["timesheet"]:
         task_name = elem[2][0]
         schedule[host].append(tasks_map[task_name])
+
     return schedule
