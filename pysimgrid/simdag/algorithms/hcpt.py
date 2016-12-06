@@ -114,9 +114,9 @@ class HCPTScheduler(StaticScheduler):
         scheduled.add(task_id)
       parents = taskflow.get_parents(task_id)
       parents_end = [
-        elem[2] + taskflow.matrix[taskflow.tasks.index(elem[0].name), taskflow.tasks.index(task_id)]
-        for elem in chain.from_iterable(schedule.values())
-        if elem[0].name in parents
+        elem[1] + taskflow.matrix[taskflow.tasks.index(elem[2]), taskflow.tasks.index(task_id)]
+        for elem in chain.from_iterable([h[1]['timesheet'] for h in hosts.items()])
+        if elem[2] in parents
       ]
       est = min(parents_end or [0])
       host, start_time, end_time = self._calc_host_start(
@@ -137,7 +137,7 @@ class HCPTScheduler(StaticScheduler):
 
   def _timesheet_gaps(self, timesheet):
     ts = deepcopy(timesheet)
-    ts.insert(0, (0, 0))
+    ts.insert(0, (0., 0.))
     pairs = zip(ts, ts[1:])
     return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 

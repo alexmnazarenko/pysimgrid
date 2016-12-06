@@ -61,7 +61,7 @@ class HEFTScheduler(StaticScheduler):
 
     def _timesheet_gaps(timesheet):
       ts = deepcopy(timesheet)
-      ts.insert(0, (0, 0))
+      ts.insert(0, (0., 0.))
       pairs = zip(ts, ts[1:])
       return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 

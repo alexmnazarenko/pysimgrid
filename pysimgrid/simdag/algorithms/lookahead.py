@@ -74,10 +74,19 @@ class LookaheadScheduler(StaticScheduler):
           'end_time_total': end_time
         }
 
+      min_total_time = min(
+        hosts_taskinfo.values(),
+        key=lambda x: x['end_time_total']
+      )['end_time_total']
+
       host_to_assign, task_info = min(
-        hosts_taskinfo.items(),
-        key=lambda x: x[1]['end_time_total']
+        filter(
+          lambda x: x[1]['end_time_total'] == min_total_time,
+          hosts_taskinfo.items()
+        ),
+        key=lambda x: x[1]['end_task_time']
       )
+
       raw_schedule[host_to_assign]['timesheet'].append((
         task_info['start_task_time'],
         task_info['end_task_time'],
@@ -134,7 +143,7 @@ class LookaheadScheduler(StaticScheduler):
 
   def _timesheet_gaps(self, timesheet):
     ts = deepcopy(timesheet)
-    ts.insert(0, (0, 0))
+    ts.insert(0, (0., 0.))
     pairs = zip(ts, ts[1:])
     return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 
@@ -153,7 +162,7 @@ class LookaheadScheduler(StaticScheduler):
     start = (
       host_info["timesheet"][-1][1]
       if len(host_info["timesheet"])
-      else 0
+      else 0.
     )
     start = max(start, est)
 
