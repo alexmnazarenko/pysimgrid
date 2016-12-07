@@ -15,7 +15,7 @@ import logging
 import multiprocessing
 
 from pysimgrid import simdag
-from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb
+from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
@@ -53,7 +53,7 @@ class SimpleDynamic(simdag.DynamicScheduler):
 
 
 def run_simulation(static):
-  with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+  with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
     if sys.argv[-1] == "hcpt":
       hcpt.HCPTScheduler(simulation).run()
     elif sys.argv[-1] == "heft":
@@ -61,13 +61,16 @@ def run_simulation(static):
     elif static:
       RandomSchedule(simulation).run()
     else:
-      mct.MCTScheduler(simulation).run()
+      #mct.MCTScheduler(simulation).run()
       #olb.OLBScheduler(simulation).run()
+      lookahead.LookaheadScheduler(simulation).run()
 
-
-if __name__ == '__main__':
+def main():
   # example: how to run multiple simulations in a single script (circumventing SimGrid limitation of 'non-restartable' simulator state)
   for args in [(True,), (False,)]:
     p = multiprocessing.Process(target=run_simulation, args=args)
     p.start()
     p.join()
+
+if __name__ == '__main__':
+  main()

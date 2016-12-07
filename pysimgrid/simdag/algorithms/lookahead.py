@@ -17,7 +17,8 @@
 #
 
 
-from copy import deepcopy
+import copy
+import itertools
 import numpy as np
 
 from ..scheduler import StaticScheduler
@@ -43,7 +44,7 @@ class LookaheadScheduler(StaticScheduler):
       est = max([tasks_info[p]["end_time"] for p in parents if p in tasks_info] + [0])
       hosts_taskinfo = {}
       for host in simulation.hosts:
-        temp_schedule = deepcopy(raw_schedule)
+        temp_schedule = copy.deepcopy(raw_schedule)
         start, end = self._assign_task(
           est,
           self.taskflow.complexities[task],
@@ -142,9 +143,9 @@ class LookaheadScheduler(StaticScheduler):
     return subtaskflow
 
   def _timesheet_gaps(self, timesheet):
-    ts = deepcopy(timesheet)
-    ts.insert(0, (0., 0.))
-    pairs = zip(ts, ts[1:])
+    insertion = [(0, 0)]
+    ts_ext = itertools.chain(insertion, timesheet)
+    pairs = zip(ts_ext, timesheet)
     return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 
   def _assign_task(self, est, amount, host_info):

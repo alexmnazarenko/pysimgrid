@@ -27,6 +27,7 @@ import json
 import logging
 import multiprocessing
 import os
+import textwrap
 import time
 import traceback
 from .. import simdag
@@ -154,8 +155,31 @@ def main():
   # convert to list just get length nicely
   #   can be left as an iterator, but memory should not be the issue
   jobs = list(itertools.product(platforms, tasks, algorithms, config))
-  results = []
 
+  # report experiment setup
+  #   looks scary, but it's probably a shortest way to do this in terms of LOC
+  logger.info(textwrap.dedent("""\
+  Starting the experiment.
+    Total runs: %d
+
+    Platform source: %s
+    Platform count:  %d
+
+    Tasks source:    %s
+    Tasks count:     %d
+
+    Algorithms count: %d
+    Algorithms:
+  %s
+
+    Configuration:
+  %s
+  """) % (len(jobs), args.platforms, len(platforms), args.tasks, len(tasks), len(algorithms),
+          "\n".join(["    " + a["name"] for a in algorithms]),
+          "\n".join(["    %s: %s" % (k, v) for k,v in config[0].items()])
+  ))
+
+  results = []
   # using the spawn context is important
   #    by default, multiprocessing uses fork, which conflicts with coolhacks inside SimGrid/XBT (library constructors)
   # in more details:

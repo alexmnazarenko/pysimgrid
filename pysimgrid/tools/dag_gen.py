@@ -115,33 +115,34 @@ def main():
   parser = argparse.ArgumentParser(description="Synthetic DAG generator")
   parser.add_argument("daggen_path", type=str, help="path to daggen executable")
   parser.add_argument("output_dir", type=str, help="path to output directory")
-  parser.add_argument("--n", type=int, nargs="*", default=[10], help="node count")
+  parser.add_argument("-n", "--count", type=int, nargs="*", default=[10], help="node count")
   parser.add_argument("--ccr", type=int, nargs="*", choices=[0, 1, 2, 3], default=[0], help="type of CCR (see daggen docs)")
   parser.add_argument("--mindata", type=int, nargs="*", default=[2048], help="min task input size")
   parser.add_argument("--maxdata", type=int, nargs="*", default=[11264], help="max task input size")
   parser.add_argument("--jump", type=int, nargs="*", default=[2], help="max amount of levels to skip with a connection")
   parser.add_argument("--fat", type=float, nargs="*", default=[0.5], help="dag width (fat -> 1 = high parallelism)")
   parser.add_argument("--regular", type=float, nargs="*", default=[0.9], help="regularity of the distribution of tasks between the different DAG levels")
-  parser.add_argument("--density", type=float, nargs="*", default=[0.5], help="deternines number of connections between different DAG levels")
+  parser.add_argument("--density", type=float, nargs="*", default=[0.5], help="determines number of connections between different DAG levels")
+  parser.add_argument("--repeat", type=int, default=1, help="number of random graphs for each configuration")
 
   args = parser.parse_args()
   if not os.path.exists(args.output_dir):
     os.makedirs(args.output_dir)
 
-  for config in itertools.product(args.n, args.ccr, args.mindata, args.maxdata, args.jump, args.fat, args.regular, args.density):
+  for config in itertools.product(args.count, args.ccr, args.mindata, args.maxdata, args.jump, args.fat, args.regular, args.density):
+    for repeat_idx in range(args.repeat):
+      graph = daggen(args.daggen_path, *config)
+      output_filename = "daggen_%d_%d_%d_%d_%d_%.3f_%.3f_%.3f_%d.dot" % (config + (repeat_idx,))
 
-    graph = daggen(args.daggen_path, *config)
-    output_filename = "daggen_%d_%d_%d_%d_%d_%.3f_%.3f_%.3f.dot" % config
-
-    print("Generated %s" % output_filename)
-    with open(os.path.join(args.output_dir, output_filename), "w") as output_file:
-      output_file.write("digraph G {\n")
-      for node, data in graph.nodes(True):
-        output_file.write('  %s [size="%f"];\n' % (node, data["weight"]))
-      output_file.write("\n");
-      for src, dst, data in graph.edges_iter(data=True):
-        output_file.write('  %s -> %s [size="%f"];\n' % (src, dst, data["weight"]))
-      output_file.write("}\n")
+      print("Generated %s" % output_filename)
+      with open(os.path.join(args.output_dir, output_filename), "w") as output_file:
+        output_file.write("digraph G {\n")
+        for node, data in graph.nodes(True):
+          output_file.write('  %s [size="%f"];\n' % (node, data["weight"]))
+        output_file.write("\n");
+        for src, dst, data in graph.edges_iter(data=True):
+          output_file.write('  %s -> %s [size="%f"];\n' % (src, dst, data["weight"]))
+        output_file.write("}\n")
 
 
 if __name__ == "__main__":

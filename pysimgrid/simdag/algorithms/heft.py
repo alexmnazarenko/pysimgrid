@@ -17,7 +17,8 @@
 #
 
 
-from copy import deepcopy
+import copy
+import itertools
 
 from ..scheduler import StaticScheduler
 from ..taskflow import Taskflow
@@ -60,9 +61,9 @@ class HEFTScheduler(StaticScheduler):
   def construct_heft_schedule(taskflow, simulation_hosts, initial_schedule=None, initial_taskname=None):
 
     def _timesheet_gaps(timesheet):
-      ts = deepcopy(timesheet)
-      ts.insert(0, (0., 0.))
-      pairs = zip(ts, ts[1:])
+      insertion = [(0, 0)]
+      ts_ext = itertools.chain(insertion, timesheet)
+      pairs = zip(ts_ext, timesheet)
       return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
 
     def _calc_host_start(est, amount, hosts):
@@ -101,7 +102,7 @@ class HEFTScheduler(StaticScheduler):
         for host in simulation_hosts
       }
     else:
-      hosts = deepcopy(initial_schedule)
+      hosts = copy.deepcopy(initial_schedule)
 
       for host in hosts:
         for task_info in hosts[host]['timesheet']:
