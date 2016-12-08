@@ -28,20 +28,21 @@ def main():
   # TODO: fix or remove it completely
   results = list(filter(lambda r: r["algorithm"]["name"] != "HCPT", results))
 
-  get_no_hosts = lambda r: int(os.path.basename(r["platform"]).split("_")[1])
-  get_task_type = lambda r: os.path.basename(r["tasks"]).rsplit(".", 1)[0]
-  get_algorithm = lambda r: r["algorithm"]["name"]
+  get_task_name = lambda r: os.path.basename(r["tasks"]).rsplit(".", 1)[0]
   get_platform = lambda r: os.path.basename(r["platform"])
+
+  get_no_hosts = lambda r: int(os.path.basename(r["platform"]).split("_")[1])
+  get_task_group = lambda r: "_".join(get_task_name(r).split("_")[:2])
+  get_algorithm = lambda r: r["algorithm"]["name"]
 
   # evaluate normalized results
   REFERENCE_ALGO = "OLB"
-  for no_hosts, byhost in groupby(results, get_no_hosts):
-    for task, bytask in groupby(byhost, get_task_type):
-      for platform, byplat in groupby(bytask, get_platform):
-        algorithm_results = groupby(byplat, get_algorithm, False)
-        focus = algorithm_results[REFERENCE_ALGO][0]
-        for algorithm, byalg in algorithm_results.items():
-          byalg[0]["normalized"] = byalg[0]["makespan"] / focus["makespan"]
+  for task, bytask in groupby(results, get_task_name):
+    for platform, byplat in groupby(bytask, get_platform):
+      algorithm_results = groupby(byplat, get_algorithm, False)
+      focus = algorithm_results[REFERENCE_ALGO][0]
+      for algorithm, byalg in algorithm_results.items():
+        byalg[0]["normalized"] = byalg[0]["makespan"] / focus["makespan"]
 
   # print results as latex table
   # a lot of hardcode there for now. not sure if can be avoided without excessively generic code.
@@ -54,7 +55,7 @@ def main():
   \toprule
   Nodes TODO & OLB  & MCT  & Random   & RoundRobin  & HEFT  & Lookahead & PEFT \\ \midrule
   """))
-  for task, bytask in sorted(groupby(results, get_task_type)):
+  for task, bytask in sorted(groupby(results, get_task_group)):
     print(par(r"""
     \multicolumn{8}{l}{%s} \\ \midrule
     """) % (task))
