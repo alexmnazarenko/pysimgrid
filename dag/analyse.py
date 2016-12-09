@@ -32,7 +32,10 @@ def main():
   get_platform = lambda r: os.path.basename(r["platform"])
 
   get_no_hosts = lambda r: int(os.path.basename(r["platform"]).split("_")[1])
+  get_host_bandwidth = lambda r: int(os.path.basename(r["platform"]).split("_")[3])
   get_task_group = lambda r: "_".join(get_task_name(r).split("_")[:2])
+  get_no_tasks = lambda r: int(get_task_name(r).split("_")[1])
+  get_task_jump = lambda r: int(get_task_name(r).split("_")[5])
   get_algorithm = lambda r: r["algorithm"]["name"]
 
   # evaluate normalized results
