@@ -19,6 +19,7 @@
 import os
 import collections
 import logging
+import networkx
 from .. import csimdag
 
 class Simulation(object):
@@ -67,16 +68,15 @@ class Simulation(object):
     return _TaskList([t for t in self.__tasks if t.native in changed_ids])
 
   def get_task_graph(self):
-    import networkx as nx
-
     free_tasks = self.tasks.by_func(lambda t: not t.parents)
     if len(free_tasks) != 1:
       raise Exception("cannot find DAG root")
 
-    graph = nx.DiGraph()
-    graph.add_nodes_from(self.tasks)
+    graph = networkx.DiGraph()
+    for t in self.tasks:
+      graph.add_node(t, weight=t.amount)
 
-    for e in self.all_tasks.by_prop("kind", csimdag.TASK_KIND_COMM_E2E):
+    for e in self.connections:
       parents, children = e.parents, e.children
       assert len(parents) == 1 and len(children) == 1
       graph.add_edge(parents[0], children[0], weight=e.amount)
@@ -89,6 +89,10 @@ class Simulation(object):
     Get all computational tasks.
     """
     return self.all_tasks.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)
+
+  @property
+  def connections(self):
+    return self.all_tasks.by_prop("kind", csimdag.TASK_KIND_COMM_E2E)
 
   @property
   def all_tasks(self):
@@ -135,11 +139,11 @@ class Simulation(object):
     self.__logger.debug("Loading task definition (source: %s)", self.__tasks_src)
     tasks = csimdag.load_tasks(self.__tasks_src)
     self.__tasks = [_SimulationTask(t.native, self) for t in tasks]
-    comm_tasks_count = len(list(filter(lambda t: t.kind == csimdag.TASK_KIND_COMM_E2E, self.__tasks)))
+    comm_tasks_count = len(self.connections)
     self.__logger.debug("Tasks loaded, %d nodes, %d links", len(self.__tasks) - comm_tasks_count, comm_tasks_count)
 
     self.__logger.info("Simulation initialized")
-    self._INSTANCE = self
+    Simulation._INSTANCE = self
     return self
 
   def __exit__(self, *args):

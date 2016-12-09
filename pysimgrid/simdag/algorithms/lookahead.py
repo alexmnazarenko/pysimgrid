@@ -19,152 +19,41 @@
 
 import copy
 import itertools
-import numpy as np
+import numpy
 
-from ..scheduler import StaticScheduler
-from ..taskflow import Taskflow
-from .heft import HEFTScheduler
+from .. import scheduler
+from . import heft
+from . import utils
 
 
-class LookaheadScheduler(StaticScheduler):
+class LookaheadScheduler(scheduler.StaticScheduler):
 
   def get_schedule(self, simulation):
-    self.taskflow = Taskflow().from_simulation(simulation)
-    heft_order = self._get_heft_order()
-    raw_schedule = {
-      host.name: {
-        "speed": host.speed,
-        "timesheet": []
-      }
-      for host in simulation.hosts
-    }
-    tasks_info = {}
-    for task in heft_order:
-      parents = self.taskflow.get_parents(task)
-      est = max([tasks_info[p]["end_time"] for p in parents if p in tasks_info] + [0])
-      hosts_taskinfo = {}
-      for host in simulation.hosts:
-        temp_schedule = copy.deepcopy(raw_schedule)
-        start, end = self._assign_task(
-          est,
-          self.taskflow.complexities[task],
-          raw_schedule[host.name]
-        )
-        temp_schedule[host.name]['timesheet'].append((
-          start,
-          end,
-          (task, self.taskflow.complexities[task])
-        ))
-        temp_schedule[host.name]['timesheet'].sort()
+    nxgraph = simulation.get_task_graph()
+    platform_model = heft.HEFTScheduler.platform_model(simulation)
 
-        subtaskflow = self._construct_subtaskflow(task)
-        subschedule = HEFTScheduler.construct_heft_schedule(
-          subtaskflow,
-          simulation.hosts,
-          temp_schedule,
-          task
-        )
-        end_time = max(
-          h['timesheet'][-1][1]
-          for h in subschedule.values()
-          if h['timesheet']
-        )
-        hosts_taskinfo[host.name] = {
-          'start_task_time': start,
-          'end_task_time': end,
-          'end_time_total': end_time
-        }
+    task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
+    schedule = {host: [] for host in simulation.hosts}
+    ordered_tasks = heft.HEFTScheduler.heft_order(nxgraph, platform_model)
 
-      min_total_time = min(
-        hosts_taskinfo.values(),
-        key=lambda x: x['end_time_total']
-      )['end_time_total']
+    for idx, task in enumerate(ordered_tasks):
+      possible_schedules = []
+      for host, timesheet in schedule.items():
+        # manual copy of initial state
+        # copy.deepcopy is slow as hell
+        temp_task_states = {task: dict(state) for (task, state) in task_states.items()}
+        temp_schedule = {host: list(timesheet) for (host, timesheet) in schedule.items()}
 
-      host_to_assign, task_info = min(
-        filter(
-          lambda x: x[1]['end_time_total'] == min_total_time,
-          hosts_taskinfo.items()
-        ),
-        key=lambda x: x[1]['end_task_time']
-      )
-
-      raw_schedule[host_to_assign]['timesheet'].append((
-        task_info['start_task_time'],
-        task_info['end_task_time'],
-        (task, self.taskflow.complexities[task])
-      ))
-      raw_schedule[host_to_assign]['timesheet'].sort()
-
-      tasks_info[task] = {
-        "host": host_to_assign,
-        "start_time": hosts_taskinfo[host_to_assign]['start_task_time'],
-        "end_time": hosts_taskinfo[host_to_assign]['end_task_time']
-      }
-
-    schedule = {}
-    tasks_map = {t.name: t for t in simulation.tasks}
-    for host in simulation.hosts:
-      schedule[host] = []
-      for elem in raw_schedule[host.name]["timesheet"]:
-        task_name = elem[2][0]
-        if task_name not in [self.taskflow.TRUE_ROOT, self.taskflow.TRUE_END]:
-          schedule[host].append(tasks_map[task_name])
-
-    return schedule
-
-  def _get_heft_order(self):
-    ordered_tasks = HEFTScheduler.order_tasks(self.taskflow)
-    return [t[0] for t in ordered_tasks]
-
-  def _construct_subtaskflow(self, task):
-    queue = self.taskflow.get_children(task)
-    processed = [task]
-    while queue:
-      current_task = queue.pop()
-      for child in self.taskflow.get_children(current_task):
-        if child not in processed and child not in queue:
-          queue.append(child)
-      if current_task not in processed:
-        processed.append(current_task)
-    processed.pop(0)
-    processed = [self.taskflow.tasks.index(t) for t in processed]
-    processed.sort()
-    subtree_header = [self.taskflow.tasks[i] for i in processed]
-    subtree_matrix = self.taskflow.matrix[np.ix_(processed, processed)]
-    subtree_complexities = {
-      t: self.taskflow.complexities[t]
-      for t in subtree_header
-    }
-    subtaskflow = Taskflow().from_data(
-      subtree_header,
-      subtree_matrix,
-      subtree_complexities
-    )
-    return subtaskflow
-
-  def _timesheet_gaps(self, timesheet):
-    insertion = [(0, 0)]
-    ts_ext = itertools.chain(insertion, timesheet)
-    pairs = zip(ts_ext, timesheet)
-    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
-
-  def _assign_task(self, est, amount, host_info):
-    # Check host gaps
-    duration = float(amount) / host_info["speed"]
-    gaps = self._timesheet_gaps(host_info["timesheet"])
-    for gap in gaps:
-      start = max(gap[0], est)
-      end = gap[1]
-      if end < est or duration > end - start:
-        continue
-      return (start, start + duration)
-
-    # End time of the last host task
-    start = (
-      host_info["timesheet"][-1][1]
-      if len(host_info["timesheet"])
-      else 0.
-    )
-    start = max(start, est)
-
-    return (start, start + duration)
+        est_by_parent = [utils.parent_data_ready_time(task, parent, host, edge_dict, task_states, platform_model)
+                         for parent, edge_dict in nxgraph.pred[task].items()] or [0]
+        est = max(est_by_parent)
+        eet = task.get_eet(host)
+        pos, start, finish = utils.timesheet_insertion(timesheet, est, eet)
+        utils.update_schedule_state(task, host, pos, start, finish, temp_task_states, temp_schedule)
+        heft.HEFTScheduler.heft_schedule(nxgraph, platform_model, temp_task_states, temp_schedule, ordered_tasks[(idx + 1):])
+        total_time = max([state["ect"] for state in temp_task_states.values()])
+        possible_schedules.append((total_time, host.speed, host.name, host, pos, start, finish))
+      host, pos, start, finish = min(possible_schedules)[3:]
+      utils.update_schedule_state(task, host, pos, start, finish, task_states, schedule)
+    clean_schedule = {host: [task for (task, _, _) in timesheet] for (host, timesheet) in schedule.items()}
+    return clean_schedule

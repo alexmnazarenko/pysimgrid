@@ -81,9 +81,9 @@ class StaticScheduler(Scheduler):
         hosts_status[h] = True
 
   def __schedule_to_free_hosts(self, schedule, hosts_status):
-    for host in schedule:
-      if schedule[host] and hosts_status[host] == True:
-        task = schedule[host].pop(0)
+    for host, tasks in schedule.items():
+      if tasks and hosts_status[host] == True:
+        task = tasks.pop(0)
         task.schedule(host)
         hosts_status[host] = False
 

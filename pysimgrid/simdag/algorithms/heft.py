@@ -20,122 +20,97 @@
 import copy
 import itertools
 
-from ..scheduler import StaticScheduler
+import networkx
+import numpy
+
+from .. import scheduler
 from ..taskflow import Taskflow
+from ... import cplatform
+from . import utils
 
 
-class HEFTScheduler(StaticScheduler):
+class HEFTScheduler(scheduler.StaticScheduler):
 
   def get_schedule(self, simulation):
-    taskflow = Taskflow().from_simulation(simulation)
-    tasks_map = {t.name: t for t in simulation.tasks}
-    raw_schedule = self.construct_heft_schedule(taskflow, simulation.hosts)
+    """
+    Overriden.
+    """
+    nxgraph = simulation.get_task_graph()
+    platform_model = self.platform_model(simulation)
 
-    schedule = {}
-    for host in simulation.hosts:
-      schedule[host] = []
-      for elem in raw_schedule[host.name]["timesheet"]:
-        task_name = elem[2][0]
-        if task_name not in [taskflow.TRUE_ROOT, taskflow.TRUE_END]:
-          schedule[host].append(tasks_map[task_name])
+    task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
+    schedule = {host: [] for host in simulation.hosts}
+    ordered_tasks = self.heft_order(nxgraph, platform_model)
 
-    return schedule
+    schedule = self.heft_schedule(nxgraph, platform_model, task_states, schedule, ordered_tasks)
+    clean_schedule = {host: [task for (task, _, _) in timesheet] for (host, timesheet) in schedule.items()}
+    return clean_schedule
 
-  @staticmethod
-  def order_tasks(taskflow):
+  @classmethod
+  def platform_model(cls, simulation):
+    """
+    Extract platform linear model. Required for ranku calculation and optimized scheduling.
+
+    Params:
+      simulation: pysimgrid.simdag.Simulation object
+    """
+    hosts = simulation.hosts
+    bandwidth_matrix = numpy.zeros((len(hosts), len(hosts)))
+    latency_matrix = numpy.zeros((len(hosts), len(hosts)))
+    for i, src in enumerate(hosts):
+      for j in range(i+1, len(hosts)):
+        dst = simulation.hosts[j]
+        bandwidth_matrix[i,j] = bandwidth_matrix[j,i] = cplatform.route_bandwidth(src, dst)
+        latency_matrix[i,j] = latency_matrix[j,i] = cplatform.route_latency(src, dst)
+
+    return {
+      "bandwidth": bandwidth_matrix,
+      "latency": latency_matrix,
+      "hosts_map": {host: idx for (idx, host) in enumerate(hosts)},
+      "mean_speed": numpy.mean([h.speed for h in simulation.hosts]),
+      "mean_comm": bandwidth_matrix.sum() / (bandwidth_matrix.size - bandwidth_matrix.shape[0]),
+      "mean_lat": latency_matrix.sum() / (latency_matrix.size - latency_matrix.shape[0])
+    }
+
+  @classmethod
+  def heft_order(cls, nxgraph, platform_model):
+    """
+    Return tasks in a HEFT ranku order.
+
+    Params:
+      nxgraph: tasks as nxgraph.DiGraph
+      platform_model: see HEFTScheduler.platform_model
+    """
+    mean_speed, mean_bandwidth, mean_latency = platform_model["mean_speed"], platform_model["mean_comm"], platform_model["mean_lat"]
     task_ranku = {}
     task_toporder = {}
     # use topological_order as an additional sort condition to deal with zero-weight tasks (e.g. root)
-    for idx, task in enumerate(taskflow.topological_order(reverse=True)):
+    #   bonus: add topsort_order to ensure stable topological_sort across python runs
+    topsort_order = sorted(nxgraph.nodes(), key=lambda t: t.name)
+    for idx, task in enumerate(networkx.topological_sort(nxgraph, topsort_order, reverse=True)):
       ecomt_and_rank = [
-        task_ranku[t] + taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)]
-        for t in taskflow.get_children(task)
-        if t in task_ranku
-        if not taskflow.matrix[taskflow.tasks.index(task), taskflow.tasks.index(t)] is False
+        task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
+        for child, edge in nxgraph[task].items()
       ] or [0]
-      task_ranku[task] = taskflow.complexities[task] + max(ecomt_and_rank)
+      task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
       task_toporder[task] = idx
-    return sorted(task_ranku.items(), key=lambda x: (x[1], task_toporder[x[0]]), reverse=True)
+    return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], task_toporder[node]), reverse=True)
 
-  @staticmethod
-  def construct_heft_schedule(taskflow, simulation_hosts, initial_schedule=None, initial_taskname=None):
-
-    def _timesheet_gaps(timesheet):
-      insertion = [(0, 0)]
-      ts_ext = itertools.chain(insertion, timesheet)
-      pairs = zip(ts_ext, timesheet)
-      return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
-
-    def _calc_host_start(est, amount, hosts):
-      e_host_st = []
-      for host in hosts:
-        # Check host gaps
-        duration = float(amount) / hosts[host]["speed"]
-        gaps = _timesheet_gaps(hosts[host]["timesheet"])
-        for gap in gaps:
-          start = max(gap[0], est)
-          end = gap[1]
-          if end < est or duration > end - start:
-            continue
-          e_host_st.append((host, start, start + duration))
-        if host not in e_host_st:
-          # End time of the last host task
-          start = (
-            hosts[host]["timesheet"][-1][1]
-            if len(hosts[host]["timesheet"])
-            else 0
-          )
-          start = max(start, est)
-          e_host_st.append((host, start, start + duration))
-      return min(e_host_st, key=lambda x: x[2])
-
-    ordered_tasks = HEFTScheduler.order_tasks(taskflow)
-
-    initial_start_time = 0
-    tasks_info = {}
-    if not initial_schedule:
-      hosts = {
-        host.name: {
-          "speed": host.speed,
-          "timesheet": []
-        }
-        for host in simulation_hosts
-      }
-    else:
-      hosts = copy.deepcopy(initial_schedule)
-
-      for host in hosts:
-        for task_info in hosts[host]['timesheet']:
-          start, end, task_element = task_info
-          task_name, _ = task_element
-          if task_name == initial_taskname:
-            initial_start_time = end
-          tasks_info[task_name] = {
-            "host": host,
-            "start_time": start,
-            "end_time": end
-          }
-
+  @classmethod
+  def heft_schedule(cls, nxgraph, platform_model, task_states, schedule, ordered_tasks):
     for task in ordered_tasks:
-      parents = taskflow.get_parents(task[0])
-      if initial_taskname:
-        parents.append(initial_taskname)
-      est = max(
-        [tasks_info[p]["end_time"] for p in parents if p in tasks_info] +
-        [0] +
-        [initial_start_time]
-      )
-      host, start_time, end_time = _calc_host_start(
-        est,
-        taskflow.complexities[task[0]],
-        hosts
-      )
-      tasks_info[task[0]] = {
-        "host": host,
-        "start_time": start_time,
-        "end_time": end_time
-      }
-      hosts[host]["timesheet"].append((start_time, end_time, task))
-      hosts[host]["timesheet"].sort()
-
-    return hosts
+      possible_schedules = []
+      for host, timesheet in schedule.items():
+        est_by_parent = [utils.parent_data_ready_time(task, parent, host, edge_dict, task_states, platform_model)
+                         for parent, edge_dict in nxgraph.pred[task].items()] or [0]
+        est = max(est_by_parent)
+        eet = task.get_eet(host)
+        pos, start, finish = utils.timesheet_insertion(timesheet, est, eet)
+        # strange key order to ensure stable sorting:
+        #  first sort by ECT (as HEFT requires)
+        #  if equal - sort by host speed
+        #  if equal - sort by host name (guaranteed to be unique)
+        possible_schedules.append((finish, host.speed, host.name, host, pos, start, finish))
+      host, pos, start, finish = min(possible_schedules)[3:]
+      utils.update_schedule_state(task, host, pos, start, finish, task_states, schedule)
+    return schedule

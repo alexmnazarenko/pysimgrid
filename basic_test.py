@@ -11,8 +11,8 @@ from __future__ import print_function
 import sys
 import random
 import logging
-
 import multiprocessing
+import time
 
 from pysimgrid import simdag
 from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead
@@ -66,6 +66,13 @@ def run_simulation(static):
       lookahead.LookaheadScheduler(simulation).run()
 
 def main():
+  #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+  #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+  with simdag.Simulation("dag/plat_exp1/cluster_10_1-4_100_10_54.xml", "dag/tasks_exp2/testg0.2.dot") as simulation:
+    graph = simulation.get_task_graph()
+    #heft.HEFTScheduler(simulation).run()
+    lookahead.LookaheadScheduler(simulation).run()
+  return
   # example: how to run multiple simulations in a single script (circumventing SimGrid limitation of 'non-restartable' simulator state)
   for args in [(True,), (False,)]:
     p = multiprocessing.Process(target=run_simulation, args=args)

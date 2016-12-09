@@ -39,8 +39,7 @@ class Taskflow(object):
 
   def from_simulation(self, simulation):
     self.tasks, self.matrix = self._construct_connection_matrix(simulation)
-    host_mean_power = np.mean([h.speed for h in simulation.hosts])
-    self._complexities = {task.name: task.amount / host_mean_power for task in simulation.tasks}
+    self._complexities = {task.name: task.amount for task in simulation.tasks}
     if self.TRUE_ROOT in self.tasks:
       self._complexities[self.TRUE_ROOT] = 0
     if self.TRUE_END in self.tasks:
