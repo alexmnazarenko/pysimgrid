@@ -83,7 +83,7 @@ def run_experiment(job):
       raise Exception(message)
     else:
       logger.exception(message)
-  return job, clock, exec_time, comm_time
+  return job, clock, exec_time, comm_time, sched_time
 
 
 def progress_reporter(iterable, length, logger):
