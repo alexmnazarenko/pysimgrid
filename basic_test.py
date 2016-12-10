@@ -15,12 +15,11 @@ import multiprocessing
 import time
 
 from pysimgrid import simdag
-from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead
+from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead, peft
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
 logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
-
 
 class RandomSchedule(simdag.StaticScheduler):
   def get_schedule(self, simulation):
@@ -52,30 +51,40 @@ class SimpleDynamic(simdag.DynamicScheduler):
         break
 
 
-def run_simulation(static):
+_SCHEDULERS = {
+  "RandomSchedule": RandomSchedule,
+  "SimpleDynamic": SimpleDynamic,
+  "MCT": mct.MCTScheduler,
+  "OLB": olb.OLBScheduler,
+  "HEFT": heft.HEFTScheduler,
+  "Lookahead": lookahead.LookaheadScheduler,
+  "PEFT": peft.PEFTScheduler
+}
+
+def run_simulation(scheduler):
+  scheduler_class = _SCHEDULERS[scheduler]
   with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
-    if sys.argv[-1] == "hcpt":
-      hcpt.HCPTScheduler(simulation).run()
-    elif sys.argv[-1] == "heft":
-      heft.HEFTScheduler(simulation).run()
-    elif static:
-      RandomSchedule(simulation).run()
-    else:
-      #mct.MCTScheduler(simulation).run()
-      #olb.OLBScheduler(simulation).run()
-      lookahead.LookaheadScheduler(simulation).run()
+    print("Scheduler:", scheduler, scheduler_class)
+    scheduler = scheduler_class(simulation)
+    scheduler.run()
+    print("Scheduler time:", scheduler.scheduler_time)
 
 def main():
-  #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-  #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
-  with simdag.Simulation("dag/plat_exp1/cluster_10_1-4_100_10_54.xml", "dag/tasks_exp2/testg0.2.dot") as simulation:
-    graph = simulation.get_task_graph()
-    #heft.HEFTScheduler(simulation).run()
-    lookahead.LookaheadScheduler(simulation).run()
-  return
+  # single run in current process mode, used for profiling
+  if False:
+    #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+    #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+    with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_10_54.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+      graph = simulation.get_task_graph()
+      #scheduler = heft.HEFTScheduler(simulation)
+      scheduler = lookahead.LookaheadScheduler(simulation)
+      #scheduler = peft.PEFTScheduler(simulation)
+      scheduler.run()
+      print(scheduler.scheduler_time, scheduler.total_time)
+    return
   # example: how to run multiple simulations in a single script (circumventing SimGrid limitation of 'non-restartable' simulator state)
-  for args in [(True,), (False,)]:
-    p = multiprocessing.Process(target=run_simulation, args=args)
+  for scheduler in _SCHEDULERS.keys():
+    p = multiprocessing.Process(target=run_simulation, args=(scheduler,))
     p.start()
     p.join()
 

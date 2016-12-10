@@ -25,8 +25,12 @@ plwrapper = Extension("pysimgrid.cplatform",
                       sources=["pysimgrid/cplatform.pyx"],
                       **EXT_OPTIONS)
 
+scwrapper = Extension("pysimgrid.cscheduling",
+                      sources=["pysimgrid/cscheduling.pyx"],
+                      **EXT_OPTIONS)
+
 setup(name="pysimgrid",
       version="1.0.0",
       author="Alexey Nazarenko",
       packages=["pysimgrid", "pysimgrid.simdag"],
-      ext_modules=cythonize([sdwrapper, plwrapper]))
+      ext_modules=cythonize([sdwrapper, plwrapper, scwrapper]))

@@ -16,44 +16,34 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
-import copy
-import itertools
-import numpy
-
+from ... import cscheduling
 from .. import scheduler
 from . import heft
-from . import utils
 
 
 class LookaheadScheduler(scheduler.StaticScheduler):
 
   def get_schedule(self, simulation):
+    """
+    Overriden.
+    """
     nxgraph = simulation.get_task_graph()
-    platform_model = heft.HEFTScheduler.platform_model(simulation)
+    platform_model = cscheduling.PlatformModel(simulation)
+    state = cscheduling.SchedulerState(simulation)
 
-    task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
-    schedule = {host: [] for host in simulation.hosts}
     ordered_tasks = heft.HEFTScheduler.heft_order(nxgraph, platform_model)
-
     for idx, task in enumerate(ordered_tasks):
-      possible_schedules = []
-      for host, timesheet in schedule.items():
-        # manual copy of initial state
-        # copy.deepcopy is slow as hell
-        temp_task_states = {task: dict(state) for (task, state) in task_states.items()}
-        temp_schedule = {host: list(timesheet) for (host, timesheet) in schedule.items()}
-
-        est_by_parent = [utils.parent_data_ready_time(task, parent, host, edge_dict, task_states, platform_model)
-                         for parent, edge_dict in nxgraph.pred[task].items()] or [0]
-        est = max(est_by_parent)
-        eet = task.get_eet(host)
-        pos, start, finish = utils.timesheet_insertion(timesheet, est, eet)
-        utils.update_schedule_state(task, host, pos, start, finish, temp_task_states, temp_schedule)
-        heft.HEFTScheduler.heft_schedule(nxgraph, platform_model, temp_task_states, temp_schedule, ordered_tasks[(idx + 1):])
-        total_time = max([state["ect"] for state in temp_task_states.values()])
-        possible_schedules.append((total_time, host.speed, host.name, host, pos, start, finish))
-      host, pos, start, finish = min(possible_schedules)[3:]
-      utils.update_schedule_state(task, host, pos, start, finish, task_states, schedule)
-    clean_schedule = {host: [task for (task, _, _) in timesheet] for (host, timesheet) in schedule.items()}
-    return clean_schedule
+      current_min = cscheduling.MinSelector()
+      for host, timesheet in state.timetable.items():
+        temp_state = state.copy()
+        est = platform_model.est(host, nxgraph.pred[task].items(), state)
+        eet = platform_model.eet(task, host)
+        pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+        temp_state.update(task, host, pos, start, finish)
+        heft.HEFTScheduler.heft_schedule(nxgraph, platform_model, temp_state, ordered_tasks[(idx + 1):])
+        total_time = max([state["ect"] for state in temp_state.task_states.values()])
+        current_min.update((total_time, host.speed, host.name), (host, pos, start, finish))
+      host, pos, start, finish = current_min.value
+      state.update(task, host, pos, start, finish)
+      
+    return state.schedule

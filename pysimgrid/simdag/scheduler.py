@@ -19,6 +19,8 @@
 import abc
 import itertools
 import logging
+import time
+
 from .. import six
 from .. import csimdag
 from .. import cplatform
@@ -32,6 +34,14 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
   def run(self):
     raise NotImplementedError()
 
+  @abc.abstractproperty
+  def scheduler_time(self):
+    raise NotImplementedError()
+
+  @abc.abstractproperty
+  def total_time(self):
+    raise NotImplementedError()
+
   def _check_done(self):
     unfinished = self._simulation.all_tasks.by_prop("state", csimdag.TASK_STATE_DONE, True)
     if any(unfinished):
@@ -40,10 +50,14 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
 
 class StaticScheduler(Scheduler):
   def __init__(self, simulation):
-    self._simulation = simulation
+    super(StaticScheduler, self).__init__(simulation)
+    self.__scheduler_time = -1.
+    self.__total_time = -1.
 
   def run(self):
+    start_time = time.time()
     schedule = self.get_schedule(self._simulation)
+    self.__scheduler_time = time.time() - start_time
     if not isinstance(schedule, dict):
       raise Exception("'get_schedule' must return a dictionary")
     for host, task_list in schedule.items():
@@ -70,10 +84,19 @@ class StaticScheduler(Scheduler):
         break
 
     self._check_done()
+    self.__total_time = time.time() - start_time
 
   @abc.abstractmethod
   def get_schedule(self, simulation):
     raise NotImplementedError()
+
+  @property
+  def scheduler_time(self):
+    return self.__scheduler_time
+
+  @property
+  def total_time(self):
+    return self.__total_time
 
   def __update_host_status(self, hosts_status, changed):
     for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:
@@ -89,17 +112,28 @@ class StaticScheduler(Scheduler):
 
 
 class DynamicScheduler(Scheduler):
+  def __init__(self, simulation):
+    super(DynamicScheduler, self).__init__(simulation)
+    self.__scheduler_time = -1.
+    self.__total_time = -1.
+
   def run(self):
+    start_time = time.time()
     self.prepare(self._simulation)
     for t in self._simulation.tasks:
       t.watch(csimdag.TASK_STATE_DONE)
+    scheduler_time = time.time()
     # a bit ugly kludge - cannot just pass an empty list there, needs to be a _TaskList
     self.schedule(self._simulation, self._simulation.all_tasks.by_func(lambda t: False))
+    self.__scheduler_time = time.time() - scheduler_time
     changed = self._simulation.simulate()
     while changed:
+      scheduler_time = time.time()
       self.schedule(self._simulation, changed)
+      self.__scheduler_time += time.time() - scheduler_time
       changed = self._simulation.simulate()
     self._check_done()
+    self.__total_time = time.time() - start_time
 
   @abc.abstractmethod
   def prepare(self, simulation):
@@ -108,3 +142,11 @@ class DynamicScheduler(Scheduler):
   @abc.abstractmethod
   def schedule(self, simulation, changed):
     raise NotImplementedError()
+
+  @property
+  def scheduler_time(self):
+    return self.__scheduler_time
+
+  @property
+  def total_time(self):
+    return self.__total_time

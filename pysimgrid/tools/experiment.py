@@ -66,7 +66,7 @@ def run_experiment(job):
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
   # init return values with NaN's
-  clock, exec_time, comm_time = [float("NaN")] * 3
+  clock, exec_time, comm_time, sched_time = [float("NaN")] * 4
   try:
     with simdag.Simulation(platform, tasks, log_config="root.threshold:" + simgrid_log_level) as simulation:
       scheduler = scheduler_class(simulation)
@@ -74,6 +74,7 @@ def run_experiment(job):
       clock = simulation.clock
       exec_time = sum([t.finish_time - t.start_time for t in simulation.tasks])
       comm_time = sum([t.finish_time - t.start_time for t in simulation.all_tasks[simdag.TaskKind.TASK_KIND_COMM_E2E]])
+      sched_time = scheduler.scheduler_time
   except Exception:
     # output is not pretty, but complete and robust. it is a crash anyway.
     #   note the wrapping of job into a tuple
@@ -188,7 +189,7 @@ def main():
   #    SimGrid crashes on unitialized TLS
   ctx = multiprocessing.get_context("spawn")
   with ctx.Pool(processes=args.jobs, maxtasksperchild=1) as pool:
-    for job, makespan, exec_time, comm_time in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
+    for job, makespan, exec_time, comm_time, sched_time in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
       platform, tasks, algorithm, _ = job
       results.append({
         "platform": platform,
@@ -196,7 +197,8 @@ def main():
         "algorithm": algorithm,
         "makespan": makespan,
         "exec_time": exec_time,
-        "comm_time": comm_time
+        "comm_time": comm_time,
+        "sched_time": sched_time
       })
 
 
