@@ -16,7 +16,21 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import itertools
+"""
+Moreorless generic scheduling utils.
+
+Some of those are called a lot so they benefit from a Cython usage.
+
+However, there is still A LOT to optimize. Help is very welcome.
+Cubic complexity scheduling algorithms like LookaheadScheduler are still painfully slow.
+
+General optimization directions:
+  * more type annotations
+  * proper c-level numpy usage (it's all dynamic for now)
+  * less dict searches (may require schedulers update, which is undesirable)
+"""
+
+
 import networkx
 import numpy
 
@@ -51,40 +65,85 @@ class PlatformModel(object):
 
   @property
   def host_count(self):
+    """
+    Get platform host count.
+    """
     return len(self._speed)
 
   @property
   def speed(self):
+    """
+    Get hosts speed as a vector.
+
+    Refer to to host_map property or host_idx function to convert host instances to indices.
+    """
     return self._speed
 
   @property
   def bandwidth(self):
+    """
+    Get platform connection bandwidths as a matrix.
+
+    Note: for i==j bandwidth is 0
+    """
     return self._bandwidth
 
   @property
   def latency(self):
+    """
+    Get platform connection latencies as a matrix.
+
+    Note: for i==j bandwidth is 0
+    """
     return self._latency
 
   @property
   def mean_speed(self):
+    """
+    Get mean host speed in a platform.
+    """
     return self._mean_speed
 
   @property
   def mean_bandwidth(self):
+    """
+    Get mean connection bandwidth in a platform.
+    """
     return self._mean_bandwidth
 
   @property
   def mean_latency(self):
+    """
+    Get mean connection latency in a platform.
+    """
     return self._mean_latency
 
   @property
   def host_map(self):
+    """
+    Get {Host: idx} mapping.
+    """
     return self._host_map
 
   def eet(self, task, host):
+    """
+    Calculate task eet on a given host.
+    """
     return task.amount / self._speed[self._host_map[host]]
 
   def parent_data_ready_time(self, host, parent, dict edge_dict, SchedulerState state):
+    """
+    Calculate data ready time for a single parent.
+
+    Params:
+      host: host on which a new (current) task will be executed
+      parent: parent task
+      edge_dict: edge properties dict (for now the only important property is "weight")
+      state: current schedule state
+
+    Return:
+      earliest start time considering only a given parent
+    """
     cdef dict task_states = state.task_states
     cdef int dst_idx = self._host_map[host]
     cdef int src_idx = self._host_map[task_states[parent]["host"]]
@@ -93,6 +152,17 @@ class PlatformModel(object):
     return task_states[parent]["ect"] + edge_dict["weight"] / self._bandwidth[src_idx, dst_idx] + self._latency[src_idx, dst_idx]
 
   def est(self, host, parents, SchedulerState state):
+    """
+    Calculate an earliest start time for a given task.
+
+    Params:
+      host: host on which a new (current) task will be executed
+      parents: iterable of parent tasks and egdes in a form [(parent, edge)...]
+      state: current schedule state
+
+    Returns:
+      earliest start time as a float
+    """
     cdef float result = 0.
     cdef float parent_time
     for parent, edge_dict in parents:
@@ -106,6 +176,11 @@ class PlatformModel(object):
 
 
 cdef class SchedulerState(object):
+  """
+  Stores the current scheduler state.
+
+  See properties description for details.
+  """
   cdef dict _task_states
   cdef dict _timetable
 
@@ -122,6 +197,11 @@ cdef class SchedulerState(object):
       self._timetable = timetable
 
   def copy(self):
+    """
+    Return a deep (enough) copy of a state.
+
+    Timesheet tuples aren't actually copied, but they shouldn't be modified anyway.
+    """
     # manual copy of initial state
     #   copy.deepcopy is slow as hell
     task_states = {task: dict(state) for (task, state) in self._task_states.items()}
@@ -130,17 +210,46 @@ cdef class SchedulerState(object):
 
   @property
   def task_states(self):
+    """
+    Get current task states as a dict.
+
+    Layout: {Task: {"ect": float, "host": Host}}
+    """
     return self._task_states
 
   @property
   def timetable(self):
+    """
+    Get a timesheets dict.
+
+    Layout: {Host: [(Task, start, finish)...]}
+    """
     return self._timetable
 
   @property
   def schedule(self):
+    """
+    Get a schedule from a current timetable.
+
+    Returns:
+      a dict {Host: [Task...]}
+    """
     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
 
   def update(self, task, host, int pos, float start, float finish):
+    """
+    Update timetable for a given host.
+
+    Note: doesn't perform any validation for now, can produce overlapping timesheets
+          if used carelessly
+
+    Params:
+      task: task to schedule on a host
+      host: host considered
+      pos: insertion position
+      start: task start time
+      finish: task finish time
+    """
     # update task state
     task_state = self._task_states[task]
     task_state["ect"] = finish
@@ -150,6 +259,11 @@ cdef class SchedulerState(object):
 
 
 cdef class MinSelector(object):
+  """
+  Nifty little utility class to select minimum over a loop without storing all the results.
+
+  Doesn't seem to benefit a lot from cython, but why not.
+  """
   cdef object best_key
   cdef object best_value
 
@@ -158,30 +272,56 @@ cdef class MinSelector(object):
     self.best_value = None
 
   def update(self, object key, object value):
+    """
+    Update selector state.
+
+    If given key compares less then the stored key, overwrites the latter as a new best.
+    """
     if self.best_key is None or key < self.best_key:
       self.best_key = key
       self.best_value = value
 
   @property
   def key(self):
+    """
+    Get current best key.
+    """
     return self.best_key
 
   @property
   def value(self):
+    """
+    Get current best value.
+    """
     return self.best_value
 
 
 def schedulable_order(object nxgraph, dict ranking):
+  """
+  Give an valid topological order that attempts to prioritize task by given ranking.
+
+  Higher rank values are considered to have higher priority.
+
+  Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking
+  function doesn't guarantee to preserve topological sort.
+
+  Params:
+    nxgraph: workflow as a networkx.DiGraph object
+    ranking: dict of ranking values, layout is {cplatform.Task: float}
+
+  Returns:
+    a list of tasks in a topological order
+  """
   cdef object state = networkx.DiGraph(nxgraph)
   cdef dict succ = state.succ
   cdef dict pred = state.pred
+  # as always, use dual key to achieve deterministic sort on equal rank values
   sorter = lambda node: (ranking[node], node.name)
   # extract graph root(s)
   ready_nodes = sorted([node for (node, parents) in pred.items() if not parents], key=sorter)
   order = []
   while ready_nodes:
     scheduled = ready_nodes.pop()
-    #print(scheduled.name, ranking[scheduled], [t.name for t in nxgraph.pred[scheduled]])
     order.append(scheduled)
     for child in succ[scheduled]:
       child_active_parents = pred[child]
@@ -194,6 +334,20 @@ def schedulable_order(object nxgraph, dict ranking):
 
 
 def timesheet_insertion(list timesheet, float est, float eet):
+  """
+  Evaluate a earliest possible insertion into a given timesheet.
+
+  Note: implementation may look a bit ugly, but it is for optimization
+        this function is called a lot
+
+  Params:
+    timesheet: list of scheduled tasks in a form (Task, start, finish)
+    est: new task earliest start time
+    eet: new task execution time
+
+  Returns:
+    a tuple (insert_index, start, finish)
+  """
   cdef int insert_index = len(timesheet)
   cdef float start_time = timesheet[-1][2] if timesheet else 0
   cdef tuple insertion = (None, 0, 0)

@@ -16,10 +16,11 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
 import collections
 import logging
 import networkx
+import os
+
 from .. import csimdag
 
 class Simulation(object):
@@ -48,7 +49,7 @@ class Simulation(object):
       self.__config.update(config)
     self.__hosts = None
     self.__tasks = None
-    self.__logger = logging.getLogger("pysimgrid.Simulation")
+    self.__logger = logging.getLogger("simdag.Simulation")
     if not os.path.isfile(self.__platform_src):
       raise IOError("platform definition file {} does not exist".format(self.__platform_src))
     if not os.path.isfile(self.__tasks_src):
@@ -110,6 +111,9 @@ class Simulation(object):
 
   @property
   def clock(self):
+    """
+    Get current SimGrid clock.
+    """
     return csimdag.get_clock()
 
   def __enter__(self):

@@ -25,7 +25,20 @@ from ..taskflow import Taskflow
 
 
 class PEFTScheduler(StaticScheduler):
+  """
+  Implementation of a Predicted Earliest Finish Time (PEFT) algorithm.
 
+  PEFT tries to combine benefits of HEFT and lookahead in a single algorithm.
+
+  Instead of actual lookahead scheduling, PEFT pre-computes an Optimistic Cost Table (OCT),
+  each element of which contains time to finish all the task descendants on their best hosts,
+  disregarding the host availability.
+
+  For more details and rationale please refer to the original publication:
+    H. Arabnejad and J. G. Barbosa, "List Scheduling Algorithm for Heterogeneous Systems by
+    an Optimistic Cost Table", IEEE Transactions on Parallel and Distributed Systems,
+    Vol 25, No 3, 2014, pp. 682-694
+  """
   def get_schedule(self, simulation):
     """
     Overriden.
@@ -45,15 +58,15 @@ class PEFTScheduler(StaticScheduler):
         est = platform_model.est(host, nxgraph.pred[task].items(), state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-        # strange key order to ensure stable sorting:
+        # key order to ensure stable sorting:
         #  first sort by ECT + OCT (as PEFT requires)
         #  if equal - sort by host speed
         #  if equal - sort by host name (guaranteed to be unique)
         current_min.update((finish + oct_dict[task][platform_model.host_idx(host)], host.speed, host.name), (host, pos, start, finish))
       host, pos, start, finish = current_min.value
-      #print(task.name, host.name, pos, est, start, finish)
       state.update(task, host, pos, start, finish)
-    return state.schedule
+    expected_makespan = max([state["ect"] for state in state.task_states.values()])
+    return state.schedule, expected_makespan
 
   @classmethod
   def oct_dict(cls, nxgraph, platform_model):

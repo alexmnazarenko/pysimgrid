@@ -42,6 +42,13 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
   def total_time(self):
     raise NotImplementedError()
 
+  @property
+  def expected_makespan(self):
+    """
+    Optional property - most static algorithms produce makespan prediction.
+    """
+    return None
+
   def _check_done(self):
     unfinished = self._simulation.all_tasks.by_prop("state", csimdag.TASK_STATE_DONE, True)
     if any(unfinished):
@@ -53,13 +60,20 @@ class StaticScheduler(Scheduler):
     super(StaticScheduler, self).__init__(simulation)
     self.__scheduler_time = -1.
     self.__total_time = -1.
+    self.__expected_makespan = None
 
   def run(self):
     start_time = time.time()
     schedule = self.get_schedule(self._simulation)
     self.__scheduler_time = time.time() - start_time
-    if not isinstance(schedule, dict):
-      raise Exception("'get_schedule' must return a dictionary")
+    self._log.info("Scheduling time: %f", self.__scheduler_time)
+    if not isinstance(schedule, (dict, tuple)):
+      raise Exception("'get_schedule' must return a dictionary or a tuple")
+    if isinstance(schedule, tuple):
+      if len(schedule) != 2 or not isinstance(schedule[0], dict) or not isinstance(schedule[1], float):
+        raise Exception("'get_schedule' returned tuple should have format (<expected_makespan>, <schedule>)")
+      schedule, self.__expected_makespan = schedule
+      self._log.info("Expected makespan: %f", self.__expected_makespan)
     for host, task_list in schedule.items():
       if not (isinstance(host, cplatform.Host) and isinstance(task_list, list)):
         raise Exception("'get_schedule' must return a dictionary Host:List_of_tasks")
@@ -97,6 +111,10 @@ class StaticScheduler(Scheduler):
   @property
   def total_time(self):
     return self.__total_time
+
+  @property
+  def expected_makespan(self):
+    return self.__expected_makespan
 
   def __update_host_status(self, hosts_status, changed):
     for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:

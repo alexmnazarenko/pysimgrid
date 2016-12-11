@@ -66,15 +66,17 @@ def run_experiment(job):
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
   # init return values with NaN's
-  clock, exec_time, comm_time, sched_time = [float("NaN")] * 4
+  makespan, exec_time, comm_time, sched_time, exp_makespan = [float("NaN")] * 5
   try:
     with simdag.Simulation(platform, tasks, log_config="root.threshold:" + simgrid_log_level) as simulation:
       scheduler = scheduler_class(simulation)
       scheduler.run()
-      clock = simulation.clock
+      makespan = simulation.clock
       exec_time = sum([t.finish_time - t.start_time for t in simulation.tasks])
       comm_time = sum([t.finish_time - t.start_time for t in simulation.all_tasks[simdag.TaskKind.TASK_KIND_COMM_E2E]])
       sched_time = scheduler.scheduler_time
+      if scheduler.expected_makespan is not None:
+        exp_makespan = scheduler.expected_makespan
   except Exception:
     # output is not pretty, but complete and robust. it is a crash anyway.
     #   note the wrapping of job into a tuple
@@ -83,7 +85,7 @@ def run_experiment(job):
       raise Exception(message)
     else:
       logger.exception(message)
-  return job, clock, exec_time, comm_time, sched_time
+  return job, makespan, exec_time, comm_time, sched_time, exp_makespan
 
 
 def progress_reporter(iterable, length, logger):
@@ -189,7 +191,7 @@ def main():
   #    SimGrid crashes on unitialized TLS
   ctx = multiprocessing.get_context("spawn")
   with ctx.Pool(processes=args.jobs, maxtasksperchild=1) as pool:
-    for job, makespan, exec_time, comm_time, sched_time in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
+    for job, makespan, exec_time, comm_time, sched_time, exp_makespan in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
       platform, tasks, algorithm, _ = job
       results.append({
         "platform": platform,
@@ -198,7 +200,8 @@ def main():
         "makespan": makespan,
         "exec_time": exec_time,
         "comm_time": comm_time,
-        "sched_time": sched_time
+        "sched_time": sched_time,
+        "expected_makespan": exp_makespan
       })
 
 

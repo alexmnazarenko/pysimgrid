@@ -24,6 +24,36 @@ from ... import cscheduling
 
 
 class HEFTScheduler(scheduler.StaticScheduler):
+  """
+  Implementation of a famous Heterogeneous Earliest Finish Time (HEFT) scheduling algorithm.
+
+  Many advantages of this method include:
+  * pretty high performance
+  * low (N**2M) time complexity
+  * quite simple implementation
+
+  The general idea is very simple:
+  1. Sort tasks according in decreasing ranku order
+
+     ranku(task) = ECT(task) + max_among_children(ranku(child) + ECOMT(task, child))
+
+     where ECT and ECOMT are evaluated using platform mean speed, bandwidt and latency values
+
+     Important property of this ordering is that it is also an topological order (see below).
+
+  2. Go over ordered task and schedule each one to the minimize task completion time.
+
+     To estimate task completion time, ofc, you need to all task parents to be scheduled already.
+     This is achieved automatically as HEFT order is also a topological sort for a tasks.
+
+     HEFT scheduling allows insertions to happen, so if some host has an empty and wide enough time slot,
+     next task may be added in between already scheduled tasks.
+
+  For more details please refer to the original HEFT publication:
+    H. Topcuoglu, S. Hariri and Min-You Wu, "Performance-effective and low-complexity task
+    scheduling for heterogeneous computing", IEEE Transactions on Parallel and Distributed
+    Systems, Vol 13, No 3, 2002, pp. 260-274
+  """
 
   def get_schedule(self, simulation):
     """
@@ -36,16 +66,20 @@ class HEFTScheduler(scheduler.StaticScheduler):
     ordered_tasks = self.heft_order(nxgraph, platform_model)
 
     self.heft_schedule(nxgraph, platform_model, state, ordered_tasks)
-    return state.schedule
+    expected_makespan = max([state["ect"] for state in state.task_states.values()])
+    return state.schedule, expected_makespan
 
   @classmethod
   def heft_order(cls, nxgraph, platform_model):
     """
-    Return tasks in a HEFT ranku order.
+    Order task according to HEFT ranku.
 
     Params:
       nxgraph: full task graph as networkx.DiGraph
       platform_model: see HEFTScheduler.platform_model
+
+    Returns:
+      a list of tasks in a HEFT order
     """
     mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
     task_ranku = {}
@@ -62,6 +96,9 @@ class HEFTScheduler(scheduler.StaticScheduler):
   def heft_schedule(cls, nxgraph, platform_model, state, ordered_tasks):
     """
     Build a HEFT schedule for a given state.
+    Implemented as a separate function to be used in lookahead scheduler.
+
+    Note: modifies a given state inplace
 
     Params:
       nxgraph: full task graph as networkx.DiGraph
