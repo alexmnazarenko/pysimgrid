@@ -16,12 +16,12 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 from collections import deque
-from itertools import chain
-import numpy as np
-from copy import deepcopy
 
+import networkx
+import numpy
+
+from ... import cscheduling
 from ..scheduler import StaticScheduler
 from ..taskflow import Taskflow
 
@@ -29,50 +29,17 @@ from ..taskflow import Taskflow
 class HCPTScheduler(StaticScheduler):
 
   def get_schedule(self, simulation):
-    taskflow = Taskflow().from_simulation(simulation)
-    tasks = taskflow.tasks
-
-    # Average execution cost
-    aec = {}
-    for task in tasks:
-      cost = taskflow.complexities[task]
-      task_aec = np.average([
-        float(cost) / host.speed
-        for host in simulation.hosts
-      ])
-      aec[task] = task_aec
-
-    # Average earliest start time
-    aest = {}
-    aest[taskflow.root] = 0
-    ordered_tasks = taskflow.topological_order()
-    for task_id in ordered_tasks:
-      parents = taskflow.get_parents(task_id)
-      if not parents:
-        aest[task_id] = 0
-        continue
-      aest[task_id] = max([
-        aest[p] + aec[p] + float(taskflow.matrix[tasks.index(p), tasks.index(task_id)])
-        for p in parents
-      ])
-
-    # Average latest start time
-    alst = {}
-    alst[taskflow.end] = aest[taskflow.end]
-    ordered_tasks.reverse()
-    for task_id in ordered_tasks:
-      children = taskflow.get_children(task_id)
-      if not children:
-        alst[task_id] = aest[task_id]
-        continue
-      alst[task_id] = min([
-        alst[c] - float(taskflow.matrix[tasks.index(task_id), tasks.index(c)])
-        for c in children
-      ]) - aec[task_id]
-
+    """
+    Overridden.
+    """
+    nxgraph = simulation.get_task_graph()
+    platform_model = cscheduling.PlatformModel(simulation)
+    state = cscheduling.SchedulerState(simulation)
+    tasks_aest, tasks_alst = self.get_tasks_aest_alst(nxgraph, platform_model)
+    
     # All nodes in the critical path must have AEST=ALST
     critical_path = sorted(
-      [(t, aest[t]) for t in aest if np.isclose(aest[t], alst[t])],
+      [(t, tasks_aest[t]) for t in tasks_aest if numpy.isclose(tasks_aest[t], tasks_alst[t])],
       key=lambda x: x[1]
     )
     critical_path.reverse()
@@ -80,87 +47,85 @@ class HCPTScheduler(StaticScheduler):
     stack = deque([elem[0] for elem in critical_path])
     queue = deque()
     while len(stack):
-      task_id = stack.pop()
-      parents = taskflow.get_parents(task_id)
+      task = stack.pop()
+      parents = nxgraph.pred[task]
       untracked_parents = sorted(
         set(parents) - set(queue),
-        key=lambda x: aest[x]
+        key=lambda x: tasks_aest[x]
       )
       if untracked_parents:
-        stack.append(task_id)
+        stack.append(task)
         for parent in untracked_parents:
           stack.append(parent)
       else:
-        queue.append(task_id)
-
-    # Schedule has a format: (Task name, Start time, End time)
-    schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.name: task for task in simulation.tasks}
-
-    hosts = {
-      host.name: {
-        "speed": host.speed,
-        "timesheet": []
-      }
-      for host in simulation.hosts
-    }
+        queue.append(task)
 
     scheduled = set()
     while len(queue):
-      task_id = queue.popleft()
-      if task_id in scheduled:
+      task = queue.popleft()
+      if task in scheduled:
         continue
       else:
-        scheduled.add(task_id)
-      parents = taskflow.get_parents(task_id)
-      parents_end = [
-        elem[1] + taskflow.matrix[taskflow.tasks.index(elem[2]), taskflow.tasks.index(task_id)]
-        for elem in chain.from_iterable([h[1]['timesheet'] for h in hosts.items()])
-        if elem[2] in parents
-      ]
-      est = min(parents_end or [0])
-      host, start_time, end_time = self._calc_host_start(
-        est,
-        taskflow.complexities[task_id],
-        hosts
-      )
-      hosts[host]["timesheet"].append((start_time, end_time, task_id))
+        scheduled.add(task)
+      current_min = cscheduling.MinSelector()
+      for host, timesheet in state.timetable.items():
+        est = platform_model.est(host, nxgraph.pred[task].items(), state)
+        eet = platform_model.eet(task, host)
+        pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+        # strange key order to ensure stable sorting:
+        #  first sort by ECT
+        #  if equal - sort by host speed
+        #  if equal - sort by host name (guaranteed to be unique)
+        current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
+      host, pos, start, finish = current_min.value
+      state.update(task, host, pos, start, finish)
+    return state.schedule
 
-    for host in simulation.hosts:
-      schedule[host] = []
-      for elem in hosts[host.name]["timesheet"]:
-        task_name = elem[2]
-        if task_name not in [taskflow.TRUE_ROOT, taskflow.TRUE_END]:
-          schedule[host].append(ids_tasks[task_name])
+  @classmethod
+  def get_tasks_aest_alst(cls, nxgraph, platform_model):
+    """
+    Return AEST and ALST of tasks.
 
-    return schedule
+    Params:
+      nxgraph: full task graph as networkx.DiGraph
+      platform_model: cscheduling.PlatformModel object
+    """
+    mean_speed = platform_model.mean_speed
+    mean_bandwidth = platform_model.mean_bandwidth
+    mean_latency = platform_model.mean_latency
+    topological_order = networkx.topological_sort(nxgraph)
 
-  def _timesheet_gaps(self, timesheet):
-    ts = deepcopy(timesheet)
-    ts.insert(0, (0., 0.))
-    pairs = zip(ts, ts[1:])
-    return [(p[0][1], p[1][0]) for p in pairs if p[0][1] != p[1][0]]
+    # Average execution cost
+    aec = {task: float(task.amount) / mean_speed for task in nxgraph}
 
-  def _calc_host_start(self, est, amount, hosts):
-    e_host_st = []
-    for host in hosts:
-      # Check host gaps
-      duration = float(amount) / hosts[host]["speed"]
-      gaps = self._timesheet_gaps(hosts[host]["timesheet"])
-      for gap in gaps:
-        start = max(gap[0], est)
-        end = gap[1]
-        if end < est or duration > end - start:
-          continue
-        e_host_st.append((host, start, start + duration))
-        break
-      if host not in e_host_st:
-        # End time of the last host task
-        start = (
-          hosts[host]["timesheet"][-1][1]
-          if len(hosts[host]["timesheet"])
-          else 0
-        )
-        start = max(start, est)
-        e_host_st.append((host, start, start + duration))
-    return min(e_host_st, key=lambda x: x[2])
+    # Average earliest start time
+    aest = {}
+    # TODO: Check several roots and ends!
+    root = topological_order[0]
+    end = topological_order[-1]
+    aest[root] = 0.
+    for task in topological_order:
+      parents = nxgraph.pred[task]
+      if not parents:
+        aest[task] = 0
+        continue
+      aest[task] = max([
+        aest[parent] + aec[parent] + (nxgraph[parent][task]["weight"] / mean_bandwidth + mean_latency)
+        for parent in parents
+      ])
+
+    topological_order.reverse()
+
+    # Average latest start time
+    alst = {}
+    alst[end] = aest[end]
+    for task in topological_order:
+      if not nxgraph[task]:
+        alst[task] = aest[task]
+        continue
+      alst[task] = min([
+        alst[child] - (edge["weight"] / mean_bandwidth + mean_latency)
+        for child, edge in nxgraph[task].items()
+      ]) - aec[task]
+
+    return aest, alst
