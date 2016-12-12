@@ -17,8 +17,10 @@
 #
 
 import random
+
+import networkx
+
 from .. import scheduler
-from .. import taskflow
 
 class RandomScheduler(scheduler.StaticScheduler):
   """
@@ -34,9 +36,7 @@ class RandomScheduler(scheduler.StaticScheduler):
   """
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.name: task for task in simulation.tasks}
-    flow = taskflow.Taskflow()
-    flow.from_simulation(simulation)
-    for task in flow.topological_order():
-      schedule[random.choice(simulation.hosts)].append(ids_tasks[task])
+    graph = simulation.get_task_graph()
+    for task in networkx.topological_order(graph):
+      schedule[random.choice(simulation.hosts)].append(task)
     return schedule

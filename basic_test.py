@@ -14,6 +14,8 @@ import logging
 import multiprocessing
 import time
 
+import networkx
+
 from pysimgrid import simdag
 from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead, peft
 
@@ -24,11 +26,9 @@ logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_F
 class RandomSchedule(simdag.StaticScheduler):
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.name: task for task in simulation.tasks}
-    taskflow = simdag.Taskflow()
-    taskflow.from_simulation(simulation)
-    for task in taskflow.topological_order():
-      schedule[random.choice(simulation.hosts)].append(ids_tasks[task])
+    graph = simulation.get_task_graph()
+    for task in networkx.topological_sort(graph):
+      schedule[random.choice(simulation.hosts)].append(task)
     return schedule
 
 
@@ -56,10 +56,12 @@ _SCHEDULERS = {
   "SimpleDynamic": SimpleDynamic,
   "MCT": mct.MCTScheduler,
   "OLB": olb.OLBScheduler,
+  "HCPT": hcpt.HCPTScheduler,
   "HEFT": heft.HEFTScheduler,
   "Lookahead": lookahead.LookaheadScheduler,
-  "PEFT": peft.PEFTScheduler
+  "PEFT": peft.PEFTScheduler,
 }
+
 
 def run_simulation(scheduler):
   scheduler_class = _SCHEDULERS[scheduler]
@@ -68,6 +70,7 @@ def run_simulation(scheduler):
     scheduler = scheduler_class(simulation)
     scheduler.run()
     print("Scheduler time:", scheduler.scheduler_time)
+
 
 def main():
   # single run in current process mode, used for profiling
@@ -87,6 +90,7 @@ def main():
     p = multiprocessing.Process(target=run_simulation, args=(scheduler,))
     p.start()
     p.join()
+
 
 if __name__ == '__main__':
   main()

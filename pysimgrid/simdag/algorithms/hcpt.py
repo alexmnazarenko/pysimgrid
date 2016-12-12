@@ -23,7 +23,6 @@ import numpy
 
 from ... import cscheduling
 from ..scheduler import StaticScheduler
-from ..taskflow import Taskflow
 
 
 class HCPTScheduler(StaticScheduler):
@@ -36,7 +35,7 @@ class HCPTScheduler(StaticScheduler):
     platform_model = cscheduling.PlatformModel(simulation)
     state = cscheduling.SchedulerState(simulation)
     tasks_aest, tasks_alst = self.get_tasks_aest_alst(nxgraph, platform_model)
-    
+
     # All nodes in the critical path must have AEST=ALST
     critical_path = sorted(
       [(t, tasks_aest[t]) for t in tasks_aest if numpy.isclose(tasks_aest[t], tasks_alst[t])],
@@ -79,7 +78,9 @@ class HCPTScheduler(StaticScheduler):
         current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
       host, pos, start, finish = current_min.value
       state.update(task, host, pos, start, finish)
-    return state.schedule
+
+    expected_makespan = max([state["ect"] for state in state.task_states.values()])
+    return state.schedule, expected_makespan
 
   @classmethod
   def get_tasks_aest_alst(cls, nxgraph, platform_model):

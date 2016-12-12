@@ -21,7 +21,6 @@ import numpy
 
 from ... import cscheduling
 from ..scheduler import StaticScheduler
-from ..taskflow import Taskflow
 
 
 class PEFTScheduler(StaticScheduler):

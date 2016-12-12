@@ -19,7 +19,6 @@
 import networkx
 
 from .. import scheduler
-from ..taskflow import Taskflow
 from ... import cscheduling
 
 
@@ -29,7 +28,7 @@ class HEFTScheduler(scheduler.StaticScheduler):
 
   Many advantages of this method include:
   * pretty high performance
-  * low (N**2M) time complexity
+  * low time complexity (N**2M)
   * quite simple implementation
 
   The general idea is very simple:

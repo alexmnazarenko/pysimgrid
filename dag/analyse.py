@@ -1,3 +1,11 @@
+"""
+Experiment results analysis tool.
+
+Not yet generic. Should be included in pysimgrid.tools when is.
+"""
+
+from __future__ import print_function
+
 import argparse
 import collections
 import json
@@ -19,6 +27,7 @@ def par(string):
 def main():
   parser = argparse.ArgumentParser(description="Experiment results analysis")
   parser.add_argument("input_file", type=str, help="experiment results")
+  parser.add_argument("--ref", "--reference", type=str, default="OLB", help="reference algorithm name for result normalization")
   args = parser.parse_args()
 
   with open(args.input_file) as input_file:
@@ -26,7 +35,8 @@ def main():
 
   # Filter out HCPT for bugginess and bad performance
   # TODO: fix or remove it completely
-  results = list(filter(lambda r: r["algorithm"]["name"] != "HCPT", results))
+  # upd: it seems better now. let's experiment more.
+  #results = list(filter(lambda r: r["algorithm"]["name"] != "HCPT", results))
 
   get_task_name = lambda r: os.path.basename(r["tasks"]).rsplit(".", 1)[0]
   get_platform = lambda r: os.path.basename(r["platform"])
@@ -39,24 +49,23 @@ def main():
   get_algorithm = lambda r: r["algorithm"]["name"]
 
   # evaluate normalized results
-  REFERENCE_ALGO = "OLB"
   for task, bytask in groupby(results, get_task_name):
     for platform, byplat in groupby(bytask, get_platform):
       algorithm_results = groupby(byplat, get_algorithm, False)
-      focus = algorithm_results[REFERENCE_ALGO][0]
+      focus = algorithm_results[args.ref][0]
       for algorithm, byalg in algorithm_results.items():
         byalg[0]["normalized"] = byalg[0]["makespan"] / focus["makespan"]
 
   # print results as latex table
   # a lot of hardcode there for now. not sure if can be avoided without excessively generic code.
-  algorithm_order = ["OLB", "MCT", "Random", "RoundRobin", "HEFT", "Lookahead", "PEFT"]
+  algorithm_order = ["OLB", "MCT", "Random", "RoundRobin", "HCPT", "HEFT", "Lookahead", "PEFT"]
   print(par(r"""
   \begin{table}
   \caption{TODO}
   \begin{center}
      \small\begin{tabular}{*{8}{l}}
   \toprule
-  Nodes TODO & OLB  & MCT  & Random   & RoundRobin  & HEFT  & Lookahead & PEFT \\ \midrule
+  Nodes TODO & OLB  & MCT  & Random   & RoundRobin & HCPT  & HEFT  & Lookahead & PEFT \\ \midrule
   """))
   for task, bytask in sorted(groupby(results, get_task_group)):
     print(par(r"""
@@ -76,11 +85,6 @@ def main():
   \label{tab:TODO}
   \end{table}
   """))
-
-
-
-
-
 
 if __name__ == "__main__":
   main()

@@ -18,7 +18,6 @@
 
 import random
 from .. import scheduler
-from .. import taskflow
 
 class RoundRobinScheduler(scheduler.StaticScheduler):
   """
@@ -31,10 +30,8 @@ class RoundRobinScheduler(scheduler.StaticScheduler):
   """
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
-    ids_tasks = {task.name: task for task in simulation.tasks}
-    flow = taskflow.Taskflow()
-    flow.from_simulation(simulation)
     hosts_count = len(simulation.hosts)
-    for idx, task in enumerate(flow.topological_order()):
-      schedule[simulation.hosts[idx % hosts_count]].append(ids_tasks[task])
+    graph = simulation.get_task_graph()
+    for task in networkx.topological_order(graph):
+      schedule[simulation.hosts[idx % hosts_count]].append(task)
     return schedule
