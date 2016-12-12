@@ -37,6 +37,6 @@ class RandomScheduler(scheduler.StaticScheduler):
   def get_schedule(self, simulation):
     schedule = {host: [] for host in simulation.hosts}
     graph = simulation.get_task_graph()
-    for task in networkx.topological_order(graph):
+    for task in networkx.topological_sort(graph):
       schedule[random.choice(simulation.hosts)].append(task)
     return schedule

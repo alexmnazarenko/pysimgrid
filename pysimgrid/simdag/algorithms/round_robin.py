@@ -16,7 +16,8 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import random
+import networkx
+
 from .. import scheduler
 
 class RoundRobinScheduler(scheduler.StaticScheduler):
@@ -32,6 +33,6 @@ class RoundRobinScheduler(scheduler.StaticScheduler):
     schedule = {host: [] for host in simulation.hosts}
     hosts_count = len(simulation.hosts)
     graph = simulation.get_task_graph()
-    for task in networkx.topological_order(graph):
+    for idx, task in enumerate(networkx.topological_sort(graph)):
       schedule[simulation.hosts[idx % hosts_count]].append(task)
     return schedule
