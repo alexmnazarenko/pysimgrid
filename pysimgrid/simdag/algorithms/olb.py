@@ -45,7 +45,6 @@ class OLBScheduler(scheduler.DynamicScheduler):
     for t in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
       if t not in queue_set:
         self.queue.append(t)
-    clock = simulation.clock
     while self.queue:
       free_hosts = simulation.hosts.by_data("free", True)
       if free_hosts:

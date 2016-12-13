@@ -75,7 +75,7 @@ class HEFTScheduler(scheduler.StaticScheduler):
 
     Params:
       nxgraph: full task graph as networkx.DiGraph
-      platform_model: see HEFTScheduler.platform_model
+      platform_model: cscheduling.PlatformModel instance
 
     Returns:
       a list of tasks in a HEFT order

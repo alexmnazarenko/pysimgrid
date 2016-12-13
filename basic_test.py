@@ -8,11 +8,9 @@ For bettter examples on C API wrappers look at test/test_capi.py.
 
 from __future__ import print_function
 
-import sys
 import random
 import logging
 import multiprocessing
-import time
 
 import networkx
 
@@ -78,7 +76,7 @@ def main():
     #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
     with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_10_54.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
-      graph = simulation.get_task_graph()
+      #graph = simulation.get_task_graph()
       #scheduler = heft.HEFTScheduler(simulation)
       scheduler = lookahead.LookaheadScheduler(simulation)
       #scheduler = peft.PEFTScheduler(simulation)

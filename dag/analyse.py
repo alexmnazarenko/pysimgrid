@@ -11,6 +11,7 @@ import collections
 import json
 import os
 import textwrap
+
 import numpy
 
 
@@ -23,6 +24,7 @@ def groupby(results, condition, asitems=True):
 
 def par(string):
   return textwrap.dedent(string).strip()
+
 
 def main():
   parser = argparse.ArgumentParser(description="Experiment results analysis")
