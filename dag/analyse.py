@@ -22,61 +22,108 @@ def groupby(results, condition, asitems=True):
     groups[key].append(data)
   return groups.items() if asitems else groups
 
+
 def par(string):
   return textwrap.dedent(string).strip()
 
 
+def get_taskfile_name(item):
+  return os.path.basename(item["tasks"]).rsplit(".", 1)[0]
+
+
+def get_task_count(item):
+  return int(get_taskfile_name(item).split("_")[1])
+
+
+def get_taskfile_group(item):
+  return "_".join(get_taskfile_name(item).split("_")[:2])
+
+
+def get_platform_name(item):
+  return os.path.basename(item["platform"])
+
+
+def get_host_count(item):
+  return int(get_platform_name(item).split("_")[1])
+
+
+def get_host_bandwidth(item):
+  return int(get_platform_name(item).split("_")[3])
+
+
+def get_algorithm(item):
+  return item["algorithm"]["name"]
+
+
 def main():
+  MODES = {
+    "tgroup_hcount": lambda results: normtime_all_algo(results, get_taskfile_group, get_host_count),
+    "tgroup_hcount_exp": lambda results: etime_static_algo(results, get_taskfile_group, get_host_count),
+    "bandwidth_hcount": lambda results: normtime_all_algo(results, get_host_bandwidth, get_host_count),
+    "bandwidth_hcount_exp": lambda results: etime_static_algo(results, get_host_bandwidth, get_host_count)
+  }
+
   parser = argparse.ArgumentParser(description="Experiment results analysis")
   parser.add_argument("input_file", type=str, help="experiment results")
-  parser.add_argument("--ref", "--reference", type=str, default="OLB", help="reference algorithm name for result normalization")
+  parser.add_argument("-m", "--mode", type=str, default="tgroup_hcount", choices=list(MODES.keys()), help="processing mode")
   args = parser.parse_args()
 
   with open(args.input_file) as input_file:
     results = json.load(input_file)
 
-  # Filter out HCPT for bugginess and bad performance
-  # TODO: fix or remove it completely
-  # upd: it seems better now. let's experiment more.
-  #results = list(filter(lambda r: r["algorithm"]["name"] != "HCPT", results))
+  MODES.get(args.mode)(results)
 
-  get_task_name = lambda r: os.path.basename(r["tasks"]).rsplit(".", 1)[0]
-  get_platform = lambda r: os.path.basename(r["platform"])
 
-  get_no_hosts = lambda r: int(os.path.basename(r["platform"]).split("_")[1])
-  get_host_bandwidth = lambda r: int(os.path.basename(r["platform"]).split("_")[3])
-  get_task_group = lambda r: "_".join(get_task_name(r).split("_")[:2])
-  get_no_tasks = lambda r: int(get_task_name(r).split("_")[1])
-  get_task_jump = lambda r: int(get_task_name(r).split("_")[5])
-  get_algorithm = lambda r: r["algorithm"]["name"]
-
+def normtime_all_algo(results, cond1, cond2):
+  ALGO_ORDER = ["OLB", "MCT", "Random", "RoundRobin", "HCPT", "HEFT", "Lookahead", "PEFT"]
+  REFERENCE_ALGO = "OLB"
   # evaluate normalized results
-  for task, bytask in groupby(results, get_task_name):
-    for platform, byplat in groupby(bytask, get_platform):
+  for task, bytask in groupby(results, get_taskfile_name):
+    for platform, byplat in groupby(bytask, get_platform_name):
       algorithm_results = groupby(byplat, get_algorithm, False)
-      focus = algorithm_results[args.ref][0]
+      assert len(algorithm_results[REFERENCE_ALGO]) == 1
+      reference = algorithm_results[REFERENCE_ALGO][0]
       for algorithm, byalg in algorithm_results.items():
-        byalg[0]["normalized"] = byalg[0]["makespan"] / focus["makespan"]
+        byalg[0]["result"] = byalg[0]["makespan"] / reference["makespan"]
 
+  latex_table(results, ALGO_ORDER, cond1, cond2)
+
+
+def etime_static_algo(results, cond1, cond2):
+  ALGO_ORDER = ["HCPT", "HEFT", "Lookahead", "PEFT"]
+  REFERENCE_ALGO = "HEFT"
+
+  results = list(filter(lambda r: get_algorithm(r) in ALGO_ORDER, results))
+  # evaluate normalized results
+  for task, bytask in groupby(results, get_taskfile_name):
+    for platform, byplat in groupby(bytask, get_platform_name):
+      algorithm_results = groupby(byplat, get_algorithm, False)
+      assert len(algorithm_results[REFERENCE_ALGO]) == 1
+      reference = algorithm_results[REFERENCE_ALGO][0]
+      for algorithm, byalg in algorithm_results.items():
+        byalg[0]["result"] = byalg[0]["expected_makespan"] / reference["expected_makespan"]
+
+  latex_table(results, ALGO_ORDER, cond1, cond2)
+
+def latex_table(results, algorithms, cond1, cond2):
   # print results as latex table
   # a lot of hardcode there for now. not sure if can be avoided without excessively generic code.
-  algorithm_order = ["OLB", "MCT", "Random", "RoundRobin", "HCPT", "HEFT", "Lookahead", "PEFT"]
   print(par(r"""
   \begin{table}
   \caption{TODO}
   \begin{center}
      \small\begin{tabular}{*{8}{l}}
   \toprule
-  Nodes TODO & OLB  & MCT  & Random   & RoundRobin & HCPT  & HEFT  & Lookahead & PEFT \\ \midrule
-  """))
-  for task, bytask in sorted(groupby(results, get_task_group)):
+  GROUP 2 TODO & %s \\ \midrule
+  """) % ("&  ".join(algorithms),))
+  for c1, bycond1 in sorted(groupby(results, cond1)):
     print(par(r"""
-    \multicolumn{8}{l}{%s} \\ \midrule
-    """) % (task))
-    for no_hosts, byhost in sorted(groupby(bytask, get_no_hosts)):
-      print("%-15s" % no_hosts, end="")
-      for algorithm, byalg in sorted(groupby(byhost, get_algorithm), key=lambda pair: algorithm_order.index(pair[0])):
-        mean = numpy.mean([r["normalized"] for r in byalg])
+    \multicolumn{8}{l}{GROUP 1 TODO %s} \\ \midrule
+    """) % (c1))
+    for c2, bycond2 in sorted(groupby(bycond1, cond2)):
+      print("%-15s" % c2, end="")
+      for algorithm, byalg in sorted(groupby(bycond2, get_algorithm), key=lambda pair: algorithms.index(pair[0])):
+        mean = numpy.mean([r["result"] for r in byalg])
         print(" & %10.4f" % mean, end="")
       print(r" \\")
     print(r"\midrule")
