@@ -73,7 +73,7 @@ class HEFTScheduler(scheduler.StaticScheduler):
     """
     Order task according to HEFT ranku.
 
-    Params:
+    Args:
       nxgraph: full task graph as networkx.DiGraph
       platform_model: cscheduling.PlatformModel instance
 
@@ -99,7 +99,7 @@ class HEFTScheduler(scheduler.StaticScheduler):
 
     Note: modifies a given state inplace
 
-    Params:
+    Args:
       nxgraph: full task graph as networkx.DiGraph
       platform_model: cscheduling.PlatformModel object
       state: cscheduling.SchedulerState object

@@ -112,14 +112,14 @@ def latex_table(results, algorithms, cond1, cond2):
   \begin{table}
   \caption{TODO}
   \begin{center}
-     \small\begin{tabular}{*{8}{l}}
+     \small\begin{tabular}{*{%d}{l}}
   \toprule
   GROUP 2 TODO & %s \\ \midrule
-  """) % ("&  ".join(algorithms),))
+  """) % (len(algorithms) + 1, " &  ".join(algorithms),))
   for c1, bycond1 in sorted(groupby(results, cond1)):
     print(par(r"""
-    \multicolumn{8}{l}{GROUP 1 TODO %s} \\ \midrule
-    """) % (c1))
+    \multicolumn{%d}{l}{GROUP 1 TODO %s} \\ \midrule
+    """) % (len(algorithms) + 1, c1))
     for c2, bycond2 in sorted(groupby(bycond1, cond2)):
       print("%-15s" % c2, end="")
       for algorithm, byalg in sorted(groupby(bycond2, get_algorithm), key=lambda pair: algorithms.index(pair[0])):

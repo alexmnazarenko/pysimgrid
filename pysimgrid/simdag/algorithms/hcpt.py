@@ -87,9 +87,14 @@ class HCPTScheduler(StaticScheduler):
     """
     Return AEST and ALST of tasks.
 
-    Params:
+    Args:
       nxgraph: full task graph as networkx.DiGraph
       platform_model: cscheduling.PlatformModel object
+
+    Returns:
+      tuple containg 2 dictionaries
+        aest: task->aest_value
+        alst: task->alst_value
     """
     mean_speed = platform_model.mean_speed
     mean_bandwidth = platform_model.mean_bandwidth

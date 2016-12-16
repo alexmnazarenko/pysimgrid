@@ -72,7 +72,7 @@ class PEFTScheduler(StaticScheduler):
     """
     Build optimistic cost table as an dict task->array.
 
-    Params:
+    Args:
       nxgraph: networkx representation of task graph
       platform_model: platform linear model
     """

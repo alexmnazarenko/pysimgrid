@@ -135,7 +135,7 @@ class PlatformModel(object):
     """
     Calculate data ready time for a single parent.
 
-    Params:
+    Args:
       host: host on which a new (current) task will be executed
       parent: parent task
       edge_dict: edge properties dict (for now the only important property is "weight")
@@ -155,7 +155,7 @@ class PlatformModel(object):
     """
     Calculate an earliest start time for a given task.
 
-    Params:
+    Args:
       host: host on which a new (current) task will be executed
       parents: iterable of parent tasks and egdes in a form [(parent, edge)...]
       state: current schedule state
@@ -243,7 +243,7 @@ cdef class SchedulerState(object):
     Note: doesn't perform any validation for now, can produce overlapping timesheets
           if used carelessly
 
-    Params:
+    Args:
       task: task to schedule on a host
       host: host considered
       pos: insertion position
@@ -305,7 +305,7 @@ def schedulable_order(object nxgraph, dict ranking):
   Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking
   function doesn't guarantee to preserve topological sort.
 
-  Params:
+  Args:
     nxgraph: workflow as a networkx.DiGraph object
     ranking: dict of ranking values, layout is {cplatform.Task: float}
 
@@ -340,7 +340,7 @@ def timesheet_insertion(list timesheet, float est, float eet):
   Note: implementation may look a bit ugly, but it is for optimization
         this function is called a lot
 
-  Params:
+  Args:
     timesheet: list of scheduled tasks in a form (Task, start, finish)
     est: new task earliest start time
     eet: new task execution time
