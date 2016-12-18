@@ -1,5 +1,7 @@
 import os
 from setuptools import setup, Extension
+
+import numpy
 from Cython.Build import cythonize
 
 
@@ -11,7 +13,7 @@ SIMGRID_ROOT = local_path("opt/SimGrid")
 
 EXT_OPTIONS = {
   "libraries": ["simgrid"],
-  "include_dirs": [os.path.join(SIMGRID_ROOT, "include")],
+  "include_dirs": [os.path.join(SIMGRID_ROOT, "include"), numpy.get_include()],
   "library_dirs": [os.path.join(SIMGRID_ROOT, "lib")],
 }
 if os.name != "nt":

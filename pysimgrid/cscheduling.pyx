@@ -36,13 +36,25 @@ import numpy
 
 import cplatform
 
+cimport cplatform
+cimport csimdag
+cimport numpy as cnumpy
 
-class PlatformModel(object):
+
+cdef class PlatformModel(object):
   """
   Platform linear model used for most static scheduling approaches.
 
   Disregards network topology.
   """
+  cdef cnumpy.ndarray _speed
+  cdef cnumpy.ndarray _bandwidth
+  cdef cnumpy.ndarray _latency
+  cdef double _mean_speed
+  cdef double _mean_latency
+  cdef double _mean_bandwidth
+  cdef dict _host_map
+
   def __init__(self, simulation):
     hosts = simulation.hosts
     speed = numpy.zeros(len(hosts))
@@ -125,13 +137,13 @@ class PlatformModel(object):
     """
     return self._host_map
 
-  def eet(self, task, host):
+  cpdef eet(self, csimdag.Task task, cplatform.Host host):
     """
     Calculate task eet on a given host.
     """
-    return task.amount / self._speed[self._host_map[host]]
+    return task.amount / host.speed
 
-  def parent_data_ready_time(self, host, parent, dict edge_dict, SchedulerState state):
+  cpdef parent_data_ready_time(self, cplatform.Host host, csimdag.Task parent, dict edge_dict, SchedulerState state):
     """
     Calculate data ready time for a single parent.
 
@@ -151,9 +163,17 @@ class PlatformModel(object):
       return state.task_states[parent]["ect"]
     return task_states[parent]["ect"] + edge_dict["weight"] / self._bandwidth[src_idx, dst_idx] + self._latency[src_idx, dst_idx]
 
-  def est(self, host, parents, SchedulerState state):
+  cpdef est(self, cplatform.Host host, dict parents, SchedulerState state):
     """
     Calculate an earliest start time for a given task.
+
+    Implementation is kind of dense, as it is the most critical function for
+    HEFT/Lookahead algorithms execution time.
+
+    Key points:
+    * use numpy buffer types to speedup indexing
+    * manually inline parent_data_ready_time function (synergistic with numpy usage. passing buffer types is costly for some reason)
+    * annotate ALL types
 
     Args:
       host: host on which a new (current) task will be executed
@@ -163,15 +183,37 @@ class PlatformModel(object):
     Returns:
       earliest start time as a float
     """
-    cdef float result = 0.
-    cdef float parent_time
-    for parent, edge_dict in parents:
-      parent_time = self.parent_data_ready_time(host, parent, edge_dict, state)
+    cdef double result = 0.
+    cdef double parent_time
+
+    cdef dict task_states = state._task_states
+    cdef dict task_state
+    cdef int dst_idx = self._host_map[host]
+    cdef int src_idx
+    cdef csimdag.Task parent
+    cdef dict edge_dict
+    cdef double comm_amount
+
+    # force ndarray types to ensure fast indexing
+    cdef cnumpy.ndarray[double, ndim=2] bw = self._bandwidth
+    cdef cnumpy.ndarray[double, ndim=2] lat = self._latency
+
+    for parent, edge_dict in parents.items():
+      task_state = task_states[parent]
+      src_idx = self._host_map[task_state["host"]]
+      if src_idx == dst_idx:
+        parent_time =  task_state["ect"]
+      else:
+        comm_amount = edge_dict["weight"]
+        # extract ect first to ensure it has fixed type
+        # otherwise + operator will trigger nasty python lookup
+        parent_time = task_state["ect"]
+        parent_time += comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]
       if parent_time > result:
         result = parent_time
     return result
 
-  def host_idx(self, host):
+  def host_idx(self, cplatform.Host host):
     return self._host_map[host]
 
 
@@ -236,7 +278,7 @@ cdef class SchedulerState(object):
     """
     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
 
-  def update(self, task, host, int pos, float start, float finish):
+  def update(self, csimdag.Task task, cplatform.Host host, int pos, double start, double finish):
     """
     Update timetable for a given host.
 
@@ -251,11 +293,12 @@ cdef class SchedulerState(object):
       finish: task finish time
     """
     # update task state
-    task_state = self._task_states[task]
+    cdef dict task_state = self._task_states[task]
+    cdef list timesheet = self._timetable[host]
     task_state["ect"] = finish
     task_state["host"] = host
     # update timesheet
-    self._timetable[host].insert(pos, (task, start, finish))
+    timesheet.insert(pos, (task, start, finish))
 
 
 cdef class MinSelector(object):
@@ -264,14 +307,14 @@ cdef class MinSelector(object):
 
   Doesn't seem to benefit a lot from cython, but why not.
   """
-  cdef object best_key
-  cdef object best_value
+  cdef tuple best_key
+  cdef tuple best_value
 
   def __init__(self):
     self.best_key = None
     self.best_value = None
 
-  def update(self, object key, object value):
+  cpdef update(self, tuple key, tuple value):
     """
     Update selector state.
 
@@ -294,6 +337,63 @@ cdef class MinSelector(object):
     Get current best value.
     """
     return self.best_value
+
+
+def heft_order(object nxgraph, PlatformModel platform_model):
+  """
+  Order task according to HEFT ranku.
+
+  Args:
+    nxgraph: full task graph as networkx.DiGraph
+    platform_model: cscheduling.PlatformModel instance
+
+  Returns:
+    a list of tasks in a HEFT order
+  """
+  mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
+  task_ranku = {}
+  for task in networkx.topological_sort(nxgraph, reverse=True):
+    ecomt_and_rank = [
+      task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
+      for child, edge in nxgraph[task].items()
+    ] or [0]
+    task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
+  # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
+  return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)
+
+
+cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks):
+  """
+  Build a HEFT schedule for a given state.
+  Implemented as a separate function to be used in lookahead scheduler.
+
+  Note: modifies a given state inplace
+
+  Args:
+    nxgraph: full task graph as networkx.DiGraph
+    platform_model: cscheduling.PlatformModel object
+    state: cscheduling.SchedulerState object
+    ordered_tasks: tasks in a HEFT order
+  """
+  cdef MinSelector current_min
+  cdef int pos
+  cdef cplatform.Host host
+  cdef double est, eet, start, finish
+  for task in ordered_tasks:
+    current_min = MinSelector()
+    for host, timesheet in state.timetable.items():
+      est = platform_model.est(host, nxgraph.pred[task], state)
+      eet = platform_model.eet(task, host)
+      pos, start, finish = timesheet_insertion(timesheet, est, eet)
+      # strange key order to ensure stable sorting:
+      #  first sort by ECT (as HEFT requires)
+      #  if equal - sort by host speed
+      #  if equal - sort by host name (guaranteed to be unique)
+      current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
+    host, pos, start, finish = current_min.value
+    #print(task.name, host.name, pos, est, start, finish)
+    state.update(task, host, pos, start, finish)
+  return state
 
 
 def schedulable_order(object nxgraph, dict ranking):
@@ -333,7 +433,7 @@ def schedulable_order(object nxgraph, dict ranking):
   return order
 
 
-def timesheet_insertion(list timesheet, float est, float eet):
+cpdef timesheet_insertion(list timesheet, double est, double eet):
   """
   Evaluate a earliest possible insertion into a given timesheet.
 
@@ -349,7 +449,10 @@ def timesheet_insertion(list timesheet, float est, float eet):
     a tuple (insert_index, start, finish)
   """
   cdef int insert_index = len(timesheet)
-  cdef float start_time = timesheet[-1][2] if timesheet else 0
+  cdef double start_time = timesheet[-1][2] if timesheet else 0
+  cdef double slot_start
+  cdef double slot_end
+  cdef double slot
   cdef tuple insertion = (None, 0, 0)
   cdef tuple t1
   cdef tuple t2
@@ -358,7 +461,9 @@ def timesheet_insertion(list timesheet, float est, float eet):
     for idx in range(len(timesheet)):
       t1 = timesheet[idx - 1] if idx else insertion
       t2 = timesheet[idx]
-      slot = t2[1] - max(t1[2], est)
+      slot_end = t2[1]
+      slot_start = t1[2]
+      slot = slot_end - max(slot_start, est)
       if slot > eet:
         insert_index = idx
         start_time = t1[2]

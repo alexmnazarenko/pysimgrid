@@ -53,16 +53,16 @@ class LookaheadScheduler(scheduler.StaticScheduler):
     platform_model = cscheduling.PlatformModel(simulation)
     state = cscheduling.SchedulerState(simulation)
 
-    ordered_tasks = heft.HEFTScheduler.heft_order(nxgraph, platform_model)
+    ordered_tasks = cscheduling.heft_order(nxgraph, platform_model)
     for idx, task in enumerate(ordered_tasks):
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():
         temp_state = state.copy()
-        est = platform_model.est(host, nxgraph.pred[task].items(), state)
+        est = platform_model.est(host, nxgraph.pred[task], state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         temp_state.update(task, host, pos, start, finish)
-        heft.HEFTScheduler.heft_schedule(nxgraph, platform_model, temp_state, ordered_tasks[(idx + 1):])
+        cscheduling.heft_schedule(nxgraph, platform_model, temp_state, ordered_tasks[(idx + 1):])
         total_time = max([state["ect"] for state in temp_state.task_states.values()])
         # key order to ensure stable sorting:
         #  first sort by HEFT makespan (as Lookahead requires)

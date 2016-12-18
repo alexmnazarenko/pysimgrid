@@ -75,7 +75,7 @@ def main():
   if False:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
-    with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_10_54.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+    with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
       #graph = simulation.get_task_graph()
       #scheduler = heft.HEFTScheduler(simulation)
       scheduler = lookahead.LookaheadScheduler(simulation)

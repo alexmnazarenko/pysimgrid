@@ -62,61 +62,8 @@ class HEFTScheduler(scheduler.StaticScheduler):
     platform_model = cscheduling.PlatformModel(simulation)
     state = cscheduling.SchedulerState(simulation)
 
-    ordered_tasks = self.heft_order(nxgraph, platform_model)
+    ordered_tasks = cscheduling.heft_order(nxgraph, platform_model)
 
-    self.heft_schedule(nxgraph, platform_model, state, ordered_tasks)
+    cscheduling.heft_schedule(nxgraph, platform_model, state, ordered_tasks)
     expected_makespan = max([state["ect"] for state in state.task_states.values()])
     return state.schedule, expected_makespan
-
-  @classmethod
-  def heft_order(cls, nxgraph, platform_model):
-    """
-    Order task according to HEFT ranku.
-
-    Args:
-      nxgraph: full task graph as networkx.DiGraph
-      platform_model: cscheduling.PlatformModel instance
-
-    Returns:
-      a list of tasks in a HEFT order
-    """
-    mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
-    task_ranku = {}
-    for task in networkx.topological_sort(nxgraph, reverse=True):
-      ecomt_and_rank = [
-        task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
-        for child, edge in nxgraph[task].items()
-      ] or [0]
-      task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
-    # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
-    return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)
-
-  @classmethod
-  def heft_schedule(cls, nxgraph, platform_model, state, ordered_tasks):
-    """
-    Build a HEFT schedule for a given state.
-    Implemented as a separate function to be used in lookahead scheduler.
-
-    Note: modifies a given state inplace
-
-    Args:
-      nxgraph: full task graph as networkx.DiGraph
-      platform_model: cscheduling.PlatformModel object
-      state: cscheduling.SchedulerState object
-      ordered_tasks: tasks in a HEFT order
-    """
-    for task in ordered_tasks:
-      current_min = cscheduling.MinSelector()
-      for host, timesheet in state.timetable.items():
-        est = platform_model.est(host, nxgraph.pred[task].items(), state)
-        eet = platform_model.eet(task, host)
-        pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-        # strange key order to ensure stable sorting:
-        #  first sort by ECT (as HEFT requires)
-        #  if equal - sort by host speed
-        #  if equal - sort by host name (guaranteed to be unique)
-        current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
-      host, pos, start, finish = current_min.value
-      #print(task.name, host.name, pos, est, start, finish)
-      state.update(task, host, pos, start, finish)
-    return state

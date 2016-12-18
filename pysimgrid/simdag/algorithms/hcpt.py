@@ -68,7 +68,7 @@ class HCPTScheduler(StaticScheduler):
         scheduled.add(task)
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():
-        est = platform_model.est(host, nxgraph.pred[task].items(), state)
+        est = platform_model.est(host, nxgraph.pred[task], state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         # strange key order to ensure stable sorting:
