@@ -22,7 +22,7 @@ from .. import scheduler
 from ... import cscheduling
 
 
-class HEFTScheduler(scheduler.StaticScheduler):
+class HEFT(scheduler.StaticScheduler):
   """
   Implementation of a famous Heterogeneous Earliest Finish Time (HEFT) scheduling algorithm.
 

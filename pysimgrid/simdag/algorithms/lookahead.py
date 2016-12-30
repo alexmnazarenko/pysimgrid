@@ -21,7 +21,7 @@ from .. import scheduler
 from . import heft
 
 
-class LookaheadScheduler(scheduler.StaticScheduler):
+class Lookahead(scheduler.StaticScheduler):
   """
   Implementation of Lookahead scheduling algorithm.
 

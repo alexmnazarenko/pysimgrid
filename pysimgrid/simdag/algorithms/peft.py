@@ -23,7 +23,7 @@ from ... import cscheduling
 from ..scheduler import StaticScheduler
 
 
-class PEFTScheduler(StaticScheduler):
+class PEFT(StaticScheduler):
   """
   Implementation of a Predicted Earliest Finish Time (PEFT) algorithm.
 

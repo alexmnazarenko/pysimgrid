@@ -15,3 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from .hcpt import HCPT
+from .heft import HEFT
+from .lookahead import Lookahead
+from .mct import MCT
+from .olb import OLB
+from .peft import PEFT
+from .random import RandomStatic
+from .round_robin import RoundRobinStatic

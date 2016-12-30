@@ -15,7 +15,7 @@ import multiprocessing
 import networkx
 
 from pysimgrid import simdag
-from pysimgrid.simdag.algorithms import hcpt, heft, mct, olb, lookahead, peft
+import pysimgrid.simdag.algorithms as algorithms
 
 _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
@@ -50,14 +50,14 @@ class SimpleDynamic(simdag.DynamicScheduler):
 
 
 _SCHEDULERS = {
-  "RandomSchedule": RandomSchedule,
+  "RandomSchedule": algorithms.RandomStatic,
   "SimpleDynamic": SimpleDynamic,
-  "MCT": mct.MCTScheduler,
-  "OLB": olb.OLBScheduler,
-  "HCPT": hcpt.HCPTScheduler,
-  "HEFT": heft.HEFTScheduler,
-  "Lookahead": lookahead.LookaheadScheduler,
-  "PEFT": peft.PEFTScheduler,
+  "MCT": algorithms.MCT,
+  "OLB": algorithms.OLB,
+  "HCPT": algorithms.HCPT,
+  "HEFT": algorithms.HEFT,
+  "Lookahead": algorithms.Lookahead,
+  "PEFT": algorithms.PEFT
 }
 
 
@@ -78,7 +78,7 @@ def main():
     with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
       #graph = simulation.get_task_graph()
       #scheduler = heft.HEFTScheduler(simulation)
-      scheduler = lookahead.LookaheadScheduler(simulation)
+      scheduler = algorithms.Lookahead(simulation)
       #scheduler = peft.PEFTScheduler(simulation)
       scheduler.run()
       print(scheduler.scheduler_time, scheduler.total_time)

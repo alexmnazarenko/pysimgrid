@@ -20,7 +20,7 @@ import networkx
 
 from .. import scheduler
 
-class RoundRobinScheduler(scheduler.StaticScheduler):
+class RoundRobinStatic(scheduler.StaticScheduler):
   """
   Round robin static scheduler implementation.
 

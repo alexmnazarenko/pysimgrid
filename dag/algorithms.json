@@ -1,34 +1,34 @@
 [
   {
-    "class": "pysimgrid.simdag.algorithms.hcpt.HCPTScheduler",
+    "class": "pysimgrid.simdag.algorithms.HCPT",
     "name": "HCPT"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.heft.HEFTScheduler",
+    "class": "pysimgrid.simdag.algorithms.HEFT",
     "name": "HEFT"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.lookahead.LookaheadScheduler",
+    "class": "pysimgrid.simdag.algorithms.Lookahead",
     "name": "Lookahead"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.peft.PEFTScheduler",
+    "class": "pysimgrid.simdag.algorithms.PEFT",
     "name": "PEFT"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.mct.MCTScheduler",
+    "class": "pysimgrid.simdag.algorithms.MCT",
     "name": "MCT"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.olb.OLBScheduler",
+    "class": "pysimgrid.simdag.algorithms.OLB",
     "name": "OLB"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.random.RandomScheduler",
+    "class": "pysimgrid.simdag.algorithms.RandomStatic",
     "name": "Random"
   },
   {
-    "class": "pysimgrid.simdag.algorithms.round_robin.RoundRobinScheduler",
+    "class": "pysimgrid.simdag.algorithms.RoundRobinStatic",
     "name": "RoundRobin"
   }
 ]

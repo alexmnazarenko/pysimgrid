@@ -22,7 +22,7 @@ import networkx
 
 from .. import scheduler
 
-class RandomScheduler(scheduler.StaticScheduler):
+class RandomStatic(scheduler.StaticScheduler):
   """
   Random static scheduler implementation.
 

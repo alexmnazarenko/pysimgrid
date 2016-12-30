@@ -25,8 +25,21 @@ from ... import cscheduling
 from ..scheduler import StaticScheduler
 
 
-class HCPTScheduler(StaticScheduler):
+class HCPT(StaticScheduler):
+  """
+  Implementation of a Heterogeneous Critical Parent Trees (HCPT) algorithm.
 
+  HCPT is based on heuristics to find a critical path in worflow and schedule it with
+  the highest possible priority.
+
+  The key part is 'guided' topological sort which finds a schedulable order selecting cricial
+  nodes as early as possible.
+
+  For more details and rationale please refer to the original publication:
+    T. Hagras and J. Janecek, "A Simple Scheduling Heuristic for Heterogeneous Computing Environments",
+    Proceedings of the Second International Symposium on Parallel and Distributed Computing (ISPDC’03),
+    2003, pp. 104-110
+  """
   def get_schedule(self, simulation):
     """
     Overridden.

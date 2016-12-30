@@ -21,7 +21,7 @@ from .. import scheduler
 from ... import csimdag
 
 
-class OLBScheduler(scheduler.DynamicScheduler):
+class OLB(scheduler.DynamicScheduler):
   """
   Opportunistic load balancing implementation.
 

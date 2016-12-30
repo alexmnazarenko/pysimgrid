@@ -21,7 +21,7 @@ from .. import scheduler
 from ... import csimdag
 
 
-class MCTScheduler(scheduler.DynamicScheduler):
+class MCT(scheduler.DynamicScheduler):
   """
   Minimum completion time scheduler implementation.
 
