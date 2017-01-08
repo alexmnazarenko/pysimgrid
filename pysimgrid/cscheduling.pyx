@@ -22,7 +22,7 @@ Moreorless generic scheduling utils.
 Some of those are called a lot so they benefit from a Cython usage.
 
 However, there is still A LOT to optimize. Help is very welcome.
-Cubic complexity scheduling algorithms like LookaheadScheduler are still painfully slow.
+Cubic complexity scheduling algorithms like Lookahead are still painfully slow.
 
 General optimization directions:
   * more type annotations

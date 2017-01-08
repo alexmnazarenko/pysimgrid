@@ -16,6 +16,13 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+SimGrid/SimDAG API wrappers.
+
+Minimal usability improvements over the actual C API,
+for actual simulation it is better to use :class:`pysimgrid.simdag.Simulation`.
+"""
+
 cimport common
 cimport xbt
 cimport cplatform
@@ -146,6 +153,7 @@ def load_tasks(path, TaskFileFormat format = TASK_FILE_FORMAT_AUTO):
 def simulate(double how_long=-1.):
   """
   Run the simgrid simulation until one of the following happens:
+
   * how_long time limit expires (if passed and positive)
   * watchpoint is reached (some task changed state)
   * simulation ends
@@ -365,6 +373,8 @@ cdef class Task:
   def data(self):
     """
     Get/set user data associated with this host.
+
+    Data can be arbitrary python object, however the most common/robust approach is to store a dict of some properties.
     """
     return self.user_data
 

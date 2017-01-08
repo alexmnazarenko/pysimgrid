@@ -24,14 +24,16 @@ from ... import cscheduling
 
 class HEFT(scheduler.StaticScheduler):
   """
-  Implementation of a famous Heterogeneous Earliest Finish Time (HEFT) scheduling algorithm.
+  Heterogeneous Earliest Finish Time (HEFT) scheduler.
 
   Many advantages of this method include:
+
   * pretty high performance
   * low time complexity (N**2M)
   * quite simple implementation
 
   The general idea is very simple:
+
   1. Sort tasks according in decreasing ranku order
 
      ranku(task) = ECT(task) + max_among_children(ranku(child) + ECOMT(task, child))
@@ -40,7 +42,7 @@ class HEFT(scheduler.StaticScheduler):
 
      Important property of this ordering is that it is also an topological order (see below).
 
-  2. Go over ordered task and schedule each one to the minimize task completion time.
+  2. Go over ordered tasks list and schedule each one to the minimize task completion time.
 
      To estimate task completion time, ofc, you need to all task parents to be scheduled already.
      This is achieved automatically as HEFT order is also a topological sort for a tasks.
@@ -49,6 +51,7 @@ class HEFT(scheduler.StaticScheduler):
      next task may be added in between already scheduled tasks.
 
   For more details please refer to the original HEFT publication:
+
     H. Topcuoglu, S. Hariri and Min-You Wu, "Performance-effective and low-complexity task
     scheduling for heterogeneous computing", IEEE Transactions on Parallel and Distributed
     Systems, Vol 13, No 3, 2002, pp. 260-274

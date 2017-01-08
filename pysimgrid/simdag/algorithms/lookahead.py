@@ -23,7 +23,7 @@ from . import heft
 
 class Lookahead(scheduler.StaticScheduler):
   """
-  Implementation of Lookahead scheduling algorithm.
+  Lookahead scheduler.
 
   Lookahead aims to be an improved version of HEFT, avoiding some of its greedy scheduling decisions.
 
@@ -31,16 +31,20 @@ class Lookahead(scheduler.StaticScheduler):
   lookahead scheduler is much slower (as it runs HEFT to an end for each task/host pair).
 
   Main idea is simple:
+
     1. Consider tasks in a HEFT (ranku) order
     2. For each next task and for all hosts:
-         schedule task on a host
-         complete schedule using HEFT
-         evaluate makespan
+
+      * schedule task on a host
+      * complete schedule using HEFT
+      * evaluate makespan
+
     3. Select a host achieving a best makespan
 
   Note: authors actually propose 4 variants of the algorithm and as for now only the first one is implemented.
 
   For more details please refer to the original publication:
+
     L. F. Bittencourt, R. Sakellariou and E. R. M. Madeira, "DAG Scheduling Using a Lookahead
     Variant of the Heterogeneous Earliest Finish Time Algorithm", 18th Euromicro
     Conference on Parallel, Distributed and Network-based Processing, 2010, pp. 27-34

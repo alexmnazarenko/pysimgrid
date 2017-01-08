@@ -30,8 +30,11 @@ class Simulation(object):
   * Ensures proper bootstrap/cleanup
   * Provides an improved API for task/host filtering.
   * Ensures that you always use exactly same python instances for SimGrid objects
-  ** e.g csimdag.Task.parents returns brand-new Task instances you've never seen before
-  ** required for (Task/Host).data to work properly
+
+    * e.g csimdag.Task.parents returns brand-new Task instances you've never seen before
+    * required
+    * required for (Task/Host).data to work properly
+
   """
 
   _INSTANCE = None
@@ -58,6 +61,7 @@ class Simulation(object):
   def simulate(self, how_long=-1.):
     """
     Run the simgrid simulation until one of the following happens:
+    
     * how_long time limit expires (if passed and positive)
     * watchpoint is reached (some task changed state)
     * simulation ends
@@ -69,6 +73,11 @@ class Simulation(object):
     return _TaskList([t for t in self.__tasks if t.native in changed_ids])
 
   def get_task_graph(self):
+    """
+    Get current DAG as a nxgraph.DiGraph.
+
+    Task computation/communication amounts are represented as an "weight" attribute of nodes and edges.
+    """
     free_tasks = self.tasks.by_func(lambda t: not t.parents)
     if len(free_tasks) != 1:
       raise Exception("cannot find DAG root")
@@ -93,6 +102,9 @@ class Simulation(object):
 
   @property
   def connections(self):
+    """
+    Get all communication tasks.
+    """
     return self.all_tasks.by_prop("kind", csimdag.TASK_KIND_COMM_E2E)
 
   @property

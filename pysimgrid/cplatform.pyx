@@ -113,8 +113,7 @@ cdef class Host:
     """
     Get/set host native handle as intptr_t.
 
-    Warning: we very careful with setting this property,
-             wrong values will lead to SEGFAULT and no amout of try/excepts will save you
+    Warning: be very careful with setting this property, wrong values will lead to SEGFAULT and no amout of try/excepts will save you.
     """
     return <common.intptr>self.impl
 

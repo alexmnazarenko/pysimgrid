@@ -23,11 +23,12 @@ from ... import csimdag
 
 class MCT(scheduler.DynamicScheduler):
   """
-  Minimum completion time scheduler implementation.
+  Minimum completion time scheduler.
 
   Ready tasks are scheduled on host (probably busy one) that promises the earliest task completion.
 
   Task completion time is estimated as:
+
   ECT(task, host) = max(current_clock, estimated_host_ready_time) + max(comm_time_from_parents) + EET(task, host)
   """
   def prepare(self, simulation):

@@ -25,7 +25,7 @@ from ..scheduler import StaticScheduler
 
 class PEFT(StaticScheduler):
   """
-  Implementation of a Predicted Earliest Finish Time (PEFT) algorithm.
+  Predicted Earliest Finish Time (PEFT) scheduler.
 
   PEFT tries to combine benefits of HEFT and lookahead in a single algorithm.
 
@@ -34,6 +34,7 @@ class PEFT(StaticScheduler):
   disregarding the host availability.
 
   For more details and rationale please refer to the original publication:
+  
     H. Arabnejad and J. G. Barbosa, "List Scheduling Algorithm for Heterogeneous Systems by
     an Optimistic Cost Table", IEEE Transactions on Parallel and Distributed Systems,
     Vol 25, No 3, 2014, pp. 682-694

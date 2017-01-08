@@ -22,7 +22,7 @@ from .. import scheduler
 
 class RoundRobinStatic(scheduler.StaticScheduler):
   """
-  Round robin static scheduler implementation.
+  Round robin static scheduler.
 
   The important part there is static - all tasks are scheduled simultaneously.
   For more details please see RandomScheduler description.

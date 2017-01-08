@@ -23,7 +23,7 @@ from ... import csimdag
 
 class OLB(scheduler.DynamicScheduler):
   """
-  Opportunistic load balancing implementation.
+  Opportunistic load balancing scheduling.
 
   Dynamically schedule a free task on a fastest host, disregarding any communication costs.
   Main practical advantage is avoiding any attempts to estimate task performance on given machine.

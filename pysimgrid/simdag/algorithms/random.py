@@ -24,7 +24,7 @@ from .. import scheduler
 
 class RandomStatic(scheduler.StaticScheduler):
   """
-  Random static scheduler implementation.
+  Random static scheduler.
 
   The important part there is static - all tasks are scheduled simultaneously.
   Resulting schedule is significantly worse than dynamic random schedule. In static

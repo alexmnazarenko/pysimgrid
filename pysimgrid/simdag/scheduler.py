@@ -26,6 +26,9 @@ from .. import csimdag
 from .. import cplatform
 
 class Scheduler(six.with_metaclass(abc.ABCMeta)):
+  """
+  Base class for all scheduling algorithms.
+  """
   def __init__(self, simulation):
     self._simulation = simulation
     self._log = logging.getLogger(type(self).__name__)
@@ -56,6 +59,9 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
 
 
 class StaticScheduler(Scheduler):
+  """
+  Base class for static scheduling algorithms.
+  """
   def __init__(self, simulation):
     super(StaticScheduler, self).__init__(simulation)
     self.__scheduler_time = -1.
@@ -63,6 +69,9 @@ class StaticScheduler(Scheduler):
     self.__expected_makespan = None
 
   def run(self):
+    """
+    Execute a static schedule produced by algorithm implementation.
+    """
     start_time = time.time()
     schedule = self.get_schedule(self._simulation)
     self.__scheduler_time = time.time() - start_time
@@ -102,6 +111,13 @@ class StaticScheduler(Scheduler):
 
   @abc.abstractmethod
   def get_schedule(self, simulation):
+    """
+    Abstract method that need to be overriden in scheduler implementation.
+
+    Expected to return a schedule as dict {host: [list_of_tasks...]}.
+
+    Optionally, can also return a predicted makespan. Then return type is a tuple (schedule, predicted_makespan_in_seconds).
+    """
     raise NotImplementedError()
 
   @property
@@ -130,6 +146,9 @@ class StaticScheduler(Scheduler):
 
 
 class DynamicScheduler(Scheduler):
+  """
+  Base class for dynamic scheduling algorithms.
+  """
   def __init__(self, simulation):
     super(DynamicScheduler, self).__init__(simulation)
     self.__scheduler_time = -1.
@@ -155,10 +174,18 @@ class DynamicScheduler(Scheduler):
 
   @abc.abstractmethod
   def prepare(self, simulation):
+    """
+    Abstract method that need to be overriden in scheduler implementation.
+
+    Executed once before the simulation. Can be used to setup initial state for tasks and hosts.
+    """
     raise NotImplementedError()
 
   @abc.abstractmethod
   def schedule(self, simulation, changed):
+    """
+    Abstract method that need to be overriden in scheduler implementation.
+    """
     raise NotImplementedError()
 
   @property
