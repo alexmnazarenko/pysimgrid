@@ -26,8 +26,13 @@ Cubic complexity scheduling algorithms like Lookahead are still painfully slow.
 
 General optimization directions:
   * more type annotations
-  * proper c-level numpy usage (it's all dynamic for now)
+  * proper c-level numpy usage
   * less dict searches (may require schedulers update, which is undesirable)
+
+General philosophy is simple - technical optimizations is OK, even if ugly. As long
+as scheduler implementation doesn't suffer, this utilities may be as messed up as required.
+For example, A TON of dict searches can be avoided if all task/host access will be performed by index.
+However, it leads to ugly 'client' code (schedulers) and thus unacceptable.
 """
 
 
@@ -96,7 +101,8 @@ cdef class PlatformModel(object):
     """
     Get platform connection bandwidths as a matrix.
 
-    Note: for i==j bandwidth is 0
+    Note:
+      For i==j bandwidth is 0
     """
     return self._bandwidth
 
@@ -105,7 +111,8 @@ cdef class PlatformModel(object):
     """
     Get platform connection latencies as a matrix.
 
-    Note: for i==j bandwidth is 0
+    Note:
+      For i==j latency is 0
     """
     return self._latency
 
@@ -171,6 +178,7 @@ cdef class PlatformModel(object):
     HEFT/Lookahead algorithms execution time.
 
     Key points:
+
     * use numpy buffer types to speedup indexing
     * manually inline parent_data_ready_time function (synergistic with numpy usage. passing buffer types is costly for some reason)
     * annotate ALL types
@@ -243,6 +251,9 @@ cdef class SchedulerState(object):
     Return a deep (enough) copy of a state.
 
     Timesheet tuples aren't actually copied, but they shouldn't be modified anyway.
+
+    Note:
+      Exists purely for optimization. copy.deepcopy is just abysmally slow.
     """
     # manual copy of initial state
     #   copy.deepcopy is slow as hell
@@ -255,7 +266,7 @@ cdef class SchedulerState(object):
     """
     Get current task states as a dict.
 
-    Layout: {Task: {"ect": float, "host": Host}}
+    Layout: a dict {Task: {"ect": float, "host": Host}}
     """
     return self._task_states
 
@@ -264,7 +275,7 @@ cdef class SchedulerState(object):
     """
     Get a timesheets dict.
 
-    Layout: {Host: [(Task, start, finish)...]}
+    Layout: a dict {Host: [(Task, start, finish)...]}
     """
     return self._timetable
 
@@ -273,8 +284,7 @@ cdef class SchedulerState(object):
     """
     Get a schedule from a current timetable.
 
-    Returns:
-      a dict {Host: [Task...]}
+    Layout: a dict {Host: [Task...]}
     """
     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
 
@@ -282,8 +292,10 @@ cdef class SchedulerState(object):
     """
     Update timetable for a given host.
 
-    Note: doesn't perform any validation for now, can produce overlapping timesheets
-          if used carelessly
+    Note:
+      Doesn't perform any validation for now, can produce overlapping timesheets if used carelessly.
+      Checks can be costly.
+
 
     Args:
       task: task to schedule on a host
@@ -303,22 +315,26 @@ cdef class SchedulerState(object):
 
 cdef class MinSelector(object):
   """
-  Nifty little utility class to select minimum over a loop without storing all the results.
+  Little aux class to select minimum over a loop without storing all the results.
 
   Doesn't seem to benefit a lot from cython, but why not.
   """
   cdef tuple best_key
-  cdef tuple best_value
+  cdef object best_value
 
   def __init__(self):
     self.best_key = None
     self.best_value = None
 
-  cpdef update(self, tuple key, tuple value):
+  cpdef update(self, tuple key, object value):
     """
     Update selector state.
 
     If given key compares less then the stored key, overwrites the latter as a new best.
+
+    Args:
+      key: key that is minimized
+      value: associated value
     """
     if self.best_key is None or key < self.best_key:
       self.best_key = key
@@ -367,13 +383,17 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
   Build a HEFT schedule for a given state.
   Implemented as a separate function to be used in lookahead scheduler.
 
-  Note: modifies a given state inplace
+  Note:
+    This function actually modifies the passed SchedulerState, take care. Clone it manually if required.
 
   Args:
     nxgraph: full task graph as networkx.DiGraph
     platform_model: cscheduling.PlatformModel object
     state: cscheduling.SchedulerState object
     ordered_tasks: tasks in a HEFT order
+
+  Returns:
+    modified scheduler state
   """
   cdef MinSelector current_min
   cdef int pos
@@ -437,9 +457,6 @@ cpdef timesheet_insertion(list timesheet, double est, double eet):
   """
   Evaluate a earliest possible insertion into a given timesheet.
 
-  Note: implementation may look a bit ugly, but it is for optimization
-        this function is called a lot
-
   Args:
     timesheet: list of scheduled tasks in a form (Task, start, finish)
     est: new task earliest start time
@@ -448,6 +465,7 @@ cpdef timesheet_insertion(list timesheet, double est, double eet):
   Returns:
     a tuple (insert_index, start, finish)
   """
+  # implementation may look a bit ugly, but it's for performance reasons
   cdef int insert_index = len(timesheet)
   cdef double start_time = timesheet[-1][2] if timesheet else 0
   cdef double slot_start

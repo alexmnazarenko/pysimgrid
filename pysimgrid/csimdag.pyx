@@ -83,7 +83,8 @@ def initialize():
   Initialize SimDAG.
   Must be called before any other SimDAG functions.
 
-  Note: doesn't pass any command-line configuration. Use 'config' function if required.
+  Note:
+    Doesn't pass any command-line configuration. Use 'config' function if required.
   """
   cdef int argc = 1
   cdef int* argcp = &argc
@@ -124,8 +125,9 @@ def load_tasks(path, TaskFileFormat format = TASK_FILE_FORMAT_AUTO):
   """
   Load tasks definition.
 
-  Note: SimDAG doesn't provide 'static' API to access all active tasks (unlike with hosts).
-        To process tasks you must store return value of this function.
+  Note:
+    SimDAG doesn't provide 'static' API to access all active tasks (unlike with hosts).
+    To process tasks you must store return value of this function.
   """
   cdef list result = []
   cdef bytes utf8path = common.utf8_string(path)
@@ -230,7 +232,8 @@ cdef class Task:
     """
     Estimate task execution time on a given host.
 
-    Note: valid only for computational tasks
+    Note:
+      Valid only for computational tasks
     """
     self.__check_impl()
     if not host.impl:
@@ -245,7 +248,8 @@ cdef class Task:
     """
     Estimate communication between given hosts.
 
-    Note: valid only for communication tasks
+    Note:
+      Valid only for communication tasks
     """
     self.__check_impl()
     if (not src.impl) or (not dst.impl):
@@ -268,8 +272,8 @@ cdef class Task:
     """
     Get/set task native handle as intptr_t.
 
-    Warning: we very careful with setting this property,
-             wrong values will lead to SEGFAULT and no amout of try/excepts will save you
+    Warning:
+      Be very careful with setting this property, wrong values will lead to SEGFAULT and no amout of try/excepts will save you.
     """
     return <common.intptr>self.impl
 
@@ -323,7 +327,8 @@ cdef class Task:
     """
     Task start time.
 
-    Note: invalid for tasks that are not started yet.
+    Note:
+      Invalid for tasks that are not started yet.
     """
     self.__check_impl()
     return csimdag.SD_task_get_start_time(self.impl)
@@ -333,7 +338,8 @@ cdef class Task:
     """
     Get task finish time.
 
-    Note: invalid for tasks that are not done yet.
+    Note:
+      Invalid for tasks that are not done yet.
     """
     self.__check_impl()
     return csimdag.SD_task_get_finish_time(self.impl)
@@ -343,7 +349,8 @@ cdef class Task:
     """
     Get task direct children.
 
-    Note: as communication is also represented by tasks, to get child computational tasks you will need to call it recursively.
+    Note:
+      As communication is also represented by tasks, to get child computational tasks you will need to call it recursively.
     """
     self.__check_impl()
     return _tasks_from_dynar(csimdag.SD_task_get_children(self.impl))
@@ -353,7 +360,8 @@ cdef class Task:
     """
     Get task direct children.
 
-    Note: as communication is also represented by tasks, to get parent computational tasks you will need to call it recursively.
+    Note:
+      As communication is also represented by tasks, to get parent computational tasks you will need to call it recursively.
     """
     self.__check_impl()
     return _tasks_from_dynar(csimdag.SD_task_get_parents(self.impl))
