@@ -27,14 +27,14 @@ class PEFT(StaticScheduler):
   """
   Predicted Earliest Finish Time (PEFT) scheduler.
 
-  PEFT tries to combine benefits of HEFT and lookahead in a single algorithm.
+  PEFT aims to get advantages of Lookahead approach while avoiding the high computational complexity.
 
   Instead of actual lookahead scheduling, PEFT pre-computes an Optimistic Cost Table (OCT),
   each element of which contains time to finish all the task descendants on their best hosts,
   disregarding the host availability.
 
   For more details and rationale please refer to the original publication:
-  
+
     H. Arabnejad and J. G. Barbosa, "List Scheduling Algorithm for Heterogeneous Systems by
     an Optimistic Cost Table", IEEE Transactions on Parallel and Distributed Systems,
     Vol 25, No 3, 2014, pp. 682-694

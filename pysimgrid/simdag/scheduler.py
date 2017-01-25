@@ -28,6 +28,13 @@ from .. import cplatform
 class Scheduler(six.with_metaclass(abc.ABCMeta)):
   """
   Base class for all scheduling algorithms.
+
+  Defines scheduler public interface and provides (very few) useful methods for
+  actual schedulers:
+
+    *self._log* - Logger object (see logging module documentation)
+
+    *self._check_done()* - raise an exception if there are any unfinished tasks
   """
   def __init__(self, simulation):
     self._simulation = simulation
@@ -35,24 +42,44 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
 
   @abc.abstractmethod
   def run(self):
+    """
+    Descibes the simulation process.
+    Single call to this method should perform the full
+    simulation, scheduling all the tasks and calling the
+    simulation API as necessary.
+
+    Note:
+      Not intended to be overriden in the concrete algorithms.
+    """
     raise NotImplementedError()
 
   @abc.abstractproperty
   def scheduler_time(self):
+    """
+    Wall clock time spent scheduling.
+    """
     raise NotImplementedError()
 
   @abc.abstractproperty
   def total_time(self):
+    """
+    Wall clock time spent scheduling and simulating.
+    """
     raise NotImplementedError()
 
   @property
   def expected_makespan(self):
     """
-    Optional property - most static algorithms produce makespan prediction.
+    Algorithm's makespan prediction. Can return None if algorithms didn't/cannot provide it.
     """
     return None
 
   def _check_done(self):
+    """
+    Check that all tasks are completed after the simulation.
+
+    Useful to transform SimGrid's unhappy logs into actual detectable error.
+    """
     unfinished = self._simulation.all_tasks.by_prop("state", csimdag.TASK_STATE_DONE, True)
     if any(unfinished):
       raise Exception("some tasks are not finished by the end of simulation: {}".format([t.name for t in unfinished]))
@@ -61,6 +88,9 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
 class StaticScheduler(Scheduler):
   """
   Base class for static scheduling algorithms.
+
+  Provides some non-trivial functionality, ensuring that tasks scheduled on the same host
+  do not execute concurrently.
   """
   def __init__(self, simulation):
     super(StaticScheduler, self).__init__(simulation)
@@ -114,9 +144,13 @@ class StaticScheduler(Scheduler):
     """
     Abstract method that need to be overriden in scheduler implementation.
 
-    Expected to return a schedule as dict {host: [list_of_tasks...]}.
+    Args:
+      simulation: an :class:`pysimgrid.simdag.Simulation` object
 
-    Optionally, can also return a predicted makespan. Then return type is a tuple (schedule, predicted_makespan_in_seconds).
+    Returns:
+
+      Expected to return a schedule as dict {host -> [list_of_tasks...]}.
+      Optionally, can also return a predicted makespan. Then return type is a tuple (schedule, predicted_makespan_in_seconds).
     """
     raise NotImplementedError()
 
@@ -178,6 +212,9 @@ class DynamicScheduler(Scheduler):
     Abstract method that need to be overriden in scheduler implementation.
 
     Executed once before the simulation. Can be used to setup initial state for tasks and hosts.
+
+    Args:
+      simulation: an :class:`pysimgrid.simdag.Simulation` object
     """
     raise NotImplementedError()
 
@@ -185,6 +222,10 @@ class DynamicScheduler(Scheduler):
   def schedule(self, simulation, changed):
     """
     Abstract method that need to be overriden in scheduler implementation.
+
+    Args:
+      simulation: an :class:`pysimgrid.simdag.Simulation` object
+      changed: a list of changed tasks
     """
     raise NotImplementedError()
 
