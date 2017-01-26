@@ -37,6 +37,12 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
     *self._check_done()* - raise an exception if there are any unfinished tasks
   """
   def __init__(self, simulation):
+    """
+    Initialize scheduler instance.
+
+    Args:
+      simulation: a :class:`pysimgrid.simdag.Simulation` object
+    """
     self._simulation = simulation
     self._log = logging.getLogger(type(self).__name__)
 
@@ -145,7 +151,7 @@ class StaticScheduler(Scheduler):
     Abstract method that need to be overriden in scheduler implementation.
 
     Args:
-      simulation: an :class:`pysimgrid.simdag.Simulation` object
+      simulation: a :class:`pysimgrid.simdag.Simulation` object
 
     Returns:
 
@@ -214,7 +220,7 @@ class DynamicScheduler(Scheduler):
     Executed once before the simulation. Can be used to setup initial state for tasks and hosts.
 
     Args:
-      simulation: an :class:`pysimgrid.simdag.Simulation` object
+      simulation: a :class:`pysimgrid.simdag.Simulation` object
     """
     raise NotImplementedError()
 
@@ -224,7 +230,7 @@ class DynamicScheduler(Scheduler):
     Abstract method that need to be overriden in scheduler implementation.
 
     Args:
-      simulation: an :class:`pysimgrid.simdag.Simulation` object
+      simulation: a :class:`pysimgrid.simdag.Simulation` object
       changed: a list of changed tasks
     """
     raise NotImplementedError()

@@ -19,7 +19,7 @@ To run the simulation, 3 things are required:
   Some platforms can be found in tests and examples of pysimgrid and Simgrid itself.
 
   More details about platforms can be found in
-  `SimGrid documentation <http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html>`.
+  `SimGrid documentation <http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html>`_.
 
 * DAG (workload) description.
 
@@ -74,8 +74,85 @@ If you want to run multiple simulations in a single script, easiest way to do so
 Running a batch simulation from shell
 =====================================
 
-TODO
+Single simulations won't get you far in algorithm benchmarking.
 
+Of course you can setup batch execution by yourself, but there is a bundled tool for that - :ref:`pysimgrid.tools.experiment`.
+
+It makes running a publication-worthy experiments as easy as::
+
+    python -m pysimgrid.tools.experiment platforms_dir workflows_dir algorithms.json output.json -j8
+
+As you can see, batch simulation setup requires 3 main inputs:
+
+* List of simulated platforms (provided as a directory with *.xml* platform definitions).
+  See `SimGrid platform documentation <http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html>`_ for more details.
+
+* List of workflows that will be scheduled (provided as directory with \*.dot or \*.dax workflows).
+
+  * A lot of DAX examples can be found in
+    `Pegasus Workflow Generator <https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator>`_.;
+
+  * Some .dot examples can be found in the SimGrid sources;
+
+  * You can generate random .dot workflows using a provided tool pysimgrid.tools.dag_gen.
+
+* List of scheduling algorithms (provided as a json file)
+
+The batch run will make a cartesian product of all three lists thus running N_platforms x N_workflows x N_algorithms simulations.
+
+Algorithms json example::
+
+    [
+      {
+        "class": "pysimgrid.simdag.algorithms.HCPT",
+        "name": "HCPT"
+      },
+      {
+        "class": "pysimgrid.simdag.algorithms.HEFT",
+        "name": "HEFT"
+      }
+    ]
+
+Easiest way to run pysimgrid.tools.experiment module is to use *python -m* syntax. The tools has some configuration options, but the most important one is
+probably *-j* that allows to configure number of parallel simulations to run. To see more check the tool help, like this::
+
+    python -m pysimgrid.tools.experiment --help
+
+The result of simulation is a json file that is easy to analyse using python. Output format is::
+
+    [
+      {
+      "platform": "platform_dir/cluster_10_1-4_100_100_61.xml"
+      "tasks": "workflows_dir/testg0.4.dot",
+      "algorithm": {"name": "HEFT", "class": "pysimgrid.simdag.algorithms.heft.HEFTScheduler"},
+      "makespan": 1109.8607620759176,
+      "exec_time": 6228.565137126975,
+      "comm_time": 890.1153923229831,
+      "expected_makespan": 1039.0626220703125,
+      "sched_time": 0.08849978446960449,
+      },
+      ...
+      ...
+    ]
+
+Let's decipher it field by field:
+
+* platform - platform definition file
+
+* tasks - workflow definition file
+
+* algorithm - algorithm name and python class
+
+* makespan - measured makespan of the workflow (simulation clock)
+
+* exec_time - total time spend on computation (simulation clock)
+
+* comm_time - total time spent on communication (simulation clock)
+
+* expected_makespan - makespan as expected by static scheduling algorithm
+  (simulation clock, may be NaN if algorithm doesn't provide this info)
+
+* sched_time - real time spent by scheduler (wall clock)
 
 Writing your own scheduler
 ==========================

@@ -16,6 +16,37 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+Simple, but effective batch simulation tool.
+
+Usage::
+
+    python -m pysimgrid.tools.experiment [-h] [-j JOBS] [-l {debug,info,warning,error,critical}]
+                         [--simgrid-log-level {trace,debug,verbose,info,warning,error,critical}]
+                         [--stop-on-error] [--algo [ALGO [ALGO ...]]]
+                         platforms tasks algorithms output
+
+    positional arguments:
+      platforms             path to file or directory containing platform
+                            definitions (*.xml)
+      tasks                 path to file or directory containing task definitions
+                            (*.dax, *.dot)
+      algorithms            path to json defining the algorithms to use
+      output                path to the output file
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -j JOBS, --jobs JOBS  number of parallel jobs to run
+      -l {debug,info,warning,error,critical}, --log-level {debug,info,warning,error,critical}
+                            job log level
+      --simgrid-log-level {trace,debug,verbose,info,warning,error,critical}
+                            simulator log level
+      --stop-on-error       stop experiment on a first error
+      --algo [ALGO [ALGO ...]]
+                            name(s) of algorithms to use (case-sensitive; must
+                            still be defined in algorithms file)
+"""
+
 from __future__ import print_function
 
 import argparse

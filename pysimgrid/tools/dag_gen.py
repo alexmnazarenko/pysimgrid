@@ -16,6 +16,61 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+Random workflow generator.
+
+Uses an DAGGEN tool for actual generation (you will need to download and install it separately).
+It can be found in `DAGGEN repository <https://github.com/frs69wq/daggen>`_.
+
+The tool itself converts DAGGEN output to SimGrid friendly format and enables batch generation:
+when given multiple arguments, it produces a cartesian product of configurations.
+
+For example, if called like this::
+
+    python -m pysimgrid.tools.dag_gen -n 10 20 --density 0.3 --repeat 5 output_dir
+
+the tool will generate 5 workflows with 10 tasks and 5 workflows with 20 tasks (both using the edge density 0.3).
+
+Usage::
+
+    python -m pysimgrid.tools.dag_gen [-h] [-n [COUNT [COUNT ...]]]
+                      [--ccr [{0,1,2,3} [{0,1,2,3} ...]]]
+                      [--mindata [MINDATA [MINDATA ...]]]
+                      [--maxdata [MAXDATA [MAXDATA ...]]]
+                      [--jump [JUMP [JUMP ...]]] [--fat [FAT [FAT ...]]]
+                      [--regular [REGULAR [REGULAR ...]]]
+                      [--density [DENSITY [DENSITY ...]]] [--repeat REPEAT]
+                      daggen_path output_dir
+
+    Synthetic DAG generator
+
+    positional arguments:
+      daggen_path           path to daggen executable
+      output_dir            path to output directory
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -n [COUNT [COUNT ...]], --count [COUNT [COUNT ...]]
+                            node count
+      --ccr [{0,1,2,3} [{0,1,2,3} ...]]
+                            type of CCR (see daggen docs)
+      --mindata [MINDATA [MINDATA ...]]
+                            min task input size
+      --maxdata [MAXDATA [MAXDATA ...]]
+                            max task input size
+      --jump [JUMP [JUMP ...]]
+                            max amount of levels to skip with a connection
+      --fat [FAT [FAT ...]]
+                            dag width (fat -> 1 = high parallelism)
+      --regular [REGULAR [REGULAR ...]]
+                            regularity of the distribution of tasks between the
+                            different DAG levels
+      --density [DENSITY [DENSITY ...]]
+                            determines number of connections between different DAG
+                            levels
+      --repeat REPEAT       number of random graphs for each configuration
+"""
+
 import argparse
 import itertools
 import logging

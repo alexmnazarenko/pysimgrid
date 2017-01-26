@@ -16,6 +16,34 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+Basic platform generator.
+
+Generates simple star topology (all nodes connected to a central router).
+
+Optional argument *--include_master* allows to add special *master* node that is useful
+for some scheduling experiments. Idea is to simulate the submission node. It runs both first and final tasks
+thus sending all the workflow inputs and collecting all the outputs.
+
+Usage::
+
+    python -m pysimgrid.tools.plat_gen output_dir num_systems cluster [-h] [--include_master]
+                                       num_hosts host_speed
+                                       link_bandwidth link_latency
+
+    positional arguments:
+      num_hosts         number of hosts (excluding optional master host)
+      host_speed        host speed in GFLOPS (e.g. '1', '1-10')
+      link_bandwidth    link bandwidth in MBps as 'bandwidth[:master_bandwidth]'
+                        (e.g. '125', '10-100:100')
+      link_latency      link latency in us as 'latency[:master_latency]' (e.g.
+                        '10', '10-100:10')
+
+    optional arguments:
+      -h, --help        show this help message and exit
+      --include_master  include special 'master' host into the cluster
+"""
+
 from __future__ import print_function
 
 import argparse
