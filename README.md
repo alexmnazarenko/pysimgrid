@@ -1,13 +1,49 @@
-DAG simulation tool
-===================
+pysimgrid
+=========
 
-* Simulate different scheduling schemes using SimGrid framework.
-* Visualize simulations as Gantt charts
+The main goal of the project is to create an easy way to implement and benchmark
+scheduling algorithms while leveraging the powerful [SimGrid](http://simgrid.gforge.inria.fr) simulation framework.
+
+Features:
+
+* Simulate different scheduling distributed platforms
+* Implement your own scheduling algorithms
+* Compare them with well-known approaches (e.g. HEFT). Batteries included )
+* Run your simulations in parallel
 
 Examples
 ========
 
-TODO
+Running a simulation:
+
+```
+#!python
+
+from pysimgrid import simdag
+import pysimgrid.simdag.algorithms as algorithms
+
+with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+  scheduler = algorithms.Lookahead(simulation)
+  scheduler.run()
+  print(simulation.clock, scheduler.scheduler_time, scheduler.total_time)
+```
+
+
+Implementing your very own scheduling algorithm:
+
+```
+#!python
+
+from pysimgrid import simdag
+
+class RandomSchedule(simdag.StaticScheduler):
+  def get_schedule(self, simulation):
+    schedule = {host: [] for host in simulation.hosts}
+    graph = simulation.get_task_graph()
+    for task in networkx.topological_sort(graph):
+      schedule[random.choice(simulation.hosts)].append(task)
+    return schedule
+```
 
 
 Dependencies
@@ -63,6 +99,14 @@ Test the build:
 python3 run_tests.py
 ```
 
+Installation:
+
+```
+#!bash
+
+python3 setup.py install --user
+```
+
 FAQ
 ===
 
@@ -86,4 +130,5 @@ SimGrid source distribution contains quite a few of platform examples of differe
 They are not supported for now. Two main reasons:
 
 * Existing SimGrid task parsers do not support them, so you need custom task format to even setup this.
-* There are some [discouraging words](http://simgrid.gforge.inria.fr/simgrid/3.12/doc/platform.html#pf_Cr) in SimGrid documentation about validity of such simulation.
+* There are some [discouraging words](http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html#pf_Cr)
+in SimGrid documentation about validity of such simulation.
