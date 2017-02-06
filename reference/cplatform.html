@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pysimgrid.cplatform &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="index.html"/>
+        <link rel="next" title="pysimgrid.tools.experiment" href="tools.experiment.html"/>
+        <link rel="prev" title="pysimgrid.csimdag" href="csimdag.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#high-level-api">High-level API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#c-api">C API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="csimdag.html">pysimgrid.csimdag</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pysimgrid.cplatform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Reference</a> &raquo;</li>
+        
+      <li>pysimgrid.cplatform</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pysimgrid.cplatform">
+<span id="pysimgrid-cplatform"></span><h1>pysimgrid.cplatform<a class="headerlink" href="#module-pysimgrid.cplatform" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pysimgrid.cplatform.Host">
+<em class="property">class </em><code class="descclassname">pysimgrid.cplatform.</code><code class="descname">Host</code><a class="headerlink" href="#pysimgrid.cplatform.Host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a platform&#8217;s host.</p>
+<p>See declaration in cplatform.pxd.</p>
+<dl class="attribute">
+<dt id="pysimgrid.cplatform.Host.available_speed">
+<code class="descname">available_speed</code><a class="headerlink" href="#pysimgrid.cplatform.Host.available_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get fraction of host speed avaiable (0 &lt;= r &lt;= 1).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cplatform.Host.data">
+<code class="descname">data</code><a class="headerlink" href="#pysimgrid.cplatform.Host.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get/set user data associated with this host.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cplatform.Host.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.Host.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump host info to stdout as SimGrid pleases.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cplatform.Host.name">
+<code class="descname">name</code><a class="headerlink" href="#pysimgrid.cplatform.Host.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get host name.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cplatform.Host.native">
+<code class="descname">native</code><a class="headerlink" href="#pysimgrid.cplatform.Host.native" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get/set host native handle as intptr_t.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be very careful with setting this property, wrong values will lead to SEGFAULT and no amout of try/excepts will save you.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cplatform.Host.speed">
+<code class="descname">speed</code><a class="headerlink" href="#pysimgrid.cplatform.Host.speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get host speed in flops.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cplatform.get_hosts">
+<code class="descclassname">pysimgrid.cplatform.</code><code class="descname">get_hosts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.get_hosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all hosts in a platform as a list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cplatform.host_by_name">
+<code class="descclassname">pysimgrid.cplatform.</code><code class="descname">host_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.host_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a host instance by name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cplatform.route">
+<code class="descclassname">pysimgrid.cplatform.</code><code class="descname">route</code><span class="sig-paren">(</span><em>Host src</em>, <em>Host dst</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of link names in a route.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cplatform.route_bandwidth">
+<code class="descclassname">pysimgrid.cplatform.</code><code class="descname">route_bandwidth</code><span class="sig-paren">(</span><em>Host src</em>, <em>Host dst</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.route_bandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get route bandwidth.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cplatform.route_latency">
+<code class="descclassname">pysimgrid.cplatform.</code><code class="descname">route_latency</code><span class="sig-paren">(</span><em>Host src</em>, <em>Host dst</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cplatform.route_latency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get route total latency.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tools.experiment.html" class="btn btn-neutral float-right" title="pysimgrid.tools.experiment" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="csimdag.html" class="btn btn-neutral" title="pysimgrid.csimdag" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

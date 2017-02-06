@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pysimgrid.csimdag &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="index.html"/>
+        <link rel="next" title="pysimgrid.cplatform" href="cplatform.html"/>
+        <link rel="prev" title="pysimgrid.simdag.algorithms" href="simdag.algorithms.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#high-level-api">High-level API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#c-api">C API</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pysimgrid.csimdag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cplatform.html">pysimgrid.cplatform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Reference</a> &raquo;</li>
+        
+      <li>pysimgrid.csimdag</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pysimgrid.csimdag">
+<span id="pysimgrid-csimdag"></span><h1>pysimgrid.csimdag<a class="headerlink" href="#module-pysimgrid.csimdag" title="Permalink to this headline">¶</a></h1>
+<p>SimGrid/SimDAG API wrappers.</p>
+<p>Minimal usability improvements over the actual C API,
+for actual simulation it is better to use <a class="reference internal" href="simdag.html#pysimgrid.simdag.Simulation" title="pysimgrid.simdag.Simulation"><code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.Simulation</span></code></a>.</p>
+<dl class="class">
+<dt id="pysimgrid.csimdag.Task">
+<em class="property">class </em><code class="descclassname">pysimgrid.csimdag.</code><code class="descname">Task</code><a class="headerlink" href="#pysimgrid.csimdag.Task" title="Permalink to this definition">¶</a></dt>
+<dd><p>SimDAG task representation.</p>
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.amount">
+<code class="descname">amount</code><a class="headerlink" href="#pysimgrid.csimdag.Task.amount" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Get task &#8216;size&#8217;</em> &#8211; flops for computational tasks, bytes for transfer tasks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.children">
+<code class="descname">children</code><a class="headerlink" href="#pysimgrid.csimdag.Task.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get task direct children.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As communication is also represented by tasks, to get child computational tasks you will need to call it recursively.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.data">
+<code class="descname">data</code><a class="headerlink" href="#pysimgrid.csimdag.Task.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get/set user data associated with this host.</p>
+<p>Data can be arbitrary python object, however the most common/robust approach is to store a dict of some properties.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump task state to stdout in SimGrid format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.finish_time">
+<code class="descname">finish_time</code><a class="headerlink" href="#pysimgrid.csimdag.Task.finish_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get task finish time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Invalid for tasks that are not done yet.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.get_ecomt">
+<code class="descname">get_ecomt</code><span class="sig-paren">(</span><em>self</em>, <em>Host src</em>, <em>Host dst</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.get_ecomt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate communication between given hosts.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Valid only for communication tasks</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.get_eet">
+<code class="descname">get_eet</code><span class="sig-paren">(</span><em>self</em>, <em>Host host</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.get_eet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate task execution time on a given host.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Valid only for computational tasks</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.hosts">
+<code class="descname">hosts</code><a class="headerlink" href="#pysimgrid.csimdag.Task.hosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get hosts where tasks is/will be executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.kind">
+<code class="descname">kind</code><a class="headerlink" href="#pysimgrid.csimdag.Task.kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get task kind (see TaskKind enum).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.name">
+<code class="descname">name</code><a class="headerlink" href="#pysimgrid.csimdag.Task.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get/set task name.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.native">
+<code class="descname">native</code><a class="headerlink" href="#pysimgrid.csimdag.Task.native" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get/set task native handle as intptr_t.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be very careful with setting this property, wrong values will lead to SEGFAULT and no amout of try/excepts will save you.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.parents">
+<code class="descname">parents</code><a class="headerlink" href="#pysimgrid.csimdag.Task.parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get task direct children.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As communication is also represented by tasks, to get parent computational tasks you will need to call it recursively.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.schedule">
+<code class="descname">schedule</code><span class="sig-paren">(</span><em>self</em>, <em>Host host</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedule this task to a given host.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.start_time">
+<code class="descname">start_time</code><a class="headerlink" href="#pysimgrid.csimdag.Task.start_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task start time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Invalid for tasks that are not started yet.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.csimdag.Task.state">
+<code class="descname">state</code><a class="headerlink" href="#pysimgrid.csimdag.Task.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current task state (see TaskState enum).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.unwatch">
+<code class="descname">unwatch</code><span class="sig-paren">(</span><em>self</em>, <em>TaskState state</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.unwatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove watchpoint (see &#8216;watch&#8217; for explanation).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.csimdag.Task.watch">
+<code class="descname">watch</code><span class="sig-paren">(</span><em>self</em>, <em>TaskState state</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.Task.watch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instruct simulation engine to stop simulation when this tasks transitions to a given state.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.config">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">config</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set SimGrid configuration parameter.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.exit">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finalize simulator operation.</p>
+<p>Disposes SimDAG static structures and our pythonic sugar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.get_clock">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">get_clock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.get_clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current simulation clock.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.initialize">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize SimDAG.
+Must be called before any other SimDAG functions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Doesn&#8217;t pass any command-line configuration. Use &#8216;config&#8217; function if required.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.load_platform">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">load_platform</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.load_platform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load simulated cplatform definition.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.load_tasks">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">load_tasks</code><span class="sig-paren">(</span><em>path</em>, <em>TaskFileFormat format=TASK_FILE_FORMAT_AUTO</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.load_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load tasks definition.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SimDAG doesn&#8217;t provide &#8216;static&#8217; API to access all active tasks (unlike with hosts).
+To process tasks you must store return value of this function.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.log_config">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">log_config</code><span class="sig-paren">(</span><em>config_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.log_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set SimGrid XBT logging parameter.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.csimdag.simulate">
+<code class="descclassname">pysimgrid.csimdag.</code><code class="descname">simulate</code><span class="sig-paren">(</span><em>double how_long=-1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.csimdag.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the simgrid simulation until one of the following happens:</p>
+<ul class="simple">
+<li>how_long time limit expires (if passed and positive)</li>
+<li>watchpoint is reached (some task changed state)</li>
+<li>simulation ends</li>
+</ul>
+<p>Returns the list of changed tasks.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cplatform.html" class="btn btn-neutral float-right" title="pysimgrid.cplatform" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="simdag.algorithms.html" class="btn btn-neutral" title="pysimgrid.simdag.algorithms" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

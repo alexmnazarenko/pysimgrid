@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick start &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="index.html"/>
+        <link rel="next" title="API Reference" href="reference/index.html"/>
+        <link rel="prev" title="pysimgrid" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-simulation-from-python">Running a simulation from python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-batch-simulation-from-shell">Running a batch simulation from shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-your-own-scheduler">Writing your own scheduler</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-scheduler">Dynamic scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#static-scheduler">Static scheduler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Quick start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start">
+<h1><a class="toc-backref" href="#id1">Quick start</a><a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#quick-start" id="id1">Quick start</a><ul>
+<li><a class="reference internal" href="#introduction" id="id2">Introduction</a></li>
+<li><a class="reference internal" href="#running-a-simulation-from-python" id="id3">Running a simulation from python</a></li>
+<li><a class="reference internal" href="#running-a-batch-simulation-from-shell" id="id4">Running a batch simulation from shell</a></li>
+<li><a class="reference internal" href="#writing-your-own-scheduler" id="id5">Writing your own scheduler</a><ul>
+<li><a class="reference internal" href="#dynamic-scheduler" id="id6">Dynamic scheduler</a></li>
+<li><a class="reference internal" href="#static-scheduler" id="id7">Static scheduler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id2">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>As SimGrid itself, pysimgrid is all about simulations in distributed systems.</p>
+<p>SimGrid supports different kinds of workloads, but for now only directed acyclic graph (DAG) workload is supported.</p>
+<p>To run the simulation, 3 things are required:</p>
+<ul>
+<li><p class="first">Platform definition describing a network of hosts.</p>
+<p>Platforms are defined as xml files with a specific scheme.
+Some platforms can be found in tests and examples of pysimgrid and Simgrid itself.</p>
+<p>More details about platforms can be found in
+<a class="reference external" href="http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html">SimGrid documentation</a>.</p>
+</li>
+<li><p class="first">DAG (workload) description.</p>
+<p>DAGs can be defined in one of 2 formats: dax and dot.</p>
+<p>Nodes of DAG represent a computational tasks, while edges represent data dependencies (communication tasks).</p>
+<p>Each computational task has an associated computational cost in flops.</p>
+<p>Each communication task has an associated transfer amount in bytes.</p>
+</li>
+<li><p class="first">Scheduling algorithm that maps workload to a platform.</p>
+<p>Multiple scheduling algorithms are implemented in pysimgrid (see <a class="reference internal" href="reference/simdag.algorithms.html#simdag-algorithms"><span class="std std-ref">pysimgrid.simdag.algorithms</span></a>).</p>
+</li>
+</ul>
+</div>
+<div class="section" id="running-a-simulation-from-python">
+<h2><a class="toc-backref" href="#id3">Running a simulation from python</a><a class="headerlink" href="#running-a-simulation-from-python" title="Permalink to this headline">¶</a></h2>
+<p>Simplest way to use pysimgrid is to run a simulation from your own script.</p>
+<p>It is quite easy, but you must mind SimGrid limitation - only one simulation can be run in a process.
+To see some basic output from the simulation, don&#8217;t forget to configure the logging module:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pysimgrid.simdag</span>
+<span class="kn">import</span> <span class="nn">pysimgrid.simdag.algorithms</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">_LOG_FORMAT</span><span class="p">,</span> <span class="n">datefmt</span><span class="o">=</span><span class="n">_LOG_DATE_FORMAT</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="s2">&quot;task_file.dot&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">simulation</span><span class="p">:</span>
+  <span class="n">scheduler</span> <span class="o">=</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">HEFT</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+  <span class="n">scheduler</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you want to run multiple simulations in a single script, easiest way to do so is to employ the multiprocessing module:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">pysimgrid.simdag</span>
+<span class="kn">import</span> <span class="nn">pysimgrid.simdag.algorithms</span>
+
+<span class="k">def</span> <span class="nf">run_simulation</span><span class="p">(</span><span class="n">platform</span><span class="p">):</span>
+  <span class="k">with</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="s2">&quot;task_file.dot&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">simulation</span><span class="p">:</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">HEFT</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+    <span class="n">scheduler</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">simulation</span><span class="o">.</span><span class="n">clock</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="s2">&quot;spawn&quot;</span><span class="p">)</span>
+<span class="n">platforms</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;platform1.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;platform2.xml&quot;</span><span class="p">]</span>
+<span class="k">with</span> <span class="n">ctx</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">NO_PARALLEL</span><span class="p">,</span> <span class="n">maxtasksperchild</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+  <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">run_simulation</span><span class="p">,</span> <span class="n">platforms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-a-batch-simulation-from-shell">
+<h2><a class="toc-backref" href="#id4">Running a batch simulation from shell</a><a class="headerlink" href="#running-a-batch-simulation-from-shell" title="Permalink to this headline">¶</a></h2>
+<p>Single simulations won&#8217;t get you far in algorithm benchmarking.</p>
+<p>Of course you can setup batch execution by yourself, but there is a bundled tool for that - <a class="reference internal" href="reference/tools.experiment.html#pysimgrid-tools-experiment"><span class="std std-ref">pysimgrid.tools.experiment</span></a>.</p>
+<p>It makes running a publication-worthy experiments as easy as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">experiment</span> <span class="n">platforms_dir</span> <span class="n">workflows_dir</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">json</span> <span class="n">output</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">j8</span>
+</pre></div>
+</div>
+<p>As you can see, batch simulation setup requires 3 main inputs:</p>
+<ul class="simple">
+<li>List of simulated platforms (provided as a directory with <em>.xml</em> platform definitions).
+See <a class="reference external" href="http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html">SimGrid platform documentation</a> for more details.</li>
+<li>List of workflows that will be scheduled (provided as directory with *.dot or *.dax workflows).<ul>
+<li>A lot of DAX examples can be found in
+<a class="reference external" href="https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator">Pegasus Workflow Generator</a>.;</li>
+<li>Some .dot examples can be found in the SimGrid sources;</li>
+<li>You can generate random .dot workflows using a provided tool pysimgrid.tools.dag_gen.</li>
+</ul>
+</li>
+<li>List of scheduling algorithms (provided as a json file)</li>
+</ul>
+<p>The batch run will make a cartesian product of all three lists thus running N_platforms x N_workflows x N_algorithms simulations.</p>
+<p>Algorithms json example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;pysimgrid.simdag.algorithms.HCPT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;HCPT&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;pysimgrid.simdag.algorithms.HEFT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;HEFT&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Easiest way to run pysimgrid.tools.experiment module is to use <em>python -m</em> syntax. The tools has some configuration options, but the most important one is
+probably <em>-j</em> that allows to configure number of parallel simulations to run. To see more check the tool help, like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">experiment</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>The result of simulation is a json file that is easy to analyse using python. Output format is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+  <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;platform_dir/cluster_10_1-4_100_100_61.xml&quot;</span>
+  <span class="s2">&quot;tasks&quot;</span><span class="p">:</span> <span class="s2">&quot;workflows_dir/testg0.4.dot&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;HEFT&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;pysimgrid.simdag.algorithms.heft.HEFTScheduler&quot;</span><span class="p">},</span>
+  <span class="s2">&quot;makespan&quot;</span><span class="p">:</span> <span class="mf">1109.8607620759176</span><span class="p">,</span>
+  <span class="s2">&quot;exec_time&quot;</span><span class="p">:</span> <span class="mf">6228.565137126975</span><span class="p">,</span>
+  <span class="s2">&quot;comm_time&quot;</span><span class="p">:</span> <span class="mf">890.1153923229831</span><span class="p">,</span>
+  <span class="s2">&quot;expected_makespan&quot;</span><span class="p">:</span> <span class="mf">1039.0626220703125</span><span class="p">,</span>
+  <span class="s2">&quot;sched_time&quot;</span><span class="p">:</span> <span class="mf">0.08849978446960449</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="o">...</span>
+  <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Let&#8217;s decipher it field by field:</p>
+<ul class="simple">
+<li>platform - platform definition file</li>
+<li>tasks - workflow definition file</li>
+<li>algorithm - algorithm name and python class</li>
+<li>makespan - measured makespan of the workflow (simulation clock)</li>
+<li>exec_time - total time spend on computation (simulation clock)</li>
+<li>comm_time - total time spent on communication (simulation clock)</li>
+<li>expected_makespan - makespan as expected by static scheduling algorithm
+(simulation clock, may be NaN if algorithm doesn&#8217;t provide this info)</li>
+<li>sched_time - real time spent by scheduler (wall clock)</li>
+</ul>
+</div>
+<div class="section" id="writing-your-own-scheduler">
+<h2><a class="toc-backref" href="#id5">Writing your own scheduler</a><a class="headerlink" href="#writing-your-own-scheduler" title="Permalink to this headline">¶</a></h2>
+<p>The very reason for pysimgrid to exist is to make custom scheduler implementation as simple as possible.</p>
+<p>To begin, you need to select the scheduler type:</p>
+<ul class="simple">
+<li>Static - all scheduling decisions are made before the simulation</li>
+<li>Dynamic - scheduling is performed as simulation runs</li>
+</ul>
+<p>Then you should inherit from a proper base class and implement its interface.
+The actual SimGrid API you will need is pretty narrow and self-explained, so it can be deciphered straight from code examples.</p>
+<div class="section" id="dynamic-scheduler">
+<h3><a class="toc-backref" href="#id6">Dynamic scheduler</a><a class="headerlink" href="#dynamic-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s begin with a simplest dynamic scheduler that just schedules ready tasks to the fastest free host.
+Note that it should be ensured manually, as SimGrid will happily accept multiple active tasks on a same host (it will simply divide the computing
+power equally):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pysimgrid</span> <span class="k">import</span> <span class="n">simdag</span>
+
+<span class="k">class</span> <span class="nc">SimpleDynamic</span><span class="p">(</span><span class="n">simdag</span><span class="o">.</span><span class="n">DynamicScheduler</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">hosts</span><span class="p">:</span>
+      <span class="n">h</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">,</span> <span class="n">changed</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">hosts</span><span class="p">:</span>
+      <span class="n">h</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;free&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span><span class="p">[(</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_RUNNING</span><span class="p">,</span>
+                                  <span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_SCHEDULED</span><span class="p">)]:</span>
+      <span class="n">task</span><span class="o">.</span><span class="n">hosts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;free&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_SCHEDULABLE</span><span class="p">]:</span>
+      <span class="n">free_hosts</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">hosts</span><span class="o">.</span><span class="n">by_data</span><span class="p">(</span><span class="s2">&quot;free&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sorted</span><span class="p">(</span><span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">get_eet</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+      <span class="k">if</span> <span class="n">free_hosts</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">free_hosts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">free_hosts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;free&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="static-scheduler">
+<h3><a class="toc-backref" href="#id7">Static scheduler</a><a class="headerlink" href="#static-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>Usually, the idea behind static scheduling is to take into account the full structure of the workflow. However, for the simple example
+let&#8217;s focus on a static scheduler interface:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">networkx</span>
+<span class="kn">from</span> <span class="nn">pysimgrid</span> <span class="k">import</span> <span class="n">simdag</span>
+
+<span class="k">class</span> <span class="nc">RandomSchedule</span><span class="p">(</span><span class="n">simdag</span><span class="o">.</span><span class="n">StaticScheduler</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">):</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="p">{</span><span class="n">host</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">hosts</span><span class="p">}</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_task_graph</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">networkx</span><span class="o">.</span><span class="n">topological_sort</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+      <span class="n">schedule</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">hosts</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">schedule</span>
+</pre></div>
+</div>
+<p>There are few things to note there:</p>
+<ul class="simple">
+<li>StaticScheduler is expected to return a full schedule as dict {host: [list_of_tasks...]}</li>
+<li>Naturally, this format allows to produce &#8216;impossible&#8217; schedules and it is up to scheduler to ensure that no child task precedes its parent.
+In this example it is achieved by networkx.topological_sort.</li>
+</ul>
+<p>Meaningful static scheduling is much more complicated, as you&#8217;ll require some platform model to &#8216;predict&#8217; task and host states in future.
+This platform model is typically much simpler than SimGrid and disregards network topology and saturation.</p>
+<p>Realistic examples of static schedulers can be found in <a class="reference internal" href="reference/simdag.algorithms.html#simdag-algorithms"><span class="std std-ref">pysimgrid.simdag.algorithms</span></a> package.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="pysimgrid" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

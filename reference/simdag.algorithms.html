@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pysimgrid.simdag.algorithms &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="index.html"/>
+        <link rel="next" title="pysimgrid.csimdag" href="csimdag.html"/>
+        <link rel="prev" title="pysimgrid.simdag" href="simdag.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#high-level-api">High-level API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="simdag.html">pysimgrid.simdag</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pysimgrid.simdag.algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-scheduling">Dynamic scheduling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#static-scheduling">Static scheduling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#c-api">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Reference</a> &raquo;</li>
+        
+      <li>pysimgrid.simdag.algorithms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pysimgrid-simdag-algorithms">
+<span id="simdag-algorithms"></span><h1><a class="toc-backref" href="#id1">pysimgrid.simdag.algorithms</a><a class="headerlink" href="#pysimgrid-simdag-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>Package containing some pre-made scheduling algorithms for benchmarking.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#pysimgrid-simdag-algorithms" id="id1">pysimgrid.simdag.algorithms</a><ul>
+<li><a class="reference internal" href="#dynamic-scheduling" id="id2">Dynamic scheduling</a></li>
+<li><a class="reference internal" href="#static-scheduling" id="id3">Static scheduling</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="dynamic-scheduling">
+<h2><a class="toc-backref" href="#id2">Dynamic scheduling</a><a class="headerlink" href="#dynamic-scheduling" title="Permalink to this headline">¶</a></h2>
+<p>Dynamic algorithms work along the simulation and schedule only a subset of tasks on each execution (most commonly the tasks that are
+ready for execution right now).</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.OLB" title="pysimgrid.simdag.algorithms.OLB"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.OLB</span></code></a></td>
+<td>Opportunistic load balancing scheduling.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.MCT" title="pysimgrid.simdag.algorithms.MCT"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.MCT</span></code></a></td>
+<td>Minimum completion time scheduler.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.OLB">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">OLB</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.OLB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opportunistic load balancing scheduling.</p>
+<p>Dynamically schedule a free task on a fastest host, disregarding any communication costs.
+Main practical advantage is avoiding any attempts to estimate task performance on given machine.</p>
+<p>Can be considered baseline algorithm for benchmarking purposes as one of the simplest approaches
+that actually make sense for DAG scheduling.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.MCT">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">MCT</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.MCT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum completion time scheduler.</p>
+<p>Ready tasks are scheduled on host (probably busy one) that promises the earliest task completion.</p>
+<p>Task completion time is estimated as:</p>
+<p>ECT(task, host) = max(current_clock, estimated_host_ready_time) + max(comm_time_from_parents) + EET(task, host)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="static-scheduling">
+<h2><a class="toc-backref" href="#id3">Static scheduling</a><a class="headerlink" href="#static-scheduling" title="Permalink to this headline">¶</a></h2>
+<p>Static algorithms are executed before the simulation and schedule all tasks at once.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.HCPT" title="pysimgrid.simdag.algorithms.HCPT"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.HCPT</span></code></a></td>
+<td>Heterogeneous Critical Parent Trees (HCPT) scheduler.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.HEFT" title="pysimgrid.simdag.algorithms.HEFT"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.HEFT</span></code></a></td>
+<td>Heterogeneous Earliest Finish Time (HEFT) scheduler.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.Lookahead" title="pysimgrid.simdag.algorithms.Lookahead"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.Lookahead</span></code></a></td>
+<td>Lookahead scheduler.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.PEFT" title="pysimgrid.simdag.algorithms.PEFT"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.PEFT</span></code></a></td>
+<td>Predicted Earliest Finish Time (PEFT) scheduler.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.RandomStatic" title="pysimgrid.simdag.algorithms.RandomStatic"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.RandomStatic</span></code></a></td>
+<td>Random static scheduler.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.RoundRobinStatic" title="pysimgrid.simdag.algorithms.RoundRobinStatic"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.RoundRobinStatic</span></code></a></td>
+<td>Round robin static scheduler.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.HCPT">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">HCPT</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.HCPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heterogeneous Critical Parent Trees (HCPT) scheduler.</p>
+<p>HCPT is based on heuristics to find a critical path in worflow and schedule it with
+the highest possible priority.</p>
+<p>The key part is &#8216;guided&#8217; topological sort which finds a schedulable order selecting cricial
+nodes as early as possible.</p>
+<p>For more details and rationale please refer to the original publication:</p>
+<blockquote>
+<div>T. Hagras and J. Janecek, &#8220;A Simple Scheduling Heuristic for Heterogeneous Computing Environments&#8221;,
+Proceedings of the Second International Symposium on Parallel and Distributed Computing (ISPDC’03),
+2003, pp. 104-110</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.HEFT">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">HEFT</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.HEFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heterogeneous Earliest Finish Time (HEFT) scheduler.</p>
+<p>Many advantages of this method include:</p>
+<ul class="simple">
+<li>pretty high performance</li>
+<li>low time complexity (N**2M)</li>
+<li>quite simple implementation</li>
+</ul>
+<p>The general idea is very simple:</p>
+<ol class="arabic">
+<li><p class="first">Sort tasks according in decreasing ranku order</p>
+<p>ranku(task) = ECT(task) + max_among_children(ranku(child) + ECOMT(task, child))</p>
+<p>where ECT and ECOMT are evaluated using platform mean speed, bandwidt and latency values</p>
+<p>Important property of this ordering is that it is also an topological order (see below).</p>
+</li>
+<li><p class="first">Go over ordered tasks list and schedule each one to the minimize task completion time.</p>
+<p>To estimate task completion time, ofc, you need to all task parents to be scheduled already.
+This is achieved automatically as HEFT order is also a topological sort for a tasks.</p>
+<p>HEFT scheduling allows insertions to happen, so if some host has an empty and wide enough time slot,
+next task may be added in between already scheduled tasks.</p>
+</li>
+</ol>
+<p>For more details please refer to the original HEFT publication:</p>
+<blockquote>
+<div>H. Topcuoglu, S. Hariri and Min-You Wu, &#8220;Performance-effective and low-complexity task
+scheduling for heterogeneous computing&#8221;, IEEE Transactions on Parallel and Distributed
+Systems, Vol 13, No 3, 2002, pp. 260-274</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.Lookahead">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">Lookahead</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.Lookahead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lookahead scheduler.</p>
+<p>Lookahead aims to be an improved version of HEFT, avoiding some of its greedy scheduling decisions.</p>
+<p>Some quick experiments show that it can indeed improve on HEFT schedules, but it comes with a price:
+lookahead scheduler is much slower (as it runs HEFT to an end for each task/host pair).</p>
+<p>Main idea is simple:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Consider tasks in a HEFT (ranku) order</li>
+<li>For each next task and for all hosts:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>schedule task on a host</li>
+<li>complete schedule using HEFT</li>
+<li>evaluate makespan</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Select a host achieving a best makespan</li>
+</ol>
+</div></blockquote>
+<p>Note: authors actually propose 4 variants of the algorithm and as for now only the first one is implemented.</p>
+<p>For more details please refer to the original publication:</p>
+<blockquote>
+<div>L. F. Bittencourt, R. Sakellariou and E. R. M. Madeira, &#8220;DAG Scheduling Using a Lookahead
+Variant of the Heterogeneous Earliest Finish Time Algorithm&#8221;, 18th Euromicro
+Conference on Parallel, Distributed and Network-based Processing, 2010, pp. 27-34</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.PEFT">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">PEFT</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.PEFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicted Earliest Finish Time (PEFT) scheduler.</p>
+<p>PEFT aims to get advantages of Lookahead approach while avoiding the high computational complexity.</p>
+<p>Instead of actual lookahead scheduling, PEFT pre-computes an Optimistic Cost Table (OCT),
+each element of which contains time to finish all the task descendants on their best hosts,
+disregarding the host availability.</p>
+<p>For more details and rationale please refer to the original publication:</p>
+<blockquote>
+<div>H. Arabnejad and J. G. Barbosa, &#8220;List Scheduling Algorithm for Heterogeneous Systems by
+an Optimistic Cost Table&#8221;, IEEE Transactions on Parallel and Distributed Systems,
+Vol 25, No 3, 2014, pp. 682-694</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.RandomStatic">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">RandomStatic</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.RandomStatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random static scheduler.</p>
+<p>The important part there is static - all tasks are scheduled simultaneously.
+Resulting schedule is significantly worse than dynamic random schedule. In static
+case task may wait for their parents execution for a quite some time (blocking some other tasks),
+while dynamic approach guarantees that parents are already done.</p>
+<p>The point of this scheduler is to be an &#8216;worst&#8217; static scheduler as a reference point
+for sensible algorithms.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.RoundRobinStatic">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">RoundRobinStatic</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.RoundRobinStatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round robin static scheduler.</p>
+<p>The important part there is static - all tasks are scheduled simultaneously.
+For more details please see RandomScheduler description.</p>
+<p>Anyway, not a sensible approach by any means.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="csimdag.html" class="btn btn-neutral float-right" title="pysimgrid.csimdag" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="simdag.html" class="btn btn-neutral" title="pysimgrid.simdag" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

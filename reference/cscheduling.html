@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pysimgrid.cscheduling &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="index.html"/>
+        <link rel="prev" title="pysimgrid.tools.bot_gen" href="tools.bot_gen.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#high-level-api">High-level API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#c-api">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#utils">Utils</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pysimgrid.cscheduling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Reference</a> &raquo;</li>
+        
+      <li>pysimgrid.cscheduling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pysimgrid.cscheduling">
+<span id="pysimgrid-cscheduling"></span><h1>pysimgrid.cscheduling<a class="headerlink" href="#module-pysimgrid.cscheduling" title="Permalink to this headline">¶</a></h1>
+<p>Moreorless generic scheduling utils.</p>
+<p>Some of those are called a lot so they benefit from a Cython usage.</p>
+<p>However, there is still A LOT to optimize. Help is very welcome.
+Cubic complexity scheduling algorithms like Lookahead are still painfully slow.</p>
+<dl class="docutils">
+<dt>General optimization directions:</dt>
+<dd><ul class="first last simple">
+<li>more type annotations</li>
+<li>proper c-level numpy usage</li>
+<li>less dict searches (may require schedulers update, which is undesirable)</li>
+</ul>
+</dd>
+</dl>
+<p>General philosophy is simple - technical optimizations is OK, even if ugly. As long
+as scheduler implementation doesn&#8217;t suffer, this utilities may be as messed up as required.
+For example, A TON of dict searches can be avoided if all task/host access will be performed by index.
+However, it leads to ugly &#8216;client&#8217; code (schedulers) and thus unacceptable.</p>
+<dl class="class">
+<dt id="pysimgrid.cscheduling.MinSelector">
+<em class="property">class </em><code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">MinSelector</code><a class="headerlink" href="#pysimgrid.cscheduling.MinSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Little aux class to select minimum over a loop without storing all the results.</p>
+<p>Doesn&#8217;t seem to benefit a lot from cython, but why not.</p>
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.MinSelector.key">
+<code class="descname">key</code><a class="headerlink" href="#pysimgrid.cscheduling.MinSelector.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current best key.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.MinSelector.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>self</em>, <em>tuple key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.MinSelector.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update selector state.</p>
+<p>If given key compares less then the stored key, overwrites the latter as a new best.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; key that is minimized</li>
+<li><strong>value</strong> &#8211; associated value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.MinSelector.value">
+<code class="descname">value</code><a class="headerlink" href="#pysimgrid.cscheduling.MinSelector.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current best value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.cscheduling.PlatformModel">
+<em class="property">class </em><code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">PlatformModel</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Platform linear model used for most static scheduling approaches.</p>
+<p>Disregards network topology.</p>
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.bandwidth">
+<code class="descname">bandwidth</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.bandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get platform connection bandwidths as a matrix.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For i==j bandwidth is 0</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.PlatformModel.eet">
+<code class="descname">eet</code><span class="sig-paren">(</span><em>self</em>, <em>Task task</em>, <em>Host host</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.eet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate task eet on a given host.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.PlatformModel.est">
+<code class="descname">est</code><span class="sig-paren">(</span><em>self</em>, <em>Host host</em>, <em>dict parents</em>, <em>SchedulerState state</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.est" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate an earliest start time for a given task.</p>
+<p>Implementation is kind of dense, as it is the most critical function for
+HEFT/Lookahead algorithms execution time.</p>
+<p>Key points:</p>
+<ul class="simple">
+<li>use numpy buffer types to speedup indexing</li>
+<li>manually inline parent_data_ready_time function (synergistic with numpy usage. passing buffer types is costly for some reason)</li>
+<li>annotate ALL types</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>host</strong> &#8211; host on which a new (current) task will be executed</li>
+<li><strong>parents</strong> &#8211; iterable of parent tasks and egdes in a form [(parent, edge)...]</li>
+<li><strong>state</strong> &#8211; current schedule state</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">earliest start time as a float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.host_count">
+<code class="descname">host_count</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.host_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get platform host count.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.PlatformModel.host_idx">
+<code class="descname">host_idx</code><span class="sig-paren">(</span><em>self</em>, <em>Host host</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.host_idx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.host_map">
+<code class="descname">host_map</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.host_map" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Get {Host</em> &#8211; idx} mapping.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.latency">
+<code class="descname">latency</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.latency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get platform connection latencies as a matrix.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For i==j latency is 0</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.mean_bandwidth">
+<code class="descname">mean_bandwidth</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.mean_bandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mean connection bandwidth in a platform.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.mean_latency">
+<code class="descname">mean_latency</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.mean_latency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mean connection latency in a platform.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.mean_speed">
+<code class="descname">mean_speed</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.mean_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mean host speed in a platform.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.PlatformModel.parent_data_ready_time">
+<code class="descname">parent_data_ready_time</code><span class="sig-paren">(</span><em>self</em>, <em>Host host</em>, <em>Task parent</em>, <em>dict edge_dict</em>, <em>SchedulerState state</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.parent_data_ready_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate data ready time for a single parent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>host</strong> &#8211; host on which a new (current) task will be executed</li>
+<li><strong>parent</strong> &#8211; parent task</li>
+<li><strong>edge_dict</strong> &#8211; edge properties dict (for now the only important property is &#8220;weight&#8221;)</li>
+<li><strong>state</strong> &#8211; current schedule state</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">earliest start time considering only a given parent</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.PlatformModel.speed">
+<code class="descname">speed</code><a class="headerlink" href="#pysimgrid.cscheduling.PlatformModel.speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get hosts speed as a vector.</p>
+<p>Refer to to host_map property or host_idx function to convert host instances to indices.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.cscheduling.SchedulerState">
+<em class="property">class </em><code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">SchedulerState</code><span class="sig-paren">(</span><em>simulation=None</em>, <em>task_states=None</em>, <em>timetable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the current scheduler state.</p>
+<p>See properties description for details.</p>
+<dl class="method">
+<dt id="pysimgrid.cscheduling.SchedulerState.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a deep (enough) copy of a state.</p>
+<p>Timesheet tuples aren&#8217;t actually copied, but they shouldn&#8217;t be modified anyway.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exists purely for optimization. copy.deepcopy is just abysmally slow.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.SchedulerState.schedule">
+<code class="descname">schedule</code><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a schedule from a current timetable.</p>
+<p>Layout: a dict {Host: [Task...]}</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.SchedulerState.task_states">
+<code class="descname">task_states</code><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState.task_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current task states as a dict.</p>
+<p>Layout: a dict {Task: {&#8220;ect&#8221;: float, &#8220;host&#8221;: Host}}</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.cscheduling.SchedulerState.timetable">
+<code class="descname">timetable</code><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState.timetable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a timesheets dict.</p>
+<p>Layout: a dict {Host: [(Task, start, finish)...]}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.cscheduling.SchedulerState.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>self</em>, <em>Task task</em>, <em>Host host</em>, <em>int pos</em>, <em>double start</em>, <em>double finish</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.SchedulerState.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update timetable for a given host.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Doesn&#8217;t perform any validation for now, can produce overlapping timesheets if used carelessly.
+Checks can be costly.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>task</strong> &#8211; task to schedule on a host</li>
+<li><strong>host</strong> &#8211; host considered</li>
+<li><strong>pos</strong> &#8211; insertion position</li>
+<li><strong>start</strong> &#8211; task start time</li>
+<li><strong>finish</strong> &#8211; task finish time</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cscheduling.heft_order">
+<code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">heft_order</code><span class="sig-paren">(</span><em>nxgraph</em>, <em>PlatformModel platform_model</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.heft_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Order task according to HEFT ranku.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nxgraph</strong> &#8211; full task graph as networkx.DiGraph</li>
+<li><strong>platform_model</strong> &#8211; cscheduling.PlatformModel instance</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of tasks in a HEFT order</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cscheduling.heft_schedule">
+<code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">heft_schedule</code><span class="sig-paren">(</span><em>nxgraph</em>, <em>PlatformModel platform_model</em>, <em>SchedulerState state</em>, <em>list ordered_tasks</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.heft_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a HEFT schedule for a given state.
+Implemented as a separate function to be used in lookahead scheduler.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function actually modifies the passed SchedulerState, take care. Clone it manually if required.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nxgraph</strong> &#8211; full task graph as networkx.DiGraph</li>
+<li><strong>platform_model</strong> &#8211; cscheduling.PlatformModel object</li>
+<li><strong>state</strong> &#8211; cscheduling.SchedulerState object</li>
+<li><strong>ordered_tasks</strong> &#8211; tasks in a HEFT order</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">modified scheduler state</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cscheduling.schedulable_order">
+<code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">schedulable_order</code><span class="sig-paren">(</span><em>nxgraph</em>, <em>dict ranking</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.schedulable_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give an valid topological order that attempts to prioritize task by given ranking.</p>
+<p>Higher rank values are considered to have higher priority.</p>
+<p>Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking
+function doesn&#8217;t guarantee to preserve topological sort.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nxgraph</strong> &#8211; workflow as a networkx.DiGraph object</li>
+<li><strong>ranking</strong> &#8211; dict of ranking values, layout is {cplatform.Task: float}</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of tasks in a topological order</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysimgrid.cscheduling.timesheet_insertion">
+<code class="descclassname">pysimgrid.cscheduling.</code><code class="descname">timesheet_insertion</code><span class="sig-paren">(</span><em>list timesheet</em>, <em>double est</em>, <em>double eet</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.cscheduling.timesheet_insertion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate a earliest possible insertion into a given timesheet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>timesheet</strong> &#8211; list of scheduled tasks in a form (Task, start, finish)</li>
+<li><strong>est</strong> &#8211; new task earliest start time</li>
+<li><strong>eet</strong> &#8211; new task execution time</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a tuple (insert_index, start, finish)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tools.bot_gen.html" class="btn btn-neutral" title="pysimgrid.tools.bot_gen" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pysimgrid.simdag &mdash; pysimgrid 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pysimgrid 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="index.html"/>
+        <link rel="next" title="pysimgrid.simdag.algorithms" href="simdag.algorithms.html"/>
+        <link rel="prev" title="API Reference" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pysimgrid
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#high-level-api">High-level API</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pysimgrid.simdag</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#schedulers">Schedulers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#task-kinds">Task kinds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#task-states">Task states</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simdag.algorithms.html">pysimgrid.simdag.algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#c-api">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pysimgrid</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Reference</a> &raquo;</li>
+        
+      <li>pysimgrid.simdag</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pysimgrid-simdag">
+<h1><a class="toc-backref" href="#id1">pysimgrid.simdag</a><a class="headerlink" href="#pysimgrid-simdag" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#pysimgrid-simdag" id="id1">pysimgrid.simdag</a><ul>
+<li><a class="reference internal" href="#simulation" id="id2">Simulation</a></li>
+<li><a class="reference internal" href="#schedulers" id="id3">Schedulers</a></li>
+<li><a class="reference internal" href="#task-kinds" id="id4">Task kinds</a></li>
+<li><a class="reference internal" href="#task-states" id="id5">Task states</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="simulation">
+<h2><a class="toc-backref" href="#id2">Simulation</a><a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h2>
+<p>Simulation class provides an entry point for the, ugh, simulations.</p>
+<p>It is intended to be used as context manager, as it is important to ensure proper setup and cleanup
+when working with a native library.</p>
+<dl class="class">
+<dt id="pysimgrid.simdag.Simulation">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>platform</em>, <em>tasks</em>, <em>config=None</em>, <em>log_config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>High-level API for current simulation state.</p>
+<ul class="simple">
+<li>Ensures proper bootstrap/cleanup</li>
+<li>Provides an improved API for task/host filtering.</li>
+<li>Ensures that you always use exactly same python instances for SimGrid objects<ul>
+<li>e.g csimdag.Task.parents returns brand-new Task instances you&#8217;ve never seen before</li>
+<li>required</li>
+<li>required for (Task/Host).data to work properly</li>
+</ul>
+</li>
+</ul>
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Simulation.all_tasks">
+<code class="descname">all_tasks</code><a class="headerlink" href="#pysimgrid.simdag.Simulation.all_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full task list, including comm tasks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Simulation.clock">
+<code class="descname">clock</code><a class="headerlink" href="#pysimgrid.simdag.Simulation.clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current SimGrid clock.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Simulation.connections">
+<code class="descname">connections</code><a class="headerlink" href="#pysimgrid.simdag.Simulation.connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all communication tasks.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.simdag.Simulation.get_task_graph">
+<code class="descname">get_task_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.Simulation.get_task_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current DAG as a nxgraph.DiGraph.</p>
+<p>Task computation/communication amounts are represented as an &#8220;weight&#8221; attribute of nodes and edges.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Simulation.hosts">
+<code class="descname">hosts</code><a class="headerlink" href="#pysimgrid.simdag.Simulation.hosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full host list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.simdag.Simulation.simulate">
+<code class="descname">simulate</code><span class="sig-paren">(</span><em>how_long=-1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.Simulation.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the simgrid simulation until one of the following happens:</p>
+<ul class="simple">
+<li>how_long time limit expires (if passed and positive)</li>
+<li>watchpoint is reached (some task changed state)</li>
+<li>simulation ends</li>
+</ul>
+<p>Returns the list of changed tasks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Simulation.tasks">
+<code class="descname">tasks</code><a class="headerlink" href="#pysimgrid.simdag.Simulation.tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all computational tasks.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="schedulers">
+<h2><a class="toc-backref" href="#id3">Schedulers</a><a class="headerlink" href="#schedulers" title="Permalink to this headline">¶</a></h2>
+<p>Schedulers are the main workhorses during the simulation.</p>
+<p>While nothing stops you from doing everything manually, scheduler interfaces
+provides a useful framework to build your algorithm upon.</p>
+<dl class="class">
+<dt id="pysimgrid.simdag.Scheduler">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">Scheduler</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.Scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all scheduling algorithms.</p>
+<p>Defines scheduler public interface and provides (very few) useful methods for
+actual schedulers:</p>
+<blockquote>
+<div><p><em>self._log</em> - Logger object (see logging module documentation)</p>
+<p><em>self._check_done()</em> - raise an exception if there are any unfinished tasks</p>
+</div></blockquote>
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Scheduler.expected_makespan">
+<code class="descname">expected_makespan</code><a class="headerlink" href="#pysimgrid.simdag.Scheduler.expected_makespan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algorithm&#8217;s makespan prediction. Can return None if algorithms didn&#8217;t/cannot provide it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.simdag.Scheduler.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.Scheduler.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descibes the simulation process.
+Single call to this method should perform the full
+simulation, scheduling all the tasks and calling the
+simulation API as necessary.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not intended to be overriden in the concrete algorithms.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Scheduler.scheduler_time">
+<code class="descname">scheduler_time</code><a class="headerlink" href="#pysimgrid.simdag.Scheduler.scheduler_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wall clock time spent scheduling.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.Scheduler.total_time">
+<code class="descname">total_time</code><a class="headerlink" href="#pysimgrid.simdag.Scheduler.total_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wall clock time spent scheduling and simulating.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.StaticScheduler">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">StaticScheduler</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.StaticScheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.scheduler.Scheduler</span></code></p>
+<p>Base class for static scheduling algorithms.</p>
+<p>Provides some non-trivial functionality, ensuring that tasks scheduled on the same host
+do not execute concurrently.</p>
+<dl class="method">
+<dt id="pysimgrid.simdag.StaticScheduler.get_schedule">
+<code class="descname">get_schedule</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.StaticScheduler.get_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that need to be overriden in scheduler implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>simulation</strong> &#8211; a <a class="reference internal" href="#pysimgrid.simdag.Simulation" title="pysimgrid.simdag.Simulation"><code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.Simulation</span></code></a> object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Expected to return a schedule as dict {host -&gt; [list_of_tasks...]}.
+Optionally, can also return a predicted makespan. Then return type is a tuple (schedule, predicted_makespan_in_seconds).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.DynamicScheduler">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">DynamicScheduler</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.DynamicScheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.scheduler.Scheduler</span></code></p>
+<p>Base class for dynamic scheduling algorithms.</p>
+<dl class="method">
+<dt id="pysimgrid.simdag.DynamicScheduler.prepare">
+<code class="descname">prepare</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.DynamicScheduler.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that need to be overriden in scheduler implementation.</p>
+<p>Executed once before the simulation. Can be used to setup initial state for tasks and hosts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>simulation</strong> &#8211; a <a class="reference internal" href="#pysimgrid.simdag.Simulation" title="pysimgrid.simdag.Simulation"><code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.Simulation</span></code></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysimgrid.simdag.DynamicScheduler.schedule">
+<code class="descname">schedule</code><span class="sig-paren">(</span><em>simulation</em>, <em>changed</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.DynamicScheduler.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that need to be overriden in scheduler implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>simulation</strong> &#8211; a <a class="reference internal" href="#pysimgrid.simdag.Simulation" title="pysimgrid.simdag.Simulation"><code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.Simulation</span></code></a> object</li>
+<li><strong>changed</strong> &#8211; a list of changed tasks</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="task-kinds">
+<h2><a class="toc-backref" href="#id4">Task kinds</a><a class="headerlink" href="#task-kinds" title="Permalink to this headline">¶</a></h2>
+<p>SimGrid tasks can have different types.</p>
+<dl class="docutils">
+<dt>Parallel tasks API is unfinished for now, there a only 2 important ones:</dt>
+<dd><p class="first"><em>TASK_KIND_COMP_SEQ</em> - computational task</p>
+<p class="last"><em>TASK_KIND_COMM_E2E</em> - data transfer task (dependency)</p>
+</dd>
+</dl>
+<p><a class="reference internal" href="#pysimgrid.simdag.Simulation" title="pysimgrid.simdag.Simulation"><code class="xref py py-class docutils literal"><span class="pre">pysimgrid.simdag.Simulation</span></code></a> class provides shortcut methods to access tasks by kind:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysimgrid.simdag</span>
+
+<span class="k">with</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="s2">&quot;task_file.dot&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">simulation</span><span class="p">:</span>
+  <span class="c1"># get all computational tasks</span>
+  <span class="n">tasks</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span>
+  <span class="c1"># get all computational tasks &quot;manually&quot;</span>
+  <span class="n">tasks</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">all_tasks</span><span class="p">[</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskKind</span><span class="o">.</span><span class="n">TASK_KIND_COMP_SEQ</span><span class="p">]</span>
+  <span class="c1"># get all connections</span>
+  <span class="n">connections</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">connections</span>
+  <span class="c1"># get all connections &quot;manually&quot;</span>
+  <span class="n">connections</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskKind</span><span class="o">.</span><span class="n">TASK_KIND_COMM_E2E</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="pysimgrid.simdag.TaskKind">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">TaskKind</code><a class="headerlink" href="#pysimgrid.simdag.TaskKind" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskKind.TASK_KIND_COMM_E2E">
+<code class="descname">TASK_KIND_COMM_E2E</code><em class="property"> = 1</em><a class="headerlink" href="#pysimgrid.simdag.TaskKind.TASK_KIND_COMM_E2E" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskKind.TASK_KIND_COMM_PAR_MXN_1D_BLOCK">
+<code class="descname">TASK_KIND_COMM_PAR_MXN_1D_BLOCK</code><em class="property"> = 4</em><a class="headerlink" href="#pysimgrid.simdag.TaskKind.TASK_KIND_COMM_PAR_MXN_1D_BLOCK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskKind.TASK_KIND_COMP_PAR_AMDAHL">
+<code class="descname">TASK_KIND_COMP_PAR_AMDAHL</code><em class="property"> = 3</em><a class="headerlink" href="#pysimgrid.simdag.TaskKind.TASK_KIND_COMP_PAR_AMDAHL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskKind.TASK_KIND_COMP_SEQ">
+<code class="descname">TASK_KIND_COMP_SEQ</code><em class="property"> = 2</em><a class="headerlink" href="#pysimgrid.simdag.TaskKind.TASK_KIND_COMP_SEQ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskKind.TASK_KIND_NOT_TYPED">
+<code class="descname">TASK_KIND_NOT_TYPED</code><em class="property"> = 0</em><a class="headerlink" href="#pysimgrid.simdag.TaskKind.TASK_KIND_NOT_TYPED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="task-states">
+<h2><a class="toc-backref" href="#id5">Task states</a><a class="headerlink" href="#task-states" title="Permalink to this headline">¶</a></h2>
+<p>Task state is provided by the underlying library and can be used to conveniently filter tasks.</p>
+<p>Let&#8217;s explain by example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysimgrid.simdag</span>
+
+<span class="k">with</span> <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="s2">&quot;task_file.dot&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">simulation</span><span class="p">:</span>
+  <span class="c1"># select all schedulable tasks</span>
+  <span class="n">schedulable</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_SCHEDULABLE</span><span class="p">]</span>
+  <span class="c1"># select all running OR ready to run tasks</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="p">(</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_RUNNING</span><span class="p">,</span>
+            <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_RUNNABLE</span><span class="p">,</span>
+            <span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_SCHEDULED</span><span class="p">)</span>
+  <span class="n">ready_or_running</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">states</span><span class="p">]</span>
+  <span class="c1"># select all completed tasks</span>
+  <span class="n">done</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_DONE</span><span class="p">]</span>
+  <span class="c1"># select all fully transfered connections</span>
+  <span class="n">conn_done</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">pysimgrid</span><span class="o">.</span><span class="n">simdag</span><span class="o">.</span><span class="n">TaskState</span><span class="o">.</span><span class="n">TASK_STATE_DONE</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="pysimgrid.simdag.TaskState">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.</code><code class="descname">TaskState</code><a class="headerlink" href="#pysimgrid.simdag.TaskState" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_DONE">
+<code class="descname">TASK_STATE_DONE</code><em class="property"> = 16</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_DONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_FAILED">
+<code class="descname">TASK_STATE_FAILED</code><em class="property"> = 32</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_NOT_SCHEDULED">
+<code class="descname">TASK_STATE_NOT_SCHEDULED</code><em class="property"> = 0</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_NOT_SCHEDULED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_RUNNABLE">
+<code class="descname">TASK_STATE_RUNNABLE</code><em class="property"> = 4</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_RUNNABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_RUNNING">
+<code class="descname">TASK_STATE_RUNNING</code><em class="property"> = 8</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_RUNNING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_SCHEDULABLE">
+<code class="descname">TASK_STATE_SCHEDULABLE</code><em class="property"> = 1</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_SCHEDULABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysimgrid.simdag.TaskState.TASK_STATE_SCHEDULED">
+<code class="descname">TASK_STATE_SCHEDULED</code><em class="property"> = 2</em><a class="headerlink" href="#pysimgrid.simdag.TaskState.TASK_STATE_SCHEDULED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="simdag.algorithms.html" class="btn btn-neutral float-right" title="pysimgrid.simdag.algorithms" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Alexey Nazarenko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
