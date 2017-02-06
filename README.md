@@ -16,9 +16,7 @@ Examples
 
 Running a simulation:
 
-```
-#!python
-
+```python
 from pysimgrid import simdag
 import pysimgrid.simdag.algorithms as algorithms
 
@@ -31,9 +29,7 @@ with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") a
 
 Implementing your very own scheduling algorithm:
 
-```
-#!python
-
+```python
 from pysimgrid import simdag
 
 class RandomSchedule(simdag.StaticScheduler):
@@ -69,41 +65,31 @@ Ubuntu 14.04+
 
 Install system dependencies (list is not full):
 
-```
-#!bash
-
+```bash
 sudo apt-get install libboost-context-dev libboost-program-options-dev libboost-filesystem-dev doxygen graphviz-dev
 ```
 
 Use provided scripts to get dependencies:
 
-```
-#!bash
-
+```bash
 ./get_simgrid.sh
 ```
 
 Development build (inplace)
 
-```
-#!bash
-
+```bash
 python3 setup.py build_ext --inplace
 ```
 
 Test the build:
 
-```
-#!bash
-
+```bash
 python3 run_tests.py
 ```
 
 Installation:
 
-```
-#!bash
-
+```bash
 python3 setup.py install --user
 ```
 
