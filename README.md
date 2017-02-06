@@ -53,8 +53,9 @@ C++
 Python
 
 * python 2.7 or 3.4+
-* cython (for full rebuild)
-* matplotlib (optional)
+* [Cython](http://cython.org/) (for full rebuild)
+* [numpy](http://www.numpy.org/)
+* [networkx](https://networkx.github.io/)
 
 
 Build instructions
