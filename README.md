@@ -4,12 +4,16 @@ pysimgrid
 The main goal of the project is to create an easy way to implement and benchmark
 scheduling algorithms while leveraging the powerful [SimGrid](http://simgrid.gforge.inria.fr) simulation framework.
 
-Features:
+#### Features:
 
 * Simulate different scheduling distributed platforms
 * Implement your own scheduling algorithms
 * Compare them with well-known approaches (e.g. HEFT). Batteries included )
 * Run your simulations in parallel
+
+#### Documentation:
+
+https://alexmnazarenko.github.io/pysimgrid/index.html
 
 Examples
 ========
@@ -31,6 +35,7 @@ Implementing your very own scheduling algorithm:
 
 ```python
 from pysimgrid import simdag
+import networkx
 
 class RandomSchedule(simdag.StaticScheduler):
   def get_schedule(self, simulation):
@@ -76,7 +81,16 @@ Use provided scripts to get dependencies:
 ./get_simgrid.sh
 ```
 
-Development build (inplace)
+Installation:
+
+```bash
+python3 setup.py install --user
+```
+
+Development build
+-----------------
+
+Inplace build
 
 ```bash
 python3 setup.py build_ext --inplace
@@ -86,12 +100,6 @@ Test the build:
 
 ```bash
 python3 run_tests.py
-```
-
-Installation:
-
-```bash
-python3 setup.py install --user
 ```
 
 FAQ
