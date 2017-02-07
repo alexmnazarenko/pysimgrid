@@ -53,14 +53,17 @@ Dependencies
 C++
 
 * C++11 capable compiler (tested with GCC/G++ 4.8.4)
-* SimGrid built with graphviz support (build script provided, tested v3.13) [SimGrid download page](http://simgrid.gforge.inria.fr/download.php)
+* [SimGrid](http://simgrid.gforge.inria.fr/download.php) built with graphviz support (build script provided, tested v3.13)
+* [CMake](https://cmake.org/) (for building SimGrid)
 
 Python
 
 * python 2.7 or 3.4+
+* [setuptools](https://pypi.python.org/pypi/setuptools)
 * [Cython](http://cython.org/) (for full rebuild)
 * [numpy](http://www.numpy.org/)
 * [networkx](https://networkx.github.io/)
+
 
 
 Build instructions
