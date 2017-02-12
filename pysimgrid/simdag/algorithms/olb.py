@@ -49,7 +49,7 @@ class OLB(scheduler.DynamicScheduler):
         self._queue.append(t)
     while self._queue:
       task = self._queue[0]
-      if self.is_boundary_task(task):
+      if self.is_boundary_task(task) and self._master_hosts:
         possible_hosts = self._master_hosts
       else:
         possible_hosts = self._exec_hosts
