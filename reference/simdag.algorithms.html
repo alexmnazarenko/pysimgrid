@@ -196,6 +196,15 @@ ready for execution right now).</p>
 <tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.MCT" title="pysimgrid.simdag.algorithms.MCT"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.MCT</span></code></a></td>
 <td>Minimum completion time scheduler.</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.BatchMin" title="pysimgrid.simdag.algorithms.BatchMin"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.BatchMin</span></code></a></td>
+<td>Batch-mode MinMin heuristic.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.BatchMax" title="pysimgrid.simdag.algorithms.BatchMax"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.BatchMax</span></code></a></td>
+<td>Batch-mode MaxMin heuristic.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pysimgrid.simdag.algorithms.BatchSufferage" title="pysimgrid.simdag.algorithms.BatchSufferage"><code class="xref py py-obj docutils literal"><span class="pre">pysimgrid.simdag.algorithms.BatchSufferage</span></code></a></td>
+<td>Batch-mode Sufferage heuristic.</td>
+</tr>
 </tbody>
 </table>
 <dl class="class">
@@ -215,6 +224,33 @@ that actually make sense for DAG scheduling.</p>
 <p>Ready tasks are scheduled on host (probably busy one) that promises the earliest task completion.</p>
 <p>Task completion time is estimated as:</p>
 <p>ECT(task, host) = max(current_clock, estimated_host_ready_time) + max(comm_time_from_parents) + EET(task, host)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.BatchMin">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">BatchMin</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.BatchMin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch-mode MinMin heuristic.</p>
+<p>Schedules all currently schedulable tasks to a best host by ECT in a single batch.</p>
+<p>The order in a batch is determined by a heuristic:
+MinMin prioritizes the tasks with minimum ECT on a best host.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.BatchMax">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">BatchMax</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.BatchMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch-mode MaxMin heuristic.</p>
+<p>Schedules all currently schedulable tasks to a best host by ECT in a single batch.</p>
+<p>The order in a batch is determined by a heuristic:
+MaxMin prioritizes the tasks with maximum ECT on a best host</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysimgrid.simdag.algorithms.BatchSufferage">
+<em class="property">class </em><code class="descclassname">pysimgrid.simdag.algorithms.</code><code class="descname">BatchSufferage</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#pysimgrid.simdag.algorithms.BatchSufferage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch-mode Sufferage heuristic.</p>
+<p>Schedules all currently schedulable tasks to a best host by ECT in a single batch.</p>
+<p>The order in a batch is determined by a heuristic:
+Sufferage prioritizes tasks with maximum difference between ECT on 2 best hosts</p>
 </dd></dl>
 
 </div>
