@@ -34,8 +34,8 @@ class OLB(scheduler.DynamicScheduler):
   def prepare(self, simulation):
     for h in simulation.hosts:
       h.data = {}
-    self._master_hosts = simulation.hosts.by_prop("name", "master", False)
-    self._exec_hosts = simulation.hosts.by_prop("name", "master", True)
+    self._master_hosts = simulation.hosts.by_prop("name", self.MASTER_HOST_NAME, False)
+    self._exec_hosts = simulation.hosts.by_prop("name", self.MASTER_HOST_NAME, True)
     self._queue = []
 
   def schedule(self, simulation, changed):
