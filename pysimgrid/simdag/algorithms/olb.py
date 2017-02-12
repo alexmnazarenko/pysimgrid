@@ -23,7 +23,7 @@ from ... import csimdag
 
 class OLB(scheduler.DynamicScheduler):
   """
-  Opportunistic load balancing scheduling.
+  Opportunistic load balancing scheduler.
 
   Dynamically schedule a free task on a fastest host, disregarding any communication costs.
   Main practical advantage is avoiding any attempts to estimate task performance on given machine.
@@ -34,24 +34,31 @@ class OLB(scheduler.DynamicScheduler):
   def prepare(self, simulation):
     for h in simulation.hosts:
       h.data = {}
-    self.queue = []
+    self._master_hosts = simulation.hosts.by_prop("name", "master", False)
+    self._exec_hosts = simulation.hosts.by_prop("name", "master", True)
+    self._queue = []
 
   def schedule(self, simulation, changed):
     for h in simulation.hosts:
       h.data["free"] = True
     for task in simulation.tasks[csimdag.TaskState.TASK_STATE_RUNNING, csimdag.TaskState.TASK_STATE_SCHEDULED]:
       task.hosts[0].data["free"] = False
-    queue_set = set(self.queue)
+    queue_set = set(self._queue)
     for t in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
       if t not in queue_set:
-        self.queue.append(t)
-    while self.queue:
-      free_hosts = simulation.hosts.by_data("free", True)
+        self._queue.append(t)
+    while self._queue:
+      task = self._queue[0]
+      if self.is_boundary_task(task):
+        possible_hosts = self._master_hosts
+      else:
+        possible_hosts = self._exec_hosts
+      free_hosts = possible_hosts.by_data("free", True)
       if free_hosts:
-        t = self.queue.pop(0)
+        self._queue.pop(0)
         free_hosts = free_hosts.sorted(lambda h: h.speed, reverse=True)
         target_host = free_hosts[0]
-        t.schedule(target_host)
+        task.schedule(target_host)
         target_host.data["free"] = False
       else:
         break

@@ -51,6 +51,9 @@ class SimpleDynamic(simdag.DynamicScheduler):
 
 
 _SCHEDULERS = {
+  "MinMin": algorithms.BatchMin,
+  "MaxMin": algorithms.BatchMax,
+  "sufferage": algorithms.BatchSufferage,
   "RandomSchedule": algorithms.RandomStatic,
   "SimpleDynamic": SimpleDynamic,
   "MCT": algorithms.MCT,
@@ -64,7 +67,7 @@ _SCHEDULERS = {
 
 def run_simulation(scheduler):
   scheduler_class = _SCHEDULERS[scheduler]
-  with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+  with simdag.Simulation("test/data/pl_4hosts_master.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
     print("Scheduler:", scheduler, scheduler_class)
     scheduler = scheduler_class(simulation)
     scheduler.run()
@@ -75,11 +78,12 @@ def main():
   # single run in current process mode, used for profiling
   if False:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+    with simdag.Simulation("test/data/pl_4hosts_master.xml", "test/data/basic_graph.dot") as simulation:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
-    with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+    #with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
       #graph = simulation.get_task_graph()
       #scheduler = heft.HEFTScheduler(simulation)
-      scheduler = algorithms.Lookahead(simulation)
+      scheduler = algorithms.BatchSufferage(simulation)
       #scheduler = peft.PEFTScheduler(simulation)
       scheduler.run()
       print(scheduler.scheduler_time, scheduler.total_time)

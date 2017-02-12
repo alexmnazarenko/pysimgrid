@@ -36,6 +36,9 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
 
     *self._check_done()* - raise an exception if there are any unfinished tasks
   """
+  BOUNDARY_TASKS = ["root", "end"]
+  MASTER_HOST_NAME = "master"
+
   def __init__(self, simulation):
     """
     Initialize scheduler instance.
@@ -89,6 +92,10 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
     unfinished = self._simulation.all_tasks.by_prop("state", csimdag.TASK_STATE_DONE, True)
     if any(unfinished):
       raise Exception("some tasks are not finished by the end of simulation: {}".format([t.name for t in unfinished]))
+
+  @classmethod
+  def is_boundary_task(cls, task):
+    return (task.name in cls.BOUNDARY_TASKS) and task.amount == 0
 
 
 class StaticScheduler(Scheduler):

@@ -19,11 +19,20 @@ ready for execution right now).
 
   pysimgrid.simdag.algorithms.OLB
   pysimgrid.simdag.algorithms.MCT
+  pysimgrid.simdag.algorithms.BatchMin
+  pysimgrid.simdag.algorithms.BatchMax
+  pysimgrid.simdag.algorithms.BatchSufferage
 
 
 .. autoclass:: pysimgrid.simdag.algorithms.OLB
 
 .. autoclass:: pysimgrid.simdag.algorithms.MCT
+
+.. autoclass:: pysimgrid.simdag.algorithms.BatchMin
+
+.. autoclass:: pysimgrid.simdag.algorithms.BatchMax
+
+.. autoclass:: pysimgrid.simdag.algorithms.BatchSufferage
 
 Static scheduling
 =================

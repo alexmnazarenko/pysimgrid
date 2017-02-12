@@ -16,6 +16,7 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from .batch import BatchMin, BatchMax, BatchSufferage
 from .hcpt import HCPT
 from .heft import HEFT
 from .lookahead import Lookahead

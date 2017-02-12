@@ -41,9 +41,10 @@ import numpy
 
 import cplatform
 
+cimport numpy as cnumpy
+cimport common
 cimport cplatform
 cimport csimdag
-cimport numpy as cnumpy
 
 
 cdef class PlatformModel(object):
@@ -355,6 +356,29 @@ cdef class MinSelector(object):
     return self.best_value
 
 
+cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):
+  cdef str ROOT_NAME = "root"
+  cdef str END_NAME = "end"
+  cdef bytes MASTER_NAME = b"master"
+  if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:
+    return False
+  cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+  if not master_host:
+    return False
+  cdef double finish, start
+  for host, timesheet in state.timetable.items():
+    if host.native == master_host:
+      finish = start = timesheet[-1][2] if timesheet else 0
+      state.update(task, host, len(timesheet), start, finish)
+      break
+  else:
+    return False
+  return True
+
+cpdef is_master_host(cplatform.Host host):
+  cdef str MASTER_NAME = "master"
+  return host.name == MASTER_NAME
+
 def heft_order(object nxgraph, PlatformModel platform_model):
   """
   Order task according to HEFT ranku.
@@ -400,8 +424,12 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
   cdef cplatform.Host host
   cdef double est, eet, start, finish
   for task in ordered_tasks:
+    if try_schedule_boundary_task(task, platform_model, state):
+      continue
     current_min = MinSelector()
     for host, timesheet in state.timetable.items():
+      if is_master_host(host):
+        continue
       est = platform_model.est(host, nxgraph.pred[task], state)
       eet = platform_model.eet(task, host)
       pos, start, finish = timesheet_insertion(timesheet, est, eet)

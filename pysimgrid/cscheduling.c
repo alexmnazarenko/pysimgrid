@@ -4,25 +4,25 @@
 {
     "distutils": {
         "depends": [
-            "/home/alexey.nazarenko/.local/lib/python3.4/site-packages/numpy/core/include/numpy/arrayobject.h",
-            "/home/alexey.nazarenko/.local/lib/python3.4/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/simgrid/simdag.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/dict.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/dynar.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/log.h"
+            "/home/panda/.local/lib/python3.5/site-packages/numpy/core/include/numpy/arrayobject.h",
+            "/home/panda/.local/lib/python3.5/site-packages/numpy/core/include/numpy/ufuncobject.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/simgrid/simdag.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/dict.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/dynar.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/log.h"
         ],
         "include_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include",
-            "/home/alexey.nazarenko/.local/lib/python3.4/site-packages/numpy/core/include"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include",
+            "/home/panda/.local/lib/python3.5/site-packages/numpy/core/include"
         ],
         "libraries": [
             "simgrid"
         ],
         "library_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/lib"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/lib"
         ],
         "runtime_library_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/lib"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/lib"
         ]
     },
     "module_name": "pysimgrid.cscheduling"
@@ -297,15 +297,16 @@ static CYTHON_INLINE float __PYX_NAN() {
 
 #define __PYX_HAVE__pysimgrid__cscheduling
 #define __PYX_HAVE_API__pysimgrid__cscheduling
-#include "xbt/dynar.h"
-#include "xbt/dict.h"
-#include "xbt/log.h"
-#include "simgrid/simdag.h"
 #include "string.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
+#include "stdint.h"
+#include "xbt/dynar.h"
+#include "xbt/dict.h"
+#include "xbt/log.h"
+#include "simgrid/simdag.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -544,10 +545,11 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "pysimgrid/cscheduling.pyx",
+  "pysimgrid/common.pxd",
   "__init__.pxd",
+  "type.pxd",
   "pysimgrid/cplatform.pxd",
   "pysimgrid/csimdag.pxd",
-  "type.pxd",
 };
 /* BufferFormatStructs.proto */
 #define IS_UNSIGNED(type) (((type) -1) > 0)
@@ -586,7 +588,7 @@ typedef struct {
 } __Pyx_BufFmt_Context;
 
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":725
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":725
  * # in Cython to enable them only on the right systems.
  * 
  * ctypedef npy_int8       int8_t             # <<<<<<<<<<<<<<
@@ -595,7 +597,7 @@ typedef struct {
  */
 typedef npy_int8 __pyx_t_5numpy_int8_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":726
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":726
  * 
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t             # <<<<<<<<<<<<<<
@@ -604,7 +606,7 @@ typedef npy_int8 __pyx_t_5numpy_int8_t;
  */
 typedef npy_int16 __pyx_t_5numpy_int16_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":727
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":727
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t             # <<<<<<<<<<<<<<
@@ -613,7 +615,7 @@ typedef npy_int16 __pyx_t_5numpy_int16_t;
  */
 typedef npy_int32 __pyx_t_5numpy_int32_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":728
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":728
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t
  * ctypedef npy_int64      int64_t             # <<<<<<<<<<<<<<
@@ -622,7 +624,7 @@ typedef npy_int32 __pyx_t_5numpy_int32_t;
  */
 typedef npy_int64 __pyx_t_5numpy_int64_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":732
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":732
  * #ctypedef npy_int128     int128_t
  * 
  * ctypedef npy_uint8      uint8_t             # <<<<<<<<<<<<<<
@@ -631,7 +633,7 @@ typedef npy_int64 __pyx_t_5numpy_int64_t;
  */
 typedef npy_uint8 __pyx_t_5numpy_uint8_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":733
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":733
  * 
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t             # <<<<<<<<<<<<<<
@@ -640,7 +642,7 @@ typedef npy_uint8 __pyx_t_5numpy_uint8_t;
  */
 typedef npy_uint16 __pyx_t_5numpy_uint16_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":734
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":734
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t             # <<<<<<<<<<<<<<
@@ -649,7 +651,7 @@ typedef npy_uint16 __pyx_t_5numpy_uint16_t;
  */
 typedef npy_uint32 __pyx_t_5numpy_uint32_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":735
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":735
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t
  * ctypedef npy_uint64     uint64_t             # <<<<<<<<<<<<<<
@@ -658,7 +660,7 @@ typedef npy_uint32 __pyx_t_5numpy_uint32_t;
  */
 typedef npy_uint64 __pyx_t_5numpy_uint64_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":739
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":739
  * #ctypedef npy_uint128    uint128_t
  * 
  * ctypedef npy_float32    float32_t             # <<<<<<<<<<<<<<
@@ -667,7 +669,7 @@ typedef npy_uint64 __pyx_t_5numpy_uint64_t;
  */
 typedef npy_float32 __pyx_t_5numpy_float32_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":740
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":740
  * 
  * ctypedef npy_float32    float32_t
  * ctypedef npy_float64    float64_t             # <<<<<<<<<<<<<<
@@ -676,7 +678,7 @@ typedef npy_float32 __pyx_t_5numpy_float32_t;
  */
 typedef npy_float64 __pyx_t_5numpy_float64_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":749
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":749
  * # The int types are mapped a bit surprising --
  * # numpy.int corresponds to 'l' and numpy.long to 'q'
  * ctypedef npy_long       int_t             # <<<<<<<<<<<<<<
@@ -685,7 +687,7 @@ typedef npy_float64 __pyx_t_5numpy_float64_t;
  */
 typedef npy_long __pyx_t_5numpy_int_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":750
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":750
  * # numpy.int corresponds to 'l' and numpy.long to 'q'
  * ctypedef npy_long       int_t
  * ctypedef npy_longlong   long_t             # <<<<<<<<<<<<<<
@@ -694,7 +696,7 @@ typedef npy_long __pyx_t_5numpy_int_t;
  */
 typedef npy_longlong __pyx_t_5numpy_long_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":751
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":751
  * ctypedef npy_long       int_t
  * ctypedef npy_longlong   long_t
  * ctypedef npy_longlong   longlong_t             # <<<<<<<<<<<<<<
@@ -703,7 +705,7 @@ typedef npy_longlong __pyx_t_5numpy_long_t;
  */
 typedef npy_longlong __pyx_t_5numpy_longlong_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":753
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":753
  * ctypedef npy_longlong   longlong_t
  * 
  * ctypedef npy_ulong      uint_t             # <<<<<<<<<<<<<<
@@ -712,7 +714,7 @@ typedef npy_longlong __pyx_t_5numpy_longlong_t;
  */
 typedef npy_ulong __pyx_t_5numpy_uint_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":754
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":754
  * 
  * ctypedef npy_ulong      uint_t
  * ctypedef npy_ulonglong  ulong_t             # <<<<<<<<<<<<<<
@@ -721,7 +723,7 @@ typedef npy_ulong __pyx_t_5numpy_uint_t;
  */
 typedef npy_ulonglong __pyx_t_5numpy_ulong_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":755
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":755
  * ctypedef npy_ulong      uint_t
  * ctypedef npy_ulonglong  ulong_t
  * ctypedef npy_ulonglong  ulonglong_t             # <<<<<<<<<<<<<<
@@ -730,7 +732,7 @@ typedef npy_ulonglong __pyx_t_5numpy_ulong_t;
  */
 typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":757
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":757
  * ctypedef npy_ulonglong  ulonglong_t
  * 
  * ctypedef npy_intp       intp_t             # <<<<<<<<<<<<<<
@@ -739,7 +741,7 @@ typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
  */
 typedef npy_intp __pyx_t_5numpy_intp_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":758
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":758
  * 
  * ctypedef npy_intp       intp_t
  * ctypedef npy_uintp      uintp_t             # <<<<<<<<<<<<<<
@@ -748,7 +750,7 @@ typedef npy_intp __pyx_t_5numpy_intp_t;
  */
 typedef npy_uintp __pyx_t_5numpy_uintp_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":760
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":760
  * ctypedef npy_uintp      uintp_t
  * 
  * ctypedef npy_double     float_t             # <<<<<<<<<<<<<<
@@ -757,7 +759,7 @@ typedef npy_uintp __pyx_t_5numpy_uintp_t;
  */
 typedef npy_double __pyx_t_5numpy_float_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":761
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":761
  * 
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t             # <<<<<<<<<<<<<<
@@ -766,7 +768,7 @@ typedef npy_double __pyx_t_5numpy_float_t;
  */
 typedef npy_double __pyx_t_5numpy_double_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":762
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":762
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t
  * ctypedef npy_longdouble longdouble_t             # <<<<<<<<<<<<<<
@@ -806,7 +808,7 @@ struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector;
 struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order;
 struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":764
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":764
  * ctypedef npy_longdouble longdouble_t
  * 
  * ctypedef npy_cfloat      cfloat_t             # <<<<<<<<<<<<<<
@@ -815,7 +817,7 @@ struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order
  */
 typedef npy_cfloat __pyx_t_5numpy_cfloat_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":765
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":765
  * 
  * ctypedef npy_cfloat      cfloat_t
  * ctypedef npy_cdouble     cdouble_t             # <<<<<<<<<<<<<<
@@ -824,7 +826,7 @@ typedef npy_cfloat __pyx_t_5numpy_cfloat_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_cdouble_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":766
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":766
  * ctypedef npy_cfloat      cfloat_t
  * ctypedef npy_cdouble     cdouble_t
  * ctypedef npy_clongdouble clongdouble_t             # <<<<<<<<<<<<<<
@@ -833,7 +835,7 @@ typedef npy_cdouble __pyx_t_5numpy_cdouble_t;
  */
 typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":768
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":768
  * ctypedef npy_clongdouble clongdouble_t
  * 
  * ctypedef npy_cdouble     complex_t             # <<<<<<<<<<<<<<
@@ -872,7 +874,7 @@ struct __pyx_obj_9pysimgrid_7csimdag_Task {
 };
 
 
-/* "pysimgrid/cscheduling.pyx":49
+/* "pysimgrid/cscheduling.pyx":50
  * 
  * 
  * cdef class PlatformModel(object):             # <<<<<<<<<<<<<<
@@ -892,7 +894,7 @@ struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel {
 };
 
 
-/* "pysimgrid/cscheduling.pyx":228
+/* "pysimgrid/cscheduling.pyx":229
  * 
  * 
  * cdef class SchedulerState(object):             # <<<<<<<<<<<<<<
@@ -906,7 +908,7 @@ struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState {
 };
 
 
-/* "pysimgrid/cscheduling.pyx":316
+/* "pysimgrid/cscheduling.pyx":317
  * 
  * 
  * cdef class MinSelector(object):             # <<<<<<<<<<<<<<
@@ -921,8 +923,8 @@ struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector {
 };
 
 
-/* "pysimgrid/cscheduling.pyx":358
- * 
+/* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
@@ -934,7 +936,7 @@ struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order {
 };
 
 
-/* "pysimgrid/cscheduling.pyx":419
+/* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
@@ -978,7 +980,7 @@ struct __pyx_vtabstruct_9pysimgrid_7csimdag_Task {
 static struct __pyx_vtabstruct_9pysimgrid_7csimdag_Task *__pyx_vtabptr_9pysimgrid_7csimdag_Task;
 
 
-/* "pysimgrid/cscheduling.pyx":49
+/* "pysimgrid/cscheduling.pyx":50
  * 
  * 
  * cdef class PlatformModel(object):             # <<<<<<<<<<<<<<
@@ -994,7 +996,7 @@ struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel {
 static struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel *__pyx_vtabptr_9pysimgrid_11cscheduling_PlatformModel;
 
 
-/* "pysimgrid/cscheduling.pyx":316
+/* "pysimgrid/cscheduling.pyx":317
  * 
  * 
  * cdef class MinSelector(object):             # <<<<<<<<<<<<<<
@@ -1260,6 +1262,44 @@ static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
 /* KeywordStringCheck.proto */
 static CYTHON_INLINE int __Pyx_CheckKeywordStrings(PyObject *kwdict, const char* function_name, int kw_allowed);
 
+/* IncludeStringH.proto */
+#include <string.h>
+
+/* BytesEquals.proto */
+static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
+
+/* UnicodeEquals.proto */
+static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
+
+/* StrEquals.proto */
+#if PY_MAJOR_VERSION >= 3
+#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
+#else
+#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
+#endif
+
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
@@ -1357,28 +1397,6 @@ static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name
 /* append.proto */
 static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
 
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
-
 /* PyIntBinop.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
@@ -1387,11 +1405,24 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long int
     (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
 #endif
 
+/* decode_c_bytes.proto */
+static CYTHON_INLINE PyObject* __Pyx_decode_c_bytes(
+         const char* cstring, Py_ssize_t length, Py_ssize_t start, Py_ssize_t stop,
+         const char* encoding, const char* errors,
+         PyObject* (*decode_func)(const char *s, Py_ssize_t size, const char *errors));
+
+/* decode_bytes.proto */
+static CYTHON_INLINE PyObject* __Pyx_decode_bytes(
+         PyObject* string, Py_ssize_t start, Py_ssize_t stop,
+         const char* encoding, const char* errors,
+         PyObject* (*decode_func)(const char *s, Py_ssize_t size, const char *errors)) {
+    return __Pyx_decode_c_bytes(
+        PyBytes_AS_STRING(string), PyBytes_GET_SIZE(string),
+        start, stop, encoding, errors, decode_func);
+}
+
 /* RaiseNoneIterError.proto */
 static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
-
-/* IncludeStringH.proto */
-#include <string.h>
 
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
@@ -1592,14 +1623,6 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_self, struct __pyx_obj_9pysimgrid_9cplatform_Host *__pyx_v_host, PyObject *__pyx_v_parents, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value, int __pyx_skip_dispatch); /* proto*/
 
-/* Module declarations from 'pysimgrid.xbt' */
-
-/* Module declarations from 'pysimgrid.cplatform' */
-static PyTypeObject *__pyx_ptype_9pysimgrid_9cplatform_Host = 0;
-
-/* Module declarations from 'pysimgrid.csimdag' */
-static PyTypeObject *__pyx_ptype_9pysimgrid_7csimdag_Task = 0;
-
 /* Module declarations from 'cpython.buffer' */
 
 /* Module declarations from 'libc.string' */
@@ -1629,12 +1652,27 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
+/* Module declarations from 'libc.stdint' */
+
+/* Module declarations from 'pysimgrid.common' */
+static CYTHON_INLINE PyObject *__pyx_f_9pysimgrid_6common_unicode_string(PyObject *); /*proto*/
+
+/* Module declarations from 'pysimgrid.xbt' */
+
+/* Module declarations from 'pysimgrid.cplatform' */
+static PyTypeObject *__pyx_ptype_9pysimgrid_9cplatform_Host = 0;
+
+/* Module declarations from 'pysimgrid.csimdag' */
+static PyTypeObject *__pyx_ptype_9pysimgrid_7csimdag_Task = 0;
+
 /* Module declarations from 'pysimgrid.cscheduling' */
 static PyTypeObject *__pyx_ptype_9pysimgrid_11cscheduling_PlatformModel = 0;
 static PyTypeObject *__pyx_ptype_9pysimgrid_11cscheduling_SchedulerState = 0;
 static PyTypeObject *__pyx_ptype_9pysimgrid_11cscheduling_MinSelector = 0;
 static PyTypeObject *__pyx_ptype_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order = 0;
 static PyTypeObject *__pyx_ptype_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order = 0;
+static PyObject *__pyx_f_9pysimgrid_11cscheduling_try_schedule_boundary_task(struct __pyx_obj_9pysimgrid_7csimdag_Task *, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_9pysimgrid_11cscheduling_is_master_host(struct __pyx_obj_9pysimgrid_9cplatform_Host *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *, PyObject *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *, double, double, int __pyx_skip_dispatch); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
@@ -1647,10 +1685,12 @@ static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_Exception;
 static PyObject *__pyx_builtin_max;
 static PyObject *__pyx_builtin_sorted;
+static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_RuntimeError;
 static const char __pyx_k_ect[] = "ect";
 static const char __pyx_k_eet[] = "eet";
+static const char __pyx_k_end[] = "end";
 static const char __pyx_k_est[] = "est";
 static const char __pyx_k_key[] = "key";
 static const char __pyx_k_max[] = "max";
@@ -1664,6 +1704,7 @@ static const char __pyx_k_mean[] = "mean";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_node[] = "node";
 static const char __pyx_k_pred[] = "pred";
+static const char __pyx_k_root[] = "root";
 static const char __pyx_k_size[] = "size";
 static const char __pyx_k_succ[] = "succ";
 static const char __pyx_k_task[] = "task";
@@ -1685,6 +1726,8 @@ static const char __pyx_k_amount[] = "amount";
 static const char __pyx_k_append[] = "append";
 static const char __pyx_k_finish[] = "finish";
 static const char __pyx_k_import[] = "__import__";
+static const char __pyx_k_master[] = "master";
+static const char __pyx_k_native[] = "native";
 static const char __pyx_k_parent[] = "parent";
 static const char __pyx_k_sorted[] = "sorted";
 static const char __pyx_k_sorter[] = "sorter";
@@ -1697,6 +1740,7 @@ static const char __pyx_k_ranking[] = "ranking";
 static const char __pyx_k_reverse[] = "reverse";
 static const char __pyx_k_networkx[] = "networkx";
 static const char __pyx_k_Exception[] = "Exception";
+static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_cplatform[] = "cplatform";
 static const char __pyx_k_edge_dict[] = "edge_dict";
 static const char __pyx_k_enumerate[] = "enumerate";
@@ -1728,13 +1772,14 @@ static const char __pyx_k_heft_order_locals_lambda[] = "heft_order.<locals>.<lam
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static const char __pyx_k_initial_state_must_be_provided[] = "initial state must be provided";
 static const char __pyx_k_Moreorless_generic_scheduling_u[] = "\nMoreorless generic scheduling utils.\n\nSome of those are called a lot so they benefit from a Cython usage.\n\nHowever, there is still A LOT to optimize. Help is very welcome.\nCubic complexity scheduling algorithms like Lookahead are still painfully slow.\n\nGeneral optimization directions:\n  * more type annotations\n  * proper c-level numpy usage\n  * less dict searches (may require schedulers update, which is undesirable)\n\nGeneral philosophy is simple - technical optimizations is OK, even if ugly. As long\nas scheduler implementation doesn't suffer, this utilities may be as messed up as required.\nFor example, A TON of dict searches can be avoided if all task/host access will be performed by index.\nHowever, it leads to ugly 'client' code (schedulers) and thus unacceptable.\n";
-static const char __pyx_k_home_alexey_nazarenko_devel_sch[] = "/home/alexey.nazarenko/devel/schedule/pysimgrid/cscheduling.pyx";
+static const char __pyx_k_home_panda_devel_simgrid_experi[] = "/home/panda/devel/simgrid_experiments/pysimgrid/cscheduling.pyx";
 static const char __pyx_k_schedulable_order_locals_lambda[] = "schedulable_order.<locals>.<lambda>";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
 static const char __pyx_k_simulation_is_provided_initial_s[] = "simulation is provided, initial state is not expected";
+static const char __pyx_k_wrong_argument_type_unicode_stri[] = "wrong argument type, unicode string is expected";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
 static PyObject *__pyx_n_s_DiGraph;
 static PyObject *__pyx_n_s_Exception;
@@ -1742,6 +1787,7 @@ static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_RuntimeError;
+static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_amount;
 static PyObject *__pyx_n_s_append;
@@ -1753,12 +1799,13 @@ static PyObject *__pyx_n_s_ect;
 static PyObject *__pyx_n_s_edge;
 static PyObject *__pyx_n_s_edge_dict;
 static PyObject *__pyx_n_s_eet;
+static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_est;
 static PyObject *__pyx_n_s_finish;
 static PyObject *__pyx_n_s_heft_order;
 static PyObject *__pyx_n_s_heft_order_locals_lambda;
-static PyObject *__pyx_kp_s_home_alexey_nazarenko_devel_sch;
+static PyObject *__pyx_kp_s_home_panda_devel_simgrid_experi;
 static PyObject *__pyx_n_s_host;
 static PyObject *__pyx_n_s_hosts;
 static PyObject *__pyx_n_s_import;
@@ -1766,6 +1813,8 @@ static PyObject *__pyx_kp_s_initial_state_must_be_provided;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_key;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_b_master;
+static PyObject *__pyx_n_s_master;
 static PyObject *__pyx_n_s_max;
 static PyObject *__pyx_n_s_mean;
 static PyObject *__pyx_n_s_mean_bandwidth;
@@ -1773,6 +1822,7 @@ static PyObject *__pyx_n_s_mean_latency;
 static PyObject *__pyx_n_s_mean_speed;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_nan;
+static PyObject *__pyx_n_s_native;
 static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_networkx;
@@ -1795,6 +1845,7 @@ static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_ranking;
 static PyObject *__pyx_n_s_ready_nodes;
 static PyObject *__pyx_n_s_reverse;
+static PyObject *__pyx_n_s_root;
 static PyObject *__pyx_n_s_route_bandwidth;
 static PyObject *__pyx_n_s_route_latency;
 static PyObject *__pyx_n_s_schedulable_order;
@@ -1821,6 +1872,7 @@ static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_weight;
+static PyObject *__pyx_kp_s_wrong_argument_type_unicode_stri;
 static PyObject *__pyx_n_s_zeros;
 static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_self, PyObject *__pyx_v_simulation); /* proto */
 static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10host_count___get__(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_self); /* proto */
@@ -1845,12 +1897,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_11MinSelector___init__(struct __pyx
 static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_2update(struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_3key___get__(struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_5value___get__(struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_try_schedule_boundary_task(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9pysimgrid_7csimdag_Task *__pyx_v_task, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2is_master_host(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9pysimgrid_9cplatform_Host *__pyx_v_host); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda(PyObject *__pyx_self, PyObject *__pyx_v_node); /* proto */
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model); /* proto */
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2heft_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, PyObject *__pyx_v_ordered_tasks); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4heft_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_6heft_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, PyObject *__pyx_v_ordered_tasks); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self, PyObject *__pyx_v_node); /* proto */
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, PyObject *__pyx_v_ranking); /* proto */
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_6timesheet_insertion(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_timesheet, double __pyx_v_est, double __pyx_v_eet); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_8schedulable_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, PyObject *__pyx_v_ranking); /* proto */
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_10timesheet_insertion(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_timesheet, double __pyx_v_est, double __pyx_v_eet); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_9pysimgrid_11cscheduling_PlatformModel(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1872,11 +1926,12 @@ static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__12;
-static PyObject *__pyx_codeobj__11;
-static PyObject *__pyx_codeobj__13;
+static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_codeobj__14;
 
-/* "pysimgrid/cscheduling.pyx":63
+/* "pysimgrid/cscheduling.pyx":64
  *   cdef dict _host_map
  * 
  *   def __init__(self, simulation):             # <<<<<<<<<<<<<<
@@ -1909,7 +1964,7 @@ static int __pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_1__init__(PyObject 
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 63, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 64, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -1920,7 +1975,7 @@ static int __pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_1__init__(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 63, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 64, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.PlatformModel.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1959,32 +2014,32 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   double __pyx_t_13;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":64
+  /* "pysimgrid/cscheduling.pyx":65
  * 
  *   def __init__(self, simulation):
  *     hosts = simulation.hosts             # <<<<<<<<<<<<<<
  *     speed = numpy.zeros(len(hosts))
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_hosts = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":65
+  /* "pysimgrid/cscheduling.pyx":66
  *   def __init__(self, simulation):
  *     hosts = simulation.hosts
  *     speed = numpy.zeros(len(hosts))             # <<<<<<<<<<<<<<
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))
  *     latency = numpy.zeros((len(hosts), len(hosts)))
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 65, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -1997,17 +2052,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -2015,25 +2070,25 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_speed = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":66
+  /* "pysimgrid/cscheduling.pyx":67
  *     hosts = simulation.hosts
  *     speed = numpy.zeros(len(hosts))
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))             # <<<<<<<<<<<<<<
  *     latency = numpy.zeros((len(hosts), len(hosts)))
  *     for i, src in enumerate(hosts):
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
@@ -2052,17 +2107,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
@@ -2070,25 +2125,25 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_bandwidth = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":67
+  /* "pysimgrid/cscheduling.pyx":68
  *     speed = numpy.zeros(len(hosts))
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))
  *     latency = numpy.zeros((len(hosts), len(hosts)))             # <<<<<<<<<<<<<<
  *     for i, src in enumerate(hosts):
  *       speed[i] = src.speed
  */
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6);
@@ -2107,17 +2162,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -2125,7 +2180,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_latency = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":68
+  /* "pysimgrid/cscheduling.pyx":69
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))
  *     latency = numpy.zeros((len(hosts), len(hosts)))
  *     for i, src in enumerate(hosts):             # <<<<<<<<<<<<<<
@@ -2138,26 +2193,26 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     __pyx_t_3 = __pyx_v_hosts; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_hosts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_hosts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_7)) {
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       }
@@ -2167,7 +2222,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 68, __pyx_L1_error)
+          else __PYX_ERR(0, 69, __pyx_L1_error)
         }
         break;
       }
@@ -2177,37 +2232,37 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     __pyx_t_6 = 0;
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-    __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1);
     __pyx_t_1 = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":69
+    /* "pysimgrid/cscheduling.pyx":70
  *     latency = numpy.zeros((len(hosts), len(hosts)))
  *     for i, src in enumerate(hosts):
  *       speed[i] = src.speed             # <<<<<<<<<<<<<<
  *       for j in range(i+1, len(hosts)):
  *         dst = simulation.hosts[j]
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_src, __pyx_n_s_speed); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_src, __pyx_n_s_speed); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyObject_SetItem(__pyx_v_speed, __pyx_v_i, __pyx_t_6) < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_speed, __pyx_v_i, __pyx_t_6) < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":70
+    /* "pysimgrid/cscheduling.pyx":71
  *     for i, src in enumerate(hosts):
  *       speed[i] = src.speed
  *       for j in range(i+1, len(hosts)):             # <<<<<<<<<<<<<<
  *         dst = simulation.hosts[j]
  *         bandwidth[i,j] = bandwidth[j,i] = cplatform.route_bandwidth(src, dst)
  */
-    __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 70, __pyx_L1_error)
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
@@ -2215,16 +2270,16 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
     __pyx_t_6 = 0;
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_5 = __pyx_t_2; __Pyx_INCREF(__pyx_t_5); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 71, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -2232,17 +2287,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 71, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 71, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -2252,7 +2307,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 70, __pyx_L1_error)
+            else __PYX_ERR(0, 71, __pyx_L1_error)
           }
           break;
         }
@@ -2261,31 +2316,31 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":71
+      /* "pysimgrid/cscheduling.pyx":72
  *       speed[i] = src.speed
  *       for j in range(i+1, len(hosts)):
  *         dst = simulation.hosts[j]             # <<<<<<<<<<<<<<
  *         bandwidth[i,j] = bandwidth[j,i] = cplatform.route_bandwidth(src, dst)
  *         latency[i,j] = latency[j,i] = cplatform.route_latency(src, dst)
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 72, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_v_dst, __pyx_t_6);
       __pyx_t_6 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":72
+      /* "pysimgrid/cscheduling.pyx":73
  *       for j in range(i+1, len(hosts)):
  *         dst = simulation.hosts[j]
  *         bandwidth[i,j] = bandwidth[j,i] = cplatform.route_bandwidth(src, dst)             # <<<<<<<<<<<<<<
  *         latency[i,j] = latency[j,i] = cplatform.route_latency(src, dst)
  * 
  */
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_cplatform); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_cplatform); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_route_bandwidth); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_route_bandwidth); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = NULL;
@@ -2300,7 +2355,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
           __pyx_t_11 = 1;
         }
       }
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_2) {
         __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -2311,11 +2366,11 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_dst);
       __Pyx_GIVEREF(__pyx_v_dst);
       PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_v_dst);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
@@ -2323,9 +2378,9 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_j);
       __Pyx_GIVEREF(__pyx_v_j);
       PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_v_j);
-      if (unlikely(PyObject_SetItem(__pyx_v_bandwidth, __pyx_t_10, __pyx_t_6) < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_bandwidth, __pyx_t_10, __pyx_t_6) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_INCREF(__pyx_v_j);
       __Pyx_GIVEREF(__pyx_v_j);
@@ -2333,20 +2388,20 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
       PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_v_i);
-      if (unlikely(PyObject_SetItem(__pyx_v_bandwidth, __pyx_t_10, __pyx_t_6) < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_bandwidth, __pyx_t_10, __pyx_t_6) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":73
+      /* "pysimgrid/cscheduling.pyx":74
  *         dst = simulation.hosts[j]
  *         bandwidth[i,j] = bandwidth[j,i] = cplatform.route_bandwidth(src, dst)
  *         latency[i,j] = latency[j,i] = cplatform.route_latency(src, dst)             # <<<<<<<<<<<<<<
  * 
  *     self._speed = speed
  */
-      __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_cplatform); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_cplatform); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_route_latency); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_route_latency); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = NULL;
@@ -2361,7 +2416,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
           __pyx_t_11 = 1;
         }
       }
-      __pyx_t_2 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       if (__pyx_t_10) {
         __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -2372,11 +2427,11 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_dst);
       __Pyx_GIVEREF(__pyx_v_dst);
       PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_11, __pyx_v_dst);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
@@ -2384,9 +2439,9 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_j);
       __Pyx_GIVEREF(__pyx_v_j);
       PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_v_j);
-      if (unlikely(PyObject_SetItem(__pyx_v_latency, __pyx_t_12, __pyx_t_6) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_latency, __pyx_t_12, __pyx_t_6) < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_INCREF(__pyx_v_j);
       __Pyx_GIVEREF(__pyx_v_j);
@@ -2394,11 +2449,11 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
       PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_v_i);
-      if (unlikely(PyObject_SetItem(__pyx_v_latency, __pyx_t_12, __pyx_t_6) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_latency, __pyx_t_12, __pyx_t_6) < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":70
+      /* "pysimgrid/cscheduling.pyx":71
  *     for i, src in enumerate(hosts):
  *       speed[i] = src.speed
  *       for j in range(i+1, len(hosts)):             # <<<<<<<<<<<<<<
@@ -2408,7 +2463,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":68
+    /* "pysimgrid/cscheduling.pyx":69
  *     bandwidth = numpy.zeros((len(hosts), len(hosts)))
  *     latency = numpy.zeros((len(hosts), len(hosts)))
  *     for i, src in enumerate(hosts):             # <<<<<<<<<<<<<<
@@ -2419,14 +2474,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":75
+  /* "pysimgrid/cscheduling.pyx":76
  *         latency[i,j] = latency[j,i] = cplatform.route_latency(src, dst)
  * 
  *     self._speed = speed             # <<<<<<<<<<<<<<
  *     self._bandwidth = bandwidth
  *     self._latency = latency
  */
-  if (!(likely(((__pyx_v_speed) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_speed, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (!(likely(((__pyx_v_speed) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_speed, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 76, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_speed;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2435,14 +2490,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_self->_speed = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":76
+  /* "pysimgrid/cscheduling.pyx":77
  * 
  *     self._speed = speed
  *     self._bandwidth = bandwidth             # <<<<<<<<<<<<<<
  *     self._latency = latency
  *     self._mean_speed = speed.mean()
  */
-  if (!(likely(((__pyx_v_bandwidth) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_bandwidth, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (!(likely(((__pyx_v_bandwidth) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_bandwidth, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_bandwidth;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2451,14 +2506,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_self->_bandwidth = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":77
+  /* "pysimgrid/cscheduling.pyx":78
  *     self._speed = speed
  *     self._bandwidth = bandwidth
  *     self._latency = latency             # <<<<<<<<<<<<<<
  *     self._mean_speed = speed.mean()
  *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))
  */
-  if (!(likely(((__pyx_v_latency) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_latency, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 77, __pyx_L1_error)
+  if (!(likely(((__pyx_v_latency) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_latency, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_latency;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2467,45 +2522,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_self->_latency = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":78
+  /* "pysimgrid/cscheduling.pyx":79
  *     self._bandwidth = bandwidth
  *     self._latency = latency
  *     self._mean_speed = speed.mean()             # <<<<<<<<<<<<<<
  *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))
  *     self._mean_latency = latency.mean() * (latency.size / (bandwidth.size - len(hosts)))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_speed, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->_mean_speed = __pyx_t_13;
-
-  /* "pysimgrid/cscheduling.pyx":79
- *     self._latency = latency
- *     self._mean_speed = speed.mean()
- *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))             # <<<<<<<<<<<<<<
- *     self._mean_latency = latency.mean() * (latency.size / (bandwidth.size - len(hosts)))
- *     self._host_map = {host: idx for (idx, host) in enumerate(hosts)}
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_speed, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2525,37 +2549,68 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_self->_mean_speed = __pyx_t_13;
+
+  /* "pysimgrid/cscheduling.pyx":80
+ *     self._latency = latency
+ *     self._mean_speed = speed.mean()
+ *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))             # <<<<<<<<<<<<<<
+ *     self._mean_latency = latency.mean() * (latency.size / (bandwidth.size - len(hosts)))
+ *     self._host_map = {host: idx for (idx, host) in enumerate(hosts)}
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_5) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  } else {
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 79, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_12 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_12 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = PyNumber_Multiply(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_12 = PyNumber_Multiply(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_v_self->_mean_bandwidth = __pyx_t_13;
 
-  /* "pysimgrid/cscheduling.pyx":80
+  /* "pysimgrid/cscheduling.pyx":81
  *     self._mean_speed = speed.mean()
  *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))
  *     self._mean_latency = latency.mean() * (latency.size / (bandwidth.size - len(hosts)))             # <<<<<<<<<<<<<<
  *     self._host_map = {host: idx for (idx, host) in enumerate(hosts)}
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_latency, __pyx_n_s_mean); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_latency, __pyx_n_s_mean); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_1 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2568,37 +2623,37 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_12 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 81, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_latency, __pyx_n_s_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_latency, __pyx_n_s_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_bandwidth, __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_hosts); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_self->_mean_latency = __pyx_t_13;
 
-  /* "pysimgrid/cscheduling.pyx":81
+  /* "pysimgrid/cscheduling.pyx":82
  *     self._mean_bandwidth = bandwidth.mean() * (bandwidth.size / (bandwidth.size - len(hosts)))
  *     self._mean_latency = latency.mean() * (latency.size / (bandwidth.size - len(hosts)))
  *     self._host_map = {host: idx for (idx, host) in enumerate(hosts)}             # <<<<<<<<<<<<<<
@@ -2608,7 +2663,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   { /* enter inner scope */
     PyObject *__pyx_7genexpr__pyx_v_idx = NULL;
     PyObject *__pyx_7genexpr__pyx_v_host = NULL;
-    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L9_error)
+    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L9_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_int_0);
     __pyx_t_3 = __pyx_int_0;
@@ -2616,26 +2671,26 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __pyx_t_12 = __pyx_v_hosts; __Pyx_INCREF(__pyx_t_12); __pyx_t_4 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_12 = PyObject_GetIter(__pyx_v_hosts); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 81, __pyx_L9_error)
+      __pyx_t_4 = -1; __pyx_t_12 = PyObject_GetIter(__pyx_v_hosts); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 82, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_7 = Py_TYPE(__pyx_t_12)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 81, __pyx_L9_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_12)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L9_error)
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
         if (likely(PyList_CheckExact(__pyx_t_12))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_12)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_12, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 81, __pyx_L9_error)
+          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_12, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 82, __pyx_L9_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_12, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L9_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_12, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L9_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_12)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_12, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 81, __pyx_L9_error)
+          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_12, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 82, __pyx_L9_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_12, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L9_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_12, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L9_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         }
@@ -2645,7 +2700,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 81, __pyx_L9_error)
+            else __PYX_ERR(0, 82, __pyx_L9_error)
           }
           break;
         }
@@ -2655,12 +2710,12 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
       __pyx_t_6 = 0;
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_idx, __pyx_t_3);
-      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L9_error)
+      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3);
       __pyx_t_3 = __pyx_t_6;
       __pyx_t_6 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_t_5, (PyObject*)__pyx_7genexpr__pyx_v_host, (PyObject*)__pyx_7genexpr__pyx_v_idx))) __PYX_ERR(0, 81, __pyx_L9_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_5, (PyObject*)__pyx_7genexpr__pyx_v_host, (PyObject*)__pyx_7genexpr__pyx_v_idx))) __PYX_ERR(0, 82, __pyx_L9_error)
     }
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2679,7 +2734,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   __pyx_v_self->_host_map = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":63
+  /* "pysimgrid/cscheduling.pyx":64
  *   cdef dict _host_map
  * 
  *   def __init__(self, simulation):             # <<<<<<<<<<<<<<
@@ -2713,7 +2768,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel___init__(struct __p
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":84
+/* "pysimgrid/cscheduling.pyx":85
  * 
  *   @property
  *   def host_count(self):             # <<<<<<<<<<<<<<
@@ -2741,7 +2796,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10host_count_
   Py_ssize_t __pyx_t_2;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":88
+  /* "pysimgrid/cscheduling.pyx":89
  *     Get platform host count.
  *     """
  *     return len(self._speed)             # <<<<<<<<<<<<<<
@@ -2751,15 +2806,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10host_count_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = ((PyObject *)__pyx_v_self->_speed);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":84
+  /* "pysimgrid/cscheduling.pyx":85
  * 
  *   @property
  *   def host_count(self):             # <<<<<<<<<<<<<<
@@ -2778,7 +2833,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10host_count_
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":91
+/* "pysimgrid/cscheduling.pyx":92
  * 
  *   @property
  *   def speed(self):             # <<<<<<<<<<<<<<
@@ -2804,7 +2859,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_5speed___get_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":97
+  /* "pysimgrid/cscheduling.pyx":98
  *     Refer to to host_map property or host_idx function to convert host instances to indices.
  *     """
  *     return self._speed             # <<<<<<<<<<<<<<
@@ -2816,7 +2871,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_5speed___get_
   __pyx_r = ((PyObject *)__pyx_v_self->_speed);
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":91
+  /* "pysimgrid/cscheduling.pyx":92
  * 
  *   @property
  *   def speed(self):             # <<<<<<<<<<<<<<
@@ -2831,7 +2886,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_5speed___get_
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":100
+/* "pysimgrid/cscheduling.pyx":101
  * 
  *   @property
  *   def bandwidth(self):             # <<<<<<<<<<<<<<
@@ -2857,7 +2912,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_9bandwidth___
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":107
+  /* "pysimgrid/cscheduling.pyx":108
  *       For i==j bandwidth is 0
  *     """
  *     return self._bandwidth             # <<<<<<<<<<<<<<
@@ -2869,7 +2924,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_9bandwidth___
   __pyx_r = ((PyObject *)__pyx_v_self->_bandwidth);
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":100
+  /* "pysimgrid/cscheduling.pyx":101
  * 
  *   @property
  *   def bandwidth(self):             # <<<<<<<<<<<<<<
@@ -2884,7 +2939,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_9bandwidth___
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":110
+/* "pysimgrid/cscheduling.pyx":111
  * 
  *   @property
  *   def latency(self):             # <<<<<<<<<<<<<<
@@ -2910,7 +2965,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_7latency___ge
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":117
+  /* "pysimgrid/cscheduling.pyx":118
  *       For i==j latency is 0
  *     """
  *     return self._latency             # <<<<<<<<<<<<<<
@@ -2922,7 +2977,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_7latency___ge
   __pyx_r = ((PyObject *)__pyx_v_self->_latency);
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":110
+  /* "pysimgrid/cscheduling.pyx":111
  * 
  *   @property
  *   def latency(self):             # <<<<<<<<<<<<<<
@@ -2937,7 +2992,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_7latency___ge
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":120
+/* "pysimgrid/cscheduling.pyx":121
  * 
  *   @property
  *   def mean_speed(self):             # <<<<<<<<<<<<<<
@@ -2964,7 +3019,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10mean_speed_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":124
+  /* "pysimgrid/cscheduling.pyx":125
  *     Get mean host speed in a platform.
  *     """
  *     return self._mean_speed             # <<<<<<<<<<<<<<
@@ -2972,13 +3027,13 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10mean_speed_
  *   @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_speed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_speed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":120
+  /* "pysimgrid/cscheduling.pyx":121
  * 
  *   @property
  *   def mean_speed(self):             # <<<<<<<<<<<<<<
@@ -2997,7 +3052,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_10mean_speed_
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":127
+/* "pysimgrid/cscheduling.pyx":128
  * 
  *   @property
  *   def mean_bandwidth(self):             # <<<<<<<<<<<<<<
@@ -3024,7 +3079,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_14mean_bandwi
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":131
+  /* "pysimgrid/cscheduling.pyx":132
  *     Get mean connection bandwidth in a platform.
  *     """
  *     return self._mean_bandwidth             # <<<<<<<<<<<<<<
@@ -3032,13 +3087,13 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_14mean_bandwi
  *   @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_bandwidth); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_bandwidth); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":127
+  /* "pysimgrid/cscheduling.pyx":128
  * 
  *   @property
  *   def mean_bandwidth(self):             # <<<<<<<<<<<<<<
@@ -3057,7 +3112,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_14mean_bandwi
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":134
+/* "pysimgrid/cscheduling.pyx":135
  * 
  *   @property
  *   def mean_latency(self):             # <<<<<<<<<<<<<<
@@ -3084,7 +3139,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_12mean_latenc
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":138
+  /* "pysimgrid/cscheduling.pyx":139
  *     Get mean connection latency in a platform.
  *     """
  *     return self._mean_latency             # <<<<<<<<<<<<<<
@@ -3092,13 +3147,13 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_12mean_latenc
  *   @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_latency); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mean_latency); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":134
+  /* "pysimgrid/cscheduling.pyx":135
  * 
  *   @property
  *   def mean_latency(self):             # <<<<<<<<<<<<<<
@@ -3117,7 +3172,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_12mean_latenc
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":141
+/* "pysimgrid/cscheduling.pyx":142
  * 
  *   @property
  *   def host_map(self):             # <<<<<<<<<<<<<<
@@ -3143,7 +3198,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_map___g
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":145
+  /* "pysimgrid/cscheduling.pyx":146
  *     Get {Host: idx} mapping.
  *     """
  *     return self._host_map             # <<<<<<<<<<<<<<
@@ -3155,7 +3210,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_map___g
   __pyx_r = __pyx_v_self->_host_map;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":141
+  /* "pysimgrid/cscheduling.pyx":142
  * 
  *   @property
  *   def host_map(self):             # <<<<<<<<<<<<<<
@@ -3170,7 +3225,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_map___g
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":147
+/* "pysimgrid/cscheduling.pyx":148
  *     return self._host_map
  * 
  *   cpdef eet(self, csimdag.Task task, cplatform.Host host):             # <<<<<<<<<<<<<<
@@ -3193,7 +3248,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_3eet)) {
       __Pyx_XDECREF(__pyx_r);
@@ -3210,7 +3265,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 148, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3221,7 +3276,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
       __Pyx_INCREF(((PyObject *)__pyx_v_host));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_host));
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_host));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3233,7 +3288,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pysimgrid/cscheduling.pyx":151
+  /* "pysimgrid/cscheduling.pyx":152
  *     Calculate task eet on a given host.
  *     """
  *     return task.amount / host.speed             # <<<<<<<<<<<<<<
@@ -3241,11 +3296,11 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
  *   cpdef parent_data_ready_time(self, cplatform.Host host, csimdag.Task parent, dict edge_dict, SchedulerState state):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_task), __pyx_n_s_amount); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_task), __pyx_n_s_amount); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_speed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_speed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3253,7 +3308,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(CYTHON_UNU
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":147
+  /* "pysimgrid/cscheduling.pyx":148
  *     return self._host_map
  * 
  *   cpdef eet(self, csimdag.Task task, cplatform.Host host):             # <<<<<<<<<<<<<<
@@ -3305,11 +3360,11 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_3eet(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_host)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eet", 1, 2, 2, 1); __PYX_ERR(0, 147, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("eet", 1, 2, 2, 1); __PYX_ERR(0, 148, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eet") < 0)) __PYX_ERR(0, 147, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eet") < 0)) __PYX_ERR(0, 148, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3322,14 +3377,14 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_3eet(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("eet", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 147, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("eet", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 148, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.PlatformModel.eet", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_task), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "task", 0))) __PYX_ERR(0, 147, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_task), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "task", 0))) __PYX_ERR(0, 148, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 148, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_2eet(((struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_self), __pyx_v_task, __pyx_v_host);
 
   /* function exit code */
@@ -3347,7 +3402,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_2eet(struct _
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("eet", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(__pyx_v_self, __pyx_v_task, __pyx_v_host, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet(__pyx_v_self, __pyx_v_task, __pyx_v_host, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3364,7 +3419,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_2eet(struct _
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":153
+/* "pysimgrid/cscheduling.pyx":154
  *     return task.amount / host.speed
  * 
  *   cpdef parent_data_ready_time(self, cplatform.Host host, csimdag.Task parent, dict edge_dict, SchedulerState state):             # <<<<<<<<<<<<<<
@@ -3392,7 +3447,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_parent_data_ready_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_parent_data_ready_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_5parent_data_ready_time)) {
       __Pyx_XDECREF(__pyx_r);
@@ -3409,7 +3464,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3426,7 +3481,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
       __Pyx_INCREF(((PyObject *)__pyx_v_state));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_state));
       PyTuple_SET_ITEM(__pyx_t_6, 3+__pyx_t_5, ((PyObject *)__pyx_v_state));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3438,20 +3493,20 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pysimgrid/cscheduling.pyx":166
+  /* "pysimgrid/cscheduling.pyx":167
  *       earliest start time considering only a given parent
  *     """
  *     cdef dict task_states = state.task_states             # <<<<<<<<<<<<<<
  *     cdef int dst_idx = self._host_map[host]
  *     cdef int src_idx = self._host_map[task_states[parent]["host"]]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_task_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_task_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 167, __pyx_L1_error)
   __pyx_v_task_states = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":167
+  /* "pysimgrid/cscheduling.pyx":168
  *     """
  *     cdef dict task_states = state.task_states
  *     cdef int dst_idx = self._host_map[host]             # <<<<<<<<<<<<<<
@@ -3460,15 +3515,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
  */
   if (unlikely(__pyx_v_self->_host_map == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 167, __pyx_L1_error)
+    __PYX_ERR(0, 168, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_dst_idx = __pyx_t_7;
 
-  /* "pysimgrid/cscheduling.pyx":168
+  /* "pysimgrid/cscheduling.pyx":169
  *     cdef dict task_states = state.task_states
  *     cdef int dst_idx = self._host_map[host]
  *     cdef int src_idx = self._host_map[task_states[parent]["host"]]             # <<<<<<<<<<<<<<
@@ -3477,25 +3532,25 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
  */
   if (unlikely(__pyx_v_self->_host_map == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 168, __pyx_L1_error)
+    __PYX_ERR(0, 169, __pyx_L1_error)
   }
   if (unlikely(__pyx_v_task_states == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 168, __pyx_L1_error)
+    __PYX_ERR(0, 169, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_host); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_host); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_src_idx = __pyx_t_7;
 
-  /* "pysimgrid/cscheduling.pyx":169
+  /* "pysimgrid/cscheduling.pyx":170
  *     cdef int dst_idx = self._host_map[host]
  *     cdef int src_idx = self._host_map[task_states[parent]["host"]]
  *     if src_idx == dst_idx:             # <<<<<<<<<<<<<<
@@ -3505,7 +3560,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   __pyx_t_8 = ((__pyx_v_src_idx == __pyx_v_dst_idx) != 0);
   if (__pyx_t_8) {
 
-    /* "pysimgrid/cscheduling.pyx":170
+    /* "pysimgrid/cscheduling.pyx":171
  *     cdef int src_idx = self._host_map[task_states[parent]["host"]]
  *     if src_idx == dst_idx:
  *       return state.task_states[parent]["ect"]             # <<<<<<<<<<<<<<
@@ -3513,19 +3568,19 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_task_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_task_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyObject_GetItem(__pyx_t_1, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_t_1, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_ect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_ect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "pysimgrid/cscheduling.pyx":169
+    /* "pysimgrid/cscheduling.pyx":170
  *     cdef int dst_idx = self._host_map[host]
  *     cdef int src_idx = self._host_map[task_states[parent]["host"]]
  *     if src_idx == dst_idx:             # <<<<<<<<<<<<<<
@@ -3534,7 +3589,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
  */
   }
 
-  /* "pysimgrid/cscheduling.pyx":171
+  /* "pysimgrid/cscheduling.pyx":172
  *     if src_idx == dst_idx:
  *       return state.task_states[parent]["ect"]
  *     return task_states[parent]["ect"] + edge_dict["weight"] / self._bandwidth[src_idx, dst_idx] + self._latency[src_idx, dst_idx]             # <<<<<<<<<<<<<<
@@ -3544,24 +3599,24 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_task_states == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 171, __pyx_L1_error)
+    __PYX_ERR(0, 172, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_ect); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_ect); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_edge_dict == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 171, __pyx_L1_error)
+    __PYX_ERR(0, 172, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_edge_dict, __pyx_n_s_weight); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_edge_dict, __pyx_n_s_weight); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_src_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_src_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_dst_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_dst_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -3569,22 +3624,22 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_6);
   __pyx_t_3 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyObject_GetItem(((PyObject *)__pyx_v_self->_bandwidth), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_6 = PyObject_GetItem(((PyObject *)__pyx_v_self->_bandwidth), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_src_idx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_src_idx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_dst_idx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_dst_idx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4);
@@ -3592,10 +3647,10 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
   __pyx_t_4 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyObject_GetItem(((PyObject *)__pyx_v_self->_latency), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(((PyObject *)__pyx_v_self->_latency), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3603,7 +3658,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_re
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":153
+  /* "pysimgrid/cscheduling.pyx":154
  *     return task.amount / host.speed
  * 
  *   cpdef parent_data_ready_time(self, cplatform.Host host, csimdag.Task parent, dict edge_dict, SchedulerState state):             # <<<<<<<<<<<<<<
@@ -3660,21 +3715,21 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_5parent_data_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_parent)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 1); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 1); __PYX_ERR(0, 154, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_edge_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 2); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 2); __PYX_ERR(0, 154, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 3); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, 3); __PYX_ERR(0, 154, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "parent_data_ready_time") < 0)) __PYX_ERR(0, 153, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "parent_data_ready_time") < 0)) __PYX_ERR(0, 154, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -3691,16 +3746,16 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_5parent_data_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 153, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("parent_data_ready_time", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 154, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.PlatformModel.parent_data_ready_time", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parent), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "parent", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_edge_dict), (&PyDict_Type), 1, "edge_dict", 1))) __PYX_ERR(0, 153, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 153, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 154, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parent), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "parent", 0))) __PYX_ERR(0, 154, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_edge_dict), (&PyDict_Type), 1, "edge_dict", 1))) __PYX_ERR(0, 154, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 154, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_4parent_data_ready_time(((struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_self), __pyx_v_host, __pyx_v_parent, __pyx_v_edge_dict, __pyx_v_state);
 
   /* function exit code */
@@ -3718,7 +3773,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_4parent_data_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("parent_data_ready_time", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_ready_time(__pyx_v_self, __pyx_v_host, __pyx_v_parent, __pyx_v_edge_dict, __pyx_v_state, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_ready_time(__pyx_v_self, __pyx_v_host, __pyx_v_parent, __pyx_v_edge_dict, __pyx_v_state, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3735,7 +3790,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_4parent_data_
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":173
+/* "pysimgrid/cscheduling.pyx":174
  *     return task_states[parent]["ect"] + edge_dict["weight"] / self._bandwidth[src_idx, dst_idx] + self._latency[src_idx, dst_idx]
  * 
  *   cpdef est(self, cplatform.Host host, dict parents, SchedulerState state):             # <<<<<<<<<<<<<<
@@ -3790,7 +3845,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_est); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_est); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_7est)) {
       __Pyx_XDECREF(__pyx_r);
@@ -3807,7 +3862,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3821,7 +3876,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       __Pyx_INCREF(((PyObject *)__pyx_v_state));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_state));
       PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, ((PyObject *)__pyx_v_state));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3833,7 +3888,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pysimgrid/cscheduling.pyx":194
+  /* "pysimgrid/cscheduling.pyx":195
  *       earliest start time as a float
  *     """
  *     cdef double result = 0.             # <<<<<<<<<<<<<<
@@ -3842,7 +3897,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
   __pyx_v_result = 0.;
 
-  /* "pysimgrid/cscheduling.pyx":197
+  /* "pysimgrid/cscheduling.pyx":198
  *     cdef double parent_time
  * 
  *     cdef dict task_states = state._task_states             # <<<<<<<<<<<<<<
@@ -3854,7 +3909,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
   __pyx_v_task_states = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":199
+  /* "pysimgrid/cscheduling.pyx":200
  *     cdef dict task_states = state._task_states
  *     cdef dict task_state
  *     cdef int dst_idx = self._host_map[host]             # <<<<<<<<<<<<<<
@@ -3863,15 +3918,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
   if (unlikely(__pyx_v_self->_host_map == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 199, __pyx_L1_error)
+    __PYX_ERR(0, 200, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_dst_idx = __pyx_t_7;
 
-  /* "pysimgrid/cscheduling.pyx":206
+  /* "pysimgrid/cscheduling.pyx":207
  * 
  *     # force ndarray types to ensure fast indexing
  *     cdef cnumpy.ndarray[double, ndim=2] bw = self._bandwidth             # <<<<<<<<<<<<<<
@@ -3884,14 +3939,14 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_bw.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_bw = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_bw.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 206, __pyx_L1_error)
+      __PYX_ERR(0, 207, __pyx_L1_error)
     } else {__pyx_pybuffernd_bw.diminfo[0].strides = __pyx_pybuffernd_bw.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_bw.diminfo[0].shape = __pyx_pybuffernd_bw.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_bw.diminfo[1].strides = __pyx_pybuffernd_bw.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_bw.diminfo[1].shape = __pyx_pybuffernd_bw.rcbuffer->pybuffer.shape[1];
     }
   }
   __pyx_v_bw = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":207
+  /* "pysimgrid/cscheduling.pyx":208
  *     # force ndarray types to ensure fast indexing
  *     cdef cnumpy.ndarray[double, ndim=2] bw = self._bandwidth
  *     cdef cnumpy.ndarray[double, ndim=2] lat = self._latency             # <<<<<<<<<<<<<<
@@ -3904,14 +3959,14 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_lat.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_lat = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_lat.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 207, __pyx_L1_error)
+      __PYX_ERR(0, 208, __pyx_L1_error)
     } else {__pyx_pybuffernd_lat.diminfo[0].strides = __pyx_pybuffernd_lat.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_lat.diminfo[0].shape = __pyx_pybuffernd_lat.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_lat.diminfo[1].strides = __pyx_pybuffernd_lat.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_lat.diminfo[1].shape = __pyx_pybuffernd_lat.rcbuffer->pybuffer.shape[1];
     }
   }
   __pyx_v_lat = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":209
+  /* "pysimgrid/cscheduling.pyx":210
  *     cdef cnumpy.ndarray[double, ndim=2] lat = self._latency
  * 
  *     for parent, edge_dict in parents.items():             # <<<<<<<<<<<<<<
@@ -3920,17 +3975,17 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
   if (unlikely(__pyx_v_parents == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
-    __PYX_ERR(0, 209, __pyx_L1_error)
+    __PYX_ERR(0, 210, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_parents); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_parents); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_5 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -3938,17 +3993,17 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 210, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 210, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -3958,7 +4013,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 209, __pyx_L1_error)
+          else __PYX_ERR(0, 210, __pyx_L1_error)
         }
         break;
       }
@@ -3974,7 +4029,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 209, __pyx_L1_error)
+        __PYX_ERR(0, 210, __pyx_L1_error)
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -3987,15 +4042,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -4003,7 +4058,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       __Pyx_GOTREF(__pyx_t_3);
       index = 1; __pyx_t_6 = __pyx_t_9(__pyx_t_4); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_4), 2) < 0) __PYX_ERR(0, 209, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_4), 2) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L6_unpacking_done;
@@ -4011,17 +4066,17 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 209, __pyx_L1_error)
+      __PYX_ERR(0, 210, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_9pysimgrid_7csimdag_Task))))) __PYX_ERR(0, 209, __pyx_L1_error)
-    if (!(likely(PyDict_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 209, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_9pysimgrid_7csimdag_Task))))) __PYX_ERR(0, 210, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_parent, ((struct __pyx_obj_9pysimgrid_7csimdag_Task *)__pyx_t_3));
     __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_edge_dict, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":210
+    /* "pysimgrid/cscheduling.pyx":211
  * 
  *     for parent, edge_dict in parents.items():
  *       task_state = task_states[parent]             # <<<<<<<<<<<<<<
@@ -4030,15 +4085,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
     if (unlikely(__pyx_v_task_states == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 210, __pyx_L1_error)
+      __PYX_ERR(0, 211, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_states, ((PyObject *)__pyx_v_parent)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 210, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_task_state, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":211
+    /* "pysimgrid/cscheduling.pyx":212
  *     for parent, edge_dict in parents.items():
  *       task_state = task_states[parent]
  *       src_idx = self._host_map[task_state["host"]]             # <<<<<<<<<<<<<<
@@ -4047,22 +4102,22 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
     if (unlikely(__pyx_v_self->_host_map == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 211, __pyx_L1_error)
+      __PYX_ERR(0, 212, __pyx_L1_error)
     }
     if (unlikely(__pyx_v_task_state == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 211, __pyx_L1_error)
+      __PYX_ERR(0, 212, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_host); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_host); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 211, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 211, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 212, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_src_idx = __pyx_t_7;
 
-    /* "pysimgrid/cscheduling.pyx":212
+    /* "pysimgrid/cscheduling.pyx":213
  *       task_state = task_states[parent]
  *       src_idx = self._host_map[task_state["host"]]
  *       if src_idx == dst_idx:             # <<<<<<<<<<<<<<
@@ -4072,7 +4127,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     __pyx_t_10 = ((__pyx_v_src_idx == __pyx_v_dst_idx) != 0);
     if (__pyx_t_10) {
 
-      /* "pysimgrid/cscheduling.pyx":213
+      /* "pysimgrid/cscheduling.pyx":214
  *       src_idx = self._host_map[task_state["host"]]
  *       if src_idx == dst_idx:
  *         parent_time =  task_state["ect"]             # <<<<<<<<<<<<<<
@@ -4081,15 +4136,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
       if (unlikely(__pyx_v_task_state == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 213, __pyx_L1_error)
+        __PYX_ERR(0, 214, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_ect); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_ect); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_parent_time = __pyx_t_11;
 
-      /* "pysimgrid/cscheduling.pyx":212
+      /* "pysimgrid/cscheduling.pyx":213
  *       task_state = task_states[parent]
  *       src_idx = self._host_map[task_state["host"]]
  *       if src_idx == dst_idx:             # <<<<<<<<<<<<<<
@@ -4099,7 +4154,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       goto __pyx_L7;
     }
 
-    /* "pysimgrid/cscheduling.pyx":215
+    /* "pysimgrid/cscheduling.pyx":216
  *         parent_time =  task_state["ect"]
  *       else:
  *         comm_amount = edge_dict["weight"]             # <<<<<<<<<<<<<<
@@ -4109,15 +4164,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     /*else*/ {
       if (unlikely(__pyx_v_edge_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 215, __pyx_L1_error)
+        __PYX_ERR(0, 216, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_edge_dict, __pyx_n_s_weight); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_edge_dict, __pyx_n_s_weight); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_comm_amount = __pyx_t_11;
 
-      /* "pysimgrid/cscheduling.pyx":218
+      /* "pysimgrid/cscheduling.pyx":219
  *         # extract ect first to ensure it has fixed type
  *         # otherwise + operator will trigger nasty python lookup
  *         parent_time = task_state["ect"]             # <<<<<<<<<<<<<<
@@ -4126,15 +4181,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
       if (unlikely(__pyx_v_task_state == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 218, __pyx_L1_error)
+        __PYX_ERR(0, 219, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_ect); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_task_state, __pyx_n_s_ect); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_parent_time = __pyx_t_11;
 
-      /* "pysimgrid/cscheduling.pyx":219
+      /* "pysimgrid/cscheduling.pyx":220
  *         # otherwise + operator will trigger nasty python lookup
  *         parent_time = task_state["ect"]
  *         parent_time += comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]             # <<<<<<<<<<<<<<
@@ -4154,12 +4209,12 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       } else if (unlikely(__pyx_t_13 >= __pyx_pybuffernd_bw.diminfo[1].shape)) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 219, __pyx_L1_error)
+        __PYX_ERR(0, 220, __pyx_L1_error)
       }
       __pyx_t_11 = (*__Pyx_BufPtrStrided2d(double *, __pyx_pybuffernd_bw.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_bw.diminfo[0].strides, __pyx_t_13, __pyx_pybuffernd_bw.diminfo[1].strides));
       if (unlikely(__pyx_t_11 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 219, __pyx_L1_error)
+        __PYX_ERR(0, 220, __pyx_L1_error)
       }
       __pyx_t_14 = __pyx_v_src_idx;
       __pyx_t_15 = __pyx_v_dst_idx;
@@ -4174,13 +4229,13 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
       } else if (unlikely(__pyx_t_15 >= __pyx_pybuffernd_lat.diminfo[1].shape)) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 219, __pyx_L1_error)
+        __PYX_ERR(0, 220, __pyx_L1_error)
       }
       __pyx_v_parent_time = (__pyx_v_parent_time + ((__pyx_v_comm_amount / __pyx_t_11) + (*__Pyx_BufPtrStrided2d(double *, __pyx_pybuffernd_lat.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_lat.diminfo[0].strides, __pyx_t_15, __pyx_pybuffernd_lat.diminfo[1].strides))));
     }
     __pyx_L7:;
 
-    /* "pysimgrid/cscheduling.pyx":220
+    /* "pysimgrid/cscheduling.pyx":221
  *         parent_time = task_state["ect"]
  *         parent_time += comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]
  *       if parent_time > result:             # <<<<<<<<<<<<<<
@@ -4190,7 +4245,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
     __pyx_t_10 = ((__pyx_v_parent_time > __pyx_v_result) != 0);
     if (__pyx_t_10) {
 
-      /* "pysimgrid/cscheduling.pyx":221
+      /* "pysimgrid/cscheduling.pyx":222
  *         parent_time += comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]
  *       if parent_time > result:
  *         result = parent_time             # <<<<<<<<<<<<<<
@@ -4199,7 +4254,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
       __pyx_v_result = __pyx_v_parent_time;
 
-      /* "pysimgrid/cscheduling.pyx":220
+      /* "pysimgrid/cscheduling.pyx":221
  *         parent_time = task_state["ect"]
  *         parent_time += comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]
  *       if parent_time > result:             # <<<<<<<<<<<<<<
@@ -4208,7 +4263,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  */
     }
 
-    /* "pysimgrid/cscheduling.pyx":209
+    /* "pysimgrid/cscheduling.pyx":210
  *     cdef cnumpy.ndarray[double, ndim=2] lat = self._latency
  * 
  *     for parent, edge_dict in parents.items():             # <<<<<<<<<<<<<<
@@ -4218,7 +4273,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":222
+  /* "pysimgrid/cscheduling.pyx":223
  *       if parent_time > result:
  *         result = parent_time
  *     return result             # <<<<<<<<<<<<<<
@@ -4226,13 +4281,13 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(struct __p
  *   def host_idx(self, cplatform.Host host):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_result); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_result); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":173
+  /* "pysimgrid/cscheduling.pyx":174
  *     return task_states[parent]["ect"] + edge_dict["weight"] / self._bandwidth[src_idx, dst_idx] + self._latency[src_idx, dst_idx]
  * 
  *   cpdef est(self, cplatform.Host host, dict parents, SchedulerState state):             # <<<<<<<<<<<<<<
@@ -4303,16 +4358,16 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_7est(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_parents)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, 1); __PYX_ERR(0, 173, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, 1); __PYX_ERR(0, 174, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, 2); __PYX_ERR(0, 173, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, 2); __PYX_ERR(0, 174, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "est") < 0)) __PYX_ERR(0, 173, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "est") < 0)) __PYX_ERR(0, 174, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4327,15 +4382,15 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_7est(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 173, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("est", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 174, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.PlatformModel.est", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 173, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parents), (&PyDict_Type), 1, "parents", 1))) __PYX_ERR(0, 173, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 174, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parents), (&PyDict_Type), 1, "parents", 1))) __PYX_ERR(0, 174, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 174, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_6est(((struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_self), __pyx_v_host, __pyx_v_parents, __pyx_v_state);
 
   /* function exit code */
@@ -4353,7 +4408,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_6est(struct _
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("est", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(__pyx_v_self, __pyx_v_host, __pyx_v_parents, __pyx_v_state, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est(__pyx_v_self, __pyx_v_host, __pyx_v_parents, __pyx_v_state, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4370,7 +4425,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_6est(struct _
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":224
+/* "pysimgrid/cscheduling.pyx":225
  *     return result
  * 
  *   def host_idx(self, cplatform.Host host):             # <<<<<<<<<<<<<<
@@ -4385,7 +4440,7 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_13PlatformModel_9host_idx(PyO
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("host_idx (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 224, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 225, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_idx(((struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_self), ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)__pyx_v_host));
 
   /* function exit code */
@@ -4403,7 +4458,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_idx(str
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("host_idx", 0);
 
-  /* "pysimgrid/cscheduling.pyx":225
+  /* "pysimgrid/cscheduling.pyx":226
  * 
  *   def host_idx(self, cplatform.Host host):
  *     return self._host_map[host]             # <<<<<<<<<<<<<<
@@ -4413,15 +4468,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_idx(str
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->_host_map == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 225, __pyx_L1_error)
+    __PYX_ERR(0, 226, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_host_map, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":224
+  /* "pysimgrid/cscheduling.pyx":225
  *     return result
  * 
  *   def host_idx(self, cplatform.Host host):             # <<<<<<<<<<<<<<
@@ -4440,7 +4495,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_13PlatformModel_8host_idx(str
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":237
+/* "pysimgrid/cscheduling.pyx":238
  *   cdef dict _timetable
  * 
  *   def __init__(self, simulation=None, task_states=None, timetable=None):             # <<<<<<<<<<<<<<
@@ -4492,7 +4547,7 @@ static int __pyx_pw_9pysimgrid_11cscheduling_14SchedulerState_1__init__(PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 237, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 238, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4509,7 +4564,7 @@ static int __pyx_pw_9pysimgrid_11cscheduling_14SchedulerState_1__init__(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 237, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 238, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.SchedulerState.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4537,48 +4592,48 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":238
+  /* "pysimgrid/cscheduling.pyx":239
  * 
  *   def __init__(self, simulation=None, task_states=None, timetable=None):
  *     if simulation:             # <<<<<<<<<<<<<<
  *       if task_states or timetable:
  *         raise Exception("simulation is provided, initial state is not expected")
  */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_simulation); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_simulation); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 239, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "pysimgrid/cscheduling.pyx":239
+    /* "pysimgrid/cscheduling.pyx":240
  *   def __init__(self, simulation=None, task_states=None, timetable=None):
  *     if simulation:
  *       if task_states or timetable:             # <<<<<<<<<<<<<<
  *         raise Exception("simulation is provided, initial state is not expected")
  *       self._task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
  */
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_task_states); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 239, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_task_states); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
     if (!__pyx_t_2) {
     } else {
       __pyx_t_1 = __pyx_t_2;
       goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_timetable); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 239, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_timetable); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
     __pyx_t_1 = __pyx_t_2;
     __pyx_L5_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "pysimgrid/cscheduling.pyx":240
+      /* "pysimgrid/cscheduling.pyx":241
  *     if simulation:
  *       if task_states or timetable:
  *         raise Exception("simulation is provided, initial state is not expected")             # <<<<<<<<<<<<<<
  *       self._task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
  *       self._timetable = {host: [] for host in simulation.hosts}
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_Exception, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_Exception, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 240, __pyx_L1_error)
+      __PYX_ERR(0, 241, __pyx_L1_error)
 
-      /* "pysimgrid/cscheduling.pyx":239
+      /* "pysimgrid/cscheduling.pyx":240
  *   def __init__(self, simulation=None, task_states=None, timetable=None):
  *     if simulation:
  *       if task_states or timetable:             # <<<<<<<<<<<<<<
@@ -4587,7 +4642,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
  */
     }
 
-    /* "pysimgrid/cscheduling.pyx":241
+    /* "pysimgrid/cscheduling.pyx":242
  *       if task_states or timetable:
  *         raise Exception("simulation is provided, initial state is not expected")
  *       self._task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}             # <<<<<<<<<<<<<<
@@ -4596,17 +4651,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
  */
     { /* enter inner scope */
       PyObject *__pyx_8genexpr1__pyx_v_task = NULL;
-      __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L9_error)
+      __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_tasks); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L9_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_tasks); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
         __pyx_t_5 = __pyx_t_4; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
         __pyx_t_7 = NULL;
       } else {
-        __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 241, __pyx_L9_error)
+        __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L9_error)
+        __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L9_error)
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       for (;;) {
@@ -4614,17 +4669,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
           if (likely(PyList_CheckExact(__pyx_t_5))) {
             if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 241, __pyx_L9_error)
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 242, __pyx_L9_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L9_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L9_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           } else {
             if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 241, __pyx_L9_error)
+            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 242, __pyx_L9_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L9_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L9_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           }
@@ -4634,7 +4689,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 241, __pyx_L9_error)
+              else __PYX_ERR(0, 242, __pyx_L9_error)
             }
             break;
           }
@@ -4642,17 +4697,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
         }
         __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_task, __pyx_t_4);
         __pyx_t_4 = 0;
-        __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L9_error)
+        __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 241, __pyx_L9_error)
+        __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_nan); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 241, __pyx_L9_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_nan); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ect, __pyx_t_9) < 0) __PYX_ERR(0, 241, __pyx_L9_error)
+        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ect, __pyx_t_9) < 0) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_host, Py_None) < 0) __PYX_ERR(0, 241, __pyx_L9_error)
-        if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_8genexpr1__pyx_v_task, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 241, __pyx_L9_error)
+        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_host, Py_None) < 0) __PYX_ERR(0, 242, __pyx_L9_error)
+        if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_8genexpr1__pyx_v_task, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 242, __pyx_L9_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4669,7 +4724,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
     __pyx_v_self->_task_states = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":242
+    /* "pysimgrid/cscheduling.pyx":243
  *         raise Exception("simulation is provided, initial state is not expected")
  *       self._task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
  *       self._timetable = {host: [] for host in simulation.hosts}             # <<<<<<<<<<<<<<
@@ -4678,17 +4733,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
  */
     { /* enter inner scope */
       PyObject *__pyx_8genexpr2__pyx_v_host = NULL;
-      __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L15_error)
+      __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L15_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L15_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_simulation, __pyx_n_s_hosts); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L15_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
         __pyx_t_4 = __pyx_t_5; __Pyx_INCREF(__pyx_t_4); __pyx_t_6 = 0;
         __pyx_t_7 = NULL;
       } else {
-        __pyx_t_6 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L15_error)
+        __pyx_t_6 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L15_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_7 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L15_error)
+        __pyx_t_7 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 243, __pyx_L15_error)
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       for (;;) {
@@ -4696,17 +4751,17 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
           if (likely(PyList_CheckExact(__pyx_t_4))) {
             if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_4)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 242, __pyx_L15_error)
+            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 243, __pyx_L15_error)
             #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L15_error)
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           } else {
             if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 242, __pyx_L15_error)
+            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 243, __pyx_L15_error)
             #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L15_error)
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           }
@@ -4716,7 +4771,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 242, __pyx_L15_error)
+              else __PYX_ERR(0, 243, __pyx_L15_error)
             }
             break;
           }
@@ -4724,9 +4779,9 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
         }
         __Pyx_XDECREF_SET(__pyx_8genexpr2__pyx_v_host, __pyx_t_5);
         __pyx_t_5 = 0;
-        __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L15_error)
+        __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L15_error)
         __Pyx_GOTREF(__pyx_t_5);
-        if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_8genexpr2__pyx_v_host, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 242, __pyx_L15_error)
+        if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_8genexpr2__pyx_v_host, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 243, __pyx_L15_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4743,7 +4798,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
     __pyx_v_self->_timetable = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":238
+    /* "pysimgrid/cscheduling.pyx":239
  * 
  *   def __init__(self, simulation=None, task_states=None, timetable=None):
  *     if simulation:             # <<<<<<<<<<<<<<
@@ -4753,7 +4808,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
     goto __pyx_L3;
   }
 
-  /* "pysimgrid/cscheduling.pyx":244
+  /* "pysimgrid/cscheduling.pyx":245
  *       self._timetable = {host: [] for host in simulation.hosts}
  *     else:
  *       if not task_states or not timetable:             # <<<<<<<<<<<<<<
@@ -4761,33 +4816,33 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
  *       self._task_states = task_states
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_task_states); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_task_states); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 245, __pyx_L1_error)
     __pyx_t_10 = ((!__pyx_t_2) != 0);
     if (!__pyx_t_10) {
     } else {
       __pyx_t_1 = __pyx_t_10;
       goto __pyx_L20_bool_binop_done;
     }
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_timetable); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_timetable); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 245, __pyx_L1_error)
     __pyx_t_2 = ((!__pyx_t_10) != 0);
     __pyx_t_1 = __pyx_t_2;
     __pyx_L20_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "pysimgrid/cscheduling.pyx":245
+      /* "pysimgrid/cscheduling.pyx":246
  *     else:
  *       if not task_states or not timetable:
  *         raise Exception("initial state must be provided")             # <<<<<<<<<<<<<<
  *       self._task_states = task_states
  *       self._timetable = timetable
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_Exception, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_Exception, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 245, __pyx_L1_error)
+      __PYX_ERR(0, 246, __pyx_L1_error)
 
-      /* "pysimgrid/cscheduling.pyx":244
+      /* "pysimgrid/cscheduling.pyx":245
  *       self._timetable = {host: [] for host in simulation.hosts}
  *     else:
  *       if not task_states or not timetable:             # <<<<<<<<<<<<<<
@@ -4796,14 +4851,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
  */
     }
 
-    /* "pysimgrid/cscheduling.pyx":246
+    /* "pysimgrid/cscheduling.pyx":247
  *       if not task_states or not timetable:
  *         raise Exception("initial state must be provided")
  *       self._task_states = task_states             # <<<<<<<<<<<<<<
  *       self._timetable = timetable
  * 
  */
-    if (!(likely(PyDict_CheckExact(__pyx_v_task_states))||((__pyx_v_task_states) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_task_states)->tp_name), 0))) __PYX_ERR(0, 246, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_v_task_states))||((__pyx_v_task_states) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_task_states)->tp_name), 0))) __PYX_ERR(0, 247, __pyx_L1_error)
     __pyx_t_3 = __pyx_v_task_states;
     __Pyx_INCREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
@@ -4812,14 +4867,14 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
     __pyx_v_self->_task_states = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":247
+    /* "pysimgrid/cscheduling.pyx":248
  *         raise Exception("initial state must be provided")
  *       self._task_states = task_states
  *       self._timetable = timetable             # <<<<<<<<<<<<<<
  * 
  *   def copy(self):
  */
-    if (!(likely(PyDict_CheckExact(__pyx_v_timetable))||((__pyx_v_timetable) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_timetable)->tp_name), 0))) __PYX_ERR(0, 247, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_v_timetable))||((__pyx_v_timetable) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_timetable)->tp_name), 0))) __PYX_ERR(0, 248, __pyx_L1_error)
     __pyx_t_3 = __pyx_v_timetable;
     __Pyx_INCREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
@@ -4830,7 +4885,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
   }
   __pyx_L3:;
 
-  /* "pysimgrid/cscheduling.pyx":237
+  /* "pysimgrid/cscheduling.pyx":238
  *   cdef dict _timetable
  * 
  *   def __init__(self, simulation=None, task_states=None, timetable=None):             # <<<<<<<<<<<<<<
@@ -4854,7 +4909,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState___init__(struct __
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":249
+/* "pysimgrid/cscheduling.pyx":250
  *       self._timetable = timetable
  * 
  *   def copy(self):             # <<<<<<<<<<<<<<
@@ -4892,7 +4947,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   PyObject *(*__pyx_t_9)(PyObject *);
   __Pyx_RefNannySetupContext("copy", 0);
 
-  /* "pysimgrid/cscheduling.pyx":260
+  /* "pysimgrid/cscheduling.pyx":261
  *     # manual copy of initial state
  *     #   copy.deepcopy is slow as hell
  *     task_states = {task: dict(state) for (task, state) in self._task_states.items()}             # <<<<<<<<<<<<<<
@@ -4902,21 +4957,21 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   { /* enter inner scope */
     PyObject *__pyx_8genexpr3__pyx_v_task = NULL;
     PyObject *__pyx_8genexpr3__pyx_v_state = NULL;
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L5_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_self->_task_states == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
-      __PYX_ERR(0, 260, __pyx_L5_error)
+      __PYX_ERR(0, 261, __pyx_L5_error)
     }
-    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_self->_task_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 260, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_self->_task_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 260, __pyx_L5_error)
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 260, __pyx_L5_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -4924,17 +4979,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 260, __pyx_L5_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 260, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 260, __pyx_L5_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 260, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -4944,7 +4999,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 260, __pyx_L5_error)
+            else __PYX_ERR(0, 261, __pyx_L5_error)
           }
           break;
         }
@@ -4960,7 +5015,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 260, __pyx_L5_error)
+          __PYX_ERR(0, 261, __pyx_L5_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -4973,15 +5028,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 260, __pyx_L5_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 261, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 260, __pyx_L5_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 260, __pyx_L5_error)
+        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 261, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -4989,7 +5044,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L8_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 260, __pyx_L5_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 261, __pyx_L5_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         goto __pyx_L9_unpacking_done;
@@ -4997,22 +5052,22 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 260, __pyx_L5_error)
+        __PYX_ERR(0, 261, __pyx_L5_error)
         __pyx_L9_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr3__pyx_v_task, __pyx_t_6);
       __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_8genexpr3__pyx_v_state, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 260, __pyx_L5_error)
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_8genexpr3__pyx_v_state);
       __Pyx_GIVEREF(__pyx_8genexpr3__pyx_v_state);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_8genexpr3__pyx_v_state);
-      __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyDict_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 260, __pyx_L5_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyDict_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr3__pyx_v_task, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 260, __pyx_L5_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr3__pyx_v_task, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 261, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5028,7 +5083,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   __pyx_v_task_states = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":261
+  /* "pysimgrid/cscheduling.pyx":262
  *     #   copy.deepcopy is slow as hell
  *     task_states = {task: dict(state) for (task, state) in self._task_states.items()}
  *     timetable = {host: list(timesheet) for (host, timesheet) in self._timetable.items()}             # <<<<<<<<<<<<<<
@@ -5038,21 +5093,21 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   { /* enter inner scope */
     PyObject *__pyx_8genexpr4__pyx_v_host = NULL;
     PyObject *__pyx_8genexpr4__pyx_v_timesheet = NULL;
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L13_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L13_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_self->_timetable == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
-      __PYX_ERR(0, 261, __pyx_L13_error)
+      __PYX_ERR(0, 262, __pyx_L13_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_self->_timetable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L13_error)
+    __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_self->_timetable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L13_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_7 = __pyx_t_3; __Pyx_INCREF(__pyx_t_7); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L13_error)
+      __pyx_t_4 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L13_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_5 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L13_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L13_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -5060,17 +5115,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         if (likely(PyList_CheckExact(__pyx_t_7))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_7)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L13_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 262, __pyx_L13_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L13_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L13_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 262, __pyx_L13_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L13_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -5080,7 +5135,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 261, __pyx_L13_error)
+            else __PYX_ERR(0, 262, __pyx_L13_error)
           }
           break;
         }
@@ -5096,7 +5151,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 261, __pyx_L13_error)
+          __PYX_ERR(0, 262, __pyx_L13_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -5109,15 +5164,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_INCREF(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_6);
         #else
-        __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L13_error)
+        __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 261, __pyx_L13_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 261, __pyx_L13_error)
+        __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 262, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -5125,7 +5180,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_GOTREF(__pyx_t_2);
         index = 1; __pyx_t_6 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_6)) goto __pyx_L16_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_6);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 261, __pyx_L13_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 262, __pyx_L13_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         goto __pyx_L17_unpacking_done;
@@ -5133,16 +5188,16 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 261, __pyx_L13_error)
+        __PYX_ERR(0, 262, __pyx_L13_error)
         __pyx_L17_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr4__pyx_v_host, __pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_8genexpr4__pyx_v_timesheet, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_3 = PySequence_List(__pyx_8genexpr4__pyx_v_timesheet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L13_error)
+      __pyx_t_3 = PySequence_List(__pyx_8genexpr4__pyx_v_timesheet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L13_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr4__pyx_v_host, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 261, __pyx_L13_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr4__pyx_v_host, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 262, __pyx_L13_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5158,7 +5213,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   __pyx_v_timetable = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":262
+  /* "pysimgrid/cscheduling.pyx":263
  *     task_states = {task: dict(state) for (task, state) in self._task_states.items()}
  *     timetable = {host: list(timesheet) for (host, timesheet) in self._timetable.items()}
  *     return SchedulerState(task_states=task_states, timetable=timetable)             # <<<<<<<<<<<<<<
@@ -5166,18 +5221,18 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
  *   @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_task_states, __pyx_v_task_states) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_timetable, __pyx_v_timetable) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_9pysimgrid_11cscheduling_SchedulerState), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_task_states, __pyx_v_task_states) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_timetable, __pyx_v_timetable) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_9pysimgrid_11cscheduling_SchedulerState), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_7;
   __pyx_t_7 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":249
+  /* "pysimgrid/cscheduling.pyx":250
  *       self._timetable = timetable
  * 
  *   def copy(self):             # <<<<<<<<<<<<<<
@@ -5203,7 +5258,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_2copy(struct
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":265
+/* "pysimgrid/cscheduling.pyx":266
  * 
  *   @property
  *   def task_states(self):             # <<<<<<<<<<<<<<
@@ -5229,7 +5284,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_11task_state
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":271
+  /* "pysimgrid/cscheduling.pyx":272
  *     Layout: a dict {Task: {"ect": float, "host": Host}}
  *     """
  *     return self._task_states             # <<<<<<<<<<<<<<
@@ -5241,7 +5296,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_11task_state
   __pyx_r = __pyx_v_self->_task_states;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":265
+  /* "pysimgrid/cscheduling.pyx":266
  * 
  *   @property
  *   def task_states(self):             # <<<<<<<<<<<<<<
@@ -5256,7 +5311,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_11task_state
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":274
+/* "pysimgrid/cscheduling.pyx":275
  * 
  *   @property
  *   def timetable(self):             # <<<<<<<<<<<<<<
@@ -5282,7 +5337,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_9timetable__
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":280
+  /* "pysimgrid/cscheduling.pyx":281
  *     Layout: a dict {Host: [(Task, start, finish)...]}
  *     """
  *     return self._timetable             # <<<<<<<<<<<<<<
@@ -5294,7 +5349,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_9timetable__
   __pyx_r = __pyx_v_self->_timetable;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":274
+  /* "pysimgrid/cscheduling.pyx":275
  * 
  *   @property
  *   def timetable(self):             # <<<<<<<<<<<<<<
@@ -5309,7 +5364,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_9timetable__
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":283
+/* "pysimgrid/cscheduling.pyx":284
  * 
  *   @property
  *   def schedule(self):             # <<<<<<<<<<<<<<
@@ -5349,7 +5404,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
   PyObject *__pyx_t_14 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":289
+  /* "pysimgrid/cscheduling.pyx":290
  *     Layout: a dict {Host: [Task...]}
  *     """
  *     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}             # <<<<<<<<<<<<<<
@@ -5362,21 +5417,21 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
     PyObject *__pyx_8genexpr5__pyx_v_timesheet = NULL;
     PyObject *__pyx_8genexpr5__pyx_v_task = NULL;
     CYTHON_UNUSED PyObject *__pyx_8genexpr5__pyx_v__ = NULL;
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L5_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_self->_timetable == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
-      __PYX_ERR(0, 289, __pyx_L5_error)
+      __PYX_ERR(0, 290, __pyx_L5_error)
     }
-    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_self->_timetable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_self->_timetable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L5_error)
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L5_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -5384,17 +5439,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 290, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 290, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -5404,7 +5459,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 289, __pyx_L5_error)
+            else __PYX_ERR(0, 290, __pyx_L5_error)
           }
           break;
         }
@@ -5420,7 +5475,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 289, __pyx_L5_error)
+          __PYX_ERR(0, 290, __pyx_L5_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -5433,15 +5488,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L5_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 289, __pyx_L5_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 290, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 289, __pyx_L5_error)
+        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 290, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -5449,7 +5504,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L8_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 289, __pyx_L5_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 290, __pyx_L5_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         goto __pyx_L9_unpacking_done;
@@ -5457,39 +5512,39 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 289, __pyx_L5_error)
+        __PYX_ERR(0, 290, __pyx_L5_error)
         __pyx_L9_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr5__pyx_v_host, __pyx_t_6);
       __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_8genexpr5__pyx_v_timesheet, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L5_error)
+      __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
       if (likely(PyList_CheckExact(__pyx_8genexpr5__pyx_v_timesheet)) || PyTuple_CheckExact(__pyx_8genexpr5__pyx_v_timesheet)) {
         __pyx_t_7 = __pyx_8genexpr5__pyx_v_timesheet; __Pyx_INCREF(__pyx_t_7); __pyx_t_10 = 0;
         __pyx_t_11 = NULL;
       } else {
-        __pyx_t_10 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_8genexpr5__pyx_v_timesheet); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 289, __pyx_L5_error)
+        __pyx_t_10 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_8genexpr5__pyx_v_timesheet); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 290, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_11 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 289, __pyx_L5_error)
+        __pyx_t_11 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 290, __pyx_L5_error)
       }
       for (;;) {
         if (likely(!__pyx_t_11)) {
           if (likely(PyList_CheckExact(__pyx_t_7))) {
             if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_7)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L5_error)
+            __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 290, __pyx_L5_error)
             #else
-            __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L5_error)
+            __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L5_error)
             __Pyx_GOTREF(__pyx_t_6);
             #endif
           } else {
             if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L5_error)
+            __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 290, __pyx_L5_error)
             #else
-            __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L5_error)
+            __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L5_error)
             __Pyx_GOTREF(__pyx_t_6);
             #endif
           }
@@ -5499,7 +5554,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 289, __pyx_L5_error)
+              else __PYX_ERR(0, 290, __pyx_L5_error)
             }
             break;
           }
@@ -5515,7 +5570,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
           if (unlikely(size != 3)) {
             if (size > 3) __Pyx_RaiseTooManyValuesError(3);
             else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-            __PYX_ERR(0, 289, __pyx_L5_error)
+            __PYX_ERR(0, 290, __pyx_L5_error)
           }
           #if CYTHON_COMPILING_IN_CPYTHON
           if (likely(PyTuple_CheckExact(sequence))) {
@@ -5531,17 +5586,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
           __Pyx_INCREF(__pyx_t_12);
           __Pyx_INCREF(__pyx_t_13);
           #else
-          __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_12 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_12 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_13 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_13 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_13);
           #endif
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         } else {
           Py_ssize_t index = -1;
-          __pyx_t_14 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 289, __pyx_L5_error)
+          __pyx_t_14 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 290, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_14);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __pyx_t_9 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -5551,7 +5606,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
           __Pyx_GOTREF(__pyx_t_12);
           index = 2; __pyx_t_13 = __pyx_t_9(__pyx_t_14); if (unlikely(!__pyx_t_13)) goto __pyx_L12_unpacking_failed;
           __Pyx_GOTREF(__pyx_t_13);
-          if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_14), 3) < 0) __PYX_ERR(0, 289, __pyx_L5_error)
+          if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_14), 3) < 0) __PYX_ERR(0, 290, __pyx_L5_error)
           __pyx_t_9 = NULL;
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
           goto __pyx_L13_unpacking_done;
@@ -5559,7 +5614,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
           __pyx_t_9 = NULL;
           if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-          __PYX_ERR(0, 289, __pyx_L5_error)
+          __PYX_ERR(0, 290, __pyx_L5_error)
           __pyx_L13_unpacking_done:;
         }
         __Pyx_XDECREF_SET(__pyx_8genexpr5__pyx_v_task, __pyx_t_8);
@@ -5568,10 +5623,10 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
         __pyx_t_12 = 0;
         __Pyx_DECREF_SET(__pyx_8genexpr5__pyx_v__, __pyx_t_13);
         __pyx_t_13 = 0;
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_8genexpr5__pyx_v_task))) __PYX_ERR(0, 289, __pyx_L5_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_8genexpr5__pyx_v_task))) __PYX_ERR(0, 290, __pyx_L5_error)
       }
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr5__pyx_v_host, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 289, __pyx_L5_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr5__pyx_v_host, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 290, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5592,7 +5647,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":283
+  /* "pysimgrid/cscheduling.pyx":284
  * 
  *   @property
  *   def schedule(self):             # <<<<<<<<<<<<<<
@@ -5619,7 +5674,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_8schedule___
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":291
+/* "pysimgrid/cscheduling.pyx":292
  *     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
  * 
  *   def update(self, csimdag.Task task, cplatform.Host host, int pos, double start, double finish):             # <<<<<<<<<<<<<<
@@ -5662,26 +5717,26 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_14SchedulerState_5update(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_host)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 1); __PYX_ERR(0, 291, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 1); __PYX_ERR(0, 292, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pos)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 2); __PYX_ERR(0, 291, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 2); __PYX_ERR(0, 292, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 3); __PYX_ERR(0, 291, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 3); __PYX_ERR(0, 292, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_finish)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 4); __PYX_ERR(0, 291, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, 4); __PYX_ERR(0, 292, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update") < 0)) __PYX_ERR(0, 291, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update") < 0)) __PYX_ERR(0, 292, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -5694,20 +5749,20 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_14SchedulerState_5update(PyOb
     }
     __pyx_v_task = ((struct __pyx_obj_9pysimgrid_7csimdag_Task *)values[0]);
     __pyx_v_host = ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)values[1]);
-    __pyx_v_pos = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_pos == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 291, __pyx_L3_error)
-    __pyx_v_start = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_start == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 291, __pyx_L3_error)
-    __pyx_v_finish = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_finish == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 291, __pyx_L3_error)
+    __pyx_v_pos = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_pos == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 292, __pyx_L3_error)
+    __pyx_v_start = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_start == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 292, __pyx_L3_error)
+    __pyx_v_finish = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_finish == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 292, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 291, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("update", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 292, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.SchedulerState.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_task), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "task", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_task), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "task", 0))) __PYX_ERR(0, 292, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 292, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(((struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *)__pyx_v_self), __pyx_v_task, __pyx_v_host, __pyx_v_pos, __pyx_v_start, __pyx_v_finish);
 
   /* function exit code */
@@ -5730,7 +5785,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "pysimgrid/cscheduling.pyx":308
+  /* "pysimgrid/cscheduling.pyx":309
  *     """
  *     # update task state
  *     cdef dict task_state = self._task_states[task]             # <<<<<<<<<<<<<<
@@ -5739,15 +5794,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
  */
   if (unlikely(__pyx_v_self->_task_states == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 308, __pyx_L1_error)
+    __PYX_ERR(0, 309, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_task_states, ((PyObject *)__pyx_v_task)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_task_states, ((PyObject *)__pyx_v_task)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 308, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 309, __pyx_L1_error)
   __pyx_v_task_state = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":309
+  /* "pysimgrid/cscheduling.pyx":310
  *     # update task state
  *     cdef dict task_state = self._task_states[task]
  *     cdef list timesheet = self._timetable[host]             # <<<<<<<<<<<<<<
@@ -5756,31 +5811,31 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
  */
   if (unlikely(__pyx_v_self->_timetable == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 309, __pyx_L1_error)
+    __PYX_ERR(0, 310, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_timetable, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->_timetable, ((PyObject *)__pyx_v_host)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 309, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 310, __pyx_L1_error)
   __pyx_v_timesheet = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":310
+  /* "pysimgrid/cscheduling.pyx":311
  *     cdef dict task_state = self._task_states[task]
  *     cdef list timesheet = self._timetable[host]
  *     task_state["ect"] = finish             # <<<<<<<<<<<<<<
  *     task_state["host"] = host
  *     # update timesheet
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_task_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 310, __pyx_L1_error)
+    __PYX_ERR(0, 311, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_task_state, __pyx_n_s_ect, __pyx_t_1) < 0)) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_task_state, __pyx_n_s_ect, __pyx_t_1) < 0)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":311
+  /* "pysimgrid/cscheduling.pyx":312
  *     cdef list timesheet = self._timetable[host]
  *     task_state["ect"] = finish
  *     task_state["host"] = host             # <<<<<<<<<<<<<<
@@ -5789,11 +5844,11 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
  */
   if (unlikely(__pyx_v_task_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 311, __pyx_L1_error)
+    __PYX_ERR(0, 312, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_task_state, __pyx_n_s_host, ((PyObject *)__pyx_v_host)) < 0)) __PYX_ERR(0, 311, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_task_state, __pyx_n_s_host, ((PyObject *)__pyx_v_host)) < 0)) __PYX_ERR(0, 312, __pyx_L1_error)
 
-  /* "pysimgrid/cscheduling.pyx":313
+  /* "pysimgrid/cscheduling.pyx":314
  *     task_state["host"] = host
  *     # update timesheet
  *     timesheet.insert(pos, (task, start, finish))             # <<<<<<<<<<<<<<
@@ -5802,13 +5857,13 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
  */
   if (unlikely(__pyx_v_timesheet == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "insert");
-    __PYX_ERR(0, 313, __pyx_L1_error)
+    __PYX_ERR(0, 314, __pyx_L1_error)
   }
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_v_task));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_task));
@@ -5819,10 +5874,10 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
   PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_t_2);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_4 = PyList_Insert(__pyx_v_timesheet, __pyx_v_pos, __pyx_t_3); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_4 = PyList_Insert(__pyx_v_timesheet, __pyx_v_pos, __pyx_t_3); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":291
+  /* "pysimgrid/cscheduling.pyx":292
  *     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
  * 
  *   def update(self, csimdag.Task task, cplatform.Host host, int pos, double start, double finish):             # <<<<<<<<<<<<<<
@@ -5847,7 +5902,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_14SchedulerState_4update(stru
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":325
+/* "pysimgrid/cscheduling.pyx":326
  *   cdef object best_value
  * 
  *   def __init__(self):             # <<<<<<<<<<<<<<
@@ -5876,7 +5931,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_11MinSelector___init__(struct __pyx
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":326
+  /* "pysimgrid/cscheduling.pyx":327
  * 
  *   def __init__(self):
  *     self.best_key = None             # <<<<<<<<<<<<<<
@@ -5889,7 +5944,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_11MinSelector___init__(struct __pyx
   __Pyx_DECREF(__pyx_v_self->best_key);
   __pyx_v_self->best_key = ((PyObject*)Py_None);
 
-  /* "pysimgrid/cscheduling.pyx":327
+  /* "pysimgrid/cscheduling.pyx":328
  *   def __init__(self):
  *     self.best_key = None
  *     self.best_value = None             # <<<<<<<<<<<<<<
@@ -5902,7 +5957,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_11MinSelector___init__(struct __pyx
   __Pyx_DECREF(__pyx_v_self->best_value);
   __pyx_v_self->best_value = Py_None;
 
-  /* "pysimgrid/cscheduling.pyx":325
+  /* "pysimgrid/cscheduling.pyx":326
  *   cdef object best_value
  * 
  *   def __init__(self):             # <<<<<<<<<<<<<<
@@ -5916,7 +5971,7 @@ static int __pyx_pf_9pysimgrid_11cscheduling_11MinSelector___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":329
+/* "pysimgrid/cscheduling.pyx":330
  *     self.best_value = None
  * 
  *   cpdef update(self, tuple key, object value):             # <<<<<<<<<<<<<<
@@ -5942,7 +5997,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_11MinSelector_3update)) {
       __Pyx_XDECREF(__pyx_r);
@@ -5959,7 +6014,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 330, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -5970,7 +6025,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
       __Pyx_INCREF(__pyx_v_value);
       __Pyx_GIVEREF(__pyx_v_value);
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_value);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5982,7 +6037,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pysimgrid/cscheduling.pyx":339
+  /* "pysimgrid/cscheduling.pyx":340
  *       value: associated value
  *     """
  *     if self.best_key is None or key < self.best_key:             # <<<<<<<<<<<<<<
@@ -5996,14 +6051,14 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
     __pyx_t_7 = __pyx_t_9;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_key, __pyx_v_self->best_key, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_key, __pyx_v_self->best_key, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_7 = __pyx_t_9;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_7) {
 
-    /* "pysimgrid/cscheduling.pyx":340
+    /* "pysimgrid/cscheduling.pyx":341
  *     """
  *     if self.best_key is None or key < self.best_key:
  *       self.best_key = key             # <<<<<<<<<<<<<<
@@ -6016,7 +6071,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
     __Pyx_DECREF(__pyx_v_self->best_key);
     __pyx_v_self->best_key = __pyx_v_key;
 
-    /* "pysimgrid/cscheduling.pyx":341
+    /* "pysimgrid/cscheduling.pyx":342
  *     if self.best_key is None or key < self.best_key:
  *       self.best_key = key
  *       self.best_value = value             # <<<<<<<<<<<<<<
@@ -6029,7 +6084,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
     __Pyx_DECREF(__pyx_v_self->best_value);
     __pyx_v_self->best_value = __pyx_v_value;
 
-    /* "pysimgrid/cscheduling.pyx":339
+    /* "pysimgrid/cscheduling.pyx":340
  *       value: associated value
  *     """
  *     if self.best_key is None or key < self.best_key:             # <<<<<<<<<<<<<<
@@ -6038,7 +6093,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(struct __
  */
   }
 
-  /* "pysimgrid/cscheduling.pyx":329
+  /* "pysimgrid/cscheduling.pyx":330
  *     self.best_value = None
  * 
  *   cpdef update(self, tuple key, object value):             # <<<<<<<<<<<<<<
@@ -6092,11 +6147,11 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_11MinSelector_3update(PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update", 1, 2, 2, 1); __PYX_ERR(0, 329, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update", 1, 2, 2, 1); __PYX_ERR(0, 330, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update") < 0)) __PYX_ERR(0, 329, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update") < 0)) __PYX_ERR(0, 330, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6109,13 +6164,13 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_11MinSelector_3update(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("update", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 329, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("update", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 330, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.MinSelector.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_key), (&PyTuple_Type), 1, "key", 1))) __PYX_ERR(0, 329, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_key), (&PyTuple_Type), 1, "key", 1))) __PYX_ERR(0, 330, __pyx_L1_error)
   __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_11MinSelector_2update(((struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *)__pyx_v_self), __pyx_v_key, __pyx_v_value);
 
   /* function exit code */
@@ -6133,7 +6188,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_2update(struct 
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("update", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(__pyx_v_self, __pyx_v_key, __pyx_v_value, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_11MinSelector_update(__pyx_v_self, __pyx_v_key, __pyx_v_value, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6150,7 +6205,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_2update(struct 
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":344
+/* "pysimgrid/cscheduling.pyx":345
  * 
  *   @property
  *   def key(self):             # <<<<<<<<<<<<<<
@@ -6176,7 +6231,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_3key___get__(st
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":348
+  /* "pysimgrid/cscheduling.pyx":349
  *     Get current best key.
  *     """
  *     return self.best_key             # <<<<<<<<<<<<<<
@@ -6188,7 +6243,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_3key___get__(st
   __pyx_r = __pyx_v_self->best_key;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":344
+  /* "pysimgrid/cscheduling.pyx":345
  * 
  *   @property
  *   def key(self):             # <<<<<<<<<<<<<<
@@ -6203,7 +6258,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_3key___get__(st
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":351
+/* "pysimgrid/cscheduling.pyx":352
  * 
  *   @property
  *   def value(self):             # <<<<<<<<<<<<<<
@@ -6229,7 +6284,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_5value___get__(
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pysimgrid/cscheduling.pyx":355
+  /* "pysimgrid/cscheduling.pyx":356
  *     Get current best value.
  *     """
  *     return self.best_value             # <<<<<<<<<<<<<<
@@ -6241,7 +6296,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_5value___get__(
   __pyx_r = __pyx_v_self->best_value;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":351
+  /* "pysimgrid/cscheduling.pyx":352
  * 
  *   @property
  *   def value(self):             # <<<<<<<<<<<<<<
@@ -6256,8 +6311,693 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_5value___get__(
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":358
+/* "pysimgrid/cscheduling.pyx":359
  * 
+ * 
+ * cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):             # <<<<<<<<<<<<<<
+ *   cdef str ROOT_NAME = "root"
+ *   cdef str END_NAME = "end"
+ */
+
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1try_schedule_boundary_task(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_9pysimgrid_11cscheduling_try_schedule_boundary_task(struct __pyx_obj_9pysimgrid_7csimdag_Task *__pyx_v_task, CYTHON_UNUSED struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  PyObject *__pyx_v_ROOT_NAME = 0;
+  PyObject *__pyx_v_END_NAME = 0;
+  PyObject *__pyx_v_MASTER_NAME = 0;
+  uintptr_t __pyx_v_master_host;
+  double __pyx_v_finish;
+  double __pyx_v_start;
+  PyObject *__pyx_v_host = NULL;
+  PyObject *__pyx_v_timesheet = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  char const *__pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  double __pyx_t_12;
+  double __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  __Pyx_RefNannySetupContext("try_schedule_boundary_task", 0);
+
+  /* "pysimgrid/cscheduling.pyx":360
+ * 
+ * cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):
+ *   cdef str ROOT_NAME = "root"             # <<<<<<<<<<<<<<
+ *   cdef str END_NAME = "end"
+ *   cdef bytes MASTER_NAME = b"master"
+ */
+  __Pyx_INCREF(__pyx_n_s_root);
+  __pyx_v_ROOT_NAME = __pyx_n_s_root;
+
+  /* "pysimgrid/cscheduling.pyx":361
+ * cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):
+ *   cdef str ROOT_NAME = "root"
+ *   cdef str END_NAME = "end"             # <<<<<<<<<<<<<<
+ *   cdef bytes MASTER_NAME = b"master"
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:
+ */
+  __Pyx_INCREF(__pyx_n_s_end);
+  __pyx_v_END_NAME = __pyx_n_s_end;
+
+  /* "pysimgrid/cscheduling.pyx":362
+ *   cdef str ROOT_NAME = "root"
+ *   cdef str END_NAME = "end"
+ *   cdef bytes MASTER_NAME = b"master"             # <<<<<<<<<<<<<<
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:
+ *     return False
+ */
+  __Pyx_INCREF(__pyx_n_b_master);
+  __pyx_v_MASTER_NAME = __pyx_n_b_master;
+
+  /* "pysimgrid/cscheduling.pyx":363
+ *   cdef str END_NAME = "end"
+ *   cdef bytes MASTER_NAME = b"master"
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:             # <<<<<<<<<<<<<<
+ *     return False
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_task), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_v_ROOT_NAME, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!__pyx_t_3) {
+    goto __pyx_L5_next_or;
+  } else {
+  }
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_task), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_v_END_NAME, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_L5_next_or:;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_task), __pyx_n_s_amount); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "pysimgrid/cscheduling.pyx":364
+ *   cdef bytes MASTER_NAME = b"master"
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:
+ *     return False             # <<<<<<<<<<<<<<
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ *   if not master_host:
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+
+    /* "pysimgrid/cscheduling.pyx":363
+ *   cdef str END_NAME = "end"
+ *   cdef bytes MASTER_NAME = b"master"
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:             # <<<<<<<<<<<<<<
+ *     return False
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ */
+  }
+
+  /* "pysimgrid/cscheduling.pyx":365
+ *   if (task.name != ROOT_NAME and task.name != END_NAME) or task.amount > 0:
+ *     return False
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)             # <<<<<<<<<<<<<<
+ *   if not master_host:
+ *     return False
+ */
+  __pyx_t_5 = __Pyx_PyObject_AsString(__pyx_v_MASTER_NAME); if (unlikely((!__pyx_t_5) && PyErr_Occurred())) __PYX_ERR(0, 365, __pyx_L1_error)
+  __pyx_v_master_host = ((uintptr_t)sg_host_by_name(__pyx_t_5));
+
+  /* "pysimgrid/cscheduling.pyx":366
+ *     return False
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ *   if not master_host:             # <<<<<<<<<<<<<<
+ *     return False
+ *   cdef double finish, start
+ */
+  __pyx_t_1 = ((!(__pyx_v_master_host != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "pysimgrid/cscheduling.pyx":367
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ *   if not master_host:
+ *     return False             # <<<<<<<<<<<<<<
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+
+    /* "pysimgrid/cscheduling.pyx":366
+ *     return False
+ *   cdef common.intptr master_host = <common.intptr>cplatform.sg_host_by_name(MASTER_NAME)
+ *   if not master_host:             # <<<<<<<<<<<<<<
+ *     return False
+ *   cdef double finish, start
+ */
+  }
+
+  /* "pysimgrid/cscheduling.pyx":369
+ *     return False
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():             # <<<<<<<<<<<<<<
+ *     if host.native == master_host:
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_timetable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_items); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (__pyx_t_2) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else {
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
+    __pyx_t_6 = __pyx_t_4; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
+    __pyx_t_8 = NULL;
+  } else {
+    __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 369, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 369, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_8)) {
+      if (likely(PyList_CheckExact(__pyx_t_6))) {
+        if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
+        #if CYTHON_COMPILING_IN_CPYTHON
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 369, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
+        #if CYTHON_COMPILING_IN_CPYTHON
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 369, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_8(__pyx_t_6);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 369, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    if ((likely(PyTuple_CheckExact(__pyx_t_4))) || (PyList_CheckExact(__pyx_t_4))) {
+      PyObject* sequence = __pyx_t_4;
+      #if CYTHON_COMPILING_IN_CPYTHON
+      Py_ssize_t size = Py_SIZE(sequence);
+      #else
+      Py_ssize_t size = PySequence_Size(sequence);
+      #endif
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 369, __pyx_L1_error)
+      }
+      #if CYTHON_COMPILING_IN_CPYTHON
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_9 = PyTuple_GET_ITEM(sequence, 1); 
+      } else {
+        __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_9 = PyList_GET_ITEM(sequence, 1); 
+      }
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_9);
+      #else
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 369, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 369, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      #endif
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 369, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
+      index = 0; __pyx_t_2 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_2)) goto __pyx_L10_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_2);
+      index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L10_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_9);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
+      __pyx_t_11 = NULL;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      goto __pyx_L11_unpacking_done;
+      __pyx_L10_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_11 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 369, __pyx_L1_error)
+      __pyx_L11_unpacking_done:;
+    }
+    __Pyx_XDECREF_SET(__pyx_v_host, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_timesheet, __pyx_t_9);
+    __pyx_t_9 = 0;
+
+    /* "pysimgrid/cscheduling.pyx":370
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():
+ *     if host.native == master_host:             # <<<<<<<<<<<<<<
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ *       state.update(task, host, len(timesheet), start, finish)
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_host, __pyx_n_s_native); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_9 = __Pyx_PyInt_FromSize_t(__pyx_v_master_host); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, __pyx_t_9, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (__pyx_t_1) {
+
+      /* "pysimgrid/cscheduling.pyx":371
+ *   for host, timesheet in state.timetable.items():
+ *     if host.native == master_host:
+ *       finish = start = timesheet[-1][2] if timesheet else 0             # <<<<<<<<<<<<<<
+ *       state.update(task, host, len(timesheet), start, finish)
+ *       break
+ */
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_timesheet); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+      if (__pyx_t_1) {
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_timesheet, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __pyx_t_12 = __pyx_t_13;
+      } else {
+        __pyx_t_12 = 0.0;
+      }
+      __pyx_v_finish = __pyx_t_12;
+      __pyx_v_start = __pyx_t_12;
+
+      /* "pysimgrid/cscheduling.pyx":372
+ *     if host.native == master_host:
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ *       state.update(task, host, len(timesheet), start, finish)             # <<<<<<<<<<<<<<
+ *       break
+ *   else:
+ */
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_update); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_14 = PyObject_Length(__pyx_v_timesheet); if (unlikely(__pyx_t_14 == -1)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __pyx_t_16 = NULL;
+      __pyx_t_14 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_16 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_16)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_16);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+          __pyx_t_14 = 1;
+        }
+      }
+      __pyx_t_17 = PyTuple_New(5+__pyx_t_14); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_17);
+      if (__pyx_t_16) {
+        __Pyx_GIVEREF(__pyx_t_16); PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_t_16); __pyx_t_16 = NULL;
+      }
+      __Pyx_INCREF(((PyObject *)__pyx_v_task));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_task));
+      PyTuple_SET_ITEM(__pyx_t_17, 0+__pyx_t_14, ((PyObject *)__pyx_v_task));
+      __Pyx_INCREF(__pyx_v_host);
+      __Pyx_GIVEREF(__pyx_v_host);
+      PyTuple_SET_ITEM(__pyx_t_17, 1+__pyx_t_14, __pyx_v_host);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_17, 2+__pyx_t_14, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_10);
+      PyTuple_SET_ITEM(__pyx_t_17, 3+__pyx_t_14, __pyx_t_10);
+      __Pyx_GIVEREF(__pyx_t_15);
+      PyTuple_SET_ITEM(__pyx_t_17, 4+__pyx_t_14, __pyx_t_15);
+      __pyx_t_4 = 0;
+      __pyx_t_10 = 0;
+      __pyx_t_15 = 0;
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_17, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 372, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+      /* "pysimgrid/cscheduling.pyx":373
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ *       state.update(task, host, len(timesheet), start, finish)
+ *       break             # <<<<<<<<<<<<<<
+ *   else:
+ *     return False
+ */
+      goto __pyx_L9_break;
+
+      /* "pysimgrid/cscheduling.pyx":370
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():
+ *     if host.native == master_host:             # <<<<<<<<<<<<<<
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ *       state.update(task, host, len(timesheet), start, finish)
+ */
+    }
+
+    /* "pysimgrid/cscheduling.pyx":369
+ *     return False
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():             # <<<<<<<<<<<<<<
+ *     if host.native == master_host:
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ */
+  }
+  /*else*/ {
+
+    /* "pysimgrid/cscheduling.pyx":375
+ *       break
+ *   else:
+ *     return False             # <<<<<<<<<<<<<<
+ *   return True
+ * 
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    goto __pyx_L0;
+  }
+
+  /* "pysimgrid/cscheduling.pyx":369
+ *     return False
+ *   cdef double finish, start
+ *   for host, timesheet in state.timetable.items():             # <<<<<<<<<<<<<<
+ *     if host.native == master_host:
+ *       finish = start = timesheet[-1][2] if timesheet else 0
+ */
+  __pyx_L9_break:;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+  /* "pysimgrid/cscheduling.pyx":376
+ *   else:
+ *     return False
+ *   return True             # <<<<<<<<<<<<<<
+ * 
+ * cpdef is_master_host(cplatform.Host host):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(Py_True);
+  __pyx_r = Py_True;
+  goto __pyx_L0;
+
+  /* "pysimgrid/cscheduling.pyx":359
+ * 
+ * 
+ * cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):             # <<<<<<<<<<<<<<
+ *   cdef str ROOT_NAME = "root"
+ *   cdef str END_NAME = "end"
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_15);
+  __Pyx_XDECREF(__pyx_t_16);
+  __Pyx_XDECREF(__pyx_t_17);
+  __Pyx_AddTraceback("pysimgrid.cscheduling.try_schedule_boundary_task", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ROOT_NAME);
+  __Pyx_XDECREF(__pyx_v_END_NAME);
+  __Pyx_XDECREF(__pyx_v_MASTER_NAME);
+  __Pyx_XDECREF(__pyx_v_host);
+  __Pyx_XDECREF(__pyx_v_timesheet);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1try_schedule_boundary_task(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_try_schedule_boundary_task[] = "try_schedule_boundary_task(Task task, PlatformModel platform_model, SchedulerState state)";
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1try_schedule_boundary_task(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_9pysimgrid_7csimdag_Task *__pyx_v_task = 0;
+  struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model = 0;
+  struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("try_schedule_boundary_task (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_task,&__pyx_n_s_platform_model,&__pyx_n_s_state,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_task)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_platform_model)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("try_schedule_boundary_task", 1, 3, 3, 1); __PYX_ERR(0, 359, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("try_schedule_boundary_task", 1, 3, 3, 2); __PYX_ERR(0, 359, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "try_schedule_boundary_task") < 0)) __PYX_ERR(0, 359, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_task = ((struct __pyx_obj_9pysimgrid_7csimdag_Task *)values[0]);
+    __pyx_v_platform_model = ((struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *)values[1]);
+    __pyx_v_state = ((struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *)values[2]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("try_schedule_boundary_task", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 359, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pysimgrid.cscheduling.try_schedule_boundary_task", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_task), __pyx_ptype_9pysimgrid_7csimdag_Task, 1, "task", 0))) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_platform_model), __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel, 1, "platform_model", 0))) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_try_schedule_boundary_task(__pyx_self, __pyx_v_task, __pyx_v_platform_model, __pyx_v_state);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_try_schedule_boundary_task(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9pysimgrid_7csimdag_Task *__pyx_v_task, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("try_schedule_boundary_task", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_try_schedule_boundary_task(__pyx_v_task, __pyx_v_platform_model, __pyx_v_state, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("pysimgrid.cscheduling.try_schedule_boundary_task", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pysimgrid/cscheduling.pyx":378
+ *   return True
+ * 
+ * cpdef is_master_host(cplatform.Host host):             # <<<<<<<<<<<<<<
+ *   cdef str MASTER_NAME = "master"
+ *   return host.name == MASTER_NAME
+ */
+
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3is_master_host(PyObject *__pyx_self, PyObject *__pyx_v_host); /*proto*/
+static PyObject *__pyx_f_9pysimgrid_11cscheduling_is_master_host(struct __pyx_obj_9pysimgrid_9cplatform_Host *__pyx_v_host, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  PyObject *__pyx_v_MASTER_NAME = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("is_master_host", 0);
+
+  /* "pysimgrid/cscheduling.pyx":379
+ * 
+ * cpdef is_master_host(cplatform.Host host):
+ *   cdef str MASTER_NAME = "master"             # <<<<<<<<<<<<<<
+ *   return host.name == MASTER_NAME
+ * 
+ */
+  __Pyx_INCREF(__pyx_n_s_master);
+  __pyx_v_MASTER_NAME = __pyx_n_s_master;
+
+  /* "pysimgrid/cscheduling.pyx":380
+ * cpdef is_master_host(cplatform.Host host):
+ *   cdef str MASTER_NAME = "master"
+ *   return host.name == MASTER_NAME             # <<<<<<<<<<<<<<
+ * 
+ * def heft_order(object nxgraph, PlatformModel platform_model):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_MASTER_NAME, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "pysimgrid/cscheduling.pyx":378
+ *   return True
+ * 
+ * cpdef is_master_host(cplatform.Host host):             # <<<<<<<<<<<<<<
+ *   cdef str MASTER_NAME = "master"
+ *   return host.name == MASTER_NAME
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("pysimgrid.cscheduling.is_master_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_MASTER_NAME);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3is_master_host(PyObject *__pyx_self, PyObject *__pyx_v_host); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_2is_master_host[] = "is_master_host(Host host)";
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3is_master_host(PyObject *__pyx_self, PyObject *__pyx_v_host) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("is_master_host (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_host), __pyx_ptype_9pysimgrid_9cplatform_Host, 1, "host", 0))) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_2is_master_host(__pyx_self, ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)__pyx_v_host));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2is_master_host(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9pysimgrid_9cplatform_Host *__pyx_v_host) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("is_master_host", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_is_master_host(__pyx_v_host, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("pysimgrid.cscheduling.is_master_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
@@ -6265,10 +7005,10 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_11MinSelector_5value___get__(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1heft_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pysimgrid_11cscheduling_heft_order[] = "heft_order(nxgraph, PlatformModel platform_model)\n\n  Order task according to HEFT ranku.\n\n  Args:\n    nxgraph: full task graph as networkx.DiGraph\n    platform_model: cscheduling.PlatformModel instance\n\n  Returns:\n    a list of tasks in a HEFT order\n  ";
-static PyMethodDef __pyx_mdef_9pysimgrid_11cscheduling_1heft_order = {"heft_order", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_1heft_order, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_heft_order};
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1heft_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5heft_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_4heft_order[] = "heft_order(nxgraph, PlatformModel platform_model)\n\n  Order task according to HEFT ranku.\n\n  Args:\n    nxgraph: full task graph as networkx.DiGraph\n    platform_model: cscheduling.PlatformModel instance\n\n  Returns:\n    a list of tasks in a HEFT order\n  ";
+static PyMethodDef __pyx_mdef_9pysimgrid_11cscheduling_5heft_order = {"heft_order", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_5heft_order, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_4heft_order};
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5heft_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_nxgraph = 0;
   struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model = 0;
   PyObject *__pyx_r = 0;
@@ -6294,11 +7034,11 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1heft_order(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_platform_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("heft_order", 1, 2, 2, 1); __PYX_ERR(0, 358, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("heft_order", 1, 2, 2, 1); __PYX_ERR(0, 382, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "heft_order") < 0)) __PYX_ERR(0, 358, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "heft_order") < 0)) __PYX_ERR(0, 382, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6311,14 +7051,14 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1heft_order(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("heft_order", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 358, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("heft_order", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 382, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.heft_order", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_platform_model), __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel, 1, "platform_model", 0))) __PYX_ERR(0, 358, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_heft_order(__pyx_self, __pyx_v_nxgraph, __pyx_v_platform_model);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_platform_model), __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel, 1, "platform_model", 0))) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_4heft_order(__pyx_self, __pyx_v_nxgraph, __pyx_v_platform_model);
 
   /* function exit code */
   goto __pyx_L0;
@@ -6329,7 +7069,7 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_1heft_order(PyObject *__pyx_s
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":378
+/* "pysimgrid/cscheduling.pyx":402
  *     task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
  *   # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
  *   return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)             # <<<<<<<<<<<<<<
@@ -6363,16 +7103,16 @@ static PyObject *__pyx_lambda_funcdef_lambda(PyObject *__pyx_self, PyObject *__p
   __pyx_outer_scope = (struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_task_ranku)) { __Pyx_RaiseClosureNameError("task_ranku"); __PYX_ERR(0, 378, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_v_task_ranku)) { __Pyx_RaiseClosureNameError("task_ranku"); __PYX_ERR(0, 402, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_v_task_ranku == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 378, __pyx_L1_error)
+    __PYX_ERR(0, 402, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -6397,15 +7137,15 @@ static PyObject *__pyx_lambda_funcdef_lambda(PyObject *__pyx_self, PyObject *__p
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":358
- * 
+/* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
  *   Order task according to HEFT ranku.
  */
 
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model) {
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4heft_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model) {
   struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order *__pyx_cur_scope;
   PyObject *__pyx_v_mean_speed = NULL;
   PyObject *__pyx_v_mean_bandwidth = NULL;
@@ -6438,18 +7178,18 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
   }
   __Pyx_GOTREF(__pyx_cur_scope);
 
-  /* "pysimgrid/cscheduling.pyx":369
+  /* "pysimgrid/cscheduling.pyx":393
  *     a list of tasks in a HEFT order
  *   """
  *   mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency             # <<<<<<<<<<<<<<
  *   task_ranku = {}
  *   for task in networkx.topological_sort(nxgraph, reverse=True):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_speed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_speed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_bandwidth); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_bandwidth); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_latency); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_platform_model), __pyx_n_s_mean_latency); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_mean_speed = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6458,40 +7198,40 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
   __pyx_v_mean_latency = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":370
+  /* "pysimgrid/cscheduling.pyx":394
  *   """
  *   mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
  *   task_ranku = {}             # <<<<<<<<<<<<<<
  *   for task in networkx.topological_sort(nxgraph, reverse=True):
  *     ecomt_and_rank = [
  */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_cur_scope->__pyx_v_task_ranku = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":371
+  /* "pysimgrid/cscheduling.pyx":395
  *   mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
  *   task_ranku = {}
  *   for task in networkx.topological_sort(nxgraph, reverse=True):             # <<<<<<<<<<<<<<
  *     ecomt_and_rank = [
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_networkx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_networkx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_topological_sort); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_topological_sort); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_nxgraph);
   __Pyx_GIVEREF(__pyx_v_nxgraph);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_nxgraph);
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_reverse, Py_True) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 371, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_reverse, Py_True) < 0) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6500,9 +7240,9 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
     __pyx_t_1 = __pyx_t_4; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 395, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   for (;;) {
@@ -6510,17 +7250,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 395, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 395, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 371, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -6530,7 +7270,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 371, __pyx_L1_error)
+          else __PYX_ERR(0, 395, __pyx_L1_error)
         }
         break;
       }
@@ -6539,26 +7279,26 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
     __Pyx_XDECREF_SET(__pyx_v_task, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":372
+    /* "pysimgrid/cscheduling.pyx":396
  *   task_ranku = {}
  *   for task in networkx.topological_sort(nxgraph, reverse=True):
  *     ecomt_and_rank = [             # <<<<<<<<<<<<<<
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
  *       for child, edge in nxgraph[task].items()
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 372, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
 
-    /* "pysimgrid/cscheduling.pyx":374
+    /* "pysimgrid/cscheduling.pyx":398
  *     ecomt_and_rank = [
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
  *       for child, edge in nxgraph[task].items()             # <<<<<<<<<<<<<<
  *     ] or [0]
  *     task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
  */
-    __pyx_t_7 = PyObject_GetItem(__pyx_v_nxgraph, __pyx_v_task); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 374, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_v_nxgraph, __pyx_v_task); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_items); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 374, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_items); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 398, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -6572,10 +7312,10 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
       }
     }
     if (__pyx_t_7) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -6583,9 +7323,9 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
       __pyx_t_8 = __pyx_t_2; __Pyx_INCREF(__pyx_t_8); __pyx_t_9 = 0;
       __pyx_t_10 = NULL;
     } else {
-      __pyx_t_9 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_9 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 398, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 398, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -6593,17 +7333,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         if (likely(PyList_CheckExact(__pyx_t_8))) {
           if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_8)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -6613,7 +7353,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 374, __pyx_L1_error)
+            else __PYX_ERR(0, 398, __pyx_L1_error)
           }
           break;
         }
@@ -6629,7 +7369,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 374, __pyx_L1_error)
+          __PYX_ERR(0, 398, __pyx_L1_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -6642,15 +7382,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(__pyx_t_11);
         #else
-        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 374, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_11 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 374, __pyx_L1_error)
+        __pyx_t_11 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 398, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_12 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 374, __pyx_L1_error)
+        __pyx_t_12 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 398, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_13 = Py_TYPE(__pyx_t_12)->tp_iternext;
@@ -6658,7 +7398,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         __Pyx_GOTREF(__pyx_t_7);
         index = 1; __pyx_t_11 = __pyx_t_13(__pyx_t_12); if (unlikely(!__pyx_t_11)) goto __pyx_L9_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_11);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_13(__pyx_t_12), 2) < 0) __PYX_ERR(0, 374, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_13(__pyx_t_12), 2) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
         __pyx_t_13 = NULL;
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         goto __pyx_L10_unpacking_done;
@@ -6666,7 +7406,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __pyx_t_13 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 374, __pyx_L1_error)
+        __PYX_ERR(0, 398, __pyx_L1_error)
         __pyx_L10_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_v_child, __pyx_t_7);
@@ -6674,31 +7414,31 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
       __Pyx_XDECREF_SET(__pyx_v_edge, __pyx_t_11);
       __pyx_t_11 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":373
+      /* "pysimgrid/cscheduling.pyx":397
  *   for task in networkx.topological_sort(nxgraph, reverse=True):
  *     ecomt_and_rank = [
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)             # <<<<<<<<<<<<<<
  *       for child, edge in nxgraph[task].items()
  *     ] or [0]
  */
-      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_child); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 373, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_child); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_11 = PyObject_GetItem(__pyx_v_edge, __pyx_n_s_weight); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 373, __pyx_L1_error)
+      __pyx_t_11 = PyObject_GetItem(__pyx_v_edge, __pyx_n_s_weight); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_v_mean_bandwidth); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 373, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_v_mean_bandwidth); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = PyNumber_Add(__pyx_t_7, __pyx_v_mean_latency); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 373, __pyx_L1_error)
+      __pyx_t_11 = PyNumber_Add(__pyx_t_7, __pyx_v_mean_latency); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 373, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 372, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 396, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":374
+      /* "pysimgrid/cscheduling.pyx":398
  *     ecomt_and_rank = [
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
  *       for child, edge in nxgraph[task].items()             # <<<<<<<<<<<<<<
@@ -6707,7 +7447,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
  */
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 372, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 396, __pyx_L1_error)
     if (!__pyx_t_14) {
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
@@ -6717,14 +7457,14 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
       goto __pyx_L5_bool_binop_done;
     }
 
-    /* "pysimgrid/cscheduling.pyx":375
+    /* "pysimgrid/cscheduling.pyx":399
  *       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
  *       for child, edge in nxgraph[task].items()
  *     ] or [0]             # <<<<<<<<<<<<<<
  *     task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
  *   # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
  */
-    __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 375, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -6736,34 +7476,34 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
     __Pyx_XDECREF_SET(__pyx_v_ecomt_and_rank, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":376
+    /* "pysimgrid/cscheduling.pyx":400
  *       for child, edge in nxgraph[task].items()
  *     ] or [0]
  *     task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)             # <<<<<<<<<<<<<<
  *   # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
  *   return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_task, __pyx_n_s_amount); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_task, __pyx_n_s_amount); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_v_mean_speed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_v_mean_speed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_v_ecomt_and_rank);
     __Pyx_GIVEREF(__pyx_v_ecomt_and_rank);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_ecomt_and_rank);
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_task, __pyx_t_4) < 0)) __PYX_ERR(0, 376, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_cur_scope->__pyx_v_task_ranku, __pyx_v_task, __pyx_t_4) < 0)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":371
+    /* "pysimgrid/cscheduling.pyx":395
  *   mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
  *   task_ranku = {}
  *   for task in networkx.topological_sort(nxgraph, reverse=True):             # <<<<<<<<<<<<<<
@@ -6773,7 +7513,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":378
+  /* "pysimgrid/cscheduling.pyx":402
  *     task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
  *   # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
  *   return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)             # <<<<<<<<<<<<<<
@@ -6781,7 +7521,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_nxgraph, __pyx_n_s_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_nxgraph, __pyx_n_s_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -6794,26 +7534,26 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
     }
   }
   if (__pyx_t_8) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_10heft_order_lambda, 0, __pyx_n_s_heft_order_locals_lambda, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pysimgrid_cscheduling, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_10heft_order_lambda, 0, __pyx_n_s_heft_order_locals_lambda, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pysimgrid_cscheduling, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_t_8) < 0) __PYX_ERR(0, 378, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_t_8) < 0) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_reverse, Py_True) < 0) __PYX_ERR(0, 378, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 378, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_reverse, Py_True) < 0) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6821,8 +7561,8 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
   __pyx_t_8 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":358
- * 
+  /* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
@@ -6855,7 +7595,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":381
+/* "pysimgrid/cscheduling.pyx":405
  * 
  * 
  * cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks):             # <<<<<<<<<<<<<<
@@ -6863,7 +7603,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_heft_order(CYTHON_UNUSED PyOb
  *   Build a HEFT schedule for a given state.
  */
 
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, PyObject *__pyx_v_ordered_tasks, CYTHON_UNUSED int __pyx_skip_dispatch) {
   struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *__pyx_v_current_min = 0;
   int __pyx_v_pos;
@@ -6879,120 +7619,153 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  Py_ssize_t __pyx_t_6;
-  PyObject *(*__pyx_t_7)(PyObject *);
-  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
   PyObject *__pyx_t_9 = NULL;
-  PyObject *(*__pyx_t_10)(PyObject *);
-  double __pyx_t_11;
-  PyObject *__pyx_t_12 = NULL;
-  int __pyx_t_13;
-  double __pyx_t_14;
-  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  double __pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
+  int __pyx_t_14;
+  double __pyx_t_15;
+  PyObject *__pyx_t_16 = NULL;
   __Pyx_RefNannySetupContext("heft_schedule", 0);
 
-  /* "pysimgrid/cscheduling.pyx":402
+  /* "pysimgrid/cscheduling.pyx":426
  *   cdef cplatform.Host host
  *   cdef double est, eet, start, finish
  *   for task in ordered_tasks:             # <<<<<<<<<<<<<<
- *     current_min = MinSelector()
- *     for host, timesheet in state.timetable.items():
+ *     if try_schedule_boundary_task(task, platform_model, state):
+ *       continue
  */
   if (unlikely(__pyx_v_ordered_tasks == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 402, __pyx_L1_error)
+    __PYX_ERR(0, 426, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_ordered_tasks; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 426, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 426, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_task, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":403
+    /* "pysimgrid/cscheduling.pyx":427
  *   cdef double est, eet, start, finish
  *   for task in ordered_tasks:
+ *     if try_schedule_boundary_task(task, platform_model, state):             # <<<<<<<<<<<<<<
+ *       continue
+ *     current_min = MinSelector()
+ */
+    if (!(likely(((__pyx_v_task) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_task, __pyx_ptype_9pysimgrid_7csimdag_Task))))) __PYX_ERR(0, 427, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_9pysimgrid_11cscheduling_try_schedule_boundary_task(((struct __pyx_obj_9pysimgrid_7csimdag_Task *)__pyx_v_task), __pyx_v_platform_model, __pyx_v_state, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 427, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 427, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (__pyx_t_4) {
+
+      /* "pysimgrid/cscheduling.pyx":428
+ *   for task in ordered_tasks:
+ *     if try_schedule_boundary_task(task, platform_model, state):
+ *       continue             # <<<<<<<<<<<<<<
+ *     current_min = MinSelector()
+ *     for host, timesheet in state.timetable.items():
+ */
+      goto __pyx_L3_continue;
+
+      /* "pysimgrid/cscheduling.pyx":427
+ *   cdef double est, eet, start, finish
+ *   for task in ordered_tasks:
+ *     if try_schedule_boundary_task(task, platform_model, state):             # <<<<<<<<<<<<<<
+ *       continue
+ *     current_min = MinSelector()
+ */
+    }
+
+    /* "pysimgrid/cscheduling.pyx":429
+ *     if try_schedule_boundary_task(task, platform_model, state):
+ *       continue
  *     current_min = MinSelector()             # <<<<<<<<<<<<<<
  *     for host, timesheet in state.timetable.items():
- *       est = platform_model.est(host, nxgraph.pred[task], state)
+ *       if is_master_host(host):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_9pysimgrid_11cscheduling_MinSelector), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_9pysimgrid_11cscheduling_MinSelector), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_current_min, ((struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":404
- *   for task in ordered_tasks:
+    /* "pysimgrid/cscheduling.pyx":430
+ *       continue
  *     current_min = MinSelector()
  *     for host, timesheet in state.timetable.items():             # <<<<<<<<<<<<<<
- *       est = platform_model.est(host, nxgraph.pred[task], state)
- *       eet = platform_model.eet(task, host)
+ *       if is_master_host(host):
+ *         continue
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_timetable); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_items); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_timetable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 430, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_items); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 430, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    if (__pyx_t_4) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (__pyx_t_5) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 430, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 430, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-      __pyx_t_5 = __pyx_t_3; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
-      __pyx_t_7 = NULL;
+      __pyx_t_6 = __pyx_t_3; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
+      __pyx_t_8 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 404, __pyx_L1_error)
+      __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 430, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 430, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
-      if (likely(!__pyx_t_7)) {
-        if (likely(PyList_CheckExact(__pyx_t_5))) {
-          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
+      if (likely(!__pyx_t_8)) {
+        if (likely(PyList_CheckExact(__pyx_t_6))) {
+          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 404, __pyx_L1_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 430, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 430, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
-          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
+          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 404, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 430, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 430, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
       } else {
-        __pyx_t_3 = __pyx_t_7(__pyx_t_5);
+        __pyx_t_3 = __pyx_t_8(__pyx_t_6);
         if (unlikely(!__pyx_t_3)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 404, __pyx_L1_error)
+            else __PYX_ERR(0, 430, __pyx_L1_error)
           }
           break;
         }
@@ -7008,95 +7781,126 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 404, __pyx_L1_error)
+          __PYX_ERR(0, 430, __pyx_L1_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_8 = PyTuple_GET_ITEM(sequence, 1); 
+          __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 1); 
         } else {
-          __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_8 = PyList_GET_ITEM(sequence, 1); 
+          __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
+          __pyx_t_9 = PyList_GET_ITEM(sequence, 1); 
         }
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_9);
         #else
-        __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 404, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 430, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 430, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
         #endif
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_9 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 404, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_10 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 430, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_10 = Py_TYPE(__pyx_t_9)->tp_iternext;
-        index = 0; __pyx_t_4 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_4)) goto __pyx_L7_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_4);
-        index = 1; __pyx_t_8 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_8)) goto __pyx_L7_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_8);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_9), 2) < 0) __PYX_ERR(0, 404, __pyx_L1_error)
-        __pyx_t_10 = NULL;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        goto __pyx_L8_unpacking_done;
-        __pyx_L7_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_10 = NULL;
+        __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
+        index = 0; __pyx_t_5 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_5)) goto __pyx_L8_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_5);
+        index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L8_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_9);
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 430, __pyx_L1_error)
+        __pyx_t_11 = NULL;
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        goto __pyx_L9_unpacking_done;
+        __pyx_L8_unpacking_failed:;
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_11 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 404, __pyx_L1_error)
-        __pyx_L8_unpacking_done:;
+        __PYX_ERR(0, 430, __pyx_L1_error)
+        __pyx_L9_unpacking_done:;
       }
-      if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_9pysimgrid_9cplatform_Host))))) __PYX_ERR(0, 404, __pyx_L1_error)
-      __Pyx_XDECREF_SET(__pyx_v_host, ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)__pyx_t_4));
-      __pyx_t_4 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_timesheet, __pyx_t_8);
-      __pyx_t_8 = 0;
+      if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_9pysimgrid_9cplatform_Host))))) __PYX_ERR(0, 430, __pyx_L1_error)
+      __Pyx_XDECREF_SET(__pyx_v_host, ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)__pyx_t_5));
+      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_timesheet, __pyx_t_9);
+      __pyx_t_9 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":405
+      /* "pysimgrid/cscheduling.pyx":431
  *     current_min = MinSelector()
  *     for host, timesheet in state.timetable.items():
+ *       if is_master_host(host):             # <<<<<<<<<<<<<<
+ *         continue
+ *       est = platform_model.est(host, nxgraph.pred[task], state)
+ */
+      __pyx_t_3 = __pyx_f_9pysimgrid_11cscheduling_is_master_host(__pyx_v_host, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 431, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 431, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__pyx_t_4) {
+
+        /* "pysimgrid/cscheduling.pyx":432
+ *     for host, timesheet in state.timetable.items():
+ *       if is_master_host(host):
+ *         continue             # <<<<<<<<<<<<<<
+ *       est = platform_model.est(host, nxgraph.pred[task], state)
+ *       eet = platform_model.eet(task, host)
+ */
+        goto __pyx_L6_continue;
+
+        /* "pysimgrid/cscheduling.pyx":431
+ *     current_min = MinSelector()
+ *     for host, timesheet in state.timetable.items():
+ *       if is_master_host(host):             # <<<<<<<<<<<<<<
+ *         continue
+ *       est = platform_model.est(host, nxgraph.pred[task], state)
+ */
+      }
+
+      /* "pysimgrid/cscheduling.pyx":433
+ *       if is_master_host(host):
+ *         continue
  *       est = platform_model.est(host, nxgraph.pred[task], state)             # <<<<<<<<<<<<<<
  *       eet = platform_model.eet(task, host)
  *       pos, start, finish = timesheet_insertion(timesheet, est, eet)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_nxgraph, __pyx_n_s_pred); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_nxgraph, __pyx_n_s_pred); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = PyObject_GetItem(__pyx_t_3, __pyx_v_task); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 405, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_9 = PyObject_GetItem(__pyx_t_3, __pyx_v_task); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(PyDict_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 405, __pyx_L1_error)
-      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_platform_model->__pyx_vtab)->est(__pyx_v_platform_model, __pyx_v_host, ((PyObject*)__pyx_t_8), __pyx_v_state, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      if (!(likely(PyDict_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 433, __pyx_L1_error)
+      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_platform_model->__pyx_vtab)->est(__pyx_v_platform_model, __pyx_v_host, ((PyObject*)__pyx_t_9), __pyx_v_state, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 405, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 433, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_est = __pyx_t_11;
+      __pyx_v_est = __pyx_t_12;
 
-      /* "pysimgrid/cscheduling.pyx":406
- *     for host, timesheet in state.timetable.items():
+      /* "pysimgrid/cscheduling.pyx":434
+ *         continue
  *       est = platform_model.est(host, nxgraph.pred[task], state)
  *       eet = platform_model.eet(task, host)             # <<<<<<<<<<<<<<
  *       pos, start, finish = timesheet_insertion(timesheet, est, eet)
  *       # strange key order to ensure stable sorting:
  */
-      if (!(likely(((__pyx_v_task) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_task, __pyx_ptype_9pysimgrid_7csimdag_Task))))) __PYX_ERR(0, 406, __pyx_L1_error)
-      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_platform_model->__pyx_vtab)->eet(__pyx_v_platform_model, ((struct __pyx_obj_9pysimgrid_7csimdag_Task *)__pyx_v_task), __pyx_v_host, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
+      if (!(likely(((__pyx_v_task) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_task, __pyx_ptype_9pysimgrid_7csimdag_Task))))) __PYX_ERR(0, 434, __pyx_L1_error)
+      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_PlatformModel *)__pyx_v_platform_model->__pyx_vtab)->eet(__pyx_v_platform_model, ((struct __pyx_obj_9pysimgrid_7csimdag_Task *)__pyx_v_task), __pyx_v_host, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 406, __pyx_L1_error)
+      __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 434, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_eet = __pyx_t_11;
+      __pyx_v_eet = __pyx_t_12;
 
-      /* "pysimgrid/cscheduling.pyx":407
+      /* "pysimgrid/cscheduling.pyx":435
  *       est = platform_model.est(host, nxgraph.pred[task], state)
  *       eet = platform_model.eet(task, host)
  *       pos, start, finish = timesheet_insertion(timesheet, est, eet)             # <<<<<<<<<<<<<<
  *       # strange key order to ensure stable sorting:
  *       #  first sort by ECT (as HEFT requires)
  */
-      if (!(likely(PyList_CheckExact(__pyx_v_timesheet))||((__pyx_v_timesheet) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_timesheet)->tp_name), 0))) __PYX_ERR(0, 407, __pyx_L1_error)
-      __pyx_t_3 = __pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(((PyObject*)__pyx_v_timesheet), __pyx_v_est, __pyx_v_eet, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+      if (!(likely(PyList_CheckExact(__pyx_v_timesheet))||((__pyx_v_timesheet) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_timesheet)->tp_name), 0))) __PYX_ERR(0, 435, __pyx_L1_error)
+      __pyx_t_3 = __pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(((PyObject*)__pyx_v_timesheet), __pyx_v_est, __pyx_v_eet, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 435, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
         PyObject* sequence = __pyx_t_3;
@@ -7108,134 +7912,135 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
         if (unlikely(size != 3)) {
           if (size > 3) __Pyx_RaiseTooManyValuesError(3);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 407, __pyx_L1_error)
+          __PYX_ERR(0, 435, __pyx_L1_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_8 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
-          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 2); 
+          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_5 = PyTuple_GET_ITEM(sequence, 1); 
+          __pyx_t_10 = PyTuple_GET_ITEM(sequence, 2); 
         } else {
-          __pyx_t_8 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_4 = PyList_GET_ITEM(sequence, 1); 
-          __pyx_t_9 = PyList_GET_ITEM(sequence, 2); 
+          __pyx_t_9 = PyList_GET_ITEM(sequence, 0); 
+          __pyx_t_5 = PyList_GET_ITEM(sequence, 1); 
+          __pyx_t_10 = PyList_GET_ITEM(sequence, 2); 
         }
-        __Pyx_INCREF(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_10);
         #else
-        __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 407, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 407, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_9 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 407, __pyx_L1_error)
+        __pyx_t_9 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 435, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_10 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 435, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
         #endif
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_12 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_13 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 435, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_13);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_10 = Py_TYPE(__pyx_t_12)->tp_iternext;
-        index = 0; __pyx_t_8 = __pyx_t_10(__pyx_t_12); if (unlikely(!__pyx_t_8)) goto __pyx_L9_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_8);
-        index = 1; __pyx_t_4 = __pyx_t_10(__pyx_t_12); if (unlikely(!__pyx_t_4)) goto __pyx_L9_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_4);
-        index = 2; __pyx_t_9 = __pyx_t_10(__pyx_t_12); if (unlikely(!__pyx_t_9)) goto __pyx_L9_unpacking_failed;
+        __pyx_t_11 = Py_TYPE(__pyx_t_13)->tp_iternext;
+        index = 0; __pyx_t_9 = __pyx_t_11(__pyx_t_13); if (unlikely(!__pyx_t_9)) goto __pyx_L11_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_9);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_12), 3) < 0) __PYX_ERR(0, 407, __pyx_L1_error)
-        __pyx_t_10 = NULL;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        goto __pyx_L10_unpacking_done;
-        __pyx_L9_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        __pyx_t_10 = NULL;
+        index = 1; __pyx_t_5 = __pyx_t_11(__pyx_t_13); if (unlikely(!__pyx_t_5)) goto __pyx_L11_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_5);
+        index = 2; __pyx_t_10 = __pyx_t_11(__pyx_t_13); if (unlikely(!__pyx_t_10)) goto __pyx_L11_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_10);
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_13), 3) < 0) __PYX_ERR(0, 435, __pyx_L1_error)
+        __pyx_t_11 = NULL;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        goto __pyx_L12_unpacking_done;
+        __pyx_L11_unpacking_failed:;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __pyx_t_11 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 407, __pyx_L1_error)
-        __pyx_L10_unpacking_done:;
+        __PYX_ERR(0, 435, __pyx_L1_error)
+        __pyx_L12_unpacking_done:;
       }
-      __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 407, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 407, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyInt_As_int(__pyx_t_9); if (unlikely((__pyx_t_14 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 435, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_v_pos = __pyx_t_13;
-      __pyx_v_start = __pyx_t_11;
-      __pyx_v_finish = __pyx_t_14;
+      __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 435, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_15 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_15 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 435, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_v_pos = __pyx_t_14;
+      __pyx_v_start = __pyx_t_12;
+      __pyx_v_finish = __pyx_t_15;
 
-      /* "pysimgrid/cscheduling.pyx":412
+      /* "pysimgrid/cscheduling.pyx":440
  *       #  if equal - sort by host speed
  *       #  if equal - sort by host name (guaranteed to be unique)
  *       current_min.update((finish, host.speed, host.name), (host, pos, start, finish))             # <<<<<<<<<<<<<<
  *     host, pos, start, finish = current_min.value
  *     #print(task.name, host.name, pos, est, start, finish)
  */
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 412, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_speed); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 412, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_speed); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_9 = PyTuple_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_host), __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 412, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 412, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_9);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_10);
+      PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_10);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_t_5);
       __pyx_t_3 = 0;
-      __pyx_t_9 = 0;
-      __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_pos); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 412, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 412, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 412, __pyx_L1_error)
+      __pyx_t_10 = 0;
+      __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_pos); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_12 = PyTuple_New(4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 412, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_13 = PyTuple_New(4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
       __Pyx_INCREF(((PyObject *)__pyx_v_host));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_host));
-      PyTuple_SET_ITEM(__pyx_t_12, 0, ((PyObject *)__pyx_v_host));
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_12, 2, __pyx_t_9);
+      PyTuple_SET_ITEM(__pyx_t_13, 0, ((PyObject *)__pyx_v_host));
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_10);
+      PyTuple_SET_ITEM(__pyx_t_13, 2, __pyx_t_10);
       __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_12, 3, __pyx_t_3);
-      __pyx_t_4 = 0;
-      __pyx_t_9 = 0;
+      PyTuple_SET_ITEM(__pyx_t_13, 3, __pyx_t_3);
+      __pyx_t_5 = 0;
+      __pyx_t_10 = 0;
       __pyx_t_3 = 0;
-      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_MinSelector *)__pyx_v_current_min->__pyx_vtab)->update(__pyx_v_current_min, ((PyObject*)__pyx_t_8), __pyx_t_12, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 412, __pyx_L1_error)
+      __pyx_t_3 = ((struct __pyx_vtabstruct_9pysimgrid_11cscheduling_MinSelector *)__pyx_v_current_min->__pyx_vtab)->update(__pyx_v_current_min, ((PyObject*)__pyx_t_9), __pyx_t_13, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":404
- *   for task in ordered_tasks:
+      /* "pysimgrid/cscheduling.pyx":430
+ *       continue
  *     current_min = MinSelector()
  *     for host, timesheet in state.timetable.items():             # <<<<<<<<<<<<<<
- *       est = platform_model.est(host, nxgraph.pred[task], state)
- *       eet = platform_model.eet(task, host)
+ *       if is_master_host(host):
+ *         continue
  */
+      __pyx_L6_continue:;
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":413
+    /* "pysimgrid/cscheduling.pyx":441
  *       #  if equal - sort by host name (guaranteed to be unique)
  *       current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
  *     host, pos, start, finish = current_min.value             # <<<<<<<<<<<<<<
  *     #print(task.name, host.name, pos, est, start, finish)
  *     state.update(task, host, pos, start, finish)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_current_min), __pyx_n_s_value); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 413, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
-      PyObject* sequence = __pyx_t_5;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_current_min), __pyx_n_s_value); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if ((likely(PyTuple_CheckExact(__pyx_t_6))) || (PyList_CheckExact(__pyx_t_6))) {
+      PyObject* sequence = __pyx_t_6;
       #if CYTHON_COMPILING_IN_CPYTHON
       Py_ssize_t size = Py_SIZE(sequence);
       #else
@@ -7244,136 +8049,137 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
       if (unlikely(size != 4)) {
         if (size > 4) __Pyx_RaiseTooManyValuesError(4);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 413, __pyx_L1_error)
+        __PYX_ERR(0, 441, __pyx_L1_error)
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       if (likely(PyTuple_CheckExact(sequence))) {
         __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_12 = PyTuple_GET_ITEM(sequence, 1); 
-        __pyx_t_8 = PyTuple_GET_ITEM(sequence, 2); 
-        __pyx_t_9 = PyTuple_GET_ITEM(sequence, 3); 
+        __pyx_t_13 = PyTuple_GET_ITEM(sequence, 1); 
+        __pyx_t_9 = PyTuple_GET_ITEM(sequence, 2); 
+        __pyx_t_10 = PyTuple_GET_ITEM(sequence, 3); 
       } else {
         __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_12 = PyList_GET_ITEM(sequence, 1); 
-        __pyx_t_8 = PyList_GET_ITEM(sequence, 2); 
-        __pyx_t_9 = PyList_GET_ITEM(sequence, 3); 
+        __pyx_t_13 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_9 = PyList_GET_ITEM(sequence, 2); 
+        __pyx_t_10 = PyList_GET_ITEM(sequence, 3); 
       }
       __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_12);
-      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_10);
       #else
       {
         Py_ssize_t i;
-        PyObject** temps[4] = {&__pyx_t_3,&__pyx_t_12,&__pyx_t_8,&__pyx_t_9};
+        PyObject** temps[4] = {&__pyx_t_3,&__pyx_t_13,&__pyx_t_9,&__pyx_t_10};
         for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 413, __pyx_L1_error)
+          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 441, __pyx_L1_error)
           __Pyx_GOTREF(item);
           *(temps[i]) = item;
         }
       }
       #endif
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
       Py_ssize_t index = -1;
-      PyObject** temps[4] = {&__pyx_t_3,&__pyx_t_12,&__pyx_t_8,&__pyx_t_9};
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 413, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_10 = Py_TYPE(__pyx_t_4)->tp_iternext;
+      PyObject** temps[4] = {&__pyx_t_3,&__pyx_t_13,&__pyx_t_9,&__pyx_t_10};
+      __pyx_t_5 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_11 = Py_TYPE(__pyx_t_5)->tp_iternext;
       for (index=0; index < 4; index++) {
-        PyObject* item = __pyx_t_10(__pyx_t_4); if (unlikely(!item)) goto __pyx_L11_unpacking_failed;
+        PyObject* item = __pyx_t_11(__pyx_t_5); if (unlikely(!item)) goto __pyx_L13_unpacking_failed;
         __Pyx_GOTREF(item);
         *(temps[index]) = item;
       }
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_4), 4) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-      __pyx_t_10 = NULL;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      goto __pyx_L12_unpacking_done;
-      __pyx_L11_unpacking_failed:;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_10 = NULL;
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_5), 4) < 0) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_11 = NULL;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      goto __pyx_L14_unpacking_done;
+      __pyx_L13_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 413, __pyx_L1_error)
-      __pyx_L12_unpacking_done:;
+      __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_L14_unpacking_done:;
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_9pysimgrid_9cplatform_Host))))) __PYX_ERR(0, 413, __pyx_L1_error)
-    __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_t_12); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_9pysimgrid_9cplatform_Host))))) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyInt_As_int(__pyx_t_13); if (unlikely((__pyx_t_14 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 441, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_15 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_15 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 441, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 441, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_XDECREF_SET(__pyx_v_host, ((struct __pyx_obj_9pysimgrid_9cplatform_Host *)__pyx_t_3));
     __pyx_t_3 = 0;
-    __pyx_v_pos = __pyx_t_13;
-    __pyx_v_start = __pyx_t_14;
-    __pyx_v_finish = __pyx_t_11;
+    __pyx_v_pos = __pyx_t_14;
+    __pyx_v_start = __pyx_t_15;
+    __pyx_v_finish = __pyx_t_12;
 
-    /* "pysimgrid/cscheduling.pyx":415
+    /* "pysimgrid/cscheduling.pyx":443
  *     host, pos, start, finish = current_min.value
  *     #print(task.name, host.name, pos, est, start, finish)
  *     state.update(task, host, pos, start, finish)             # <<<<<<<<<<<<<<
  *   return state
  * 
  */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_update); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_state), __pyx_n_s_update); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_pos); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 443, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_pos); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_12 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_start); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_finish); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    __pyx_t_6 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_5 = NULL;
+    __pyx_t_7 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_9, function);
-        __pyx_t_6 = 1;
+        __Pyx_DECREF_SET(__pyx_t_10, function);
+        __pyx_t_7 = 1;
       }
     }
-    __pyx_t_15 = PyTuple_New(5+__pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_16 = PyTuple_New(5+__pyx_t_7); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_16);
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_5); __pyx_t_5 = NULL;
     }
     __Pyx_INCREF(__pyx_v_task);
     __Pyx_GIVEREF(__pyx_v_task);
-    PyTuple_SET_ITEM(__pyx_t_15, 0+__pyx_t_6, __pyx_v_task);
+    PyTuple_SET_ITEM(__pyx_t_16, 0+__pyx_t_7, __pyx_v_task);
     __Pyx_INCREF(((PyObject *)__pyx_v_host));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_host));
-    PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_6, ((PyObject *)__pyx_v_host));
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_15, 2+__pyx_t_6, __pyx_t_8);
-    __Pyx_GIVEREF(__pyx_t_12);
-    PyTuple_SET_ITEM(__pyx_t_15, 3+__pyx_t_6, __pyx_t_12);
+    PyTuple_SET_ITEM(__pyx_t_16, 1+__pyx_t_7, ((PyObject *)__pyx_v_host));
+    __Pyx_GIVEREF(__pyx_t_9);
+    PyTuple_SET_ITEM(__pyx_t_16, 2+__pyx_t_7, __pyx_t_9);
+    __Pyx_GIVEREF(__pyx_t_13);
+    PyTuple_SET_ITEM(__pyx_t_16, 3+__pyx_t_7, __pyx_t_13);
     __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_15, 4+__pyx_t_6, __pyx_t_3);
-    __pyx_t_8 = 0;
-    __pyx_t_12 = 0;
+    PyTuple_SET_ITEM(__pyx_t_16, 4+__pyx_t_7, __pyx_t_3);
+    __pyx_t_9 = 0;
+    __pyx_t_13 = 0;
     __pyx_t_3 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":402
+    /* "pysimgrid/cscheduling.pyx":426
  *   cdef cplatform.Host host
  *   cdef double est, eet, start, finish
  *   for task in ordered_tasks:             # <<<<<<<<<<<<<<
- *     current_min = MinSelector()
- *     for host, timesheet in state.timetable.items():
+ *     if try_schedule_boundary_task(task, platform_model, state):
+ *       continue
  */
+    __pyx_L3_continue:;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":416
+  /* "pysimgrid/cscheduling.pyx":444
  *     #print(task.name, host.name, pos, est, start, finish)
  *     state.update(task, host, pos, start, finish)
  *   return state             # <<<<<<<<<<<<<<
@@ -7385,7 +8191,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
   __pyx_r = ((PyObject *)__pyx_v_state);
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":381
+  /* "pysimgrid/cscheduling.pyx":405
  * 
  * 
  * cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks):             # <<<<<<<<<<<<<<
@@ -7397,12 +8203,12 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_XDECREF(__pyx_t_15);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_16);
   __Pyx_AddTraceback("pysimgrid.cscheduling.heft_schedule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -7416,9 +8222,9 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_heft_schedule(PyObject *__pyx_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pysimgrid_11cscheduling_2heft_schedule[] = "heft_schedule(nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks)\n\n  Build a HEFT schedule for a given state.\n  Implemented as a separate function to be used in lookahead scheduler.\n\n  Note:\n    This function actually modifies the passed SchedulerState, take care. Clone it manually if required.\n\n  Args:\n    nxgraph: full task graph as networkx.DiGraph\n    platform_model: cscheduling.PlatformModel object\n    state: cscheduling.SchedulerState object\n    ordered_tasks: tasks in a HEFT order\n\n  Returns:\n    modified scheduler state\n  ";
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_6heft_schedule[] = "heft_schedule(nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks)\n\n  Build a HEFT schedule for a given state.\n  Implemented as a separate function to be used in lookahead scheduler.\n\n  Note:\n    This function actually modifies the passed SchedulerState, take care. Clone it manually if required.\n\n  Args:\n    nxgraph: full task graph as networkx.DiGraph\n    platform_model: cscheduling.PlatformModel object\n    state: cscheduling.SchedulerState object\n    ordered_tasks: tasks in a HEFT order\n\n  Returns:\n    modified scheduler state\n  ";
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7heft_schedule(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_nxgraph = 0;
   struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model = 0;
   struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state = 0;
@@ -7448,21 +8254,21 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_platform_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 1); __PYX_ERR(0, 381, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 1); __PYX_ERR(0, 405, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 2); __PYX_ERR(0, 381, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 2); __PYX_ERR(0, 405, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ordered_tasks)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 3); __PYX_ERR(0, 381, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, 3); __PYX_ERR(0, 405, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "heft_schedule") < 0)) __PYX_ERR(0, 381, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "heft_schedule") < 0)) __PYX_ERR(0, 405, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -7479,16 +8285,16 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 381, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("heft_schedule", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 405, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.heft_schedule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_platform_model), __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel, 1, "platform_model", 0))) __PYX_ERR(0, 381, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 381, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ordered_tasks), (&PyList_Type), 1, "ordered_tasks", 1))) __PYX_ERR(0, 381, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_2heft_schedule(__pyx_self, __pyx_v_nxgraph, __pyx_v_platform_model, __pyx_v_state, __pyx_v_ordered_tasks);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_platform_model), __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel, 1, "platform_model", 0))) __PYX_ERR(0, 405, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState, 1, "state", 0))) __PYX_ERR(0, 405, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ordered_tasks), (&PyList_Type), 1, "ordered_tasks", 1))) __PYX_ERR(0, 405, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_6heft_schedule(__pyx_self, __pyx_v_nxgraph, __pyx_v_platform_model, __pyx_v_state, __pyx_v_ordered_tasks);
 
   /* function exit code */
   goto __pyx_L0;
@@ -7499,13 +8305,13 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule(PyObject *__py
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2heft_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, PyObject *__pyx_v_ordered_tasks) {
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_6heft_schedule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *__pyx_v_platform_model, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *__pyx_v_state, PyObject *__pyx_v_ordered_tasks) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("heft_schedule", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_heft_schedule(__pyx_v_nxgraph, __pyx_v_platform_model, __pyx_v_state, __pyx_v_ordered_tasks, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_heft_schedule(__pyx_v_nxgraph, __pyx_v_platform_model, __pyx_v_state, __pyx_v_ordered_tasks, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7522,7 +8328,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2heft_schedule(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":419
+/* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
@@ -7531,10 +8337,10 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_2heft_schedule(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pysimgrid_11cscheduling_4schedulable_order[] = "schedulable_order(nxgraph, dict ranking)\n\n  Give an valid topological order that attempts to prioritize task by given ranking.\n\n  Higher rank values are considered to have higher priority.\n\n  Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking\n  function doesn't guarantee to preserve topological sort.\n\n  Args:\n    nxgraph: workflow as a networkx.DiGraph object\n    ranking: dict of ranking values, layout is {cplatform.Task: float}\n\n  Returns:\n    a list of tasks in a topological order\n  ";
-static PyMethodDef __pyx_mdef_9pysimgrid_11cscheduling_5schedulable_order = {"schedulable_order", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_4schedulable_order};
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_9schedulable_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_8schedulable_order[] = "schedulable_order(nxgraph, dict ranking)\n\n  Give an valid topological order that attempts to prioritize task by given ranking.\n\n  Higher rank values are considered to have higher priority.\n\n  Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking\n  function doesn't guarantee to preserve topological sort.\n\n  Args:\n    nxgraph: workflow as a networkx.DiGraph object\n    ranking: dict of ranking values, layout is {cplatform.Task: float}\n\n  Returns:\n    a list of tasks in a topological order\n  ";
+static PyMethodDef __pyx_mdef_9pysimgrid_11cscheduling_9schedulable_order = {"schedulable_order", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_9schedulable_order, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_8schedulable_order};
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_9schedulable_order(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_nxgraph = 0;
   PyObject *__pyx_v_ranking = 0;
   PyObject *__pyx_r = 0;
@@ -7560,11 +8366,11 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order(PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ranking)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("schedulable_order", 1, 2, 2, 1); __PYX_ERR(0, 419, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("schedulable_order", 1, 2, 2, 1); __PYX_ERR(0, 447, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "schedulable_order") < 0)) __PYX_ERR(0, 419, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "schedulable_order") < 0)) __PYX_ERR(0, 447, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7577,14 +8383,14 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("schedulable_order", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 419, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("schedulable_order", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 447, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.schedulable_order", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ranking), (&PyDict_Type), 1, "ranking", 1))) __PYX_ERR(0, 419, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(__pyx_self, __pyx_v_nxgraph, __pyx_v_ranking);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ranking), (&PyDict_Type), 1, "ranking", 1))) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_8schedulable_order(__pyx_self, __pyx_v_nxgraph, __pyx_v_ranking);
 
   /* function exit code */
   goto __pyx_L0;
@@ -7595,7 +8401,7 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_5schedulable_order(PyObject *
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":439
+/* "pysimgrid/cscheduling.pyx":467
  *   cdef dict pred = state.pred
  *   # as always, use dual key to achieve deterministic sort on equal rank values
  *   sorter = lambda node: (ranking[node], node.name)             # <<<<<<<<<<<<<<
@@ -7629,16 +8435,16 @@ static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self, PyObject *__
   __pyx_outer_scope = (struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_ranking)) { __Pyx_RaiseClosureNameError("ranking"); __PYX_ERR(0, 439, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_v_ranking)) { __Pyx_RaiseClosureNameError("ranking"); __PYX_ERR(0, 467, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_v_ranking == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 439, __pyx_L1_error)
+    __PYX_ERR(0, 467, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_ranking, __pyx_v_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_ranking, __pyx_v_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -7663,7 +8469,7 @@ static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self, PyObject *__
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":419
+/* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
@@ -7671,7 +8477,7 @@ static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self, PyObject *__
  *   Give an valid topological order that attempts to prioritize task by given ranking.
  */
 
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, PyObject *__pyx_v_ranking) {
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_8schedulable_order(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nxgraph, PyObject *__pyx_v_ranking) {
   struct __pyx_obj_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order *__pyx_cur_scope;
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v_succ = 0;
@@ -7710,16 +8516,16 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_ranking);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_ranking);
 
-  /* "pysimgrid/cscheduling.pyx":435
+  /* "pysimgrid/cscheduling.pyx":463
  *     a list of tasks in a topological order
  *   """
  *   cdef object state = networkx.DiGraph(nxgraph)             # <<<<<<<<<<<<<<
  *   cdef dict succ = state.succ
  *   cdef dict pred = state.pred
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_networkx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_networkx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DiGraph); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DiGraph); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7733,16 +8539,16 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_nxgraph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_nxgraph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_INCREF(__pyx_v_nxgraph);
     __Pyx_GIVEREF(__pyx_v_nxgraph);
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_nxgraph);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -7750,66 +8556,66 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
   __pyx_v_state = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":436
+  /* "pysimgrid/cscheduling.pyx":464
  *   """
  *   cdef object state = networkx.DiGraph(nxgraph)
  *   cdef dict succ = state.succ             # <<<<<<<<<<<<<<
  *   cdef dict pred = state.pred
  *   # as always, use dual key to achieve deterministic sort on equal rank values
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_state, __pyx_n_s_succ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_state, __pyx_n_s_succ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 436, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 464, __pyx_L1_error)
   __pyx_v_succ = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":437
+  /* "pysimgrid/cscheduling.pyx":465
  *   cdef object state = networkx.DiGraph(nxgraph)
  *   cdef dict succ = state.succ
  *   cdef dict pred = state.pred             # <<<<<<<<<<<<<<
  *   # as always, use dual key to achieve deterministic sort on equal rank values
  *   sorter = lambda node: (ranking[node], node.name)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_state, __pyx_n_s_pred); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 437, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_state, __pyx_n_s_pred); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 437, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 465, __pyx_L1_error)
   __pyx_v_pred = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":439
+  /* "pysimgrid/cscheduling.pyx":467
  *   cdef dict pred = state.pred
  *   # as always, use dual key to achieve deterministic sort on equal rank values
  *   sorter = lambda node: (ranking[node], node.name)             # <<<<<<<<<<<<<<
  *   # extract graph root(s)
  *   ready_nodes = sorted([node for (node, parents) in pred.items() if not parents], key=sorter)
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_17schedulable_order_lambda1, 0, __pyx_n_s_schedulable_order_locals_lambda, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pysimgrid_cscheduling, __pyx_d, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_17schedulable_order_lambda1, 0, __pyx_n_s_schedulable_order_locals_lambda, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pysimgrid_cscheduling, __pyx_d, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_sorter = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":441
+  /* "pysimgrid/cscheduling.pyx":469
  *   sorter = lambda node: (ranking[node], node.name)
  *   # extract graph root(s)
  *   ready_nodes = sorted([node for (node, parents) in pred.items() if not parents], key=sorter)             # <<<<<<<<<<<<<<
  *   order = []
  *   while ready_nodes:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_pred == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
-    __PYX_ERR(0, 441, __pyx_L1_error)
+    __PYX_ERR(0, 469, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_pred); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_pred); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_4 = __pyx_t_3; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 469, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 469, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -7817,17 +8623,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       if (likely(PyList_CheckExact(__pyx_t_4))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 441, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 469, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 441, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 469, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -7837,7 +8643,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 441, __pyx_L1_error)
+          else __PYX_ERR(0, 469, __pyx_L1_error)
         }
         break;
       }
@@ -7853,7 +8659,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 441, __pyx_L1_error)
+        __PYX_ERR(0, 469, __pyx_L1_error)
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -7866,15 +8672,15 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_7);
       #else
-      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 469, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 469, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       #endif
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 469, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -7882,7 +8688,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       __Pyx_GOTREF(__pyx_t_2);
       index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_7);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 441, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 469, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L6_unpacking_done;
@@ -7890,48 +8696,48 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 441, __pyx_L1_error)
+      __PYX_ERR(0, 469, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_node, __pyx_t_2);
     __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_parents, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_parents); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_parents); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 469, __pyx_L1_error)
     __pyx_t_11 = ((!__pyx_t_10) != 0);
     if (__pyx_t_11) {
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_v_node))) __PYX_ERR(0, 441, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_v_node))) __PYX_ERR(0, 469, __pyx_L1_error)
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_v_sorter) < 0) __PYX_ERR(0, 441, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_v_sorter) < 0) __PYX_ERR(0, 469, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_ready_nodes = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":442
+  /* "pysimgrid/cscheduling.pyx":470
  *   # extract graph root(s)
  *   ready_nodes = sorted([node for (node, parents) in pred.items() if not parents], key=sorter)
  *   order = []             # <<<<<<<<<<<<<<
  *   while ready_nodes:
  *     scheduled = ready_nodes.pop()
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 470, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_order = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":443
+  /* "pysimgrid/cscheduling.pyx":471
  *   ready_nodes = sorted([node for (node, parents) in pred.items() if not parents], key=sorter)
  *   order = []
  *   while ready_nodes:             # <<<<<<<<<<<<<<
@@ -7939,31 +8745,31 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  *     order.append(scheduled)
  */
   while (1) {
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_ready_nodes); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_ready_nodes); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 471, __pyx_L1_error)
     if (!__pyx_t_11) break;
 
-    /* "pysimgrid/cscheduling.pyx":444
+    /* "pysimgrid/cscheduling.pyx":472
  *   order = []
  *   while ready_nodes:
  *     scheduled = ready_nodes.pop()             # <<<<<<<<<<<<<<
  *     order.append(scheduled)
  *     for child in succ[scheduled]:
  */
-    __pyx_t_3 = __Pyx_PyObject_Pop(__pyx_v_ready_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Pop(__pyx_v_ready_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_scheduled, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":445
+    /* "pysimgrid/cscheduling.pyx":473
  *   while ready_nodes:
  *     scheduled = ready_nodes.pop()
  *     order.append(scheduled)             # <<<<<<<<<<<<<<
  *     for child in succ[scheduled]:
  *       child_active_parents = pred[child]
  */
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_order, __pyx_v_scheduled); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 445, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_order, __pyx_v_scheduled); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 473, __pyx_L1_error)
 
-    /* "pysimgrid/cscheduling.pyx":446
+    /* "pysimgrid/cscheduling.pyx":474
  *     scheduled = ready_nodes.pop()
  *     order.append(scheduled)
  *     for child in succ[scheduled]:             # <<<<<<<<<<<<<<
@@ -7972,17 +8778,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  */
     if (unlikely(__pyx_v_succ == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 446, __pyx_L1_error)
+      __PYX_ERR(0, 474, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_succ, __pyx_v_scheduled); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_succ, __pyx_v_scheduled); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
       __pyx_t_6 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 446, __pyx_L1_error)
+      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 474, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -7990,17 +8796,17 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 446, __pyx_L1_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 474, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 446, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 474, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -8010,7 +8816,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 446, __pyx_L1_error)
+            else __PYX_ERR(0, 474, __pyx_L1_error)
           }
           break;
         }
@@ -8019,7 +8825,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
       __Pyx_XDECREF_SET(__pyx_v_child, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":447
+      /* "pysimgrid/cscheduling.pyx":475
  *     order.append(scheduled)
  *     for child in succ[scheduled]:
  *       child_active_parents = pred[child]             # <<<<<<<<<<<<<<
@@ -8028,43 +8834,43 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  */
       if (unlikely(__pyx_v_pred == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 447, __pyx_L1_error)
+        __PYX_ERR(0, 475, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_pred, __pyx_v_child); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_pred, __pyx_v_child); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 475, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_child_active_parents, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":448
+      /* "pysimgrid/cscheduling.pyx":476
  *     for child in succ[scheduled]:
  *       child_active_parents = pred[child]
  *       del child_active_parents[scheduled]             # <<<<<<<<<<<<<<
  *       if not child_active_parents:
  *         ready_nodes.append(child)
  */
-      if (unlikely(PyObject_DelItem(__pyx_v_child_active_parents, __pyx_v_scheduled) < 0)) __PYX_ERR(0, 448, __pyx_L1_error)
+      if (unlikely(PyObject_DelItem(__pyx_v_child_active_parents, __pyx_v_scheduled) < 0)) __PYX_ERR(0, 476, __pyx_L1_error)
 
-      /* "pysimgrid/cscheduling.pyx":449
+      /* "pysimgrid/cscheduling.pyx":477
  *       child_active_parents = pred[child]
  *       del child_active_parents[scheduled]
  *       if not child_active_parents:             # <<<<<<<<<<<<<<
  *         ready_nodes.append(child)
  *       ready_nodes = sorted(ready_nodes, key=sorter)
  */
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_child_active_parents); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 449, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_child_active_parents); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 477, __pyx_L1_error)
       __pyx_t_10 = ((!__pyx_t_11) != 0);
       if (__pyx_t_10) {
 
-        /* "pysimgrid/cscheduling.pyx":450
+        /* "pysimgrid/cscheduling.pyx":478
  *       del child_active_parents[scheduled]
  *       if not child_active_parents:
  *         ready_nodes.append(child)             # <<<<<<<<<<<<<<
  *       ready_nodes = sorted(ready_nodes, key=sorter)
  *   assert len(order) == len(nxgraph)
  */
-        __pyx_t_12 = __Pyx_PyObject_Append(__pyx_v_ready_nodes, __pyx_v_child); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 450, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyObject_Append(__pyx_v_ready_nodes, __pyx_v_child); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 478, __pyx_L1_error)
 
-        /* "pysimgrid/cscheduling.pyx":449
+        /* "pysimgrid/cscheduling.pyx":477
  *       child_active_parents = pred[child]
  *       del child_active_parents[scheduled]
  *       if not child_active_parents:             # <<<<<<<<<<<<<<
@@ -8073,29 +8879,29 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  */
       }
 
-      /* "pysimgrid/cscheduling.pyx":451
+      /* "pysimgrid/cscheduling.pyx":479
  *       if not child_active_parents:
  *         ready_nodes.append(child)
  *       ready_nodes = sorted(ready_nodes, key=sorter)             # <<<<<<<<<<<<<<
  *   assert len(order) == len(nxgraph)
  *   return order
  */
-      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 451, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 479, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_v_ready_nodes);
       __Pyx_GIVEREF(__pyx_v_ready_nodes);
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_ready_nodes);
-      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 451, __pyx_L1_error)
+      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_key, __pyx_v_sorter) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 451, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_key, __pyx_v_sorter) < 0) __PYX_ERR(0, 479, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 479, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_ready_nodes, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":446
+      /* "pysimgrid/cscheduling.pyx":474
  *     scheduled = ready_nodes.pop()
  *     order.append(scheduled)
  *     for child in succ[scheduled]:             # <<<<<<<<<<<<<<
@@ -8106,7 +8912,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pysimgrid/cscheduling.pyx":452
+  /* "pysimgrid/cscheduling.pyx":480
  *         ready_nodes.append(child)
  *       ready_nodes = sorted(ready_nodes, key=sorter)
  *   assert len(order) == len(nxgraph)             # <<<<<<<<<<<<<<
@@ -8115,16 +8921,16 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_order); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 452, __pyx_L1_error)
-    __pyx_t_13 = PyObject_Length(__pyx_v_nxgraph); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 452, __pyx_L1_error)
+    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_order); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_13 = PyObject_Length(__pyx_v_nxgraph); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 480, __pyx_L1_error)
     if (unlikely(!((__pyx_t_5 == __pyx_t_13) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 452, __pyx_L1_error)
+      __PYX_ERR(0, 480, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "pysimgrid/cscheduling.pyx":453
+  /* "pysimgrid/cscheduling.pyx":481
  *       ready_nodes = sorted(ready_nodes, key=sorter)
  *   assert len(order) == len(nxgraph)
  *   return order             # <<<<<<<<<<<<<<
@@ -8136,7 +8942,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
   __pyx_r = __pyx_v_order;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":419
+  /* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
@@ -8172,7 +8978,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "pysimgrid/cscheduling.pyx":456
+/* "pysimgrid/cscheduling.pyx":484
  * 
  * 
  * cpdef timesheet_insertion(list timesheet, double est, double eet):             # <<<<<<<<<<<<<<
@@ -8180,7 +8986,7 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_4schedulable_order(CYTHON_UNU
  *   Evaluate a earliest possible insertion into a given timesheet.
  */
 
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_11timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *__pyx_v_timesheet, double __pyx_v_est, double __pyx_v_eet, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_insert_index;
   double __pyx_v_start_time;
@@ -8206,7 +9012,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("timesheet_insertion", 0);
 
-  /* "pysimgrid/cscheduling.pyx":469
+  /* "pysimgrid/cscheduling.pyx":497
  *   """
  *   # implementation may look a bit ugly, but it's for performance reasons
  *   cdef int insert_index = len(timesheet)             # <<<<<<<<<<<<<<
@@ -8215,12 +9021,12 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
   if (unlikely(__pyx_v_timesheet == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 469, __pyx_L1_error)
+    __PYX_ERR(0, 497, __pyx_L1_error)
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_timesheet); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 469, __pyx_L1_error)
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_timesheet); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 497, __pyx_L1_error)
   __pyx_v_insert_index = __pyx_t_1;
 
-  /* "pysimgrid/cscheduling.pyx":470
+  /* "pysimgrid/cscheduling.pyx":498
  *   # implementation may look a bit ugly, but it's for performance reasons
  *   cdef int insert_index = len(timesheet)
  *   cdef double start_time = timesheet[-1][2] if timesheet else 0             # <<<<<<<<<<<<<<
@@ -8231,14 +9037,14 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   if (__pyx_t_3) {
     if (unlikely(__pyx_v_timesheet == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 470, __pyx_L1_error)
+      __PYX_ERR(0, 498, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_timesheet, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 470, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_timesheet, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 498, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 470, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 498, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 470, __pyx_L1_error)
+    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 498, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_2 = __pyx_t_6;
   } else {
@@ -8246,7 +9052,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   }
   __pyx_v_start_time = __pyx_t_2;
 
-  /* "pysimgrid/cscheduling.pyx":474
+  /* "pysimgrid/cscheduling.pyx":502
  *   cdef double slot_end
  *   cdef double slot
  *   cdef tuple insertion = (None, 0, 0)             # <<<<<<<<<<<<<<
@@ -8256,7 +9062,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   __Pyx_INCREF(__pyx_tuple__3);
   __pyx_v_insertion = __pyx_tuple__3;
 
-  /* "pysimgrid/cscheduling.pyx":478
+  /* "pysimgrid/cscheduling.pyx":506
  *   cdef tuple t2
  * 
  *   if timesheet:             # <<<<<<<<<<<<<<
@@ -8266,7 +9072,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   __pyx_t_3 = (__pyx_v_timesheet != Py_None) && (PyList_GET_SIZE(__pyx_v_timesheet) != 0);
   if (__pyx_t_3) {
 
-    /* "pysimgrid/cscheduling.pyx":479
+    /* "pysimgrid/cscheduling.pyx":507
  * 
  *   if timesheet:
  *     for idx in range(len(timesheet)):             # <<<<<<<<<<<<<<
@@ -8275,26 +9081,26 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
     if (unlikely(__pyx_v_timesheet == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 479, __pyx_L1_error)
+      __PYX_ERR(0, 507, __pyx_L1_error)
     }
-    __pyx_t_1 = PyList_GET_SIZE(__pyx_v_timesheet); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 479, __pyx_L1_error)
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_SIZE(__pyx_v_timesheet); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 507, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
       __pyx_t_4 = __pyx_t_5; __Pyx_INCREF(__pyx_t_4); __pyx_t_1 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_1 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
+      __pyx_t_1 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 507, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 479, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 507, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     for (;;) {
@@ -8302,17 +9108,17 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
         if (likely(PyList_CheckExact(__pyx_t_4))) {
           if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_1); __Pyx_INCREF(__pyx_t_5); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_1); __Pyx_INCREF(__pyx_t_5); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 507, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_1 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_1); __Pyx_INCREF(__pyx_t_5); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_1); __Pyx_INCREF(__pyx_t_5); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 507, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -8322,7 +9128,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 479, __pyx_L1_error)
+            else __PYX_ERR(0, 507, __pyx_L1_error)
           }
           break;
         }
@@ -8331,25 +9137,25 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
       __Pyx_XDECREF_SET(__pyx_v_idx, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":480
+      /* "pysimgrid/cscheduling.pyx":508
  *   if timesheet:
  *     for idx in range(len(timesheet)):
  *       t1 = timesheet[idx - 1] if idx else insertion             # <<<<<<<<<<<<<<
  *       t2 = timesheet[idx]
  *       slot_end = t2[1]
  */
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_idx); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 480, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_idx); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 508, __pyx_L1_error)
       if (__pyx_t_3) {
         if (unlikely(__pyx_v_timesheet == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 480, __pyx_L1_error)
+          __PYX_ERR(0, 508, __pyx_L1_error)
         }
-        __pyx_t_8 = __Pyx_PyInt_SubtractObjC(__pyx_v_idx, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 480, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyInt_SubtractObjC(__pyx_v_idx, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 508, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = PyObject_GetItem(__pyx_v_timesheet, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 480, __pyx_L1_error)
+        __pyx_t_9 = PyObject_GetItem(__pyx_v_timesheet, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 508, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 480, __pyx_L1_error)
+        if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 508, __pyx_L1_error)
         __pyx_t_5 = __pyx_t_9;
         __pyx_t_9 = 0;
       } else {
@@ -8359,7 +9165,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
       __Pyx_XDECREF_SET(__pyx_v_t1, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":481
+      /* "pysimgrid/cscheduling.pyx":509
  *     for idx in range(len(timesheet)):
  *       t1 = timesheet[idx - 1] if idx else insertion
  *       t2 = timesheet[idx]             # <<<<<<<<<<<<<<
@@ -8368,15 +9174,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
       if (unlikely(__pyx_v_timesheet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 481, __pyx_L1_error)
+        __PYX_ERR(0, 509, __pyx_L1_error)
       }
-      __pyx_t_5 = PyObject_GetItem(__pyx_v_timesheet, __pyx_v_idx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 481, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetItem(__pyx_v_timesheet, __pyx_v_idx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (!(likely(PyTuple_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 481, __pyx_L1_error)
+      if (!(likely(PyTuple_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_t2, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "pysimgrid/cscheduling.pyx":482
+      /* "pysimgrid/cscheduling.pyx":510
  *       t1 = timesheet[idx - 1] if idx else insertion
  *       t2 = timesheet[idx]
  *       slot_end = t2[1]             # <<<<<<<<<<<<<<
@@ -8385,15 +9191,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
       if (unlikely(__pyx_v_t2 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 482, __pyx_L1_error)
+        __PYX_ERR(0, 510, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 482, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 510, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 482, __pyx_L1_error)
+      __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 510, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_slot_end = __pyx_t_2;
 
-      /* "pysimgrid/cscheduling.pyx":483
+      /* "pysimgrid/cscheduling.pyx":511
  *       t2 = timesheet[idx]
  *       slot_end = t2[1]
  *       slot_start = t1[2]             # <<<<<<<<<<<<<<
@@ -8402,15 +9208,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
       if (unlikely(__pyx_v_t1 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 483, __pyx_L1_error)
+        __PYX_ERR(0, 511, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 483, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 511, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 483, __pyx_L1_error)
+      __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 511, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_slot_start = __pyx_t_2;
 
-      /* "pysimgrid/cscheduling.pyx":484
+      /* "pysimgrid/cscheduling.pyx":512
  *       slot_end = t2[1]
  *       slot_start = t1[2]
  *       slot = slot_end - max(slot_start, est)             # <<<<<<<<<<<<<<
@@ -8426,7 +9232,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
       }
       __pyx_v_slot = (__pyx_v_slot_end - __pyx_t_10);
 
-      /* "pysimgrid/cscheduling.pyx":485
+      /* "pysimgrid/cscheduling.pyx":513
  *       slot_start = t1[2]
  *       slot = slot_end - max(slot_start, est)
  *       if slot > eet:             # <<<<<<<<<<<<<<
@@ -8436,17 +9242,17 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
       __pyx_t_3 = ((__pyx_v_slot > __pyx_v_eet) != 0);
       if (__pyx_t_3) {
 
-        /* "pysimgrid/cscheduling.pyx":486
+        /* "pysimgrid/cscheduling.pyx":514
  *       slot = slot_end - max(slot_start, est)
  *       if slot > eet:
  *         insert_index = idx             # <<<<<<<<<<<<<<
  *         start_time = t1[2]
  *         break
  */
-        __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_idx); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 486, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_idx); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 514, __pyx_L1_error)
         __pyx_v_insert_index = __pyx_t_11;
 
-        /* "pysimgrid/cscheduling.pyx":487
+        /* "pysimgrid/cscheduling.pyx":515
  *       if slot > eet:
  *         insert_index = idx
  *         start_time = t1[2]             # <<<<<<<<<<<<<<
@@ -8455,15 +9261,15 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
         if (unlikely(__pyx_v_t1 == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 487, __pyx_L1_error)
+          __PYX_ERR(0, 515, __pyx_L1_error)
         }
-        __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 487, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_t1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 515, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 487, __pyx_L1_error)
+        __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 515, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_v_start_time = __pyx_t_10;
 
-        /* "pysimgrid/cscheduling.pyx":488
+        /* "pysimgrid/cscheduling.pyx":516
  *         insert_index = idx
  *         start_time = t1[2]
  *         break             # <<<<<<<<<<<<<<
@@ -8472,7 +9278,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
         goto __pyx_L5_break;
 
-        /* "pysimgrid/cscheduling.pyx":485
+        /* "pysimgrid/cscheduling.pyx":513
  *       slot_start = t1[2]
  *       slot = slot_end - max(slot_start, est)
  *       if slot > eet:             # <<<<<<<<<<<<<<
@@ -8481,7 +9287,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
       }
 
-      /* "pysimgrid/cscheduling.pyx":479
+      /* "pysimgrid/cscheduling.pyx":507
  * 
  *   if timesheet:
  *     for idx in range(len(timesheet)):             # <<<<<<<<<<<<<<
@@ -8492,7 +9298,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
     __pyx_L5_break:;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysimgrid/cscheduling.pyx":478
+    /* "pysimgrid/cscheduling.pyx":506
  *   cdef tuple t2
  * 
  *   if timesheet:             # <<<<<<<<<<<<<<
@@ -8501,7 +9307,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
  */
   }
 
-  /* "pysimgrid/cscheduling.pyx":490
+  /* "pysimgrid/cscheduling.pyx":518
  *         break
  * 
  *   start_time = max(start_time, est)             # <<<<<<<<<<<<<<
@@ -8516,19 +9322,19 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   }
   __pyx_v_start_time = __pyx_t_6;
 
-  /* "pysimgrid/cscheduling.pyx":491
+  /* "pysimgrid/cscheduling.pyx":519
  * 
  *   start_time = max(start_time, est)
  *   return (insert_index, start_time, (start_time + eet))             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_insert_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 491, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_insert_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_start_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 491, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_start_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_start_time + __pyx_v_eet)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 491, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_start_time + __pyx_v_eet)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 491, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4);
@@ -8543,7 +9349,7 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
   __pyx_t_8 = 0;
   goto __pyx_L0;
 
-  /* "pysimgrid/cscheduling.pyx":456
+  /* "pysimgrid/cscheduling.pyx":484
  * 
  * 
  * cpdef timesheet_insertion(list timesheet, double est, double eet):             # <<<<<<<<<<<<<<
@@ -8570,9 +9376,9 @@ static PyObject *__pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(PyObject *
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pysimgrid_11cscheduling_6timesheet_insertion[] = "timesheet_insertion(list timesheet, double est, double eet)\n\n  Evaluate a earliest possible insertion into a given timesheet.\n\n  Args:\n    timesheet: list of scheduled tasks in a form (Task, start, finish)\n    est: new task earliest start time\n    eet: new task execution time\n\n  Returns:\n    a tuple (insert_index, start, finish)\n  ";
-static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_11timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9pysimgrid_11cscheduling_10timesheet_insertion[] = "timesheet_insertion(list timesheet, double est, double eet)\n\n  Evaluate a earliest possible insertion into a given timesheet.\n\n  Args:\n    timesheet: list of scheduled tasks in a form (Task, start, finish)\n    est: new task earliest start time\n    eet: new task execution time\n\n  Returns:\n    a tuple (insert_index, start, finish)\n  ";
+static PyObject *__pyx_pw_9pysimgrid_11cscheduling_11timesheet_insertion(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_timesheet = 0;
   double __pyx_v_est;
   double __pyx_v_eet;
@@ -8600,16 +9406,16 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_est)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, 1); __PYX_ERR(0, 456, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, 1); __PYX_ERR(0, 484, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_eet)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, 2); __PYX_ERR(0, 456, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, 2); __PYX_ERR(0, 484, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "timesheet_insertion") < 0)) __PYX_ERR(0, 456, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "timesheet_insertion") < 0)) __PYX_ERR(0, 484, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8619,19 +9425,19 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_timesheet = ((PyObject*)values[0]);
-    __pyx_v_est = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_est == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 456, __pyx_L3_error)
-    __pyx_v_eet = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_eet == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 456, __pyx_L3_error)
+    __pyx_v_est = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_est == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 484, __pyx_L3_error)
+    __pyx_v_eet = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_eet == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 484, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 456, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("timesheet_insertion", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 484, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysimgrid.cscheduling.timesheet_insertion", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_timesheet), (&PyList_Type), 1, "timesheet", 1))) __PYX_ERR(0, 456, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_6timesheet_insertion(__pyx_self, __pyx_v_timesheet, __pyx_v_est, __pyx_v_eet);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_timesheet), (&PyList_Type), 1, "timesheet", 1))) __PYX_ERR(0, 484, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pysimgrid_11cscheduling_10timesheet_insertion(__pyx_self, __pyx_v_timesheet, __pyx_v_est, __pyx_v_eet);
 
   /* function exit code */
   goto __pyx_L0;
@@ -8642,13 +9448,13 @@ static PyObject *__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion(PyObject
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pysimgrid_11cscheduling_6timesheet_insertion(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_timesheet, double __pyx_v_est, double __pyx_v_eet) {
+static PyObject *__pyx_pf_9pysimgrid_11cscheduling_10timesheet_insertion(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_timesheet, double __pyx_v_est, double __pyx_v_eet) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("timesheet_insertion", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(__pyx_v_timesheet, __pyx_v_est, __pyx_v_eet, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9pysimgrid_11cscheduling_timesheet_insertion(__pyx_v_timesheet, __pyx_v_est, __pyx_v_eet, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 484, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8665,7 +9471,225 @@ static PyObject *__pyx_pf_9pysimgrid_11cscheduling_6timesheet_insertion(CYTHON_U
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":197
+/* "common.pxd":33
+ *   void Py_DECREF(object o)
+ * 
+ * cdef inline unicode unicode_string(s):             # <<<<<<<<<<<<<<
+ *   """
+ *   Unicode strings adapter adapted from Cython docs.
+ */
+
+static CYTHON_INLINE PyObject *__pyx_f_9pysimgrid_6common_unicode_string(PyObject *__pyx_v_s) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("unicode_string", 0);
+
+  /* "common.pxd":39
+ *   Recieves an 'object' argument and ensures it to be a unicode string.
+ *   """
+ *   if type(s) is unicode:             # <<<<<<<<<<<<<<
+ *     return <unicode>s
+ *   elif isinstance(s, bytes):
+ */
+  __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_s)) == ((PyObject *)(&PyUnicode_Type)));
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "common.pxd":40
+ *   """
+ *   if type(s) is unicode:
+ *     return <unicode>s             # <<<<<<<<<<<<<<
+ *   elif isinstance(s, bytes):
+ *     return (<bytes>s).decode("utf-8")
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(((PyObject*)__pyx_v_s));
+    __pyx_r = ((PyObject*)__pyx_v_s);
+    goto __pyx_L0;
+
+    /* "common.pxd":39
+ *   Recieves an 'object' argument and ensures it to be a unicode string.
+ *   """
+ *   if type(s) is unicode:             # <<<<<<<<<<<<<<
+ *     return <unicode>s
+ *   elif isinstance(s, bytes):
+ */
+  }
+
+  /* "common.pxd":41
+ *   if type(s) is unicode:
+ *     return <unicode>s
+ *   elif isinstance(s, bytes):             # <<<<<<<<<<<<<<
+ *     return (<bytes>s).decode("utf-8")
+ *   elif isinstance(s, unicode):
+ */
+  __pyx_t_2 = PyBytes_Check(__pyx_v_s); 
+  __pyx_t_1 = (__pyx_t_2 != 0);
+  if (__pyx_t_1) {
+
+    /* "common.pxd":42
+ *     return <unicode>s
+ *   elif isinstance(s, bytes):
+ *     return (<bytes>s).decode("utf-8")             # <<<<<<<<<<<<<<
+ *   elif isinstance(s, unicode):
+ *     return unicode(s)
+ */
+    __Pyx_XDECREF(__pyx_r);
+    if (unlikely(__pyx_v_s == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "decode");
+      __PYX_ERR(1, 42, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_decode_bytes(((PyObject*)__pyx_v_s), 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 42, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 42, __pyx_L1_error)
+    __pyx_r = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "common.pxd":41
+ *   if type(s) is unicode:
+ *     return <unicode>s
+ *   elif isinstance(s, bytes):             # <<<<<<<<<<<<<<
+ *     return (<bytes>s).decode("utf-8")
+ *   elif isinstance(s, unicode):
+ */
+  }
+
+  /* "common.pxd":43
+ *   elif isinstance(s, bytes):
+ *     return (<bytes>s).decode("utf-8")
+ *   elif isinstance(s, unicode):             # <<<<<<<<<<<<<<
+ *     return unicode(s)
+ *   else:
+ */
+  __pyx_t_1 = PyUnicode_Check(__pyx_v_s); 
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "common.pxd":44
+ *     return (<bytes>s).decode("utf-8")
+ *   elif isinstance(s, unicode):
+ *     return unicode(s)             # <<<<<<<<<<<<<<
+ *   else:
+ *     raise TypeError("wrong argument type, unicode string is expected")
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 44, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_v_s);
+    __Pyx_GIVEREF(__pyx_v_s);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_s);
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 44, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_r = ((PyObject*)__pyx_t_4);
+    __pyx_t_4 = 0;
+    goto __pyx_L0;
+
+    /* "common.pxd":43
+ *   elif isinstance(s, bytes):
+ *     return (<bytes>s).decode("utf-8")
+ *   elif isinstance(s, unicode):             # <<<<<<<<<<<<<<
+ *     return unicode(s)
+ *   else:
+ */
+  }
+
+  /* "common.pxd":46
+ *     return unicode(s)
+ *   else:
+ *     raise TypeError("wrong argument type, unicode string is expected")             # <<<<<<<<<<<<<<
+ * 
+ * cdef inline bytes utf8_string(s):
+ */
+  /*else*/ {
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 46, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __PYX_ERR(1, 46, __pyx_L1_error)
+  }
+
+  /* "common.pxd":33
+ *   void Py_DECREF(object o)
+ * 
+ * cdef inline unicode unicode_string(s):             # <<<<<<<<<<<<<<
+ *   """
+ *   Unicode strings adapter adapted from Cython docs.
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("pysimgrid.common.unicode_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "common.pxd":48
+ *     raise TypeError("wrong argument type, unicode string is expected")
+ * 
+ * cdef inline bytes utf8_string(s):             # <<<<<<<<<<<<<<
+ *   """
+ *   Ensure a UTF-8 byte string.
+ */
+
+static CYTHON_INLINE PyObject *__pyx_f_9pysimgrid_6common_utf8_string(PyObject *__pyx_v_s) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("utf8_string", 0);
+
+  /* "common.pxd":52
+ *   Ensure a UTF-8 byte string.
+ *   """
+ *   return unicode_string(s).encode("utf-8")             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_9pysimgrid_6common_unicode_string(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (unlikely(__pyx_t_1 == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "encode");
+    __PYX_ERR(1, 52, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyUnicode_AsUTF8String(((PyObject*)__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (!(likely(PyBytes_CheckExact(__pyx_t_2))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 52, __pyx_L1_error)
+  __pyx_r = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "common.pxd":48
+ *     raise TypeError("wrong argument type, unicode string is expected")
+ * 
+ * cdef inline bytes utf8_string(s):             # <<<<<<<<<<<<<<
+ *   """
+ *   Ensure a UTF-8 byte string.
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("pysimgrid.common.utf8_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":197
  *         # experimental exception made for __getbuffer__ and __releasebuffer__
  *         # -- the details of this may change.
  *         def __getbuffer__(ndarray self, Py_buffer* info, int flags):             # <<<<<<<<<<<<<<
@@ -8712,7 +9736,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __Pyx_GIVEREF(__pyx_v_info->obj);
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":203
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":203
  *             # of flags
  * 
  *             if info == NULL: return             # <<<<<<<<<<<<<<
@@ -8725,7 +9749,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L0;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":206
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":206
  * 
  *             cdef int copy_shape, i, ndim
  *             cdef int endian_detector = 1             # <<<<<<<<<<<<<<
@@ -8734,7 +9758,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_endian_detector = 1;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":207
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":207
  *             cdef int copy_shape, i, ndim
  *             cdef int endian_detector = 1
  *             cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)             # <<<<<<<<<<<<<<
@@ -8743,7 +9767,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_little_endian = ((((char *)(&__pyx_v_endian_detector))[0]) != 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":209
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":209
  *             cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)
  * 
  *             ndim = PyArray_NDIM(self)             # <<<<<<<<<<<<<<
@@ -8752,7 +9776,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_ndim = PyArray_NDIM(__pyx_v_self);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":211
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":211
  *             ndim = PyArray_NDIM(self)
  * 
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8762,7 +9786,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = (((sizeof(npy_intp)) != (sizeof(Py_ssize_t))) != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":212
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":212
  * 
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):
  *                 copy_shape = 1             # <<<<<<<<<<<<<<
@@ -8771,7 +9795,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_copy_shape = 1;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":211
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":211
  *             ndim = PyArray_NDIM(self)
  * 
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8781,7 +9805,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L4;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":214
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":214
  *                 copy_shape = 1
  *             else:
  *                 copy_shape = 0             # <<<<<<<<<<<<<<
@@ -8793,7 +9817,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   }
   __pyx_L4:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":216
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":216
  *                 copy_shape = 0
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8807,7 +9831,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":217
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":217
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):             # <<<<<<<<<<<<<<
@@ -8818,7 +9842,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = __pyx_t_2;
   __pyx_L6_bool_binop_done:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":216
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":216
  *                 copy_shape = 0
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8827,20 +9851,20 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":218
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not C contiguous")             # <<<<<<<<<<<<<<
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 218, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 218, __pyx_L1_error)
+    __PYX_ERR(2, 218, __pyx_L1_error)
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":216
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":216
  *                 copy_shape = 0
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8849,7 +9873,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":220
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":220
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8863,7 +9887,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L9_bool_binop_done;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":221
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":221
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_F_CONTIGUOUS)):             # <<<<<<<<<<<<<<
@@ -8874,7 +9898,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = __pyx_t_2;
   __pyx_L9_bool_binop_done:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":220
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":220
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8883,20 +9907,20 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":222
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":222
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_F_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not Fortran contiguous")             # <<<<<<<<<<<<<<
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 222, __pyx_L1_error)
+    __PYX_ERR(2, 222, __pyx_L1_error)
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":220
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":220
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8905,7 +9929,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":224
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":224
  *                 raise ValueError(u"ndarray is not Fortran contiguous")
  * 
  *             info.buf = PyArray_DATA(self)             # <<<<<<<<<<<<<<
@@ -8914,7 +9938,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->buf = PyArray_DATA(__pyx_v_self);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":225
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":225
  * 
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim             # <<<<<<<<<<<<<<
@@ -8923,7 +9947,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->ndim = __pyx_v_ndim;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":226
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":226
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim
  *             if copy_shape:             # <<<<<<<<<<<<<<
@@ -8933,7 +9957,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = (__pyx_v_copy_shape != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":229
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":229
  *                 # Allocate new buffer for strides and shape info.
  *                 # This is allocated as one block, strides first.
  *                 info.strides = <Py_ssize_t*>stdlib.malloc(sizeof(Py_ssize_t) * <size_t>ndim * 2)             # <<<<<<<<<<<<<<
@@ -8942,7 +9966,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->strides = ((Py_ssize_t *)malloc((((sizeof(Py_ssize_t)) * ((size_t)__pyx_v_ndim)) * 2)));
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":230
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":230
  *                 # This is allocated as one block, strides first.
  *                 info.strides = <Py_ssize_t*>stdlib.malloc(sizeof(Py_ssize_t) * <size_t>ndim * 2)
  *                 info.shape = info.strides + ndim             # <<<<<<<<<<<<<<
@@ -8951,7 +9975,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->shape = (__pyx_v_info->strides + __pyx_v_ndim);
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":231
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":231
  *                 info.strides = <Py_ssize_t*>stdlib.malloc(sizeof(Py_ssize_t) * <size_t>ndim * 2)
  *                 info.shape = info.strides + ndim
  *                 for i in range(ndim):             # <<<<<<<<<<<<<<
@@ -8962,7 +9986,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
       __pyx_v_i = __pyx_t_5;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":232
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":232
  *                 info.shape = info.strides + ndim
  *                 for i in range(ndim):
  *                     info.strides[i] = PyArray_STRIDES(self)[i]             # <<<<<<<<<<<<<<
@@ -8971,7 +9995,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
       (__pyx_v_info->strides[__pyx_v_i]) = (PyArray_STRIDES(__pyx_v_self)[__pyx_v_i]);
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":233
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":233
  *                 for i in range(ndim):
  *                     info.strides[i] = PyArray_STRIDES(self)[i]
  *                     info.shape[i] = PyArray_DIMS(self)[i]             # <<<<<<<<<<<<<<
@@ -8981,7 +10005,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       (__pyx_v_info->shape[__pyx_v_i]) = (PyArray_DIMS(__pyx_v_self)[__pyx_v_i]);
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":226
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":226
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim
  *             if copy_shape:             # <<<<<<<<<<<<<<
@@ -8991,7 +10015,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L11;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":235
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":235
  *                     info.shape[i] = PyArray_DIMS(self)[i]
  *             else:
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)             # <<<<<<<<<<<<<<
@@ -9001,7 +10025,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   /*else*/ {
     __pyx_v_info->strides = ((Py_ssize_t *)PyArray_STRIDES(__pyx_v_self));
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":236
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":236
  *             else:
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)             # <<<<<<<<<<<<<<
@@ -9012,7 +10036,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   }
   __pyx_L11:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":237
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":237
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)
  *             info.suboffsets = NULL             # <<<<<<<<<<<<<<
@@ -9021,7 +10045,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->suboffsets = NULL;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":238
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":238
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)
  *             info.suboffsets = NULL
  *             info.itemsize = PyArray_ITEMSIZE(self)             # <<<<<<<<<<<<<<
@@ -9030,7 +10054,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->itemsize = PyArray_ITEMSIZE(__pyx_v_self);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":239
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":239
  *             info.suboffsets = NULL
  *             info.itemsize = PyArray_ITEMSIZE(self)
  *             info.readonly = not PyArray_ISWRITEABLE(self)             # <<<<<<<<<<<<<<
@@ -9039,7 +10063,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->readonly = (!(PyArray_ISWRITEABLE(__pyx_v_self) != 0));
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":242
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":242
  * 
  *             cdef int t
  *             cdef char* f = NULL             # <<<<<<<<<<<<<<
@@ -9048,7 +10072,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_f = NULL;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":243
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":243
  *             cdef int t
  *             cdef char* f = NULL
  *             cdef dtype descr = self.descr             # <<<<<<<<<<<<<<
@@ -9060,7 +10084,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_v_descr = ((PyArray_Descr *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":246
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":246
  *             cdef int offset
  * 
  *             cdef bint hasfields = PyDataType_HASFIELDS(descr)             # <<<<<<<<<<<<<<
@@ -9069,7 +10093,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_hasfields = PyDataType_HASFIELDS(__pyx_v_descr);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":248
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":248
  *             cdef bint hasfields = PyDataType_HASFIELDS(descr)
  * 
  *             if not hasfields and not copy_shape:             # <<<<<<<<<<<<<<
@@ -9087,7 +10111,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_L15_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":250
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":250
  *             if not hasfields and not copy_shape:
  *                 # do not call releasebuffer
  *                 info.obj = None             # <<<<<<<<<<<<<<
@@ -9100,7 +10124,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __Pyx_DECREF(__pyx_v_info->obj);
     __pyx_v_info->obj = Py_None;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":248
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":248
  *             cdef bint hasfields = PyDataType_HASFIELDS(descr)
  * 
  *             if not hasfields and not copy_shape:             # <<<<<<<<<<<<<<
@@ -9110,7 +10134,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L14;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":253
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":253
  *             else:
  *                 # need to call releasebuffer
  *                 info.obj = self             # <<<<<<<<<<<<<<
@@ -9126,7 +10150,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   }
   __pyx_L14:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":255
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":255
  *                 info.obj = self
  * 
  *             if not hasfields:             # <<<<<<<<<<<<<<
@@ -9136,7 +10160,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = ((!(__pyx_v_hasfields != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":256
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":256
  * 
  *             if not hasfields:
  *                 t = descr.type_num             # <<<<<<<<<<<<<<
@@ -9146,7 +10170,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_t_4 = __pyx_v_descr->type_num;
     __pyx_v_t = __pyx_t_4;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":257
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":257
  *             if not hasfields:
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9166,7 +10190,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     }
     __pyx_L20_next_or:;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":258
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":258
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):             # <<<<<<<<<<<<<<
@@ -9183,7 +10207,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_t_1 = __pyx_t_2;
     __pyx_L19_bool_binop_done:;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":257
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":257
  *             if not hasfields:
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9192,20 +10216,20 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     if (__pyx_t_1) {
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":259
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":259
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 259, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(1, 259, __pyx_L1_error)
+      __PYX_ERR(2, 259, __pyx_L1_error)
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":257
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":257
  *             if not hasfields:
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9214,7 +10238,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":260
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":260
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")
  *                 if   t == NPY_BYTE:        f = "b"             # <<<<<<<<<<<<<<
@@ -9226,7 +10250,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"b");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":261
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":261
  *                     raise ValueError(u"Non-native byte order not supported")
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"             # <<<<<<<<<<<<<<
@@ -9237,7 +10261,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"B");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":262
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":262
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  *                 elif t == NPY_SHORT:       f = "h"             # <<<<<<<<<<<<<<
@@ -9248,7 +10272,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"h");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":263
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":263
  *                 elif t == NPY_UBYTE:       f = "B"
  *                 elif t == NPY_SHORT:       f = "h"
  *                 elif t == NPY_USHORT:      f = "H"             # <<<<<<<<<<<<<<
@@ -9259,7 +10283,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"H");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":264
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":264
  *                 elif t == NPY_SHORT:       f = "h"
  *                 elif t == NPY_USHORT:      f = "H"
  *                 elif t == NPY_INT:         f = "i"             # <<<<<<<<<<<<<<
@@ -9270,7 +10294,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"i");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":265
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":265
  *                 elif t == NPY_USHORT:      f = "H"
  *                 elif t == NPY_INT:         f = "i"
  *                 elif t == NPY_UINT:        f = "I"             # <<<<<<<<<<<<<<
@@ -9281,7 +10305,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"I");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":266
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":266
  *                 elif t == NPY_INT:         f = "i"
  *                 elif t == NPY_UINT:        f = "I"
  *                 elif t == NPY_LONG:        f = "l"             # <<<<<<<<<<<<<<
@@ -9292,7 +10316,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"l");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":267
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":267
  *                 elif t == NPY_UINT:        f = "I"
  *                 elif t == NPY_LONG:        f = "l"
  *                 elif t == NPY_ULONG:       f = "L"             # <<<<<<<<<<<<<<
@@ -9303,7 +10327,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"L");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":268
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":268
  *                 elif t == NPY_LONG:        f = "l"
  *                 elif t == NPY_ULONG:       f = "L"
  *                 elif t == NPY_LONGLONG:    f = "q"             # <<<<<<<<<<<<<<
@@ -9314,7 +10338,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"q");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":269
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":269
  *                 elif t == NPY_ULONG:       f = "L"
  *                 elif t == NPY_LONGLONG:    f = "q"
  *                 elif t == NPY_ULONGLONG:   f = "Q"             # <<<<<<<<<<<<<<
@@ -9325,7 +10349,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"Q");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":270
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":270
  *                 elif t == NPY_LONGLONG:    f = "q"
  *                 elif t == NPY_ULONGLONG:   f = "Q"
  *                 elif t == NPY_FLOAT:       f = "f"             # <<<<<<<<<<<<<<
@@ -9336,7 +10360,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"f");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":271
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":271
  *                 elif t == NPY_ULONGLONG:   f = "Q"
  *                 elif t == NPY_FLOAT:       f = "f"
  *                 elif t == NPY_DOUBLE:      f = "d"             # <<<<<<<<<<<<<<
@@ -9347,7 +10371,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"d");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":272
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":272
  *                 elif t == NPY_FLOAT:       f = "f"
  *                 elif t == NPY_DOUBLE:      f = "d"
  *                 elif t == NPY_LONGDOUBLE:  f = "g"             # <<<<<<<<<<<<<<
@@ -9358,7 +10382,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"g");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":273
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":273
  *                 elif t == NPY_DOUBLE:      f = "d"
  *                 elif t == NPY_LONGDOUBLE:  f = "g"
  *                 elif t == NPY_CFLOAT:      f = "Zf"             # <<<<<<<<<<<<<<
@@ -9369,7 +10393,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"Zf");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":274
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":274
  *                 elif t == NPY_LONGDOUBLE:  f = "g"
  *                 elif t == NPY_CFLOAT:      f = "Zf"
  *                 elif t == NPY_CDOUBLE:     f = "Zd"             # <<<<<<<<<<<<<<
@@ -9380,7 +10404,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"Zd");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":275
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":275
  *                 elif t == NPY_CFLOAT:      f = "Zf"
  *                 elif t == NPY_CDOUBLE:     f = "Zd"
  *                 elif t == NPY_CLONGDOUBLE: f = "Zg"             # <<<<<<<<<<<<<<
@@ -9391,7 +10415,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __pyx_v_f = ((char *)"Zg");
       break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":276
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":276
  *                 elif t == NPY_CDOUBLE:     f = "Zd"
  *                 elif t == NPY_CLONGDOUBLE: f = "Zg"
  *                 elif t == NPY_OBJECT:      f = "O"             # <<<<<<<<<<<<<<
@@ -9403,33 +10427,33 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       default:
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":278
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":278
  *                 elif t == NPY_OBJECT:      f = "O"
  *                 else:
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)             # <<<<<<<<<<<<<<
  *                 info.format = f
  *                 return
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 278, __pyx_L1_error)
+      __pyx_t_6 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 278, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __PYX_ERR(1, 278, __pyx_L1_error)
+      __PYX_ERR(2, 278, __pyx_L1_error)
       break;
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":279
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":279
  *                 else:
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *                 info.format = f             # <<<<<<<<<<<<<<
@@ -9438,7 +10462,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->format = __pyx_v_f;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":280
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":280
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *                 info.format = f
  *                 return             # <<<<<<<<<<<<<<
@@ -9448,7 +10472,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":255
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":255
  *                 info.obj = self
  * 
  *             if not hasfields:             # <<<<<<<<<<<<<<
@@ -9457,7 +10481,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":282
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":282
  *                 return
  *             else:
  *                 info.format = <char*>stdlib.malloc(_buffer_format_string_len)             # <<<<<<<<<<<<<<
@@ -9467,7 +10491,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   /*else*/ {
     __pyx_v_info->format = ((char *)malloc(0xFF));
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":283
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":283
  *             else:
  *                 info.format = <char*>stdlib.malloc(_buffer_format_string_len)
  *                 info.format[0] = c'^' # Native data types, manual alignment             # <<<<<<<<<<<<<<
@@ -9476,7 +10500,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     (__pyx_v_info->format[0]) = '^';
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":284
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":284
  *                 info.format = <char*>stdlib.malloc(_buffer_format_string_len)
  *                 info.format[0] = c'^' # Native data types, manual alignment
  *                 offset = 0             # <<<<<<<<<<<<<<
@@ -9485,17 +10509,17 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_offset = 0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":285
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":285
  *                 info.format[0] = c'^' # Native data types, manual alignment
  *                 offset = 0
  *                 f = _util_dtypestring(descr, info.format + 1,             # <<<<<<<<<<<<<<
  *                                       info.format + _buffer_format_string_len,
  *                                       &offset)
  */
-    __pyx_t_7 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_7 == NULL)) __PYX_ERR(1, 285, __pyx_L1_error)
+    __pyx_t_7 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_7 == NULL)) __PYX_ERR(2, 285, __pyx_L1_error)
     __pyx_v_f = __pyx_t_7;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":288
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":288
  *                                       info.format + _buffer_format_string_len,
  *                                       &offset)
  *                 f[0] = c'\0' # Terminate format string             # <<<<<<<<<<<<<<
@@ -9505,7 +10529,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     (__pyx_v_f[0]) = '\x00';
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":197
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":197
  *         # experimental exception made for __getbuffer__ and __releasebuffer__
  *         # -- the details of this may change.
  *         def __getbuffer__(ndarray self, Py_buffer* info, int flags):             # <<<<<<<<<<<<<<
@@ -9537,7 +10561,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":290
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":290
  *                 f[0] = c'\0' # Terminate format string
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):             # <<<<<<<<<<<<<<
@@ -9561,7 +10585,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__releasebuffer__", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":291
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":291
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):             # <<<<<<<<<<<<<<
@@ -9571,7 +10595,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __pyx_t_1 = (PyArray_HASFIELDS(__pyx_v_self) != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":292
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":292
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):
  *                 stdlib.free(info.format)             # <<<<<<<<<<<<<<
@@ -9580,7 +10604,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
     free(__pyx_v_info->format);
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":291
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":291
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):             # <<<<<<<<<<<<<<
@@ -9589,7 +10613,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":293
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":293
  *             if PyArray_HASFIELDS(self):
  *                 stdlib.free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -9599,7 +10623,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __pyx_t_1 = (((sizeof(npy_intp)) != (sizeof(Py_ssize_t))) != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":294
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":294
  *                 stdlib.free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):
  *                 stdlib.free(info.strides)             # <<<<<<<<<<<<<<
@@ -9608,7 +10632,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
     free(__pyx_v_info->strides);
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":293
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":293
  *             if PyArray_HASFIELDS(self):
  *                 stdlib.free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -9617,7 +10641,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":290
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":290
  *                 f[0] = c'\0' # Terminate format string
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):             # <<<<<<<<<<<<<<
@@ -9629,7 +10653,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __Pyx_RefNannyFinishContext();
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":770
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":770
  * ctypedef npy_cdouble     complex_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -9643,7 +10667,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":771
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":771
  * 
  * cdef inline object PyArray_MultiIterNew1(a):
  *     return PyArray_MultiIterNew(1, <void*>a)             # <<<<<<<<<<<<<<
@@ -9651,13 +10675,13 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
  * cdef inline object PyArray_MultiIterNew2(a, b):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 771, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":770
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":770
  * ctypedef npy_cdouble     complex_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -9676,7 +10700,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":773
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":773
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -9690,7 +10714,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":774
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":774
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)             # <<<<<<<<<<<<<<
@@ -9698,13 +10722,13 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 774, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 774, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":773
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":773
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -9723,7 +10747,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":776
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":776
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -9737,7 +10761,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":777
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":777
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)             # <<<<<<<<<<<<<<
@@ -9745,13 +10769,13 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 777, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 777, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":776
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":776
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -9770,7 +10794,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":779
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":779
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -9784,7 +10808,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":780
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":780
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)             # <<<<<<<<<<<<<<
@@ -9792,13 +10816,13 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 780, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 780, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":779
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":779
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -9817,7 +10841,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":782
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":782
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -9831,7 +10855,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":783
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":783
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)             # <<<<<<<<<<<<<<
@@ -9839,13 +10863,13 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
  * cdef inline char* _util_dtypestring(dtype descr, char* f, char* end, int* offset) except NULL:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 783, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 783, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":782
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":782
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -9864,7 +10888,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":785
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":785
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline char* _util_dtypestring(dtype descr, char* f, char* end, int* offset) except NULL:             # <<<<<<<<<<<<<<
@@ -9893,7 +10917,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   char *__pyx_t_9;
   __Pyx_RefNannySetupContext("_util_dtypestring", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":790
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":790
  * 
  *     cdef dtype child
  *     cdef int endian_detector = 1             # <<<<<<<<<<<<<<
@@ -9902,7 +10926,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   __pyx_v_endian_detector = 1;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":791
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":791
  *     cdef dtype child
  *     cdef int endian_detector = 1
  *     cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)             # <<<<<<<<<<<<<<
@@ -9911,7 +10935,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   __pyx_v_little_endian = ((((char *)(&__pyx_v_endian_detector))[0]) != 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":794
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":794
  *     cdef tuple fields
  * 
  *     for childname in descr.names:             # <<<<<<<<<<<<<<
@@ -9920,21 +10944,21 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   if (unlikely(__pyx_v_descr->names == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 794, __pyx_L1_error)
+    __PYX_ERR(2, 794, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_descr->names; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 794, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(2, 794, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 794, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 794, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_childname, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":795
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":795
  * 
  *     for childname in descr.names:
  *         fields = descr.fields[childname]             # <<<<<<<<<<<<<<
@@ -9943,15 +10967,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     if (unlikely(__pyx_v_descr->fields == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 795, __pyx_L1_error)
+      __PYX_ERR(2, 795, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 795, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 795, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 795, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(2, 795, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_fields, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":796
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":796
  *     for childname in descr.names:
  *         fields = descr.fields[childname]
  *         child, new_offset = fields             # <<<<<<<<<<<<<<
@@ -9968,7 +10992,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(1, 796, __pyx_L1_error)
+        __PYX_ERR(2, 796, __pyx_L1_error)
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
@@ -9976,51 +11000,51 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 796, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 796, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 796, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 796, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
     } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(1, 796, __pyx_L1_error)
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(2, 796, __pyx_L1_error)
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(1, 796, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(2, 796, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_child, ((PyArray_Descr *)__pyx_t_3));
     __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_new_offset, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":798
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":798
  *         child, new_offset = fields
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:             # <<<<<<<<<<<<<<
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 798, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 798, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 798, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 798, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 798, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 798, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = ((((__pyx_v_end - __pyx_v_f) - ((int)__pyx_t_5)) < 15) != 0);
     if (__pyx_t_6) {
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":799
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")             # <<<<<<<<<<<<<<
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 799, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(1, 799, __pyx_L1_error)
+      __PYX_ERR(2, 799, __pyx_L1_error)
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":798
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":798
  *         child, new_offset = fields
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:             # <<<<<<<<<<<<<<
@@ -10029,7 +11053,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":801
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":801
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -10049,7 +11073,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     }
     __pyx_L8_next_or:;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":802
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":802
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  *             (child.byteorder == c'<' and not little_endian)):             # <<<<<<<<<<<<<<
@@ -10066,7 +11090,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_6 = __pyx_t_7;
     __pyx_L7_bool_binop_done:;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":801
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":801
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -10075,20 +11099,20 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     if (__pyx_t_6) {
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":803
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
  *             (child.byteorder == c'<' and not little_endian)):
  *             raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 803, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 803, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(1, 803, __pyx_L1_error)
+      __PYX_ERR(2, 803, __pyx_L1_error)
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":801
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":801
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -10097,7 +11121,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":813
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":813
  * 
  *         # Output padding bytes
  *         while offset[0] < new_offset:             # <<<<<<<<<<<<<<
@@ -10105,15 +11129,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             f += 1
  */
     while (1) {
-      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 813, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 813, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 813, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 813, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 813, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 813, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (!__pyx_t_6) break;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":814
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":814
  *         # Output padding bytes
  *         while offset[0] < new_offset:
  *             f[0] = 120 # "x"; pad byte             # <<<<<<<<<<<<<<
@@ -10122,7 +11146,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       (__pyx_v_f[0]) = 0x78;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":815
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":815
  *         while offset[0] < new_offset:
  *             f[0] = 120 # "x"; pad byte
  *             f += 1             # <<<<<<<<<<<<<<
@@ -10131,7 +11155,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":816
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":816
  *             f[0] = 120 # "x"; pad byte
  *             f += 1
  *             offset[0] += 1             # <<<<<<<<<<<<<<
@@ -10142,7 +11166,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       (__pyx_v_offset[__pyx_t_8]) = ((__pyx_v_offset[__pyx_t_8]) + 1);
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":818
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":818
  *             offset[0] += 1
  * 
  *         offset[0] += child.itemsize             # <<<<<<<<<<<<<<
@@ -10152,7 +11176,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_8 = 0;
     (__pyx_v_offset[__pyx_t_8]) = ((__pyx_v_offset[__pyx_t_8]) + __pyx_v_child->elsize);
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":820
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":820
  *         offset[0] += child.itemsize
  * 
  *         if not PyDataType_HASFIELDS(child):             # <<<<<<<<<<<<<<
@@ -10162,19 +11186,19 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_6 = ((!(PyDataType_HASFIELDS(__pyx_v_child) != 0)) != 0);
     if (__pyx_t_6) {
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":821
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":821
  * 
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num             # <<<<<<<<<<<<<<
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")
  */
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 821, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 821, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":822
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":822
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num
  *             if end - f < 5:             # <<<<<<<<<<<<<<
@@ -10184,20 +11208,20 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __pyx_t_6 = (((__pyx_v_end - __pyx_v_f) < 5) != 0);
       if (__pyx_t_6) {
 
-        /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":823
+        /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")             # <<<<<<<<<<<<<<
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 823, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __PYX_ERR(1, 823, __pyx_L1_error)
+        __PYX_ERR(2, 823, __pyx_L1_error)
 
-        /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":822
+        /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":822
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num
  *             if end - f < 5:             # <<<<<<<<<<<<<<
@@ -10206,252 +11230,252 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":826
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":826
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"             # <<<<<<<<<<<<<<
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 826, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 826, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 826, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 826, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 826, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 826, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 98;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":827
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":827
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"             # <<<<<<<<<<<<<<
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 827, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 827, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 827, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 827, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 827, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 827, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 66;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":828
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":828
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"             # <<<<<<<<<<<<<<
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 828, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 828, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 828, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 828, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 828, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 828, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x68;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":829
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":829
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"             # <<<<<<<<<<<<<<
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 829, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 829, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 829, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 829, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 829, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 829, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 72;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":830
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":830
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"             # <<<<<<<<<<<<<<
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 830, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 830, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 830, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 830, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 830, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 830, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x69;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":831
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":831
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"             # <<<<<<<<<<<<<<
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 831, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 831, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 831, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 831, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 831, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 831, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 73;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":832
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":832
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"             # <<<<<<<<<<<<<<
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 832, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 832, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 832, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 832, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 832, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 832, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x6C;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":833
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":833
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"             # <<<<<<<<<<<<<<
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 833, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 833, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 833, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 833, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 833, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 833, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 76;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":834
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":834
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"             # <<<<<<<<<<<<<<
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 834, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 834, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 834, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 834, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 834, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 834, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x71;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":835
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":835
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"             # <<<<<<<<<<<<<<
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 835, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 835, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 835, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 835, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 835, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 835, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 81;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":836
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":836
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"             # <<<<<<<<<<<<<<
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 836, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 836, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 836, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 836, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 836, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 836, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x66;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":837
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":837
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"             # <<<<<<<<<<<<<<
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 837, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 837, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 837, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 837, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x64;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":838
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":838
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"             # <<<<<<<<<<<<<<
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 838, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 838, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 838, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 838, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x67;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":839
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":839
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf             # <<<<<<<<<<<<<<
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 839, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 839, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 839, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 839, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -10460,18 +11484,18 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":840
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":840
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd             # <<<<<<<<<<<<<<
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 840, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 840, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 840, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 840, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -10480,18 +11504,18 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":841
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":841
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg             # <<<<<<<<<<<<<<
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  *             else:
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 841, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 841, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 841, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 841, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -10500,25 +11524,25 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":842
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":842
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"             # <<<<<<<<<<<<<<
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 842, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 842, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 842, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 842, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 79;
         goto __pyx_L15;
       }
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":844
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":844
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)             # <<<<<<<<<<<<<<
@@ -10526,23 +11550,23 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *         else:
  */
       /*else*/ {
-        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 844, __pyx_L1_error)
+        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 844, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 844, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 844, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
         __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 844, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 844, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_Raise(__pyx_t_3, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(1, 844, __pyx_L1_error)
+        __PYX_ERR(2, 844, __pyx_L1_error)
       }
       __pyx_L15:;
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":845
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":845
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *             f += 1             # <<<<<<<<<<<<<<
@@ -10551,7 +11575,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":820
+      /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":820
  *         offset[0] += child.itemsize
  * 
  *         if not PyDataType_HASFIELDS(child):             # <<<<<<<<<<<<<<
@@ -10561,7 +11585,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       goto __pyx_L13;
     }
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":849
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":849
  *             # Cython ignores struct boundary information ("T{...}"),
  *             # so don't output it
  *             f = _util_dtypestring(child, f, end, offset)             # <<<<<<<<<<<<<<
@@ -10569,12 +11593,12 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  */
     /*else*/ {
-      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == NULL)) __PYX_ERR(1, 849, __pyx_L1_error)
+      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == NULL)) __PYX_ERR(2, 849, __pyx_L1_error)
       __pyx_v_f = __pyx_t_9;
     }
     __pyx_L13:;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":794
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":794
  *     cdef tuple fields
  * 
  *     for childname in descr.names:             # <<<<<<<<<<<<<<
@@ -10584,7 +11608,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":850
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":850
  *             # so don't output it
  *             f = _util_dtypestring(child, f, end, offset)
  *     return f             # <<<<<<<<<<<<<<
@@ -10594,7 +11618,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   __pyx_r = __pyx_v_f;
   goto __pyx_L0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":785
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":785
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline char* _util_dtypestring(dtype descr, char* f, char* end, int* offset) except NULL:             # <<<<<<<<<<<<<<
@@ -10619,7 +11643,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   return __pyx_r;
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":966
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":966
  * 
  * 
  * cdef inline void set_array_base(ndarray arr, object base):             # <<<<<<<<<<<<<<
@@ -10634,7 +11658,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("set_array_base", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":968
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":968
  * cdef inline void set_array_base(ndarray arr, object base):
  *      cdef PyObject* baseptr
  *      if base is None:             # <<<<<<<<<<<<<<
@@ -10645,7 +11669,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":969
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":969
  *      cdef PyObject* baseptr
  *      if base is None:
  *          baseptr = NULL             # <<<<<<<<<<<<<<
@@ -10654,7 +11678,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
     __pyx_v_baseptr = NULL;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":968
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":968
  * cdef inline void set_array_base(ndarray arr, object base):
  *      cdef PyObject* baseptr
  *      if base is None:             # <<<<<<<<<<<<<<
@@ -10664,7 +11688,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
     goto __pyx_L3;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":971
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":971
  *          baseptr = NULL
  *      else:
  *          Py_INCREF(base) # important to do this before decref below!             # <<<<<<<<<<<<<<
@@ -10674,7 +11698,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   /*else*/ {
     Py_INCREF(__pyx_v_base);
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":972
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":972
  *      else:
  *          Py_INCREF(base) # important to do this before decref below!
  *          baseptr = <PyObject*>base             # <<<<<<<<<<<<<<
@@ -10685,7 +11709,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   }
   __pyx_L3:;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":973
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":973
  *          Py_INCREF(base) # important to do this before decref below!
  *          baseptr = <PyObject*>base
  *      Py_XDECREF(arr.base)             # <<<<<<<<<<<<<<
@@ -10694,7 +11718,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
   Py_XDECREF(__pyx_v_arr->base);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":974
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":974
  *          baseptr = <PyObject*>base
  *      Py_XDECREF(arr.base)
  *      arr.base = baseptr             # <<<<<<<<<<<<<<
@@ -10703,7 +11727,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
   __pyx_v_arr->base = __pyx_v_baseptr;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":966
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":966
  * 
  * 
  * cdef inline void set_array_base(ndarray arr, object base):             # <<<<<<<<<<<<<<
@@ -10715,7 +11739,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   __Pyx_RefNannyFinishContext();
 }
 
-/* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":976
+/* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":976
  *      arr.base = baseptr
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -10729,7 +11753,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("get_array_base", 0);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":977
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":977
  * 
  * cdef inline object get_array_base(ndarray arr):
  *     if arr.base is NULL:             # <<<<<<<<<<<<<<
@@ -10739,7 +11763,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __pyx_t_1 = ((__pyx_v_arr->base == NULL) != 0);
   if (__pyx_t_1) {
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":978
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":978
  * cdef inline object get_array_base(ndarray arr):
  *     if arr.base is NULL:
  *         return None             # <<<<<<<<<<<<<<
@@ -10751,7 +11775,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":977
+    /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":977
  * 
  * cdef inline object get_array_base(ndarray arr):
  *     if arr.base is NULL:             # <<<<<<<<<<<<<<
@@ -10760,7 +11784,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":980
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":980
  *         return None
  *     else:
  *         return <object>arr.base             # <<<<<<<<<<<<<<
@@ -10772,7 +11796,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
     goto __pyx_L0;
   }
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":976
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":976
  *      arr.base = baseptr
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -11442,8 +12466,10 @@ static PyTypeObject __pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct_1_sch
 };
 
 static PyMethodDef __pyx_methods[] = {
-  {"heft_schedule", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_3heft_schedule, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_2heft_schedule},
-  {"timesheet_insertion", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_7timesheet_insertion, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_6timesheet_insertion},
+  {"try_schedule_boundary_task", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_1try_schedule_boundary_task, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_try_schedule_boundary_task},
+  {"is_master_host", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_3is_master_host, METH_O, __pyx_doc_9pysimgrid_11cscheduling_2is_master_host},
+  {"heft_schedule", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_7heft_schedule, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_6heft_schedule},
+  {"timesheet_insertion", (PyCFunction)__pyx_pw_9pysimgrid_11cscheduling_11timesheet_insertion, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pysimgrid_11cscheduling_10timesheet_insertion},
   {0, 0, 0, 0}
 };
 
@@ -11472,6 +12498,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
+  {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_amount, __pyx_k_amount, sizeof(__pyx_k_amount), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
@@ -11483,12 +12510,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_edge, __pyx_k_edge, sizeof(__pyx_k_edge), 0, 0, 1, 1},
   {&__pyx_n_s_edge_dict, __pyx_k_edge_dict, sizeof(__pyx_k_edge_dict), 0, 0, 1, 1},
   {&__pyx_n_s_eet, __pyx_k_eet, sizeof(__pyx_k_eet), 0, 0, 1, 1},
+  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_est, __pyx_k_est, sizeof(__pyx_k_est), 0, 0, 1, 1},
   {&__pyx_n_s_finish, __pyx_k_finish, sizeof(__pyx_k_finish), 0, 0, 1, 1},
   {&__pyx_n_s_heft_order, __pyx_k_heft_order, sizeof(__pyx_k_heft_order), 0, 0, 1, 1},
   {&__pyx_n_s_heft_order_locals_lambda, __pyx_k_heft_order_locals_lambda, sizeof(__pyx_k_heft_order_locals_lambda), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_k_home_alexey_nazarenko_devel_sch, sizeof(__pyx_k_home_alexey_nazarenko_devel_sch), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_k_home_panda_devel_simgrid_experi, sizeof(__pyx_k_home_panda_devel_simgrid_experi), 0, 0, 1, 0},
   {&__pyx_n_s_host, __pyx_k_host, sizeof(__pyx_k_host), 0, 0, 1, 1},
   {&__pyx_n_s_hosts, __pyx_k_hosts, sizeof(__pyx_k_hosts), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -11496,6 +12524,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_b_master, __pyx_k_master, sizeof(__pyx_k_master), 0, 0, 0, 1},
+  {&__pyx_n_s_master, __pyx_k_master, sizeof(__pyx_k_master), 0, 0, 1, 1},
   {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
   {&__pyx_n_s_mean, __pyx_k_mean, sizeof(__pyx_k_mean), 0, 0, 1, 1},
   {&__pyx_n_s_mean_bandwidth, __pyx_k_mean_bandwidth, sizeof(__pyx_k_mean_bandwidth), 0, 0, 1, 1},
@@ -11503,6 +12533,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mean_speed, __pyx_k_mean_speed, sizeof(__pyx_k_mean_speed), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_nan, __pyx_k_nan, sizeof(__pyx_k_nan), 0, 0, 1, 1},
+  {&__pyx_n_s_native, __pyx_k_native, sizeof(__pyx_k_native), 0, 0, 1, 1},
   {&__pyx_kp_u_ndarray_is_not_C_contiguous, __pyx_k_ndarray_is_not_C_contiguous, sizeof(__pyx_k_ndarray_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_networkx, __pyx_k_networkx, sizeof(__pyx_k_networkx), 0, 0, 1, 1},
@@ -11525,6 +12556,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ranking, __pyx_k_ranking, sizeof(__pyx_k_ranking), 0, 0, 1, 1},
   {&__pyx_n_s_ready_nodes, __pyx_k_ready_nodes, sizeof(__pyx_k_ready_nodes), 0, 0, 1, 1},
   {&__pyx_n_s_reverse, __pyx_k_reverse, sizeof(__pyx_k_reverse), 0, 0, 1, 1},
+  {&__pyx_n_s_root, __pyx_k_root, sizeof(__pyx_k_root), 0, 0, 1, 1},
   {&__pyx_n_s_route_bandwidth, __pyx_k_route_bandwidth, sizeof(__pyx_k_route_bandwidth), 0, 0, 1, 1},
   {&__pyx_n_s_route_latency, __pyx_k_route_latency, sizeof(__pyx_k_route_latency), 0, 0, 1, 1},
   {&__pyx_n_s_schedulable_order, __pyx_k_schedulable_order, sizeof(__pyx_k_schedulable_order), 0, 0, 1, 1},
@@ -11551,17 +12583,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_weight, __pyx_k_weight, sizeof(__pyx_k_weight), 0, 0, 1, 1},
+  {&__pyx_kp_s_wrong_argument_type_unicode_stri, __pyx_k_wrong_argument_type_unicode_stri, sizeof(__pyx_k_wrong_argument_type_unicode_stri), 0, 0, 1, 0},
   {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 68, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 70, __pyx_L1_error)
-  __pyx_builtin_Exception = __Pyx_GetBuiltinName(__pyx_n_s_Exception); if (!__pyx_builtin_Exception) __PYX_ERR(0, 240, __pyx_L1_error)
-  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 376, __pyx_L1_error)
-  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) __PYX_ERR(0, 378, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 218, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 799, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_builtin_Exception = __Pyx_GetBuiltinName(__pyx_n_s_Exception); if (!__pyx_builtin_Exception) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 46, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 218, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 799, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -11571,128 +12605,139 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pysimgrid/cscheduling.pyx":240
+  /* "pysimgrid/cscheduling.pyx":241
  *     if simulation:
  *       if task_states or timetable:
  *         raise Exception("simulation is provided, initial state is not expected")             # <<<<<<<<<<<<<<
  *       self._task_states = {task: {"ect": numpy.nan, "host": None} for task in simulation.tasks}
  *       self._timetable = {host: [] for host in simulation.hosts}
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_simulation_is_provided_initial_s); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_simulation_is_provided_initial_s); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "pysimgrid/cscheduling.pyx":245
+  /* "pysimgrid/cscheduling.pyx":246
  *     else:
  *       if not task_states or not timetable:
  *         raise Exception("initial state must be provided")             # <<<<<<<<<<<<<<
  *       self._task_states = task_states
  *       self._timetable = timetable
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_initial_state_must_be_provided); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_initial_state_must_be_provided); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "pysimgrid/cscheduling.pyx":474
+  /* "pysimgrid/cscheduling.pyx":502
  *   cdef double slot_end
  *   cdef double slot
  *   cdef tuple insertion = (None, 0, 0)             # <<<<<<<<<<<<<<
  *   cdef tuple t1
  *   cdef tuple t2
  */
-  __pyx_tuple__3 = PyTuple_Pack(3, Py_None, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 474, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(3, Py_None, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":218
+  /* "common.pxd":46
+ *     return unicode(s)
+ *   else:
+ *     raise TypeError("wrong argument type, unicode string is expected")             # <<<<<<<<<<<<<<
+ * 
+ * cdef inline bytes utf8_string(s):
+ */
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_wrong_argument_type_unicode_stri); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not C contiguous")             # <<<<<<<<<<<<<<
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 218, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(2, 218, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":222
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":222
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_F_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not Fortran contiguous")             # <<<<<<<<<<<<<<
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 222, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":259
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":259
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 259, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 259, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":799
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")             # <<<<<<<<<<<<<<
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 799, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 799, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":803
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
  *             (child.byteorder == c'<' and not little_endian)):
  *             raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 803, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 803, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":823
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")             # <<<<<<<<<<<<<<
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 823, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "pysimgrid/cscheduling.pyx":358
- * 
+  /* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
  *   Order task according to HEFT ranku.
  */
-  __pyx_tuple__10 = PyTuple_Pack(10, __pyx_n_s_nxgraph, __pyx_n_s_platform_model, __pyx_n_s_mean_speed, __pyx_n_s_mean_bandwidth, __pyx_n_s_mean_latency, __pyx_n_s_task_ranku, __pyx_n_s_task, __pyx_n_s_ecomt_and_rank, __pyx_n_s_child, __pyx_n_s_edge); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 358, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_heft_order, 358, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(10, __pyx_n_s_nxgraph, __pyx_n_s_platform_model, __pyx_n_s_mean_speed, __pyx_n_s_mean_bandwidth, __pyx_n_s_mean_latency, __pyx_n_s_task_ranku, __pyx_n_s_task, __pyx_n_s_ecomt_and_rank, __pyx_n_s_child, __pyx_n_s_edge); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_heft_order, 382, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 382, __pyx_L1_error)
 
-  /* "pysimgrid/cscheduling.pyx":419
+  /* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
  *   """
  *   Give an valid topological order that attempts to prioritize task by given ranking.
  */
-  __pyx_tuple__12 = PyTuple_Pack(13, __pyx_n_s_nxgraph, __pyx_n_s_ranking, __pyx_n_s_state, __pyx_n_s_succ, __pyx_n_s_pred, __pyx_n_s_sorter, __pyx_n_s_ready_nodes, __pyx_n_s_order, __pyx_n_s_scheduled, __pyx_n_s_child, __pyx_n_s_child_active_parents, __pyx_n_s_node, __pyx_n_s_parents); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 419, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_schedulable_order, 419, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(13, __pyx_n_s_nxgraph, __pyx_n_s_ranking, __pyx_n_s_state, __pyx_n_s_succ, __pyx_n_s_pred, __pyx_n_s_sorter, __pyx_n_s_ready_nodes, __pyx_n_s_order, __pyx_n_s_scheduled, __pyx_n_s_child, __pyx_n_s_child_active_parents, __pyx_n_s_node, __pyx_n_s_parents); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_schedulable_order, 447, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -11799,45 +12844,45 @@ PyMODINIT_FUNC PyInit_cscheduling(void)
   __pyx_vtable_9pysimgrid_11cscheduling_PlatformModel.eet = (PyObject *(*)(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *, struct __pyx_obj_9pysimgrid_7csimdag_Task *, struct __pyx_obj_9pysimgrid_9cplatform_Host *, int __pyx_skip_dispatch))__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_eet;
   __pyx_vtable_9pysimgrid_11cscheduling_PlatformModel.parent_data_ready_time = (PyObject *(*)(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *, struct __pyx_obj_9pysimgrid_9cplatform_Host *, struct __pyx_obj_9pysimgrid_7csimdag_Task *, PyObject *, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *, int __pyx_skip_dispatch))__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_parent_data_ready_time;
   __pyx_vtable_9pysimgrid_11cscheduling_PlatformModel.est = (PyObject *(*)(struct __pyx_obj_9pysimgrid_11cscheduling_PlatformModel *, struct __pyx_obj_9pysimgrid_9cplatform_Host *, PyObject *, struct __pyx_obj_9pysimgrid_11cscheduling_SchedulerState *, int __pyx_skip_dispatch))__pyx_f_9pysimgrid_11cscheduling_13PlatformModel_est;
-  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __pyx_type_9pysimgrid_11cscheduling_PlatformModel.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_9pysimgrid_11cscheduling_PlatformModel.tp_dict, __pyx_vtabptr_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "PlatformModel", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_9pysimgrid_11cscheduling_PlatformModel.tp_dict, __pyx_vtabptr_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "PlatformModel", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_PlatformModel) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __pyx_ptype_9pysimgrid_11cscheduling_PlatformModel = &__pyx_type_9pysimgrid_11cscheduling_PlatformModel;
-  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_SchedulerState) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_SchedulerState) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
   __pyx_type_9pysimgrid_11cscheduling_SchedulerState.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "SchedulerState", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_SchedulerState) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SchedulerState", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_SchedulerState) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
   __pyx_ptype_9pysimgrid_11cscheduling_SchedulerState = &__pyx_type_9pysimgrid_11cscheduling_SchedulerState;
   __pyx_vtabptr_9pysimgrid_11cscheduling_MinSelector = &__pyx_vtable_9pysimgrid_11cscheduling_MinSelector;
   __pyx_vtable_9pysimgrid_11cscheduling_MinSelector.update = (PyObject *(*)(struct __pyx_obj_9pysimgrid_11cscheduling_MinSelector *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_9pysimgrid_11cscheduling_11MinSelector_update;
-  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
   __pyx_type_9pysimgrid_11cscheduling_MinSelector.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_9pysimgrid_11cscheduling_MinSelector.tp_dict, __pyx_vtabptr_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "MinSelector", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_9pysimgrid_11cscheduling_MinSelector.tp_dict, __pyx_vtabptr_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "MinSelector", (PyObject *)&__pyx_type_9pysimgrid_11cscheduling_MinSelector) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
   __pyx_ptype_9pysimgrid_11cscheduling_MinSelector = &__pyx_type_9pysimgrid_11cscheduling_MinSelector;
-  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
   __pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order.tp_print = 0;
   __pyx_ptype_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order = &__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct__heft_order;
-  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order) < 0) __PYX_ERR(0, 419, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order) < 0) __PYX_ERR(0, 447, __pyx_L1_error)
   __pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order.tp_print = 0;
   __pyx_ptype_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order = &__pyx_type_9pysimgrid_11cscheduling___pyx_scope_struct_1_schedulable_order;
   /*--- Type import code ---*/
-  __pyx_ptype_9pysimgrid_9cplatform_Host = __Pyx_ImportType("pysimgrid.cplatform", "Host", sizeof(struct __pyx_obj_9pysimgrid_9cplatform_Host), 1); if (unlikely(!__pyx_ptype_9pysimgrid_9cplatform_Host)) __PYX_ERR(2, 61, __pyx_L1_error)
-  __pyx_vtabptr_9pysimgrid_9cplatform_Host = (struct __pyx_vtabstruct_9pysimgrid_9cplatform_Host*)__Pyx_GetVtable(__pyx_ptype_9pysimgrid_9cplatform_Host->tp_dict); if (unlikely(!__pyx_vtabptr_9pysimgrid_9cplatform_Host)) __PYX_ERR(2, 61, __pyx_L1_error)
-  __pyx_ptype_9pysimgrid_7csimdag_Task = __Pyx_ImportType("pysimgrid.csimdag", "Task", sizeof(struct __pyx_obj_9pysimgrid_7csimdag_Task), 1); if (unlikely(!__pyx_ptype_9pysimgrid_7csimdag_Task)) __PYX_ERR(3, 106, __pyx_L1_error)
-  __pyx_vtabptr_9pysimgrid_7csimdag_Task = (struct __pyx_vtabstruct_9pysimgrid_7csimdag_Task*)__Pyx_GetVtable(__pyx_ptype_9pysimgrid_7csimdag_Task->tp_dict); if (unlikely(!__pyx_vtabptr_9pysimgrid_7csimdag_Task)) __PYX_ERR(3, 106, __pyx_L1_error)
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if CYTHON_COMPILING_IN_PYPY
   sizeof(PyTypeObject),
   #else
   sizeof(PyHeapTypeObject),
   #endif
-  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(4, 9, __pyx_L1_error)
-  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(1, 155, __pyx_L1_error)
-  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(1, 168, __pyx_L1_error)
-  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(1, 172, __pyx_L1_error)
-  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(1, 181, __pyx_L1_error)
-  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(1, 861, __pyx_L1_error)
+  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(3, 9, __pyx_L1_error)
+  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(2, 155, __pyx_L1_error)
+  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(2, 168, __pyx_L1_error)
+  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(2, 172, __pyx_L1_error)
+  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(2, 181, __pyx_L1_error)
+  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(2, 861, __pyx_L1_error)
+  __pyx_ptype_9pysimgrid_9cplatform_Host = __Pyx_ImportType("pysimgrid.cplatform", "Host", sizeof(struct __pyx_obj_9pysimgrid_9cplatform_Host), 1); if (unlikely(!__pyx_ptype_9pysimgrid_9cplatform_Host)) __PYX_ERR(4, 61, __pyx_L1_error)
+  __pyx_vtabptr_9pysimgrid_9cplatform_Host = (struct __pyx_vtabstruct_9pysimgrid_9cplatform_Host*)__Pyx_GetVtable(__pyx_ptype_9pysimgrid_9cplatform_Host->tp_dict); if (unlikely(!__pyx_vtabptr_9pysimgrid_9cplatform_Host)) __PYX_ERR(4, 61, __pyx_L1_error)
+  __pyx_ptype_9pysimgrid_7csimdag_Task = __Pyx_ImportType("pysimgrid.csimdag", "Task", sizeof(struct __pyx_obj_9pysimgrid_7csimdag_Task), 1); if (unlikely(!__pyx_ptype_9pysimgrid_7csimdag_Task)) __PYX_ERR(5, 106, __pyx_L1_error)
+  __pyx_vtabptr_9pysimgrid_7csimdag_Task = (struct __pyx_vtabstruct_9pysimgrid_7csimdag_Task*)__Pyx_GetVtable(__pyx_ptype_9pysimgrid_7csimdag_Task->tp_dict); if (unlikely(!__pyx_vtabptr_9pysimgrid_7csimdag_Task)) __PYX_ERR(5, 106, __pyx_L1_error)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/
@@ -11874,35 +12919,35 @@ PyMODINIT_FUNC PyInit_cscheduling(void)
  * 
  * import cplatform             # <<<<<<<<<<<<<<
  * 
- * cimport cplatform
+ * cimport numpy as cnumpy
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_cplatform, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_cplatform, __pyx_t_1) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":358
- * 
+  /* "pysimgrid/cscheduling.pyx":382
+ *   return host.name == MASTER_NAME
  * 
  * def heft_order(object nxgraph, PlatformModel platform_model):             # <<<<<<<<<<<<<<
  *   """
  *   Order task according to HEFT ranku.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_1heft_order, NULL, __pyx_n_s_pysimgrid_cscheduling); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_5heft_order, NULL, __pyx_n_s_pysimgrid_cscheduling); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_heft_order, __pyx_t_1) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_heft_order, __pyx_t_1) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysimgrid/cscheduling.pyx":419
+  /* "pysimgrid/cscheduling.pyx":447
  * 
  * 
  * def schedulable_order(object nxgraph, dict ranking):             # <<<<<<<<<<<<<<
  *   """
  *   Give an valid topological order that attempts to prioritize task by given ranking.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_5schedulable_order, NULL, __pyx_n_s_pysimgrid_cscheduling); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9pysimgrid_11cscheduling_9schedulable_order, NULL, __pyx_n_s_pysimgrid_cscheduling); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_schedulable_order, __pyx_t_1) < 0) __PYX_ERR(0, 419, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_schedulable_order, __pyx_t_1) < 0) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pysimgrid/cscheduling.pyx":1
@@ -11915,7 +12960,7 @@ PyMODINIT_FUNC PyInit_cscheduling(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "../../.local/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":976
+  /* "../../.local/lib/python3.5/site-packages/Cython/Includes/numpy/__init__.pxd":976
  *      arr.base = baseptr
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -13256,6 +14301,209 @@ invalid_keyword:
     return 0;
 }
 
+/* BytesEquals */
+          static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
+#if CYTHON_COMPILING_IN_PYPY
+    return PyObject_RichCompareBool(s1, s2, equals);
+#else
+    if (s1 == s2) {
+        return (equals == Py_EQ);
+    } else if (PyBytes_CheckExact(s1) & PyBytes_CheckExact(s2)) {
+        const char *ps1, *ps2;
+        Py_ssize_t length = PyBytes_GET_SIZE(s1);
+        if (length != PyBytes_GET_SIZE(s2))
+            return (equals == Py_NE);
+        ps1 = PyBytes_AS_STRING(s1);
+        ps2 = PyBytes_AS_STRING(s2);
+        if (ps1[0] != ps2[0]) {
+            return (equals == Py_NE);
+        } else if (length == 1) {
+            return (equals == Py_EQ);
+        } else {
+            int result = memcmp(ps1, ps2, (size_t)length);
+            return (equals == Py_EQ) ? (result == 0) : (result != 0);
+        }
+    } else if ((s1 == Py_None) & PyBytes_CheckExact(s2)) {
+        return (equals == Py_NE);
+    } else if ((s2 == Py_None) & PyBytes_CheckExact(s1)) {
+        return (equals == Py_NE);
+    } else {
+        int result;
+        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
+        if (!py_result)
+            return -1;
+        result = __Pyx_PyObject_IsTrue(py_result);
+        Py_DECREF(py_result);
+        return result;
+    }
+#endif
+}
+
+/* UnicodeEquals */
+          static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
+#if CYTHON_COMPILING_IN_PYPY
+    return PyObject_RichCompareBool(s1, s2, equals);
+#else
+#if PY_MAJOR_VERSION < 3
+    PyObject* owned_ref = NULL;
+#endif
+    int s1_is_unicode, s2_is_unicode;
+    if (s1 == s2) {
+        goto return_eq;
+    }
+    s1_is_unicode = PyUnicode_CheckExact(s1);
+    s2_is_unicode = PyUnicode_CheckExact(s2);
+#if PY_MAJOR_VERSION < 3
+    if ((s1_is_unicode & (!s2_is_unicode)) && PyString_CheckExact(s2)) {
+        owned_ref = PyUnicode_FromObject(s2);
+        if (unlikely(!owned_ref))
+            return -1;
+        s2 = owned_ref;
+        s2_is_unicode = 1;
+    } else if ((s2_is_unicode & (!s1_is_unicode)) && PyString_CheckExact(s1)) {
+        owned_ref = PyUnicode_FromObject(s1);
+        if (unlikely(!owned_ref))
+            return -1;
+        s1 = owned_ref;
+        s1_is_unicode = 1;
+    } else if (((!s2_is_unicode) & (!s1_is_unicode))) {
+        return __Pyx_PyBytes_Equals(s1, s2, equals);
+    }
+#endif
+    if (s1_is_unicode & s2_is_unicode) {
+        Py_ssize_t length;
+        int kind;
+        void *data1, *data2;
+        if (unlikely(__Pyx_PyUnicode_READY(s1) < 0) || unlikely(__Pyx_PyUnicode_READY(s2) < 0))
+            return -1;
+        length = __Pyx_PyUnicode_GET_LENGTH(s1);
+        if (length != __Pyx_PyUnicode_GET_LENGTH(s2)) {
+            goto return_ne;
+        }
+        kind = __Pyx_PyUnicode_KIND(s1);
+        if (kind != __Pyx_PyUnicode_KIND(s2)) {
+            goto return_ne;
+        }
+        data1 = __Pyx_PyUnicode_DATA(s1);
+        data2 = __Pyx_PyUnicode_DATA(s2);
+        if (__Pyx_PyUnicode_READ(kind, data1, 0) != __Pyx_PyUnicode_READ(kind, data2, 0)) {
+            goto return_ne;
+        } else if (length == 1) {
+            goto return_eq;
+        } else {
+            int result = memcmp(data1, data2, (size_t)(length * kind));
+            #if PY_MAJOR_VERSION < 3
+            Py_XDECREF(owned_ref);
+            #endif
+            return (equals == Py_EQ) ? (result == 0) : (result != 0);
+        }
+    } else if ((s1 == Py_None) & s2_is_unicode) {
+        goto return_ne;
+    } else if ((s2 == Py_None) & s1_is_unicode) {
+        goto return_ne;
+    } else {
+        int result;
+        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
+        if (!py_result)
+            return -1;
+        result = __Pyx_PyObject_IsTrue(py_result);
+        Py_DECREF(py_result);
+        return result;
+    }
+return_eq:
+    #if PY_MAJOR_VERSION < 3
+    Py_XDECREF(owned_ref);
+    #endif
+    return (equals == Py_EQ);
+return_ne:
+    #if PY_MAJOR_VERSION < 3
+    Py_XDECREF(owned_ref);
+    #endif
+    return (equals == Py_NE);
+#endif
+}
+
+/* GetItemInt */
+          static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (wraparound & unlikely(i < 0)) i += PyList_GET_SIZE(o);
+    if ((!boundscheck) || likely((0 <= i) & (i < PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (wraparound & unlikely(i < 0)) i += PyTuple_GET_SIZE(o);
+    if ((!boundscheck) || likely((0 <= i) & (i < PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
 /* None */
           static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname) {
     PyErr_Format(PyExc_NameError, "free variable '%s' referenced before assignment in enclosing scope", varname);
@@ -13953,87 +15201,6 @@ bad:
     return 0;
 }
 
-/* GetItemInt */
-              static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyList_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyTuple_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
 /* PyIntBinop */
               #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
@@ -14131,6 +15298,33 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_U
     return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
 }
 #endif
+
+/* decode_c_bytes */
+              static CYTHON_INLINE PyObject* __Pyx_decode_c_bytes(
+         const char* cstring, Py_ssize_t length, Py_ssize_t start, Py_ssize_t stop,
+         const char* encoding, const char* errors,
+         PyObject* (*decode_func)(const char *s, Py_ssize_t size, const char *errors)) {
+    if (unlikely((start < 0) | (stop < 0))) {
+        if (start < 0) {
+            start += length;
+            if (start < 0)
+                start = 0;
+        }
+        if (stop < 0)
+            stop += length;
+    }
+    if (stop > length)
+        stop = length;
+    length = stop - start;
+    if (unlikely(length <= 0))
+        return PyUnicode_FromUnicode(NULL, 0);
+    cstring += start;
+    if (decode_func) {
+        return decode_func(cstring, length, errors);
+    } else {
+        return PyUnicode_Decode(cstring, length, encoding, errors);
+    }
+}
 
 /* RaiseNoneIterError */
               static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {

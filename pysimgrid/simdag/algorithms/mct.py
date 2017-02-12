@@ -36,28 +36,31 @@ class MCT(scheduler.DynamicScheduler):
       h.data = {
         "est": 0.
       }
-    for t in simulation.tasks:
-      t.data = {
-        "target": None
-      }
+    master_hosts = simulation.hosts.by_prop("name", self.MASTER_HOST_NAME)
+    self._master_host = master_hosts[0] if master_hosts else None
+    self._exec_hosts = simulation.hosts.by_prop("name", self.MASTER_HOST_NAME, True)
+    self._target_hosts = {}
+    self._is_free = {}
 
   def schedule(self, simulation, changed):
     for h in simulation.hosts:
-      h.data["free"] = True
+      self._is_free[h] = True
     for task in simulation.tasks[csimdag.TaskState.TASK_STATE_RUNNING, csimdag.TaskState.TASK_STATE_SCHEDULED]:
-      task.hosts[0].data["free"] = False
+      self._is_free[task.hosts[0]] = False
     clock = simulation.clock
-    for t in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
-      if not t.data["target"]:
-        sorted_hosts = simulation.hosts.sorted(lambda h: self.get_ect(clock, t, h))
-        target_host = sorted_hosts[0]
-        t.data["target"] = target_host
-        self._log.debug("%.3f: Scheduling %s to %s (old est: %.3f, new est: %.3f)", simulation.clock, t.name, target_host.name, target_host.data["est"], self.get_ect(clock, t, target_host))
-        target_host.data["est"] = self.get_ect(clock, t, target_host)
-      target_host = t.data["target"]
-      if target_host.data["free"]:
-        t.schedule(target_host)
-        target_host.data["free"] = False
+    for task in simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
+      target_host = self._target_hosts.get(task)
+      if not target_host:
+        if self.is_boundary_task(task) and self._master_host:
+          target_host = self._master_host
+        else:
+          sorted_hosts = self._exec_hosts.sorted(lambda h: self.get_ect(clock, task, h))
+          target_host = sorted_hosts[0]
+        self._target_hosts[task] = target_host
+        target_host.data["est"] = self.get_ect(clock, task, target_host)
+      if self._is_free[target_host]:
+        task.schedule(target_host)
+        self._is_free[target_host] = False
 
   @staticmethod
   def get_ect(clock, task, host):
