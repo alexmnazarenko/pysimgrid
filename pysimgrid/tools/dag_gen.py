@@ -39,7 +39,8 @@ Usage::
                       [--maxdata [MAXDATA [MAXDATA ...]]]
                       [--jump [JUMP [JUMP ...]]] [--fat [FAT [FAT ...]]]
                       [--regular [REGULAR [REGULAR ...]]]
-                      [--density [DENSITY [DENSITY ...]]] [--repeat REPEAT]
+                      [--density [DENSITY [DENSITY ...]]]
+                      [--force_ccr [FORCE-CCR [FORCE-CCR ..]]] [--repeat REPEAT]
                       daggen_path output_dir
 
     Synthetic DAG generator
@@ -139,7 +140,17 @@ def import_daggen(path):
         return _import_daggen(f)
 
 
-def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.5, regular=0.9, density=0.5):
+def apply_force_ccr(graph, target_ccr):
+  if target_ccr:
+    for node in graph:
+      if node in ["root", "end"]:
+        continue
+      input_weight = sum([edge["weight"] for edge in graph.pred[node].values()], 0)
+      graph.node[node]["weight"] = 1. / target_ccr * input_weight * 1024
+  return graph
+
+
+def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.5, regular=0.9, density=0.5, force_ccr=None):
     daggen_path = os.path.normpath(daggen_path)
     params = [
         ("-n", n),
@@ -163,7 +174,8 @@ def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.
     if hasattr(subprocess, "DEVNULL"):
       kwargs["stderr"] = subprocess.DEVNULL
     output = subprocess.check_output(args, **kwargs)
-    return _import_daggen(output.decode("ascii").split("\n"))
+    graph = _import_daggen(output.decode("ascii").split("\n"))
+    return apply_force_ccr(graph, force_ccr)
 
 
 def main():
@@ -178,16 +190,20 @@ def main():
   parser.add_argument("--fat", type=float, nargs="*", default=[0.5], help="dag width (fat -> 1 = high parallelism)")
   parser.add_argument("--regular", type=float, nargs="*", default=[0.9], help="regularity of the distribution of tasks between the different DAG levels")
   parser.add_argument("--density", type=float, nargs="*", default=[0.5], help="determines number of connections between different DAG levels")
+  parser.add_argument("--force_ccr", type=float, nargs="*", default=[], help="if set, enables forced granularity for the tasks (GFlops = k * sum(MBs))")
   parser.add_argument("--repeat", type=int, default=1, help="number of random graphs for each configuration")
 
   args = parser.parse_args()
+  if not args.force_ccr:
+    args.force_ccr = [0.]
+
   if not os.path.exists(args.output_dir):
     os.makedirs(args.output_dir)
 
-  for config in itertools.product(args.count, args.ccr, args.mindata, args.maxdata, args.jump, args.fat, args.regular, args.density):
+  for config in itertools.product(args.count, args.ccr, args.mindata, args.maxdata, args.jump, args.fat, args.regular, args.density, args.force_ccr):
     for repeat_idx in range(args.repeat):
       graph = daggen(args.daggen_path, *config)
-      output_filename = "daggen_%d_%d_%d_%d_%d_%.3f_%.3f_%.3f_%d.dot" % (config + (repeat_idx,))
+      output_filename = "daggen_%d_%d_%d_%d_%d_%.3f_%.3f_%.3f_%.3f_%d.dot" % (config + (repeat_idx,))
 
       print("Generated %s" % output_filename)
       with open(os.path.join(args.output_dir, output_filename), "w") as output_file:
