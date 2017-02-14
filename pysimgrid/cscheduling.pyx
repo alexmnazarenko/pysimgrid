@@ -390,14 +390,16 @@ def heft_order(object nxgraph, PlatformModel platform_model):
   Returns:
     a list of tasks in a HEFT order
   """
-  mean_speed, mean_bandwidth, mean_latency = platform_model.mean_speed, platform_model.mean_bandwidth, platform_model.mean_latency
-  task_ranku = {}
-  for task in networkx.topological_sort(nxgraph, reverse=True):
+  cdef double mean_speed = platform_model.mean_speed
+  cdef double mean_bandwidth = platform_model.mean_bandwidth
+  cdef double mean_latency = platform_model.mean_latency
+  cdef dict task_ranku = {}
+  for idx, task in enumerate(networkx.topological_sort(nxgraph, reverse=True)):
     ecomt_and_rank = [
       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
       for child, edge in nxgraph[task].items()
     ] or [0]
-    task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank)
+    task_ranku[task] = task.amount / mean_speed + max(ecomt_and_rank) + 1
   # use node name as an additional sort condition to deal with zero-weight tasks (e.g. root)
   return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)
 
