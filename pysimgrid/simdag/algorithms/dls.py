@@ -27,111 +27,151 @@ from ..scheduler import StaticScheduler
 
 
 class DLS(StaticScheduler):
+  """
+  Heterogeneous Dynamic Level Scheduler.
+
+  Algorithm is based on heuristics which use Dynamic Level to chose pair - host and task to assign task to this host.
+  DL(Task_X, Host_Y, Timetable) = SL (Task_X) + D (Task_X, Host_Y) - max( DA(Task_X, Host_Y, Timetable), TF(Host_Y, Timetable) )
+
+  SL(Task_X) (Task Static Level) is the largest sum of executions times (calculated using mean speed among all hosts)
+  along any directed path from Task_X to final node (including Task_X execution time)
+
+  TF(Host_Y, Timetable) - time when the last assigned finish execution on Host_Y.
+
+  DA(Task_X, Host_Y, Timetable) - time when all parent tasks of Task_X will be finished and transferred to the Host_Y
+
+  It is more easier to understand  "max( DA(Task_X, Host_Y, Timetable), TF(Host_Y, Timetable) )" as minimal time
+  when we could start Task_X on Host_Y.
+
+  D (Task_X, Host_Y) - difference between time execution of Task_X using mean speed and using Host_Y speed
+
+  Desc:
+  At the beginning of the algorithm find all of tasks which don't have undone parents so they are ready to execute.
+
+  Lets define this as set of tasks as RT and WT as a ser of all other tasks.
+
+  First calculate DL for every pair (Task, Host) where Task from RT and Host from all Hosts.
+
+  Then on every step:
+
+   1. Choose Task and Host with maximal DL and assign this Task to Host (choosing minimal available time to start execution)
+
+   2. Delete assigned Task from RT.
+
+   3. Recalculate DL for every pait (Task, Host) where Task from RT and Host is Host which we choose on the step one
+
+   4. Find new Tasks from WT which don't have undone parents and delete them from WT and add them to RT.
+
+   5. Calculated DL for all pairs : (new Task, Host) new Task - from Tasks added on prev. step, Host from all Hosts.
+
+
+
+  For more details and rationale please refer to the original publication:
+
+    Gilbert C. Sih, Edward A. Lee "A Compile-Time Scheduling Heuristic for Interconnection-Constrained Heterogeneous Processor Architectures",
+    Transactions on Parallel and Distributed Systems (IEEE) 1993
+
+  """
+  def get_schedule(self, simulation):
     """
-    Heterogeneous Dynamic Level Scheduler.
-
-
-    For more details and rationale please refer to the original publication:
-
-      Author "A Compile-Time Scheduling Heuristic for Interconnection-Constrained Heterogeneous Processor Architectures",
-      ??? (IEEE) 1993
+    Overridden.
     """
+    nxgraph = simulation.get_task_graph()
+    platform_model = cscheduling.PlatformModel(simulation)
+    state = cscheduling.SchedulerState(simulation)
 
-    def get_schedule(self, simulation):
-        """
-        Overridden.
-        """
-        nxgraph = simulation.get_task_graph()
-        platform_model = cscheduling.PlatformModel(simulation)
-        state = cscheduling.SchedulerState(simulation)
+    mean_speed = platform_model.mean_speed
+    aec, sl = self.get_tasks_sl_aec(nxgraph, platform_model)
+    # Maximal Static Level which may occurs, using to  deleted or not available)
+    ureal_dl = 1 + max(sl.items(), key=operator.itemgetter(1))[1] + max(aec.items(), key=operator.itemgetter(1))[1]
+    dl = {host: {task: ureal_dl for task in nxgraph} for host in simulation.hosts}
+    undone_parents = {task: len(nxgraph.pred[task]) for task in nxgraph}
+    waiting_tasks = set(nxgraph)
+    queue_tasks = set()
+    for task in nxgraph:
+      if undone_parents[task] == 0:
+        for host in simulation.hosts:
+          dl[host][task] = sl[task] + (task.amount / mean_speed - task.amount / host.speed)
+        waiting_tasks.remove(task)
+        queue_tasks.add(task)
 
-        mean_speed = platform_model.mean_speed
-        aec, sl = self.get_tasks_sl_aec(nxgraph, platform_model)
-        # Maximal Static Level which may occurs, using to  deleted or not available)
-        UNREAL_DL = max(sl.items(), key=operator.itemgetter(1))[1] + max(aec.items(), key=operator.itemgetter(1))[1]
-        # print(UNREAL_DL)
-        dl = {host: {task: UNREAL_DL for task in nxgraph} for host in simulation.hosts}
-        undone_parents = {task: len(nxgraph.pred[task]) for task in nxgraph}
-        # print (simulation.hosts)
-        for task in nxgraph:
-            if undone_parents[task] == 0:
-                for host in simulation.hosts:
-                    dl[host][task] = sl[task] + (task.amount / mean_speed - task.amount / host.speed)
-                    # print (host, task, dl[host][task], task.amount, platform_model.est(host, nxgraph.pred[task], state))
+    for iterations in range(len(nxgraph)):
+      cur_max = ureal_dl
+      task_to_schedule = -1
+      host_to_schedule = -1
+      for host in simulation.hosts:
+        for task in queue_tasks:
+          if dl[host][task] == ureal_dl:
+            continue
+          if cur_max == ureal_dl or dl[host][task] > cur_max:
+            cur_max = dl[host][task]
+            host_to_schedule = host
+            task_to_schedule = task
 
-        not_scheduled_tasks = set(nxgraph)
-        for iterations in range(len(nxgraph)):
-            cur_max = UNREAL_DL
-            task_to_schedule = -1
-            host_to_schedule = -1
-            for host in simulation.hosts:
-                for task in nxgraph:
-                    if dl[host][task] == UNREAL_DL:
-                        continue
-                    if cur_max == UNREAL_DL or dl[host][task] > cur_max:
-                        cur_max = dl[host][task]
-                        host_to_schedule = host
-                        task_to_schedule = task
+      assert (cur_max != ureal_dl)
 
-            assert (cur_max != UNREAL_DL)
-            # print(cur_max, task_to_schedule, host_to_schedule)
-            est = platform_model.est(host_to_schedule, nxgraph.pred[task_to_schedule], state)
-            eet = platform_model.eet(task_to_schedule, host_to_schedule)
-            timesheet = state.timetable[host_to_schedule]
-            pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-            # print(est, eet, start)
-            state.update(task_to_schedule, host_to_schedule, pos, start, finish)
-            for child, edge in nxgraph[task_to_schedule].items():
-                undone_parents[child] -= 1
-                if undone_parents[child] == 0:
-                    for host in simulation.hosts:
-                        est = platform_model.est(host, nxgraph.pred[child], state)
-                        eet = platform_model.eet(child, host)
-                        timesheet = state.timetable[host]
-                        pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-                        dl[host][child] = sl[child] + (child.amount / mean_speed - child.amount / host.speed) - start
+      est = platform_model.est(host_to_schedule, nxgraph.pred[task_to_schedule], state)
+      eet = platform_model.eet(task_to_schedule, host_to_schedule)
+      timesheet = state.timetable[host_to_schedule]
+      pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+      state.update(task_to_schedule, host_to_schedule, pos, start, finish)
 
-            for host in simulation.hosts:
-                dl[host][task_to_schedule] = UNREAL_DL
+      new_tasks = set()
+      for child, edge in nxgraph[task_to_schedule].items():
+        undone_parents[child] -= 1
+        if undone_parents[child] == 0:
+          new_tasks.add(child)
+          for host in simulation.hosts:
+            dl[host][child] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, child, host)
+      
+      for host in simulation.hosts:
+          dl[host][task_to_schedule] = ureal_dl
 
-            not_scheduled_tasks.remove(task_to_schedule)
+      queue_tasks.remove(task_to_schedule)
 
-            for task in not_scheduled_tasks:
-                if undone_parents[task] == 0:
-                    est = platform_model.est(host_to_schedule, nxgraph.pred[task], state)
-                    eet = platform_model.eet(task, host_to_schedule)
-                    timesheet = state.timetable[host_to_schedule]
-                    pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-                    dl[host_to_schedule][task] = sl[task] + (
-                    task.amount / mean_speed - task.amount / host_to_schedule.speed) - start
+      for task in queue_tasks:
+        if undone_parents[task] == 0:
+          dl[host_to_schedule][task] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, task, host_to_schedule)
 
-        return state.schedule
+      for task in new_tasks:
+        waiting_tasks.remove(task)
+        queue_tasks.add(task)
 
-    @classmethod
-    def get_tasks_sl_aec(cls, nxgraph, platform_model):
-        """
-        Return Average Execution Cost and Static Level for every task.
+    return state.schedule
 
-        Args:
-          nxgraph: full task graph as networkx.DiGraph
-          platform_model: cscheduling.PlatformModel object
+  @classmethod
+  def calculate_dl(cls, nxgraph, platform_model, state, sl, aec, task, host):
+    est = platform_model.est(host, nxgraph.pred[task], state)
+    eet = platform_model.eet(task, host)
+    timesheet = state.timetable[host]
+    pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+    return sl[task] + (aec[task] - task.amount / host.speed) - start
 
-        Returns:
-            aec: task->aec_value
-            sl: task->static_level_value
-        """
-        mean_speed = platform_model.mean_speed
-        topological_order = networkx.topological_sort(nxgraph, reverse=True)
+  @classmethod
+  def get_tasks_sl_aec(cls, nxgraph, platform_model):
+    """
+    Return Average Execution Cost and Static Level for every task.
 
-        # Average execution cost
-        aec = {task: float(task.amount) / mean_speed for task in nxgraph}
+    Args:
+      nxgraph: full task graph as networkx.DiGraph
+      platform_model: cscheduling.PlatformModel object
 
-        sl = {task: aec[task] for task in nxgraph}
+    Returns:
+        aec: task->aec_value
+        sl: task->static_level_value
+    """
+    mean_speed = platform_model.mean_speed
+    topological_order = networkx.topological_sort(nxgraph, reverse=True)
 
-        # Static Level
-        for task in topological_order:
-            for parent in nxgraph.pred[task]:
-                sl[parent] = max(sl[parent], sl[task] + aec[parent])
+    # Average execution cost
+    aec = {task: float(task.amount) / mean_speed for task in nxgraph}
 
-        return aec, sl
+    sl = {task: aec[task] for task in nxgraph}
+
+    # Static Level
+    for task in topological_order:
+      for parent in nxgraph.pred[task]:
+        sl[parent] = max(sl[parent], sl[task] + aec[parent])
+
+    return aec, sl
 
