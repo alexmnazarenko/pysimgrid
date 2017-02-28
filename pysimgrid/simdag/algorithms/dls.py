@@ -82,9 +82,9 @@ class DLS(StaticScheduler):
 
     mean_speed = platform_model.mean_speed
     aec, sl = self.get_tasks_sl_aec(nxgraph, platform_model)
-    # Maximal Static Level which may occurs, using to  deleted or not available)
-    ureal_dl = 1 + max(sl.items(), key=operator.itemgetter(1))[1] + max(aec.items(), key=operator.itemgetter(1))[1]
-    dl = {host: {task: ureal_dl for task in nxgraph} for host in simulation.hosts}
+    # unreal dynamic level - used to mark deleted on not set values in a queue
+    unreal_dl = 1 + max(sl.items(), key=operator.itemgetter(1))[1] + max(aec.items(), key=operator.itemgetter(1))[1]
+    dl = {host: {task: unreal_dl for task in nxgraph} for host in simulation.hosts}
     undone_parents = {task: len(nxgraph.pred[task]) for task in nxgraph}
     waiting_tasks = set(nxgraph)
     queue_tasks = set()
@@ -96,25 +96,26 @@ class DLS(StaticScheduler):
         queue_tasks.add(task)
 
     for iterations in range(len(nxgraph)):
-      cur_max = ureal_dl
+      cur_max = unreal_dl
       task_to_schedule = -1
       host_to_schedule = -1
       for host in simulation.hosts:
         for task in queue_tasks:
-          if dl[host][task] == ureal_dl:
+          if dl[host][task] == unreal_dl:
             continue
-          if cur_max == ureal_dl or dl[host][task] > cur_max:
+          if cur_max == unreal_dl or dl[host][task] > cur_max:
             cur_max = dl[host][task]
             host_to_schedule = host
             task_to_schedule = task
 
-      assert (cur_max != ureal_dl)
+      assert (cur_max != unreal_dl)
 
-      est = platform_model.est(host_to_schedule, nxgraph.pred[task_to_schedule], state)
-      eet = platform_model.eet(task_to_schedule, host_to_schedule)
-      timesheet = state.timetable[host_to_schedule]
-      pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-      state.update(task_to_schedule, host_to_schedule, pos, start, finish)
+      if cscheduling.try_schedule_boundary_task(task_to_schedule, platform_model, state) == False:
+          est = platform_model.est(host_to_schedule, nxgraph.pred[task_to_schedule], state)
+          eet = platform_model.eet(task_to_schedule, host_to_schedule)
+          timesheet = state.timetable[host_to_schedule]
+          pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+          state.update(task_to_schedule, host_to_schedule, pos, start, finish)
 
       new_tasks = set()
       for child, edge in nxgraph[task_to_schedule].items():
@@ -125,7 +126,7 @@ class DLS(StaticScheduler):
             dl[host][child] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, child, host)
       
       for host in simulation.hosts:
-          dl[host][task_to_schedule] = ureal_dl
+          dl[host][task_to_schedule] = unreal_dl
 
       queue_tasks.remove(task_to_schedule)
 
