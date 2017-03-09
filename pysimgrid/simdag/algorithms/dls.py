@@ -140,7 +140,8 @@ class DLS(StaticScheduler):
         waiting_tasks.remove(task)
         queue_tasks.add(task)
 
-    return state.schedule
+    expected_makespan = max([state["ect"] for state in state.task_states.values()])
+    return state.schedule, expected_makespan
 
   @classmethod
   def calculate_dl(cls, nxgraph, platform_model, state, sl, aec, task, host):
