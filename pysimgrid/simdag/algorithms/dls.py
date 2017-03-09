@@ -100,6 +100,8 @@ class DLS(StaticScheduler):
       task_to_schedule = -1
       host_to_schedule = -1
       for host in simulation.hosts:
+        if cscheduling.is_master_host(host):
+          continue
         for task in queue_tasks:
           if dl[host][task] == ureal_dl:
             continue
