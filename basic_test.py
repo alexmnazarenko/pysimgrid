@@ -53,7 +53,8 @@ class SimpleDynamic(simdag.DynamicScheduler):
 _SCHEDULERS = {
   "MinMin": algorithms.BatchMin,
   "MaxMin": algorithms.BatchMax,
-  "sufferage": algorithms.BatchSufferage,
+  "Sufferage": algorithms.BatchSufferage,
+  "DLS": algorithms.DLS,
   "RandomSchedule": algorithms.RandomStatic,
   "SimpleDynamic": SimpleDynamic,
   "MCT": algorithms.MCT,

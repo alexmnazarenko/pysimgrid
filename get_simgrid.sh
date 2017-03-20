@@ -17,4 +17,4 @@ mkdir "$PKG_ROOT/build"
 echo "Configure..."
 (cd "$PKG_ROOT/build" && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX="$PKG_ROOT" ../src/SimGrid-3.13)
 echo "Build..."
-(cd "$PKG_ROOT/build" && make -j12 install)
+(cd "$PKG_ROOT/build" && make -j4 install)
