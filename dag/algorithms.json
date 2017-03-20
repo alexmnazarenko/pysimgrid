@@ -1,5 +1,9 @@
 [
   {
+    "class": "pysimgrid.simdag.algorithms.DLS",
+    "name": "DLS"
+  },
+  {
     "class": "pysimgrid.simdag.algorithms.HCPT",
     "name": "HCPT"
   },
