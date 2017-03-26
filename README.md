@@ -108,25 +108,23 @@ python3 run_tests.py
 FAQ
 ===
 
-1. Where to get platform definition files? They look scary.
------------------------------------------------------------
+#### 1. Where to get platform definition files? They look scary.
 
 SimGrid source distribution contains quite a few of platform examples of different complexity and scale.
 
 
-2. Where to get some ready DAGs?
---------------------------------
+#### 2. Where to get some ready DAGs?
 
 * Pegasus workflows, DAX format  
     * See [Pegasus Workfow Generator](https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator)
     * Direct download (warning: ~400Mb) [[link](https://download.pegasus.isi.edu/misc/SyntheticWorkflows.tar.gz)]
 
 
-3. What about multi-core tasks?
--------------------------------
+#### 3. What about multi-core tasks?
 
 They are not supported for now. Two main reasons:
 
 * Existing SimGrid task parsers do not support them, so you need custom task format to even setup this.
 * There are some [discouraging words](http://simgrid.gforge.inria.fr/simgrid/latest/doc/platform.html#pf_Cr)
 in SimGrid documentation about validity of such simulation.
+* API seems to be "in progress"
