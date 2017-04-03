@@ -77,17 +77,28 @@ def run_simulation(scheduler):
 
 def main():
   # single run in current process mode, used for profiling
-  if False:
+  if True:
     #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-    with simdag.Simulation("test/data/pl_4hosts_master.xml", "test/data/basic_graph.dot") as simulation:
-    #with simdag.Simulation("test/data/pl_4hosts.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+    with simdag.Simulation("dag2/plat_exp1/cluster_5_1-4_100_100_0.xml", "dag2/tasks_exp1/CyberShake_100.xml") as simulation:
+    #with simdag.Simulation("/home/panda/devel/simgrid_experiments/dag2/plat_exp2/cluster_10_1-4_100_100_0.xml",
+    #"/home/panda/devel/simgrid_experiments/dag2_fromwork_14_02_17/tasks_exp2/daggen_100_0_2048_11264_2_0.800_0.900_0.100_10.000_35.dot") as simulation:
+    #with simdag.Simulation("dag2/plat_exp1/cluster_5_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.2.dot") as simulation:
     #with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
       #graph = simulation.get_task_graph()
-      #scheduler = heft.HEFTScheduler(simulation)
-      scheduler = algorithms.BatchSufferage(simulation)
-      #scheduler = peft.PEFTScheduler(simulation)
+      scheduler = algorithms.HEFT(simulation)
+      #scheduler = algorithms.DLS(simulation)
+      #scheduler = algorithms.HCPT(simulation)
+      #scheduler = algorithms.Lookahead(simulation)
+      #scheduler = algorithms.OLB(simulation)
+      #scheduler = algorithms.BatchMin(simulation)
+      #scheduler = algorithms.PEFT(simulation)
+      #scheduler = algorithms.SimHEFT(simulation)
       scheduler.run()
+      for t in simulation.tasks.sorted(lambda t: t.start_time):
+        print(t.name, t.start_time, t.finish_time, t.hosts[0].name)
       print(scheduler.scheduler_time, scheduler.total_time)
+      print("EXEC", sum([(t.finish_time - t.start_time) for t in simulation.tasks]))
+      print("COMM", sum([(t.finish_time - t.start_time) for t in simulation.connections]))
     return
   # example: how to run multiple simulations in a single script (circumventing SimGrid limitation of 'non-restartable' simulator state)
   for scheduler in _SCHEDULERS.keys():

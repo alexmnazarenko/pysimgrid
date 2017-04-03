@@ -289,6 +289,16 @@ cdef class SchedulerState(object):
     """
     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
 
+  @property
+  def max_time(self):
+    """
+    Get a finish time of a last scheduled task in a state.
+
+    Returns NaN if no tasks are scheduled.
+    """
+    finish_times = [s["ect"] for s in self._task_states.values() if numpy.isfinite(s["ect"])]
+    return numpy.nan if not finish_times else max(finish_times)
+
   def update(self, csimdag.Task task, cplatform.Host host, int pos, double start, double finish):
     """
     Update timetable for a given host.

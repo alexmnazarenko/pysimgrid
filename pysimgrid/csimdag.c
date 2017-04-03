@@ -4,23 +4,23 @@
 {
     "distutils": {
         "depends": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/simgrid/simdag.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/dict.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/dynar.h",
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include/xbt/log.h"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/simgrid/simdag.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/dict.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/dynar.h",
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include/xbt/log.h"
         ],
         "include_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/include",
-            "/home/alexey.nazarenko/.local/lib/python3.4/site-packages/numpy/core/include"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/include",
+            "/home/panda/.local/lib/python3.5/site-packages/numpy/core/include"
         ],
         "libraries": [
             "simgrid"
         ],
         "library_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/lib"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/lib"
         ],
         "runtime_library_dirs": [
-            "/home/alexey.nazarenko/devel/schedule/opt/SimGrid/lib"
+            "/home/panda/devel/simgrid_experiments/opt/SimGrid/lib"
         ]
     },
     "module_name": "pysimgrid.csimdag"
@@ -1207,7 +1207,7 @@ static const char __pyx_k_host_instance_is_invalid[] = "host instance is invalid
 static const char __pyx_k_TASK_KIND_COMP_PAR_AMDAHL[] = "TASK_KIND_COMP_PAR_AMDAHL";
 static const char __pyx_k_SimGrid_SimDAG_API_wrappers_Min[] = "\nSimGrid/SimDAG API wrappers.\n\nMinimal usability improvements over the actual C API,\nfor actual simulation it is better to use :class:`pysimgrid.simdag.Simulation`.\n";
 static const char __pyx_k_TASK_KIND_COMM_PAR_MXN_1D_BLOCK[] = "TASK_KIND_COMM_PAR_MXN_1D_BLOCK";
-static const char __pyx_k_home_alexey_nazarenko_devel_sch[] = "/home/alexey.nazarenko/devel/schedule/pysimgrid/csimdag.pyx";
+static const char __pyx_k_home_panda_devel_simgrid_experi[] = "/home/panda/devel/simgrid_experiments/pysimgrid/csimdag.pyx";
 static const char __pyx_k_Unable_to_determine_task_file_fo[] = "Unable to determine task file format";
 static const char __pyx_k_cannot_estimate_communication_ti[] = "cannot estimate communication time for untyped task";
 static const char __pyx_k_cannot_estimate_execution_time_f[] = "cannot estimate execution time for untyped task";
@@ -1281,7 +1281,7 @@ static PyObject *__pyx_n_s_ext;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_get_clock;
-static PyObject *__pyx_kp_s_home_alexey_nazarenko_devel_sch;
+static PyObject *__pyx_kp_s_home_panda_devel_simgrid_experi;
 static PyObject *__pyx_kp_s_host_instance_is_invalid;
 static PyObject *__pyx_n_s_hosts_count;
 static PyObject *__pyx_n_s_how_long;
@@ -6722,7 +6722,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_get_clock, __pyx_k_get_clock, sizeof(__pyx_k_get_clock), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_k_home_alexey_nazarenko_devel_sch, sizeof(__pyx_k_home_alexey_nazarenko_devel_sch), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_k_home_panda_devel_simgrid_experi, sizeof(__pyx_k_home_panda_devel_simgrid_experi), 0, 0, 1, 0},
   {&__pyx_kp_s_host_instance_is_invalid, __pyx_k_host_instance_is_invalid, sizeof(__pyx_k_host_instance_is_invalid), 0, 0, 1, 0},
   {&__pyx_n_s_hosts_count, __pyx_k_hosts_count, sizeof(__pyx_k_hosts_count), 0, 0, 1, 1},
   {&__pyx_n_s_how_long, __pyx_k_how_long, sizeof(__pyx_k_how_long), 0, 0, 1, 1},
@@ -6905,7 +6905,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__12 = PyTuple_Pack(3, __pyx_n_s_argc, __pyx_n_s_argcp, __pyx_n_s_argv0); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_initialize, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_initialize, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 81, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":95
  * 
@@ -6917,7 +6917,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__14 = PyTuple_Pack(4, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s_ckey, __pyx_n_s_cvalue); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_config, 95, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_config, 95, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 95, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":104
  * 
@@ -6929,7 +6929,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__16 = PyTuple_Pack(2, __pyx_n_s_config_string, __pyx_n_s_cvalue); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_log_config, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_log_config, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 104, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":112
  * 
@@ -6941,7 +6941,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__18 = PyTuple_Pack(3, __pyx_n_s_path, __pyx_n_s_utf8path, __pyx_n_s_hosts_count); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_load_platform, 112, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_load_platform, 112, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 112, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":124
  * 
@@ -6953,7 +6953,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__21 = PyTuple_Pack(7, __pyx_n_s_path, __pyx_n_s_format, __pyx_n_s_result, __pyx_n_s_utf8path, __pyx_n_s__20, __pyx_n_s_ext, __pyx_n_s_loaded_tasks); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_load_tasks, 124, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_load_tasks, 124, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 124, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":155
  * 
@@ -6965,7 +6965,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__23 = PyTuple_Pack(2, __pyx_n_s_how_long, __pyx_n_s_changed_tasks); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_simulate, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_simulate, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 155, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":169
  * 
@@ -6974,7 +6974,7 @@ static int __Pyx_InitCachedConstants(void) {
  *   """
  *   Get current simulation clock.
  */
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_get_clock, 169, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_get_clock, 169, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 169, __pyx_L1_error)
 
   /* "pysimgrid/csimdag.pyx":176
  * 
@@ -6983,7 +6983,7 @@ static int __Pyx_InitCachedConstants(void) {
  *   """
  *   Finalize simulator operation.
  */
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_alexey_nazarenko_devel_sch, __pyx_n_s_exit, 176, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_panda_devel_simgrid_experi, __pyx_n_s_exit, 176, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 176, __pyx_L1_error)
 
   /* "EnumBase":28
  * class __Pyx_EnumBase(int):

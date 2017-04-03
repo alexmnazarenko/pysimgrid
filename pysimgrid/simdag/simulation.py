@@ -122,6 +122,13 @@ class Simulation(object):
     return _InstanceList(self.__hosts)
 
   @property
+  def platform_path(self):
+    """
+    Get path to platform definition file.
+    """
+    return self.__platform_src
+
+  @property
   def clock(self):
     """
     Get current SimGrid clock.
