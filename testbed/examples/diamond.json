@@ -1,0 +1,74 @@
+[
+    {
+        "id": "A",
+        "spec": {
+            "command": "cat input",
+            "inputData": [
+                {
+                    "path": "input",
+                    "uri": "http://parallel.ru/sites/default/files/tech/tech_dev/MPI%26OpenMP/example10a.c"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["stdout"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "B",
+        "spec": {
+            "command": "grep MPI outputA",
+            "inputData": [
+                {
+                    "path": "outputA",
+                    "uri": "$A.stdout"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["stdout"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "C",
+        "spec": {
+            "command": "grep Send outputA",
+            "inputData": [
+                {
+                    "path": "outputA",
+                    "uri": "$A.stdout"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["stdout"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "D",
+        "spec": {
+            "command": "cat outputB outputC",
+            "inputData": [
+                {
+                    "path": "outputB",
+                    "uri": "$B.stdout"
+                },
+                {
+                    "path": "outputC",
+                    "uri": "$C.stdout"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["stdout"]
+                }
+            ]
+        }
+    }
+]

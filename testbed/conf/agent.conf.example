@@ -1,0 +1,61 @@
+{
+  "resource": {
+    "tasksDir": "tasks",
+    "taskHandler": {
+      "type": "local"
+    },
+    "maxTasks": 1,
+    "checkTime": 0,
+    "utilityPoolSize": null,
+    "keepTaskDir": true,
+    "attributes": {
+    }
+  },
+  "protocol": {
+    "activeMode": {
+      "enabled": false,
+      "serverURI": "wss://everest.distcomp.org/compute/agent/v1",
+      "agentToken": "AGENTTOKEN"
+    },
+    "passiveMode": {
+      "enabled": true,
+      "agentPort": 8891,
+      "clientTokens": ["12345"],
+      "uploadDir": "upload"
+    },
+    "http": {
+      "maxUploadSize": 200000000,
+      "cacheDir" : "cache",
+      "maxCacheSize" : 200000000
+    },
+    "resourceInfoPeriod": 10,
+    "pingPeriod": 10,
+    "pongTimeout": 60
+  },
+  "security": {
+    "allowedCommands": [".*"]
+  },
+  "logging": {
+    "logDir": "log",
+    "level": "DEBUG",
+    "rotate": true,
+    "maxSize": 1000000,
+    "backupCount": 10
+  },
+  "controlAPI": {
+    "enabled": false,
+    "port": 8800
+  },
+  "taskProtocol": {
+    "enabled": false,
+    "port": 9999
+  },
+  "proxy": {
+    "enabled" : false,
+    "frontendURI" : "ws://localhost:4499/ws",
+    "backendToken" : "BACKENDTOKEN"
+  },
+  "gui": {
+    "autostartAgent": false
+  }
+}

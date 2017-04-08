@@ -1,0 +1,20 @@
+[
+    {
+        "id": "host0",
+        "endpoint": "localhost:8891",
+        "token": "12345",
+        "speed": 5.0
+    },
+    {
+        "id": "host1",
+        "endpoint": "localhost:8892",
+        "token": "12345",
+        "speed": 10.0
+    },
+    {
+        "id": "host2",
+        "endpoint": "localhost:8893",
+        "token": "12345",
+        "speed": 1.5
+    }
+]

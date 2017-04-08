@@ -1,0 +1,66 @@
+[
+    {
+        "id": "root",
+        "spec": {
+            "command": "synthetic_task.py 0 out_1:1 out_2:10",
+            "inputData": [],
+            "outputData": [
+                {
+                    "paths": ["out_1", "out_2"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "task_1",
+        "spec": {
+            "command": "synthetic_task.py 10 out_1:0.5",
+            "inputData": [
+                {
+                    "path": "in_1",
+                    "uri": "$root.out_1"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["out_1"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "task_2",
+        "spec": {
+            "command": "synthetic_task.py 5 out_1:8",
+            "inputData": [
+                {
+                    "path": "in_2",
+                    "uri": "$root.out_2"
+                }
+            ],
+            "outputData": [
+                {
+                    "paths": ["out_1"]
+                }
+            ]
+        }
+    },
+    {
+        "id": "end",
+        "spec": {
+            "command": "synthetic_task.py 0",
+            "inputData": [
+                {
+                    "path": "in_1",
+                    "uri": "$task_1.out_1"
+                },
+                {
+                    "path": "in_2",
+                    "uri": "$task_2.out_1"
+                }
+            ],
+            "outputData": [
+            ]
+        }
+    }
+]
