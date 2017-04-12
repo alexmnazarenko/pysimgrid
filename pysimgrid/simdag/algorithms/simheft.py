@@ -128,7 +128,6 @@ class SimHEFT(scheduler.StaticScheduler):
     # fork context is incompatible with SimGrid static variables
     ctx = multiprocessing.get_context("spawn")
     for task in ordered_tasks:
-      print("SCHEDULING", task.name)
       _update_subgraph(nxgraph, subgraph, task)
       if cscheduling.try_schedule_boundary_task(task, platform_model, state):
         continue

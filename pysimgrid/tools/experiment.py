@@ -61,7 +61,35 @@ import os
 import textwrap
 import time
 import traceback
+
 from .. import simdag
+
+
+# Weird, but necessary workaround to use nested multiprocessing.
+#
+# Usecase: 
+# * experiment tool uses process per experiment
+# * some algorithms use processes to run SimGrid to assess partial schedules
+#
+
+import multiprocessing.pool
+
+
+class NoDaemonProcess(multiprocessing.context.SpawnProcess):
+    @property
+    def daemon(self):
+        return True
+
+    @daemon.setter
+    def daemon(self, value):
+        pass
+
+
+class NoDaemonPool(multiprocessing.pool.Pool):
+    Process = NoDaemonProcess
+
+######################
+
 
 def file_list(file_or_dir, masks=["*"]):
   if not os.path.exists(file_or_dir):
@@ -221,7 +249,7 @@ def main():
   #    'fork' doesn't lead to the reinit
   #    SimGrid crashes on unitialized TLS
   ctx = multiprocessing.get_context("spawn")
-  with ctx.Pool(processes=args.jobs, maxtasksperchild=1) as pool:
+  with NoDaemonPool(processes=args.jobs, maxtasksperchild=1, context=ctx) as pool:
     for job, makespan, exec_time, comm_time, sched_time, exp_makespan in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
       platform, tasks, algorithm, _ = job
       results.append({
