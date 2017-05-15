@@ -34,5 +34,9 @@
   {
     "class": "pysimgrid.simdag.algorithms.RoundRobinStatic",
     "name": "RoundRobin"
+  },
+  {
+    "class": "pysimgrid.simdag.algorithms.LDCP",
+    "name": "LDCP"
   }
 ]

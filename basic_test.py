@@ -62,7 +62,8 @@ _SCHEDULERS = {
   "HCPT": algorithms.HCPT,
   "HEFT": algorithms.HEFT,
   "Lookahead": algorithms.Lookahead,
-  "PEFT": algorithms.PEFT
+  "PEFT": algorithms.PEFT,
+  "LDCP": algorithms.LDCP
 }
 
 
