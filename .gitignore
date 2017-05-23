@@ -2,3 +2,10 @@
 /**/build*
 # dependencies
 /opt
+*.so
+# Cache
+**/__pycache__
+# macOS service files
+**/.DS_Store
+# Developers tools service files
+.idea
