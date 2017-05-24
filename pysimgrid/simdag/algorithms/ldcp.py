@@ -20,6 +20,7 @@ import networkx
 from ... import cscheduling
 import operator
 from ..scheduler import StaticScheduler
+from queue import Queue
 
 
 class LDCP(StaticScheduler):
@@ -60,7 +61,8 @@ class LDCP(StaticScheduler):
     """
     :return: list of hosts in simulation system
     """
-    return self._simulation.hosts
+    container_type = type(self._simulation.hosts)
+    return container_type(host for host in self._simulation.hosts if not cscheduling.is_master_host(host))
 
   @property
   def mean_bandwidth(self):
@@ -96,7 +98,7 @@ class LDCP(StaticScheduler):
   def timesheet_to_tasks(timesheet):
     """
     :param timesheet: timesheet of scheduled tasks for some host: [(task, start, finish), ...]
-    :return: list of tasks obtained by removing start and finish times: [task1, task2, ...]
+    :return: generator of tasks obtained by removing start and finish times: [task1, task2, ...]
     """
     return map(operator.itemgetter(0), timesheet)
 
@@ -114,7 +116,7 @@ class LDCP(StaticScheduler):
       self.update_size_wrt_selected_task()
       self.update_communications_costs()
       self.update_execution_constraints()
-      self.update_zero_cost_edges_on_dagp_wrt_selected_processor()
+      self.update_zero_cost_edges_on_dagp_wrt_selected_host()
       self.update_urank()
     expected_makespan = max(state['ect'] for state in self._state.task_states.values())
     return self._state.schedule, expected_makespan
@@ -125,16 +127,19 @@ class LDCP(StaticScheduler):
     :param host: host, which DAGP is used to compute URAS of task
     :param use_only_unscheduled: boolean keyword param, that is True, when it is only unscheduled successors are
       considered, otherwise False. Defaults to False.
-    :return: pair (uras, urank), where uras is a node in DAGP[host] with maximal sum of URank and communication cost
+    :return: for input and internal nodes: pair (uras, urank), where uras is a node in DAGP[host]
+      with maximal sum of URank and communication cost; (None, 0) for nodes without successors
     """
     graph = self._dagp[host]
     successors = set(graph.successors(task))
     if use_only_unscheduled:
       successors.intersection_update(self._unscheduled_tasks)
-    uras, uras_term = max(
-      ((child, graph.edge[task][child]['weight'] / self._bandwidth + self._urank[host][child]) for child in successors),
-      key=self.pair_to_value
-    ) if len(successors) > 0 else (None, 0.)
+    successors_with_communication_cost_and_urank = (
+      (child, graph.edge[task][child]['weight'] / self._bandwidth + self._urank[host][child])
+      for child in successors
+    )
+    uras, uras_term = max(successors_with_communication_cost_and_urank, key=self.pair_to_value) if len(successors) > 0 \
+      else (None, 0.)
     return uras, uras_term
 
   def update_urank(self, initial=False):
@@ -150,26 +155,35 @@ class LDCP(StaticScheduler):
         _, uras_term = self.get_uras_with_term(task, host)
         self._urank[host][task] = self._dagp[host].node[task]['size'] + uras_term
 
-  def get_schedulable_predecessors(self, node, graph):
+  def get_node_predecessors(self, graph, node, condition=None):
     """
-    :param node: node which predecessors are needed
+    Generator, that yields predecessors of node in directed acyclic graph.
+    :param graph: graph in which successors are obtained
+    :param node: node whose predecessors are needed
+    :param condition: if not None, then only nodes satisfying specified condition are considered,
+      else all nodes are active. Defaults to None.
+    :return: yields node predecessors of node in graph
+    """
+    visited, queue = set(), Queue()
+    queue.put_nowait(node)
+    while not queue.empty():
+      node = queue.get_nowait()
+      for pred in graph.predecessors(node):
+        if pred not in visited:
+          if condition is None or condition(pred):
+            yield pred
+            queue.put_nowait(pred)
+          visited.add(pred)
+
+  def get_schedulable_predecessors(self, graph, node):
+    """
     :param graph: DAGP in consideration
-    :return: set of nodes in graph corresponding to unscheduled tasks, which are predecessors of specified node and
-      has no unscheduled predecessors (i.e. ready for scheduling)
+    :param node: node which predecessors are needed
+    :return: generator of nodes in graph corresponding to unscheduled tasks,
+      which are predecessors of specified node and has no unscheduled predecessors (i.e. ready for scheduling)
     """
-    schedulable_predecessors = set()
-    unscheduled_not_visited = self._unscheduled_tasks.copy()
-    stack = [node]
-    while stack:
-      node = stack.pop()
-      unscheduled_not_visited.remove(node)
-      unscheduled_parents = set(
-        task for task in graph.predecessors(node)
-        if task in unscheduled_not_visited and task
-      )
-      schedulable_parents = unscheduled_parents.intersection(self._schedulable_tasks)
-      schedulable_predecessors.update(schedulable_parents)
-      stack.extend(unscheduled_parents)
+    unscheduled_predecessors = self.get_node_predecessors(graph, node, condition=lambda t: t in self._unscheduled_tasks)
+    schedulable_predecessors = filter(lambda t: t in self._schedulable_tasks, unscheduled_predecessors)
     return schedulable_predecessors
 
   def update_schedulable_status(self):
@@ -191,32 +205,24 @@ class LDCP(StaticScheduler):
     """
     if self._last_identified_task is None:
       top_node = networkx.topological_sort(self._nxgraph)[0]
+      top_node_host_uranks = ((host, self._urank[host][top_node]) for host in self.hosts)
       self._task_to_schedule = top_node
       self._last_identified_task = top_node
-      self._last_used_host_dagp = self.pair_to_key(
-        max(
-          ((host, self._urank[host][top_node]) for host in self.hosts),
-          key=self.pair_to_value
-        )
-      )
+      self._last_used_host_dagp = self.pair_to_key(max(top_node_host_uranks, key=self.pair_to_value))
     else:
-      key_node = self.pair_to_key(
-        self.get_uras_with_term(self._last_identified_task, self._last_used_host_dagp, use_only_unscheduled=True)
-      )
-      key_host = self.pair_to_key(
-        max(
-          ((host, self._urank[host][key_node]) for host in self.hosts),
-          key=self.pair_to_value
-        )
-      )
+      uras_with_term = self.get_uras_with_term(self._last_identified_task, self._last_used_host_dagp,
+                                               use_only_unscheduled=True)
+      key_node = self.pair_to_key(uras_with_term)
+      key_node_host_uranks = ((host, self._urank[host][key_node]) for host in self.hosts)
+      key_host = self.pair_to_key(max(key_node_host_uranks, key=self.pair_to_value))
       self._last_used_host_dagp = key_host
       if key_node in self._schedulable_tasks:
         self._task_to_schedule = key_node
         self._last_identified_task = key_node
       else:
-        predecessors = self.get_schedulable_predecessors(key_node, self._dagp[key_host])
-        urank_predecessors_values = {node: self._urank[key_host][node] for node in predecessors}
-        parent_key_node = self.pair_to_key(max(urank_predecessors_values.items(), key=self.pair_to_value))
+        schedulable_predecessors = self.get_schedulable_predecessors(self._dagp[key_host], key_node)
+        urank_predecessors_values = ((node, self._urank[key_host][node]) for node in schedulable_predecessors)
+        parent_key_node = self.pair_to_key(max(urank_predecessors_values, key=self.pair_to_value))
         self._task_to_schedule = parent_key_node
     self.update_schedulable_status()
     self._scheduled_tasks.add(self._task_to_schedule)
@@ -259,13 +265,13 @@ class LDCP(StaticScheduler):
     For each parent scheduled on the same host as of the selected task, weight of edge between them is set to zero
     :return: None
     """
-    predecessors = set(self._nxgraph.predecessors(self._task_to_schedule))
-    parent_to_zero_cost_update = set(
-      self.timesheet_to_tasks(self.timetable[self._host_to_schedule])
-    ).intersection(predecessors)
+    tasks_on_selected_host = set(self.timesheet_to_tasks(self.timetable[self._host_to_schedule]))
+    predecessors_on_selected_host = tasks_on_selected_host.intersection(
+      self._nxgraph.predecessors(self._task_to_schedule)
+    )
     for graph in self._dagp.values():
-      for parent in parent_to_zero_cost_update:
-        graph.edge[parent][self._task_to_schedule]['weight'] = 0.
+      for pred in predecessors_on_selected_host:
+        graph.edge[pred][self._task_to_schedule]['weight'] = 0.
 
   def update_execution_constraints(self):
     """
@@ -277,17 +283,17 @@ class LDCP(StaticScheduler):
     """
     tasks = list(self.timesheet_to_tasks(self.timetable[self._host_to_schedule]))
     task_to_schedule_index = tasks.index(self._task_to_schedule)
-    timetable_predecessor = tasks[task_to_schedule_index - 1] if task_to_schedule_index > 0 else None
-    timetable_successor = tasks[task_to_schedule_index + 1] if task_to_schedule_index < len(tasks) - 1 else None
+    timesheet_predecessor = tasks[task_to_schedule_index - 1] if task_to_schedule_index > 0 else None
+    timesheet_successor = tasks[task_to_schedule_index + 1] if task_to_schedule_index < len(tasks) - 1 else None
     for graph in self._dagp.values():
-      if timetable_predecessor is not None and timetable_successor is not None:
-        graph.remove_edge(timetable_predecessor, timetable_successor)
-      if timetable_predecessor is not None:
-        graph.add_edge(timetable_predecessor, self._task_to_schedule, weight=0.)
-      if timetable_successor is not None:
-        graph.add_edge(self._task_to_schedule, timetable_successor, weight=0.)
+      if timesheet_predecessor is not None and timesheet_successor is not None:
+        graph.remove_edge(timesheet_predecessor, timesheet_successor)
+      if timesheet_predecessor is not None:
+        graph.add_edge(timesheet_predecessor, self._task_to_schedule, weight=0.)
+      if timesheet_successor is not None:
+        graph.add_edge(self._task_to_schedule, timesheet_successor, weight=0.)
 
-  def update_zero_cost_edges_on_dagp_wrt_selected_processor(self):
+  def update_zero_cost_edges_on_dagp_wrt_selected_host(self):
     """
     Temporary edges from the task last scheduled on the selected host to all the ready to schedule nodes that do not
       communicate with this task. This must be done after removing the previous temporary zero-cost edges in DAGP,
@@ -299,7 +305,6 @@ class LDCP(StaticScheduler):
     self._temporary_edges[self._host_to_schedule].clear()
     last_scheduled_task = list(self.timesheet_to_tasks(self.timetable[self._host_to_schedule]))[-1]
     successors = self._dagp[self._host_to_schedule].successors(last_scheduled_task)
-    for task in self._unscheduled_tasks.difference(successors):
-      if task in self._schedulable_tasks:
-        self._dagp[self._host_to_schedule].add_edge(last_scheduled_task, task, weight=0.)
-        self._temporary_edges[self._host_to_schedule].add((last_scheduled_task, task))
+    for task in self._schedulable_tasks.difference(successors):
+      self._dagp[self._host_to_schedule].add_edge(last_scheduled_task, task, weight=0.)
+      self._temporary_edges[self._host_to_schedule].add((last_scheduled_task, task))
