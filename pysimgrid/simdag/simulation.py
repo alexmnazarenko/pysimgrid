@@ -43,20 +43,20 @@ class Simulation(object):
   }
 
   def __init__(self, platform, tasks, config=None, log_config=None):
-    self.__platform_src = platform
-    self.__tasks_src = tasks
-    self.__config = self._DEFAULT_CONFIG
-    self.__log_config = log_config
+    self._platform_src = platform
+    self._tasks_src = tasks
+    self._config = self._DEFAULT_CONFIG
+    self._log_config = log_config
     if config:
       assert isinstance(config, dict)
-      self.__config.update(config)
-    self.__hosts = None
-    self.__tasks = None
-    self.__logger = logging.getLogger("simdag.Simulation")
-    if not os.path.isfile(self.__platform_src):
-      raise IOError("platform definition file {} does not exist".format(self.__platform_src))
-    if not os.path.isfile(self.__tasks_src):
-      raise IOError("tasks definition file {} does not exist".format(self.__tasks_src))
+      self._config.update(config)
+    self._hosts = None
+    self._tasks = None
+    self._logger = logging.getLogger("simdag.Simulation")
+    if not os.path.isfile(self._platform_src):
+      raise IOError("platform definition file {} does not exist".format(self._platform_src))
+    if not os.path.isfile(self._tasks_src):
+      raise IOError("tasks definition file {} does not exist".format(self._tasks_src))
 
   def simulate(self, how_long=-1.):
     """
@@ -70,7 +70,7 @@ class Simulation(object):
     """
     changed = csimdag.simulate(how_long)
     changed_ids = [t.native for t in changed]
-    return _TaskList([t for t in self.__tasks if t.native in changed_ids])
+    return _TaskList([t for t in self._tasks if t.native in changed_ids])
 
   def get_task_graph(self):
     """
@@ -112,21 +112,21 @@ class Simulation(object):
     """
     Get full task list, including comm tasks.
     """
-    return _TaskList(self.__tasks)
+    return _TaskList(self._tasks)
 
   @property
   def hosts(self):
     """
     Get full host list.
     """
-    return _InstanceList(self.__hosts)
+    return _InstanceList(self._hosts)
 
   @property
   def platform_path(self):
     """
     Get path to platform definition file.
     """
-    return self.__platform_src
+    return self._platform_src
 
   @property
   def clock(self):
@@ -142,30 +142,30 @@ class Simulation(object):
     if self._INSTANCE is not None:
       raise Exception("Simulation may be used only once per process (SimGrid currently does not support reinitialization)")
 
-    self.__logger.debug("Initialization started")
+    self._logger.debug("Initialization started")
     csimdag.initialize()
 
-    if self.__log_config:
-      self.__logger.debug("Setting XBT log configuration")
-      csimdag.log_config(self.__log_config)
+    if self._log_config:
+      self._logger.debug("Setting XBT log configuration")
+      csimdag.log_config(self._log_config)
 
-    self.__logger.debug("Setting configuration parameters")
-    for k, v in self.__config.items():
-      self.__logger.debug("  %s = %s", k, v)
+    self._logger.debug("Setting configuration parameters")
+    for k, v in self._config.items():
+      self._logger.debug("  %s = %s", k, v)
       csimdag.config(k, v)
 
 
-    self.__logger.debug("Loading platform definition (source: %s)", self.__platform_src)
-    self.__hosts = csimdag.load_platform(self.__platform_src)
-    self.__logger.debug("Platform loaded, %d hosts", len(self.__hosts))
+    self._logger.debug("Loading platform definition (source: %s)", self._platform_src)
+    self._hosts = csimdag.load_platform(self._platform_src)
+    self._logger.debug("Platform loaded, %d hosts", len(self._hosts))
 
-    self.__logger.debug("Loading task definition (source: %s)", self.__tasks_src)
-    tasks = csimdag.load_tasks(self.__tasks_src)
-    self.__tasks = [_SimulationTask(t.native, self) for t in tasks]
+    self._logger.debug("Loading task definition (source: %s)", self._tasks_src)
+    tasks = csimdag.load_tasks(self._tasks_src)
+    self._tasks = [_SimulationTask(t.native, self, self._logger) for t in tasks]
     comm_tasks_count = len(self.connections)
-    self.__logger.debug("Tasks loaded, %d nodes, %d links", len(self.__tasks) - comm_tasks_count, comm_tasks_count)
+    self._logger.debug("Tasks loaded, %d nodes, %d links", len(self._tasks) - comm_tasks_count, comm_tasks_count)
 
-    self.__logger.info("Simulation initialized")
+    self._logger.info("Simulation initialized")
     Simulation._INSTANCE = self
     return self
 
@@ -173,7 +173,7 @@ class Simulation(object):
     """
     Context interface implementation.
     """
-    self.__logger.info("Finalizing the simulation (clock: %.2f)", self.clock)
+    self._logger.info("Finalizing the simulation (clock: %.2f)", self.clock)
     csimdag.exit()
     return False
 
@@ -182,9 +182,10 @@ class _SimulationTask(csimdag.Task):
   """
   Supporting class - wrap csimdag.Task methods that return new Task/Host instances.
   """
-  def __init__(self, native, simulation):
+  def __init__(self, native, simulation, logger):
     self.native = native
     self._sim = simulation
+    self._logger = logger
 
   @property
   def hosts(self):
@@ -198,13 +199,17 @@ class _SimulationTask(csimdag.Task):
   def parents(self):
     return self.__remap(super(_SimulationTask, self).parents, self._sim.all_tasks)
 
+  def schedule(self, host):
+    self._logger.info("Scheduling task '%s' to host '%s'", self.name, host.name)
+    super(_SimulationTask, self).schedule(host)
+
   def __remap(self, internal_list, public_list):
     """
     A bit ugly instance remapper. Strange implementation is to preserve original order (it may suddenly matter).
     """
-    ids_order = [obj.native for obj in internal_list]
+    ids_order = {obj.native: idx for (idx, obj) in enumerate(internal_list)}
     ids_set = set(ids_order)
-    return public_list.by_func(lambda p: p.native in ids_set).sorted(lambda el: ids_order.index(el.native))
+    return public_list.by_func(lambda p: p.native in ids_set).sorted(lambda el: ids_order[el.native])
 
 
 class _InstanceList(object):
