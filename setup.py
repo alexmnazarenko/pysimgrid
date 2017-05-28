@@ -8,19 +8,17 @@ from setuptools import setup, Extension
 
 import numpy
 
-try:
-  from Cython.Build import cythonize
-  USE_CYTHON = True
-except ImportError:
-  USE_CYTHON = False
+from Cython.Build import cythonize
 
 
 def local_path(*components):
   project_root = os.path.dirname(os.path.realpath(__file__))
   return os.path.normpath(os.path.join(project_root, *components))
 
+
 def source_file(filename):
-  return os.path.join("pysimgrid", filename) + (".pyx" if USE_CYTHON else ".c")
+  return os.path.join("pysimgrid", filename) + ".pyx"
+
 
 simgrid_env_path = os.environ.get("SIMGRID_ROOT")
 SIMGRID_ROOT = simgrid_env_path if simgrid_env_path else local_path("opt/SimGrid")
@@ -62,8 +60,7 @@ scwrapper = Extension("pysimgrid.cscheduling",
                       **EXT_OPTIONS)
 
 extensions = [sdwrapper, plwrapper, scwrapper]
-if USE_CYTHON:
-  extensions = cythonize(extensions, compiler_directives={'embedsignature': True})
+extensions = cythonize(extensions, compiler_directives={'embedsignature': True})
 
 setup(name="pysimgrid",
       version="1.0.0",

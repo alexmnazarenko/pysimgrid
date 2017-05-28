@@ -60,7 +60,7 @@ Python
 
 * python 2.7 or 3.4+
 * [setuptools](https://pypi.python.org/pypi/setuptools)
-* [Cython](http://cython.org/) (for full rebuild)
+* [Cython](http://cython.org/)
 * [numpy](http://www.numpy.org/)
 * [networkx](https://networkx.github.io/)
 
