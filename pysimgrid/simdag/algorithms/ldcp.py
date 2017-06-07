@@ -24,6 +24,60 @@ from queue import Queue
 
 
 class LDCP(StaticScheduler):
+  """
+  Longest Dynamic Critical Path scheduler.
+  
+  Provided algorithms based on idea of critical paths (CP), that recomputes on every scheduling step: Dynamic CP.
+  On every step the longest path is exploited: this must be done for prioritizing more resource demanding tasks.
+  More strict definition for this kind of CP is provided below:
+  Given a DAG with n tasks and e edges, and a HeDCS (Heterogeneous Distributed Computation System) with m heterogeneous
+  processors, the LDCP during a particular scheduling step is a path of tasks and edges from an entry tasks to an exit
+  task that has the largest sum of communication costs of edges and computation costs of tasks over all processors.
+  Communication costs between tasks scheduled on the same processor are assumed zero, and the execution constraints are
+  preserved.
+  
+  DAGP_j is a graph related to the host_j
+  
+  Upward rank of node n_i in a task graph DAGP_j, denoted as URank_j(n_i), is recursively defined as
+    URank_j(n_i) = w_j(n_i) + max_{n_k: immediate successors of n_i} (c_j(n_i, n_k) + URank_j(n_k)),
+    where w_j is a size function of nodes for host_j, and c_j is a communication cost function for host_j.
+    
+  Upward rank associated successor (URAS) for node n_i in graph DAGP_j is a node, that maximizes second summand in
+    URank definition; the rank of the exit node is equal to its size.
+    
+  During scheduling process, last identified task could be recursively defined as a task on LDCP that is
+    URAS of last identified task on previous step: on the first step last identified task is absent due to starting
+    the process of scheduling, on the second step last scheduled task is an input task with the maximal URank,
+    on the next step last identified task is URAS of the input node with maximal URank. Also, if another step leads to
+    scheduling of the node, that is not on the LDCP (i.e. its predecessor), then last identified task on the next step
+    is the same on the current step.
+    
+  During scheduling process, last used host is a host that maximizes URank of last identified task.
+    
+  During scheduling process, key node is defined as URAS of the node associated with the last identified task in
+    DAGP of the last used host. Host, that maximizes URank of key node indicates key DAGP, that is bound to this host.
+    If the key node has unscheduled parents, then parent key node is a predecessors of this node that has
+    the highest URank in key DAGP.
+    
+  Algorithm:
+  
+  while there are no unscheduled parents:
+    find the key DAGP
+    find the key node in the key DAGP
+    if the key node has no unscheduled parents then
+      identify the selected task using the key node
+    else
+      find the parent key node
+      identify the selected task using the parent key node
+    compute the finish time of the selected task on every processor in the system
+    find the selected processor that minimizes the finish time of the selected task
+    assign the selected task to the selected processor
+    update the size of the nodes hat identify the selected task on all DAGPs
+    update the communication costs on all DAGPs
+    update the execution constraints on all DAGPs
+    update the temporary ero-cost edges on the DAGP associated with the selected processor
+    update the URank values of the nodes that identify the scheduled tasks on all DAGPs
+  """
   def __init__(self, simulation):
     super(self.__class__, self).__init__(simulation)
     self._platform_model = cscheduling.PlatformModel(self._simulation)
@@ -112,7 +166,8 @@ class LDCP(StaticScheduler):
       self.select_task_to_schedule()
       if self.try_schedule_boundary_task():
         continue
-      self.select_host_to_schedule()
+      pos, start, finish = self.select_host_to_schedule()
+      self.assign_task_to_host(pos, start, finish)
       self.update_size_wrt_selected_task()
       self.update_communications_costs()
       self.update_execution_constraints()
@@ -194,9 +249,11 @@ class LDCP(StaticScheduler):
     """
     self._schedulable_tasks.remove(self._task_to_schedule)
     for child in self._nxgraph.successors(self._task_to_schedule):
-      self._nxgraph.node[child]['num_unscheduled_parents'] -= 1
-      if self._nxgraph.node[child]['num_unscheduled_parents'] == 0:
-        self._schedulable_tasks.add(child)
+      child_node = self._nxgraph.node[child]
+      if child_node['num_unscheduled_parents'] > 0:
+        child_node['num_unscheduled_parents'] -= 1
+        if child_node['num_unscheduled_parents'] == 0:
+          self._schedulable_tasks.add(child)
 
   def select_task_to_schedule(self):
     """
@@ -215,10 +272,10 @@ class LDCP(StaticScheduler):
       key_node = self.pair_to_key(uras_with_term)
       key_node_host_uranks = ((host, self._urank[host][key_node]) for host in self.hosts)
       key_host = self.pair_to_key(max(key_node_host_uranks, key=self.pair_to_value))
-      self._last_used_host_dagp = key_host
       if key_node in self._schedulable_tasks:
         self._task_to_schedule = key_node
         self._last_identified_task = key_node
+        self._last_used_host_dagp = key_host
       else:
         schedulable_predecessors = self.get_schedulable_predecessors(self._dagp[key_host], key_node)
         urank_predecessors_values = ((node, self._urank[key_host][node]) for node in schedulable_predecessors)
@@ -237,7 +294,7 @@ class LDCP(StaticScheduler):
   def select_host_to_schedule(self):
     """
     Procedure of selecting host to schedule the chosen task according to the provided algorithm
-    :return: None
+    :return: tuple (pos, start, finish)
     """
     current_min = cscheduling.MinSelector()
     for host, timesheet in self._state.timetable.items():
@@ -248,6 +305,15 @@ class LDCP(StaticScheduler):
       pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
       current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
     self._host_to_schedule, pos, start, finish = current_min.value
+    return pos, start, finish
+
+  def assign_task_to_host(self, pos, start, finish):
+    """
+    :param pos: position in timesheet for selected host to insert the task
+    :param start: start time of the task
+    :param finish: finish time of the task
+    :return: None
+    """
     self._state.update(self._task_to_schedule, self._host_to_schedule, pos, start, finish)
 
   def update_size_wrt_selected_task(self):
@@ -273,6 +339,13 @@ class LDCP(StaticScheduler):
       for pred in predecessors_on_selected_host:
         graph.edge[pred][self._task_to_schedule]['weight'] = 0.
 
+  def add_edge_safe(self, host, from_task, to_task, **edge_attributes):
+    graph = self._dagp[host]
+    edge_tuple = (from_task, to_task)
+    if edge_tuple in self._temporary_edges[host]:
+      self._temporary_edges[host].remove(edge_tuple)
+    graph.add_edge(*edge_tuple, **edge_attributes)
+
   def update_execution_constraints(self):
     """
     Consider a task to schedule: if there is a task scheduled right before on the same processor, it should be connected
@@ -285,26 +358,36 @@ class LDCP(StaticScheduler):
     task_to_schedule_index = tasks.index(self._task_to_schedule)
     timesheet_predecessor = tasks[task_to_schedule_index - 1] if task_to_schedule_index > 0 else None
     timesheet_successor = tasks[task_to_schedule_index + 1] if task_to_schedule_index < len(tasks) - 1 else None
-    for graph in self._dagp.values():
-      if timesheet_predecessor is not None and timesheet_successor is not None:
+    for host, graph in self._dagp.items():
+      if timesheet_predecessor:
+        self.add_edge_safe(host, timesheet_predecessor, self._task_to_schedule, weight=0.)
+      if timesheet_successor:
+        self.add_edge_safe(host, self._task_to_schedule, timesheet_successor, weight=0.)
+      if timesheet_predecessor and timesheet_successor:
         graph.remove_edge(timesheet_predecessor, timesheet_successor)
-      if timesheet_predecessor is not None:
-        graph.add_edge(timesheet_predecessor, self._task_to_schedule, weight=0.)
-      if timesheet_successor is not None:
-        graph.add_edge(self._task_to_schedule, timesheet_successor, weight=0.)
 
   def update_zero_cost_edges_on_dagp_wrt_selected_host(self):
     """
-    Temporary edges from the task last scheduled on the selected host to all the ready to schedule nodes that do not
-      communicate with this task. This must be done after removing the previous temporary zero-cost edges in DAGP,
-      corresponding to the selected host.
+    Creates temporary edges from the task last scheduled on the selected host to all the ready to schedule nodes that
+      do not communicate with this task. This must be done after removing the previous temporary zero-cost edges
+      in DAGP, corresponding to the selected host. Also, all temporary nodes to the currently scheduled tasks
+      are removed from all DAGPs to prevent appearance of cycles.
     :return: None
     """
+    for host, graph in self._dagp.items():
+      edges_to_remove = set(
+        edge_pair for edge_pair in self._temporary_edges[host]
+        if self.pair_to_value(edge_pair) == self._task_to_schedule
+      )
+      self._temporary_edges[host].difference_update(edges_to_remove)
+      for from_task, to_task in edges_to_remove:
+        graph.remove_edge(from_task, to_task)
+    graph = self._dagp[self._host_to_schedule]
     for from_task, to_task in self._temporary_edges[self._host_to_schedule]:
-      self._dagp[self._host_to_schedule].remove_edge(from_task, to_task)
+        graph.remove_edge(from_task, to_task)
     self._temporary_edges[self._host_to_schedule].clear()
     last_scheduled_task = list(self.timesheet_to_tasks(self.timetable[self._host_to_schedule]))[-1]
     successors = self._dagp[self._host_to_schedule].successors(last_scheduled_task)
     for task in self._schedulable_tasks.difference(successors):
-      self._dagp[self._host_to_schedule].add_edge(last_scheduled_task, task, weight=0.)
+      graph.add_edge(last_scheduled_task, task, weight=0.)
       self._temporary_edges[self._host_to_schedule].add((last_scheduled_task, task))

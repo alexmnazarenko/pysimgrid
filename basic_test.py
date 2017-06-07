@@ -70,6 +70,7 @@ _SCHEDULERS = {
 def run_simulation(scheduler):
   scheduler_class = _SCHEDULERS[scheduler]
   with simdag.Simulation("test/data/pl_4hosts_master.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
+  # with simdag.Simulation("test/data/pl_4hosts_master.xml", "test/data/basic_graph.dot") as simulation:
     print("Scheduler:", scheduler, scheduler_class)
     scheduler = scheduler_class(simulation)
     scheduler.run()
