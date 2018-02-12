@@ -86,7 +86,7 @@ class HCPT(StaticScheduler):
       for host, timesheet in state.timetable.items():
         if cscheduling.is_master_host(host):
           continue
-        est = platform_model.est(host, nxgraph.pred[task], state)
+        est = platform_model.est(host, dict(nxgraph.pred[task]), state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         # strange key order to ensure stable sorting:
@@ -117,7 +117,7 @@ class HCPT(StaticScheduler):
     mean_speed = platform_model.mean_speed
     mean_bandwidth = platform_model.mean_bandwidth
     mean_latency = platform_model.mean_latency
-    topological_order = networkx.topological_sort(nxgraph)
+    topological_order = list(networkx.topological_sort(nxgraph))
 
     # Average execution cost
     aec = {task: float(task.amount) / mean_speed for task in nxgraph}

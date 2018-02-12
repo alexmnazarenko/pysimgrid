@@ -66,7 +66,7 @@ class Lookahead(scheduler.StaticScheduler):
         if cscheduling.is_master_host(host):
           continue
         temp_state = state.copy()
-        est = platform_model.est(host, nxgraph.pred[task], state)
+        est = platform_model.est(host, dict(nxgraph.pred[task]), state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         temp_state.update(task, host, pos, start, finish)

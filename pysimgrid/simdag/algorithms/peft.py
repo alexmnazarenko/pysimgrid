@@ -59,7 +59,7 @@ class PEFT(StaticScheduler):
       for host, timesheet in state.timetable.items():
         if cscheduling.is_master_host(host):
           continue
-        est = platform_model.est(host, nxgraph.pred[task], state)
+        est = platform_model.est(host, dict(nxgraph.pred[task]), state)
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         # key order to ensure stable sorting:
@@ -82,7 +82,7 @@ class PEFT(StaticScheduler):
       platform_model: platform linear model
     """
     result = dict()
-    for task in networkx.topological_sort(nxgraph, reverse=True):
+    for task in list(reversed(list(networkx.topological_sort(nxgraph)))):
       oct_row = numpy.zeros(platform_model.host_count)
       if not nxgraph[task]:
         result[task] = oct_row
