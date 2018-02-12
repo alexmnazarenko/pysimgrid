@@ -18,13 +18,17 @@
 
 """
 Moreorless generic scheduling utils.
+
 Some of those are called a lot so they benefit from a Cython usage.
+
 However, there is still A LOT to optimize. Help is very welcome.
 Cubic complexity scheduling algorithms like Lookahead are still painfully slow.
+
 General optimization directions:
   * more type annotations
   * proper c-level numpy usage
   * less dict searches (may require schedulers update, which is undesirable)
+
 General philosophy is simple - technical optimizations is OK, even if ugly. As long
 as scheduler implementation doesn't suffer, this utilities may be as messed up as required.
 For example, A TON of dict searches can be avoided if all task/host access will be performed by index.
@@ -46,6 +50,7 @@ cimport csimdag
 cdef class PlatformModel(object):
   """
   Platform linear model used for most static scheduling approaches.
+
   Disregards network topology.
   """
   cdef cnumpy.ndarray _speed
@@ -87,6 +92,7 @@ cdef class PlatformModel(object):
   def speed(self):
     """
     Get hosts speed as a vector.
+
     Refer to to host_map property or host_idx function to convert host instances to indices.
     """
     return self._speed
@@ -95,6 +101,7 @@ cdef class PlatformModel(object):
   def bandwidth(self):
     """
     Get platform connection bandwidths as a matrix.
+
     Note:
       For i==j bandwidth is 0
     """
@@ -104,6 +111,7 @@ cdef class PlatformModel(object):
   def latency(self):
     """
     Get platform connection latencies as a matrix.
+
     Note:
       For i==j latency is 0
     """
@@ -146,11 +154,13 @@ cdef class PlatformModel(object):
   cpdef parent_data_ready_time(self, cplatform.Host host, csimdag.Task parent, dict edge_dict, SchedulerState state):
     """
     Calculate data ready time for a single parent.
+
     Args:
       host: host on which a new (current) task will be executed
       parent: parent task
       edge_dict: edge properties dict (for now the only important property is "weight")
       state: current schedule state
+
     Return:
       earliest start time considering only a given parent
     """
@@ -164,16 +174,21 @@ cdef class PlatformModel(object):
   cpdef est(self, cplatform.Host host, dict parents, SchedulerState state):
     """
     Calculate an earliest start time for a given task.
+
     Implementation is kind of dense, as it is the most critical function for
     HEFT/Lookahead algorithms execution time.
+
     Key points:
+
     * use numpy buffer types to speedup indexing
     * manually inline parent_data_ready_time function (synergistic with numpy usage. passing buffer types is costly for some reason)
     * annotate ALL types
+
     Args:
       host: host on which a new (current) task will be executed
       parents: iterable of parent tasks and egdes in a form [(parent, edge)...]
       state: current schedule state
+
     Returns:
       earliest start time as a float
     """
@@ -214,6 +229,7 @@ cdef class PlatformModel(object):
 cdef class SchedulerState(object):
   """
   Stores the current scheduler state.
+
   See properties description for details.
   """
   cdef dict _task_states
@@ -234,7 +250,9 @@ cdef class SchedulerState(object):
   def copy(self):
     """
     Return a deep (enough) copy of a state.
+
     Timesheet tuples aren't actually copied, but they shouldn't be modified anyway.
+
     Note:
       Exists purely for optimization. copy.deepcopy is just abysmally slow.
     """
@@ -248,6 +266,7 @@ cdef class SchedulerState(object):
   def task_states(self):
     """
     Get current task states as a dict.
+
     Layout: a dict {Task: {"ect": float, "host": Host}}
     """
     return self._task_states
@@ -256,6 +275,7 @@ cdef class SchedulerState(object):
   def timetable(self):
     """
     Get a timesheets dict.
+
     Layout: a dict {Host: [(Task, start, finish)...]}
     """
     return self._timetable
@@ -264,6 +284,7 @@ cdef class SchedulerState(object):
   def schedule(self):
     """
     Get a schedule from a current timetable.
+
     Layout: a dict {Host: [Task...]}
     """
     return {host: [task for (task, _, _) in timesheet] for (host, timesheet) in self._timetable.items()}
@@ -272,6 +293,7 @@ cdef class SchedulerState(object):
   def max_time(self):
     """
     Get a finish time of a last scheduled task in a state.
+
     Returns NaN if no tasks are scheduled.
     """
     finish_times = [s["ect"] for s in self._task_states.values() if numpy.isfinite(s["ect"])]
@@ -280,9 +302,12 @@ cdef class SchedulerState(object):
   def update(self, csimdag.Task task, cplatform.Host host, int pos, double start, double finish):
     """
     Update timetable for a given host.
+
     Note:
       Doesn't perform any validation for now, can produce overlapping timesheets if used carelessly.
       Checks can be costly.
+
+
     Args:
       task: task to schedule on a host
       host: host considered
@@ -302,6 +327,7 @@ cdef class SchedulerState(object):
 cdef class MinSelector(object):
   """
   Little aux class to select minimum over a loop without storing all the results.
+
   Doesn't seem to benefit a lot from cython, but why not.
   """
   cdef tuple best_key
@@ -314,7 +340,9 @@ cdef class MinSelector(object):
   cpdef update(self, tuple key, object value):
     """
     Update selector state.
+
     If given key compares less then the stored key, overwrites the latter as a new best.
+
     Args:
       key: key that is minimized
       value: associated value
@@ -364,9 +392,11 @@ cpdef is_master_host(cplatform.Host host):
 def heft_order(object nxgraph, PlatformModel platform_model):
   """
   Order task according to HEFT ranku.
+
   Args:
     nxgraph: full task graph as networkx.DiGraph
     platform_model: cscheduling.PlatformModel instance
+
   Returns:
     a list of tasks in a HEFT order
   """
@@ -388,13 +418,16 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
   """
   Build a HEFT schedule for a given state.
   Implemented as a separate function to be used in lookahead scheduler.
+
   Note:
     This function actually modifies the passed SchedulerState, take care. Clone it manually if required.
+
   Args:
     nxgraph: full task graph as networkx.DiGraph
     platform_model: cscheduling.PlatformModel object
     state: cscheduling.SchedulerState object
     ordered_tasks: tasks in a HEFT order
+
   Returns:
     modified scheduler state
   """
@@ -426,12 +459,16 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
 def schedulable_order(object nxgraph, dict ranking):
   """
   Give an valid topological order that attempts to prioritize task by given ranking.
+
   Higher rank values are considered to have higher priority.
+
   Useful utility to implement a lot of scheduling algorithms (PEFT and more) when a ranking
   function doesn't guarantee to preserve topological sort.
+
   Args:
     nxgraph: workflow as a networkx.DiGraph object
     ranking: dict of ranking values, layout is {cplatform.Task: float}
+
   Returns:
     a list of tasks in a topological order
   """
@@ -461,10 +498,12 @@ def schedulable_order(object nxgraph, dict ranking):
 cpdef timesheet_insertion(list timesheet, double est, double eet):
   """
   Evaluate a earliest possible insertion into a given timesheet.
+
   Args:
     timesheet: list of scheduled tasks in a form (Task, start, finish)
     est: new task earliest start time
     eet: new task execution time
+
   Returns:
     a tuple (insert_index, start, finish)
   """
