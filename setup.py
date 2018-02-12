@@ -7,9 +7,15 @@ import textwrap
 from setuptools import setup, Extension
 
 import numpy
+import networkx
 
 from Cython.Build import cythonize
 
+if networkx.__version__ < "2.0":
+  print(textwrap.dedent("""\
+    Networkx has smaller version than should be (needed - 2.0 and higher)
+    """))
+  sys.exit(1)
 
 def local_path(*components):
   project_root = os.path.dirname(os.path.realpath(__file__))
