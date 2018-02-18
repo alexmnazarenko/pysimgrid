@@ -7,9 +7,9 @@ import textwrap
 from setuptools import setup, Extension
 
 import numpy
-import networkx
 
 from Cython.Build import cythonize
+
 
 def local_path(*components):
   project_root = os.path.dirname(os.path.realpath(__file__))
