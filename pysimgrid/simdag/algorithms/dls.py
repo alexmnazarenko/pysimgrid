@@ -113,11 +113,11 @@ class DLS(StaticScheduler):
       assert (cur_max != unreal_dl)
 
       if cscheduling.try_schedule_boundary_task(task_to_schedule, platform_model, state) == False:
-          est = platform_model.est(host_to_schedule, nxgraph.pred[task_to_schedule], state)
-          eet = platform_model.eet(task_to_schedule, host_to_schedule)
-          timesheet = state.timetable[host_to_schedule]
-          pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
-          state.update(task_to_schedule, host_to_schedule, pos, start, finish)
+        est = platform_model.est(host_to_schedule, dict(nxgraph.pred[task_to_schedule]), state)
+        eet = platform_model.eet(task_to_schedule, host_to_schedule)
+        timesheet = state.timetable[host_to_schedule]
+        pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
+        state.update(task_to_schedule, host_to_schedule, pos, start, finish)
 
       new_tasks = set()
       for child, edge in nxgraph[task_to_schedule].items():
@@ -126,15 +126,16 @@ class DLS(StaticScheduler):
           new_tasks.add(child)
           for host in simulation.hosts:
             dl[host][child] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, child, host)
-      
+
       for host in simulation.hosts:
-          dl[host][task_to_schedule] = unreal_dl
+        dl[host][task_to_schedule] = unreal_dl
 
       queue_tasks.remove(task_to_schedule)
 
       for task in queue_tasks:
         if undone_parents[task] == 0:
-          dl[host_to_schedule][task] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, task, host_to_schedule)
+          dl[host_to_schedule][task] = self.calculate_dl(nxgraph, platform_model, state, sl, aec, task,
+                                                         host_to_schedule)
 
       for task in new_tasks:
         waiting_tasks.remove(task)
@@ -145,7 +146,7 @@ class DLS(StaticScheduler):
 
   @classmethod
   def calculate_dl(cls, nxgraph, platform_model, state, sl, aec, task, host):
-    est = platform_model.est(host, nxgraph.pred[task], state)
+    est = platform_model.est(host, dict(nxgraph.pred[task]), state)
     eet = platform_model.eet(task, host)
     timesheet = state.timetable[host]
     pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
@@ -165,7 +166,7 @@ class DLS(StaticScheduler):
         sl: task->static_level_value
     """
     mean_speed = platform_model.mean_speed
-    topological_order = networkx.topological_sort(nxgraph, reverse=True)
+    topological_order = list(reversed(list(networkx.topological_sort(nxgraph))))
 
     # Average execution cost
     aec = {task: float(task.amount) / mean_speed for task in nxgraph}
@@ -178,4 +179,3 @@ class DLS(StaticScheduler):
         sl[parent] = max(sl[parent], sl[task] + aec[parent])
 
     return aec, sl
-

@@ -404,7 +404,7 @@ def heft_order(object nxgraph, PlatformModel platform_model):
   cdef double mean_bandwidth = platform_model.mean_bandwidth
   cdef double mean_latency = platform_model.mean_latency
   cdef dict task_ranku = {}
-  for idx, task in enumerate(networkx.topological_sort(nxgraph, reverse=True)):
+  for idx, task in enumerate(list(reversed(list(networkx.topological_sort(nxgraph))))):
     ecomt_and_rank = [
       task_ranku[child] + (edge["weight"] / mean_bandwidth + mean_latency)
       for child, edge in nxgraph[task].items()
@@ -442,7 +442,7 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
     for host, timesheet in state.timetable.items():
       if is_master_host(host):
         continue
-      est = platform_model.est(host, nxgraph.pred[task], state)
+      est = platform_model.est(host, dict(nxgraph.pred[task]), state)
       eet = platform_model.eet(task, host)
       pos, start, finish = timesheet_insertion(timesheet, est, eet)
       # strange key order to ensure stable sorting:
@@ -473,8 +473,9 @@ def schedulable_order(object nxgraph, dict ranking):
     a list of tasks in a topological order
   """
   cdef object state = networkx.DiGraph(nxgraph)
-  cdef dict succ = state.succ
-  cdef dict pred = state.pred
+  cdef dict succ = dict(state.succ)
+  cdef dict temp_pred = dict(state.pred)
+  cdef dict pred = {node : dict(parents) for (node, parents) in temp_pred.items()}
   # as always, use dual key to achieve deterministic sort on equal rank values
   sorter = lambda node: (ranking[node], node.name)
   # extract graph root(s)
@@ -489,6 +490,7 @@ def schedulable_order(object nxgraph, dict ranking):
       if not child_active_parents:
         ready_nodes.append(child)
       ready_nodes = sorted(ready_nodes, key=sorter)
+
   assert len(order) == len(nxgraph)
   return order
 

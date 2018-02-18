@@ -29,11 +29,12 @@ import networkx
 from .. import scheduler
 from ... import cscheduling
 
+
 class _ExtrenalSchedule(scheduler.StaticScheduler):
   def __init__(self, simulation, schedule):
     super(_ExtrenalSchedule, self).__init__(simulation)
     self.__schedule = schedule
-  
+
   def get_schedule(self, simulation):
     return self.__schedule
 
@@ -42,16 +43,16 @@ def _update_subgraph(full, subgraph, task):
   parents = full.pred[task]
   subgraph.add_node(task)
   for parent, edge_dict in parents.items():
-    subgraph.add_edge(parent, task, edge_dict)
+    subgraph.add_edge(parent, task, weight=edge_dict["weight"])
 
 
 def _serialize_graph(graph, output_file):
   output_file.write("digraph G {\n")
   for task in graph:
     output_file.write('  "%s" [size="%f"];\n' % (task.name, task.amount))
-  output_file.write("\n");
-  for src, dst, data in graph.edges_iter(data=True):
-    output_file.write('  "%s" -> "%s" [size="%f"];\n' % (src.name, dst.name, data["weight"]))
+  output_file.write("\n")
+  for src, dst, data in graph.edges(data='weight'):
+    output_file.write('  "%s" -> "%s" [size="%f"];\n' % (src.name, dst.name, data))
   output_file.write("}\n")
   output_file.flush()
 
@@ -136,7 +137,7 @@ class SimHEFT(scheduler.StaticScheduler):
         if cscheduling.is_master_host(host):
           continue
         current_state = state.copy()
-        est = platform_model.est(host, nxgraph.pred[task], current_state)
+        est = platform_model.est(host, dict(nxgraph.pred[task]), current_state)
         eet = platform_model.eet(task, host)
         # 'correct' way
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)

@@ -127,7 +127,7 @@ def _import_daggen(line_iter):
                 # Can be removed as I can fix this BS in my HEFT
                 weight = 1.
             result.add_edge(node_mapper(nodeid), node_mapper(destination), weight=weight)
-    node_order = nx.topological_sort(result)
+    node_order = list(nx.topological_sort(result))
     return nx.relabel_nodes(result, {
       node_order[0]: "root",
       node_order[-1]: "end"
@@ -150,7 +150,8 @@ def apply_force_ccr(graph, target_ccr):
   return graph
 
 
-def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.5, regular=0.9, density=0.5, force_ccr=None):
+def daggen(daggen_path, n=10, ccr=0, mindata=2048, maxdata=11264, jump=1, fat=0.5, regular=0.9, density=0.5,
+           force_ccr=None):
     daggen_path = os.path.normpath(daggen_path)
     params = [
         ("-n", n),
@@ -199,7 +200,6 @@ def main():
 
   if not os.path.exists(args.output_dir):
     os.makedirs(args.output_dir)
-
   for config in itertools.product(args.count, args.ccr, args.mindata, args.maxdata, args.jump, args.fat, args.regular, args.density, args.force_ccr):
     for repeat_idx in range(args.repeat):
       graph = daggen(args.daggen_path, *config)
@@ -210,9 +210,9 @@ def main():
         output_file.write("digraph G {\n")
         for node, data in graph.nodes(True):
           output_file.write('  %s [size="%f"];\n' % (node, data["weight"]))
-        output_file.write("\n");
-        for src, dst, data in graph.edges_iter(data=True):
-          output_file.write('  %s -> %s [size="%f"];\n' % (src, dst, data["weight"]))
+        output_file.write("\n")
+        for src, dst, data in graph.edges(data='weight'):
+          output_file.write('  %s -> %s [size="%f"];\n' % (src, dst, data))
         output_file.write("}\n")
 
 
