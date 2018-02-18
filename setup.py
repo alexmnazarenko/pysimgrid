@@ -11,12 +11,6 @@ import networkx
 
 from Cython.Build import cythonize
 
-if networkx.__version__ < "2.0":
-  print(textwrap.dedent("""\
-    Networkx has smaller version than should be (needed - 2.0 and higher)
-    """))
-  sys.exit(1)
-
 def local_path(*components):
   project_root = os.path.dirname(os.path.realpath(__file__))
   return os.path.normpath(os.path.join(project_root, *components))
@@ -72,4 +66,5 @@ setup(name="pysimgrid",
       version="1.0.0",
       author="Alexey Nazarenko",
       packages=["pysimgrid", "pysimgrid.simdag"],
+      install_requires=['numpy', 'networkx>=2.0', 'nx'],
       ext_modules=extensions)
