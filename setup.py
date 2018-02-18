@@ -66,5 +66,5 @@ setup(name="pysimgrid",
       version="1.0.0",
       author="Alexey Nazarenko",
       packages=["pysimgrid", "pysimgrid.simdag"],
-      install_requires=['numpy', 'networkx>=2.0', 'nx'],
+      install_requires=['numpy', 'networkx>=2.0'],
       ext_modules=extensions)
