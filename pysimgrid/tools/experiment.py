@@ -96,10 +96,13 @@ def file_list(file_or_dir, masks=["*"]):
     raise Exception("path %s does not exist" % file_or_dir)
   if os.path.isdir(file_or_dir):
     result = []
-    listing = os.listdir(file_or_dir)
-    for fname in listing:
-      if any((fnmatch.fnmatch(fname, pattern) for pattern in masks)):
-        result.append(os.path.join(file_or_dir, fname))
+    for fname in os.listdir(file_or_dir):
+      fpath = os.path.join(file_or_dir, fname)
+      if os.path.isfile(fpath):
+        if any((fnmatch.fnmatch(fname, pattern) for pattern in masks)):
+          result.append(os.path.join(file_or_dir, fname))
+      else:
+        result.extend(file_list(fpath, masks))
     return result
   else:
     return [os.path.abspath(file_or_dir)]
