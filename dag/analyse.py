@@ -124,7 +124,8 @@ def latex_table(results, algorithms, cond1, cond2):
       print("%-15s" % c2, end="")
       for algorithm, byalg in sorted(groupby(bycond2, get_algorithm), key=lambda pair: algorithms.index(pair[0])):
         mean = numpy.mean([r["result"] for r in byalg])
-        print(" & %10.4f" % mean, end="")
+        std = numpy.std([r["result"] for r in byalg])
+        print(" & %6.4f (%6.4f)" % (mean, std), end="")
       print(r" \\")
     print(r"\midrule")
   print(par(r"""
