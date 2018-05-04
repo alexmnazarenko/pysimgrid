@@ -211,6 +211,9 @@ class _SimulationTask(csimdag.Task):
     ids_set = set(ids_order)
     return public_list.by_func(lambda p: p.native in ids_set).sorted(lambda el: ids_order[el.native])
 
+  def __gt__(self, other):
+    return self.name > other.name
+
 
 class _InstanceList(object):
   """
