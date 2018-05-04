@@ -143,6 +143,25 @@ class StaticScheduler(Scheduler):
 
     changed = self._simulation.tasks.by_func(lambda t: False)
     while True:
+
+      # TODO: implement proper debugging
+      # print("%.6f ------------------------------------------------------------------" % self._simulation.clock)
+      # for task in changed:
+      #   if task.kind == csimdag.TASK_KIND_COMP_SEQ:
+      #     if task.state == csimdag.TASK_STATE_DONE:
+      #       print("%20s: %s (%s, %.6f - %.6f)" % (task.name, str(task.state), task.hosts[0].name,
+      #                                           task.start_time, task.finish_time))
+      #     else:
+      #       print("%20s: %s (%s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.start_time))
+      #   else:
+      #     if task.state == csimdag.TASK_STATE_DONE:
+      #       print("%20s: %s (%s - %s, %.6f - %.6f)" % (task.name, str(task.state),
+      #                                                  task.hosts[0].name, task.hosts[1].name,
+      #                                                  task.start_time, task.finish_time))
+      #     else:
+      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.hosts[1].name,
+      #                                           task.start_time))
+
       self.__update_host_status(hosts_status, changed)
       self.__schedule_to_free_hosts(schedule, hosts_status)
       changed = self._simulation.simulate()
@@ -212,6 +231,25 @@ class DynamicScheduler(Scheduler):
     self.__scheduler_time = time.time() - scheduler_time
     changed = self._simulation.simulate()
     while changed:
+
+      # TODO: implement proper debugging
+      # print("%.6f ------------------------------------------------------------------" % self._simulation.clock)
+      # for task in changed:
+      #   if task.kind == csimdag.TASK_KIND_COMP_SEQ:
+      #     if task.state == csimdag.TASK_STATE_DONE:
+      #       print("%20s: %s (%s, %.6f - %.6f)" % (task.name, str(task.state), task.hosts[0].name,
+      #                                           task.start_time, task.finish_time))
+      #     else:
+      #       print("%20s: %s (%s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.start_time))
+      #   else:
+      #     if task.state == csimdag.TASK_STATE_DONE:
+      #       print("%20s: %s (%s - %s, %.6f - %.6f)" % (task.name, str(task.state),
+      #                                                  task.hosts[0].name, task.hosts[1].name,
+      #                                                  task.start_time, task.finish_time))
+      #     else:
+      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.hosts[1].name,
+      #                                           task.start_time))
+
       scheduler_time = time.time()
       self.schedule(self._simulation, changed)
       self.__scheduler_time += time.time() - scheduler_time
