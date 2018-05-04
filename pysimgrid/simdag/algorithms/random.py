@@ -16,27 +16,36 @@
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import random
-
+import logging
 import networkx
+import random
 
 from .. import scheduler
 
+
 class RandomStatic(scheduler.StaticScheduler):
-  """
-  Random static scheduler.
+    """
+    Random static scheduler.
 
-  The important part there is static - all tasks are scheduled simultaneously.
-  Resulting schedule is significantly worse than dynamic random schedule. In static
-  case task may wait for their parents execution for a quite some time (blocking some other tasks),
-  while dynamic approach guarantees that parents are already done.
+    The important part there is static - all tasks are scheduled simultaneously.
+    Resulting schedule is significantly worse than dynamic random schedule. In static
+    case task may wait for their parents execution for a quite some time (blocking some other tasks),
+    while dynamic approach guarantees that parents are already done.
 
-  The point of this scheduler is to be an 'worst' static scheduler as a reference point
-  for sensible algorithms.
-  """
-  def get_schedule(self, simulation):
-    schedule = {host: [] for host in simulation.hosts}
-    graph = simulation.get_task_graph()
-    for task in networkx.topological_sort(graph):
-      schedule[random.choice(simulation.hosts)].append(task)
-    return schedule
+    The point of this scheduler is to be an 'worst' static scheduler as a reference point
+    for sensible algorithms.
+    """
+
+    def get_schedule(self, simulation):
+        schedule = {host: [] for host in simulation.hosts}
+        master_host = simulation.hosts.by_prop('name', scheduler.Scheduler.MASTER_HOST_NAME)[0]
+        exec_hosts = simulation.hosts.by_prop('name', scheduler.Scheduler.MASTER_HOST_NAME, negate=True)
+        graph = simulation.get_task_graph()
+        for task in networkx.topological_sort(graph):
+            if task.name in scheduler.Scheduler.BOUNDARY_TASKS:
+                host = master_host
+            else:
+                host = random.choice(exec_hosts)
+            schedule[host].append(task)
+            # logging.info("%s -> %s" % (task.name, task.state))
+        return schedule
