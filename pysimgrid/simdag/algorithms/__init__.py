@@ -17,11 +17,13 @@
 #
 
 from .batch import BatchMin, BatchMax, BatchSufferage
+from .batch_dyn import DynamicBatchMin, DynamicBatchMax, DynamicBatchSufferage
 from .dls import DLS
 from .hcpt import HCPT
 from .heft import HEFT
 from .lookahead import Lookahead
 from .mct import MCT
+from .mct_dyn import DynamicMCT
 from .olb import OLB
 from .peft import PEFT
 from .random import RandomStatic
