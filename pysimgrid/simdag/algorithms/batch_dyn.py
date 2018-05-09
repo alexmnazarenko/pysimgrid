@@ -54,9 +54,8 @@ class DynamicBatchScheduler(scheduler.DynamicScheduler):
         if self._master_host:
             for task in simulation.tasks.by_func(lambda t: t.name in self.BOUNDARY_TASKS):
                 task.schedule(self._master_host)
+        self._started_tasks = set()
         self._estimate_cache = {}
-        self._target_hosts = {}
-        self._is_free = {}
 
     def schedule(self, simulation, changed):
         clock = simulation.clock
@@ -65,6 +64,9 @@ class DynamicBatchScheduler(scheduler.DynamicScheduler):
         for task in simulation.tasks[csimdag.TaskState.TASK_STATE_RUNNING, csimdag.TaskState.TASK_STATE_SCHEDULED]:
             host = task.hosts[0]
             free_hosts.discard(host)
+            if task.start_time > 0 and task not in self._started_tasks:
+                self._started_tasks.add(task)
+                host.data["est"] = task.start_time + task.get_eet(host)
 
         host_est = {}
         for h in self._exec_hosts:
