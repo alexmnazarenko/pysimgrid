@@ -47,5 +47,5 @@ class RandomStatic(scheduler.StaticScheduler):
             else:
                 host = random.choice(exec_hosts)
             schedule[host].append(task)
-            # logging.info("%s -> %s" % (task.name, task.state))
+            # logging.info("%s -> %s" % (task.name, host.name))
         return schedule
