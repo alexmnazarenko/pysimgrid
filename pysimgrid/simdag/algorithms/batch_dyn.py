@@ -109,7 +109,7 @@ class DynamicBatchScheduler(scheduler.DynamicScheduler):
 
             if host in free_hosts:
                 task.schedule(host)
-                logging.info("%s -> %s" % (task.name, host.name))
+                # logging.info("%s -> %s" % (task.name, host.name))
                 host.data["est"] = ect
                 free_hosts.remove(host)
                 if len(free_hosts) == 0:
