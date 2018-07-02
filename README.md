@@ -15,6 +15,11 @@ scheduling algorithms while leveraging the powerful [SimGrid](http://simgrid.gfo
 
 https://alexmnazarenko.github.io/pysimgrid/index.html
 
+#### Acknowledgements:
+
+This work is supported by the Russian Foundation for Basic Research
+(project No. 15-29-07043).
+
 Examples
 ========
 
