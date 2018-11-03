@@ -18,7 +18,7 @@ https://alexmnazarenko.github.io/pysimgrid/index.html
 #### Acknowledgements:
 
 This work is supported by the Russian Foundation for Basic Research
-(project No. 15-29-07043).
+(projects 15-29-07043, 15-29-07068).
 
 Examples
 ========
