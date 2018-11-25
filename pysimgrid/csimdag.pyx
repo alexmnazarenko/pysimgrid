@@ -162,8 +162,9 @@ def simulate(double how_long=-1.):
 
   Returns the list of changed tasks.
   """
-  cdef xbt.xbt_dynar_t changed_tasks = csimdag.SD_simulate(how_long)
-  return _tasks_from_dynar(changed_tasks, False)
+  cdef xbt.xbt_dynar_t changed_tasks = xbt.xbt_dynar_new(sizeof(void*), NULL)
+  csimdag.SD_simulate_with_update(how_long, changed_tasks)
+  return _tasks_from_dynar(changed_tasks, True)
 
 
 def get_clock():
@@ -227,6 +228,7 @@ cdef class Task:
     if not host.impl:
       raise RuntimeError("host instance is invalid")
     csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
+    self._hosts.append(host)
 
   def get_eet(self, cplatform.Host host not None):
     """
@@ -372,10 +374,7 @@ cdef class Task:
     Get hosts where tasks is/will be executed.
     """
     self.__check_impl()
-    cdef int count = csimdag.SD_task_get_workstation_count(self.impl)
-    if count:
-      return cplatform.Host.wrap_batch(csimdag.SD_task_get_workstation_list(self.impl), count)
-    return []
+    return self._hosts
 
   @property
   def data(self):
@@ -399,6 +398,7 @@ cdef class Task:
     Basic initialization.
     """
     self.impl = NULL
+    self._hosts = []
 
   def __check_impl(self):
     """

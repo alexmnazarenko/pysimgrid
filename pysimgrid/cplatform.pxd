@@ -43,8 +43,7 @@ cdef extern from "simgrid/simdag.h":
   void sg_host_user_set(sg_host_t host, void* userdata);
   void sg_host_user_destroy(sg_host_t host);
 
-  SD_link_t* SD_route_get_list(sg_host_t src, sg_host_t dst);
-  int SD_route_get_size(sg_host_t src, sg_host_t dst);
+  void sg_host_route(sg_host_t src, sg_host_t dst, xbt.xbt_dynar_t route);
   const char* sg_link_name(SD_link_t link);
 
   double SD_route_get_latency(sg_host_t src, sg_host_t dst);

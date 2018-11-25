@@ -47,13 +47,15 @@ def route(Host src not None, Host dst not None):
   """
   if (not src.impl) or (not dst.impl):
     raise Exception("Cannot build route, one of hosts is invalid")
-  cdef int links_count = cplatform.SD_route_get_size(src.impl, dst.impl)
-  if not links_count:
-    return []
-  cdef cplatform.SD_link_t* links = cplatform.SD_route_get_list(src.impl, dst.impl)
+  cdef xbt.xbt_dynar_t links = xbt.xbt_dynar_new(sizeof(void*), NULL)
+  cdef void* element = NULL
   cdef list result = []
+  cplatform.sg_host_route(src.impl, dst.impl, links)
+  links_count = xbt.xbt_dynar_length(links)
   for idx in range(links_count):
-    result.append(cplatform.sg_link_name(links[idx]).decode("utf-8"))
+    xbt.xbt_dynar_get_cpy(links, idx, &element)
+    result.append(cplatform.sg_link_name(element).decode("utf-8"))
+  xbt.xbt_dynar_free_container(&links)
   return result
 
 

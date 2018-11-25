@@ -78,8 +78,8 @@ def run_simulation(scheduler):
 def main():
   # single run in current process mode, used for profiling
   if True:
-    #with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
-    with simdag.Simulation("dag/plat_exp1/cluster_5_1-4_100_100_0.xml", "dag/tasks_exp1/Inspiral_100.xml") as simulation:
+    with simdag.Simulation("test/data/pl_4hosts.xml", "test/data/basic_graph.dot") as simulation:
+    #with simdag.Simulation("dag/plat_exp1/cluster_5_1-4_100_100_0.xml", "dag/tasks_exp1/Inspiral_100.xml") as simulation:
     #with simdag.Simulation("dag/plat_exp1/cluster_20_1-4_100_100_0.xml", "dag/tasks_exp2/testg0.6.dot") as simulation:
       #graph = simulation.get_task_graph()
       #scheduler = algorithms.HEFT(simulation)
@@ -92,7 +92,7 @@ def main():
       #scheduler = algorithms.SimHEFT(simulation)
       scheduler.run()
       for t in simulation.tasks.sorted(lambda t: t.start_time):
-        print(t.name, t.start_time, t.finish_time, t.hosts[0].name)
+        print(t.name, t.start_time, t.finish_time, t.hosts[0].name if t.hosts else "no host")
       print(scheduler.scheduler_time, scheduler.total_time)
       print("EXEC", sum([(t.finish_time - t.start_time) for t in simulation.tasks]))
       print("COMM", sum([(t.finish_time - t.start_time) for t in simulation.connections]))

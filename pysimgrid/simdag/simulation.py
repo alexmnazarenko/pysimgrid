@@ -174,7 +174,8 @@ class Simulation(object):
     Context interface implementation.
     """
     self._logger.info("Finalizing the simulation (clock: %.2f)", self.clock)
-    csimdag.exit()
+    # newer versions of simgrid call exit automatically
+    # csimdag.exit()
     return False
 
 

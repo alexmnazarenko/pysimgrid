@@ -51,7 +51,7 @@ cdef extern from "simgrid/simdag.h":
   void SD_init(int* argc, char** argv);
   void SD_config(char* key, char* value);
   void SD_create_environment(const char* cplatform_file);
-  xbt.xbt_dynar_t SD_simulate(double how_long);
+  void SD_simulate_with_update(double how_long, xbt.xbt_dynar_t updates);
   double SD_get_clock();
   void SD_exit();
   xbt.xbt_dynar_t SD_daxload(const char* filename);
@@ -106,6 +106,7 @@ cdef extern from "simgrid/simdag.h":
 cdef class Task:
   cdef SD_task_t impl
   cdef object user_data
+  cdef list _hosts
 
   @staticmethod
   cdef Task wrap(SD_task_t impl)

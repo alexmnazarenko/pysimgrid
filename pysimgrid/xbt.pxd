@@ -24,7 +24,9 @@ Intent is to avoid using them as much as possible. However, SimGrid API sometime
 
 cdef extern from "xbt/dynar.h":
   ctypedef void* xbt_dynar_t
+  ctypedef void (*void_f_pvoid_t) (void *);
 
+  xbt_dynar_t xbt_dynar_new(const unsigned long elm_size, void_f_pvoid_t free_f);
   unsigned long xbt_dynar_length(const xbt_dynar_t dynar);
   int xbt_dynar_is_empty(const xbt_dynar_t dynar);
   void xbt_dynar_get_cpy(const xbt_dynar_t dynar, const unsigned long idx, void* const dst);
