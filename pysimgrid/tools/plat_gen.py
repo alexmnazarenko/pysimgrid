@@ -27,13 +27,15 @@ thus sending all the workflow inputs and collecting all the outputs.
 
 Usage::
 
-    python -m pysimgrid.tools.plat_gen output_dir num_systems cluster [-h] [--include_master]
+    python -m pysimgrid.tools.plat_gen output_dir num_systems seed cluster [-h] [--include_master] [...]
                                        num_hosts host_speed
                                        link_bandwidth link_latency
 
     positional arguments:
       num_hosts         number of hosts (excluding optional master host)
       host_speed        host speed in GFLOPS (e.g. '1', '1-10')
+      seed              random seed
+      system type       type of system (only cluster is supported in current version)
       link_bandwidth    link bandwidth in MBps as 'bandwidth[:master_bandwidth]'
                         (e.g. '125', '10-100:100')
       link_latency      link latency in us as 'latency[:master_latency]' (e.g.
@@ -42,6 +44,8 @@ Usage::
     optional arguments:
       -h, --help        show this help message and exit
       --include_master  include special 'master' host into the cluster
+      --loopback_bandwidth=BANDWIDTH_IN_MBPS  loopback bandwidth
+      --loopback_latency=LATENCY_IN_US   loopback latency 
 """
 
 from __future__ import print_function

@@ -22,18 +22,21 @@ Bag of tasks (BOT) problem generator.
 Usage::
 
     python -m pysimgrid.tools.bot_gen [-h]
-                            num_tasks input_size comp_size output_size output_dir
-                            num_graphs
+                                      output_dir num_graphs seed 
+                                      num_tasks input_size 
+                                      comp_size output_size
+                            
 
     Generator of synthetic graphs for bag-of-tasks applications
 
     positional arguments:
+      output_dir   output directory
+      num_graphs   number of generated graphs
+      seed         random seed
       num_tasks    number of tasks
       input_size   task input size in bytes
       comp_size    task computational size in flops
       output_size  task output size in bytes
-      output_dir   output directory
-      num_graphs   number of generated graphs
 
     optional arguments:
       -h, --help   show this help message and exit

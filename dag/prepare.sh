@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DAGGEN_PATH="$HOME/devel/daggen/daggen"
+DAGGEN_PATH="$HOME/final_project/daggen/daggen"
 
 pushd "$SCRIPT_DIR/.."
 
@@ -19,9 +19,9 @@ fi
 # Latency:   100 us
 #
 if [ ! -d "$SCRIPT_DIR/plat_exp1" ]; then
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 cluster 5 1-4 100 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 cluster 10 1-4 100 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 cluster 20 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 179 cluster 5 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 179 cluster 10 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1" 100 179 cluster 20 1-4 100 100 --include_master
 fi
 
 #
@@ -33,19 +33,19 @@ fi
 # Latency:   0
 #
 if [ ! -d "$SCRIPT_DIR/plat_exp1_inf" ]; then
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 cluster 5 1-4 1e12 0 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 cluster 10 1-4 1e12 0 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 cluster 20 1-4 1e12 0 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 179 cluster 5 1-4 1e12 0 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 179 cluster 10 1-4 1e12 0 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp1_inf" 100 179 cluster 20 1-4 1e12 0 --include_master
 fi
 
 
 if [ ! -d "$SCRIPT_DIR/plat_exp2" ]; then
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp2" 1 cluster 10 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp2" 1 179 cluster 10 1-4 100 100 --include_master
 fi
 
 
 if [ ! -d "$SCRIPT_DIR/plat_exp2_inf" ]; then
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp2_inf" 1 cluster 10 1-4 1e12 0 --loopback_bandwidth=1e12 --loopback_latency=0 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp2_inf" 1 179 cluster 10 1-4 1e12 0 --loopback_bandwidth=1e12 --loopback_latency=0 --include_master
 fi
 
 
@@ -62,15 +62,15 @@ fi
 # Latency:   100 us
 #
 if [ ! -d "$SCRIPT_DIR/plat_exp3" ]; then
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 5 1-4 100 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 10 1-4 100 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 20 1-4 100 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 5 1-4 20 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 10 1-4 20 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 20 1-4 20 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 5 1-4 10 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 10 1-4 10 100 --include_master
-  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 cluster 20 1-4 10 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 5 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 10 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 20 1-4 100 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 5 1-4 20 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 10 1-4 20 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 20 1-4 20 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 5 1-4 10 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 10 1-4 10 100 --include_master
+  python3 -m pysimgrid.tools.plat_gen "$SCRIPT_DIR/plat_exp3" 1 179 cluster 20 1-4 10 100 --include_master
 fi
 
 if [ ! -d "$SCRIPT_DIR/tasks_exp3" ]; then
