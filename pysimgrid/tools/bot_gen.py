@@ -1,6 +1,6 @@
 # This file is part of pysimgrid, a Python interface to the SimGrid library.
 #
-# Copyright 2015-2016 Alexey Nazarenko and contributors
+# Copyright 2015-2018 Alexey Nazarenko and contributors
 #
 # This library is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -17,17 +17,21 @@
 #
 
 """
-Bag of tasks (BOT) problem generator.
+Bag of tasks (BOT) applications generator.
 
 Usage::
 
     python -m pysimgrid.tools.bot_gen [-h]
-                            num_tasks input_size comp_size output_size output_dir
-                            num_graphs
+                                      output_dir num_graphs seed
+                                      num_tasks input_size
+                                      comp_size output_size
 
     Generator of synthetic graphs for bag-of-tasks applications
 
     positional arguments:
+      output_dir   output directory
+      num_graphs   number of generated graphs
+      seed         random seed
       num_tasks    number of tasks
       input_size   task input size in bytes
       comp_size    task computational size in flops
