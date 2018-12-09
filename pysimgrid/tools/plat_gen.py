@@ -1,6 +1,6 @@
 # This file is part of pysimgrid, a Python interface to the SimGrid library.
 #
-# Copyright 2015-2016 Alexey Nazarenko and contributors
+# Copyright 2015-2018 Alexey Nazarenko and contributors
 #
 # This library is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -27,11 +27,18 @@ thus sending all the workflow inputs and collecting all the outputs.
 
 Usage::
 
-    python -m pysimgrid.tools.plat_gen output_dir num_systems cluster [-h] [--include_master]
+    python -m pysimgrid.tools.plat_gen output_dir num_systems seed system_type
                                        num_hosts host_speed
                                        link_bandwidth link_latency
+                                       [--loopback_bandwidth] [--loopback_latency]
+                                       [--include_master]
 
     positional arguments:
+      output_dir        path to output directory
+      num_systems       number of generated systems
+      seed              random seed
+      system_type       system type (only 'cluster' is supported in current version)
+
       num_hosts         number of hosts (excluding optional master host)
       host_speed        host speed in GFLOPS (e.g. '1', '1-10')
       link_bandwidth    link bandwidth in MBps as 'bandwidth[:master_bandwidth]'
@@ -40,8 +47,10 @@ Usage::
                         '10', '10-100:10')
 
     optional arguments:
-      -h, --help        show this help message and exit
-      --include_master  include special 'master' host into the cluster
+      -h, --help            show this help message and exit
+      --loopback_bandwidth  loopback link bandwidth in MBps
+      --loopback_latency    loopback link latency in us
+      --include_master      include special 'master' host into the cluster
 """
 
 from __future__ import print_function
@@ -222,10 +231,11 @@ def main(output_dir, num_systems, seed, system_type, num_hosts, host_speed, link
 
 def _cli():
     parser = argparse.ArgumentParser(description="Generator of synthetic systems")
-    parser.add_argument("output_dir", type=str, help="output directory")
+    parser.add_argument("output_dir", type=str, help="path to output directory")
     parser.add_argument("num_systems", type=int, help="number of generated systems")
     parser.add_argument("seed", type=int, help="random seed")
-    subparsers = parser.add_subparsers(dest="system_type", help="system type")
+    subparsers = parser.add_subparsers(dest="system_type",
+                                       help="system type (only 'cluster' is supported in current version)")
 
     # cluster
     parser_cluster = subparsers.add_parser("cluster", help="collection of hosts with a flat topology")
