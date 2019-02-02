@@ -53,7 +53,7 @@ class PEFT(StaticScheduler):
     ordered_tasks = cscheduling.schedulable_order(nxgraph, oct_rank)
 
     for task in ordered_tasks:
-      if cscheduling.try_schedule_boundary_task(task, platform_model, state):
+      if cscheduling.try_schedule_boundary_task(task, nxgraph, platform_model, state):
         continue
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():

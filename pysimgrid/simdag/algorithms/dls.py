@@ -112,7 +112,7 @@ class DLS(StaticScheduler):
 
       assert (cur_max != unreal_dl)
 
-      if cscheduling.try_schedule_boundary_task(task_to_schedule, platform_model, state) == False:
+      if cscheduling.try_schedule_boundary_task(task_to_schedule, nxgraph, platform_model, state) == False:
         est = platform_model.est(host_to_schedule, dict(nxgraph.pred[task_to_schedule]), state)
         eet = platform_model.eet(task_to_schedule, host_to_schedule)
         timesheet = state.timetable[host_to_schedule]

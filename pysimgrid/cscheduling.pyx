@@ -366,7 +366,7 @@ cdef class MinSelector(object):
     return self.best_value
 
 
-cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model, SchedulerState state):
+cpdef try_schedule_boundary_task(csimdag.Task task, object nxgraph, PlatformModel platform_model, SchedulerState state):
   cdef str ROOT_NAME = "root"
   cdef str END_NAME = "end"
   cdef bytes MASTER_NAME = b"master"
@@ -378,7 +378,7 @@ cpdef try_schedule_boundary_task(csimdag.Task task, PlatformModel platform_model
   cdef double finish, start
   for host, timesheet in state.timetable.items():
     if host.native == master_host:
-      finish = start = timesheet[-1][2] if timesheet else 0
+      start = finish = platform_model.est(host, dict(nxgraph.pred[task]), state)
       state.update(task, host, len(timesheet), start, finish)
       break
   else:
@@ -436,7 +436,7 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
   cdef cplatform.Host host
   cdef double est, eet, start, finish
   for task in ordered_tasks:
-    if try_schedule_boundary_task(task, platform_model, state):
+    if try_schedule_boundary_task(task, nxgraph, platform_model, state):
       continue
     current_min = MinSelector()
     for host, timesheet in state.timetable.items():

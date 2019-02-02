@@ -130,7 +130,7 @@ class SimHEFT(scheduler.StaticScheduler):
     ctx = multiprocessing.get_context("spawn")
     for task in ordered_tasks:
       _update_subgraph(nxgraph, subgraph, task)
-      if cscheduling.try_schedule_boundary_task(task, platform_model, state):
+      if cscheduling.try_schedule_boundary_task(task, nxgraph, platform_model, state):
         continue
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():

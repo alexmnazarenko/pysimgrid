@@ -59,7 +59,7 @@ class Lookahead(scheduler.StaticScheduler):
 
     ordered_tasks = cscheduling.heft_order(nxgraph, platform_model)
     for idx, task in enumerate(ordered_tasks):
-      if cscheduling.try_schedule_boundary_task(task, platform_model, state):
+      if cscheduling.try_schedule_boundary_task(task, nxgraph, platform_model, state):
         continue
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():

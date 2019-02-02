@@ -80,7 +80,7 @@ class HCPT(StaticScheduler):
         continue
       else:
         scheduled.add(task)
-      if cscheduling.try_schedule_boundary_task(task, platform_model, state):
+      if cscheduling.try_schedule_boundary_task(task, nxgraph, platform_model, state):
         continue
       current_min = cscheduling.MinSelector()
       for host, timesheet in state.timetable.items():
