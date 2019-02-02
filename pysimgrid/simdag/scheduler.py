@@ -156,10 +156,13 @@ class StaticScheduler(Scheduler):
       #   else:
       #     if task.state == csimdag.TASK_STATE_DONE:
       #       print("%20s: %s (%s - %s, %.6f - %.6f)" % (task.name, str(task.state),
-      #                                                  task.hosts[0].name, task.hosts[1].name,
+      #                                                  task.hosts[0].name,
+      #                                                  (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
       #                                                  task.start_time, task.finish_time))
       #     else:
-      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.hosts[1].name,
+      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state),
+      #                                           task.hosts[0].name,
+      #                                           (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
       #                                           task.start_time))
 
       self.__update_host_status(hosts_status, changed)
@@ -244,10 +247,13 @@ class DynamicScheduler(Scheduler):
       #   else:
       #     if task.state == csimdag.TASK_STATE_DONE:
       #       print("%20s: %s (%s - %s, %.6f - %.6f)" % (task.name, str(task.state),
-      #                                                  task.hosts[0].name, task.hosts[1].name,
+      #                                                  task.hosts[0].name,
+      #                                                  (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
       #                                                  task.start_time, task.finish_time))
       #     else:
-      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state), task.hosts[0].name, task.hosts[1].name,
+      #       print("%20s: %s (%s - %s, %.6f)" % (task.name, str(task.state),
+      #                                           task.hosts[0].name,
+      #                                           (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
       #                                           task.start_time))
 
       scheduler_time = time.time()
