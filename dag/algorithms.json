@@ -7,7 +7,7 @@
     "class": "pysimgrid.simdag.algorithms.MCT",
     "name": "MCT"
   },
-    {
+  {
     "class": "pysimgrid.simdag.algorithms.BatchMin",
     "name": "MinMin"
   },
