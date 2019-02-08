@@ -105,6 +105,7 @@ cdef extern from "simgrid/simdag.h":
 
 cdef class Task:
   cdef SD_task_t impl
+  cdef double amount_estimate
   cdef object user_data
 
   @staticmethod

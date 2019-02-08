@@ -45,6 +45,7 @@ Usage::
       --algo [ALGO [ALGO ...]]
                             name(s) of algorithms to use (case-sensitive; must
                             still be defined in algorithms file)
+      --estimator           estimator to generate estimates (Accurate, SimpleDispersion:percentage)
 """
 
 from __future__ import print_function
@@ -62,6 +63,7 @@ import textwrap
 import time
 import traceback
 
+from .estimator import AccurateEstimator, SimpleDispersionEstimator
 from .. import simdag
 
 
@@ -120,7 +122,7 @@ def import_algorithm(algorithm):
 
 
 def run_experiment(job):
-  platform, tasks, algorithm, config = job
+  platform, tasks, estimator, algorithm, config = job
   python_log_level, simgrid_log_level = config["log_level"], config["simgrid_log_level"]
   stop_on_error = config["stop_on_error"]
   logging.getLogger().setLevel(python_log_level)
@@ -130,7 +132,7 @@ def run_experiment(job):
   # init return values with NaN's
   makespan, exec_time, comm_time, sched_time, exp_makespan = [float("NaN")] * 5
   try:
-    with simdag.Simulation(platform, tasks, log_config="root.threshold:" + simgrid_log_level) as simulation:
+    with simdag.Simulation(platform, tasks, estimator, log_config="root.threshold:" + simgrid_log_level) as simulation:
       scheduler = scheduler_class(simulation)
       scheduler.run()
       makespan = simulation.clock
@@ -190,6 +192,7 @@ def main():
   parser.add_argument("--stop-on-error", action="store_true", default=False, help="stop experiment on a first error")
   # useful for algorithm debugging
   parser.add_argument("--algo", type=str, nargs="*", help="name(s) of algorithms to use (case-sensitive; must still be defined in algorithms file)")
+  parser.add_argument("--estimator", type=str, help="estimator to generate estimates (Accurate, SimpleDispersion:percentage)")
   args = parser.parse_args()
 
   logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
@@ -211,6 +214,17 @@ def main():
 
   platforms = file_list(args.platforms, ["*.xml"])
   tasks = file_list(args.tasks)
+
+  estimator = None
+  if args.estimator:
+    if args.estimator == "Accurate":
+      estimator = AccurateEstimator()
+    elif args.estimator.startswith("SimpleDispersion"):
+      percentage = float(args.estimator.split(":")[1])
+      estimator = SimpleDispersionEstimator(percentage)
+    else:
+      raise Exception("Unknown estimator")
+
   config = [{
     "stop_on_error": args.stop_on_error,
     "log_level": _LOG_LEVEL_FROM_STRING[args.log_level],
@@ -219,7 +233,7 @@ def main():
 
   # convert to list just get length nicely
   #   can be left as an iterator, but memory should not be the issue
-  jobs = list(itertools.product(platforms, tasks, algorithms, config))
+  jobs = list(itertools.product(platforms, tasks, [estimator], algorithms, config))
 
   # report experiment setup
   #   looks scary, but it's probably a shortest way to do this in terms of LOC
@@ -232,6 +246,7 @@ def main():
 
     Tasks source:    %s
     Tasks count:     %d
+    Estimator:       %s
 
     Algorithms count: %d
     Algorithms:
@@ -239,7 +254,7 @@ def main():
 
     Configuration:
   %s
-  """) % (len(jobs), args.platforms, len(platforms), args.tasks, len(tasks), len(algorithms),
+  """) % (len(jobs), args.platforms, len(platforms), args.tasks, len(tasks), args.estimator, len(algorithms),
           "\n".join(["    " + a["name"] for a in algorithms]),
           "\n".join(["    %s: %s" % (k, v) for k,v in config[0].items()])
   ))
@@ -254,7 +269,7 @@ def main():
   ctx = multiprocessing.get_context("spawn")
   with NoDaemonPool(processes=args.jobs, maxtasksperchild=1, context=ctx) as pool:
     for job, makespan, exec_time, comm_time, sched_time, exp_makespan in progress_reporter(pool.imap_unordered(run_experiment, jobs, 1), len(jobs), logger):
-      platform, tasks, algorithm, _ = job
+      platform, tasks, estimator, algorithm, _ = job
       results.append({
         "platform": platform,
         "tasks": tasks,

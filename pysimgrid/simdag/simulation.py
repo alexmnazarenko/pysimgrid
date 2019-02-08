@@ -22,6 +22,7 @@ import networkx
 import os
 
 from .. import csimdag
+from .. import tools
 
 class Simulation(object):
   """
@@ -42,9 +43,10 @@ class Simulation(object):
     "network/model": "LV08"
   }
 
-  def __init__(self, platform, tasks, config=None, log_config=None):
+  def __init__(self, platform, tasks, estimator=tools.AccurateEstimator(), config=None, log_config=None):
     self._platform_src = platform
     self._tasks_src = tasks
+    self._estimator = estimator
     self._config = self._DEFAULT_CONFIG
     self._log_config = log_config
     if config:
@@ -164,6 +166,12 @@ class Simulation(object):
     self._tasks = [_SimulationTask(t.native, self, self._logger) for t in tasks]
     comm_tasks_count = len(self.connections)
     self._logger.debug("Tasks loaded, %d nodes, %d links", len(self._tasks) - comm_tasks_count, comm_tasks_count)
+
+    if self._estimator is not None:
+      for task in self.tasks:
+        if task.amount > 0:
+          task.amount_estimate = self._estimator.generate(task.amount)
+      self._logger.debug("Generated estimates using provided estimator")
 
     self._logger.info("Simulation initialized")
     Simulation._INSTANCE = self

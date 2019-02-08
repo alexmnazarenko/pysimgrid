@@ -300,6 +300,31 @@ cdef class Task:
   def amount(self):
     """
     Get task 'size': flops for computational tasks, bytes for transfer tasks.
+    Real value is replaced by a possibly inaccurate estimate if set.
+    """
+    self.__check_impl()
+    if self.amount_estimate != -1:
+        return self.amount_estimate
+    else:
+        return csimdag.SD_task_get_amount(self.impl)
+
+  @property
+  def amount_estimate(self):
+    """
+    Get task amount estimate (possibly inaccurate)
+    """
+    self.__check_impl()
+    return self.amount_estimate
+
+  @amount_estimate.setter
+  def amount_estimate(self, amount_estimate):
+    self.__check_impl()
+    self.amount_estimate = amount_estimate
+
+  @property
+  def amount_real(self):
+    """
+    Get real (accurate) task amount
     """
     self.__check_impl()
     return csimdag.SD_task_get_amount(self.impl)
@@ -399,6 +424,7 @@ cdef class Task:
     Basic initialization.
     """
     self.impl = NULL
+    self.amount_estimate = -1
 
   def __check_impl(self):
     """
