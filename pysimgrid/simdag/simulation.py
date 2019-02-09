@@ -72,7 +72,30 @@ class Simulation(object):
     """
     changed = csimdag.simulate(how_long)
     changed_ids = [t.native for t in changed]
-    return _TaskList([t for t in self._tasks if t.native in changed_ids])
+    changed_tasks = _TaskList([t for t in self._tasks if t.native in changed_ids])
+
+    self._logger.debug("%.6f ------------------------------------------------------------------" % self.clock)
+    for task in changed_tasks:
+        if task.kind == csimdag.TASK_KIND_COMP_SEQ:
+            if task.state == csimdag.TASK_STATE_DONE:
+                self._logger.debug("%20s: %s (%s, %.6f - %.6f)" %
+                                   (task.name, str(task.state), task.hosts[0].name, task.start_time, task.finish_time))
+            else:
+                self._logger.debug("%20s: %s (%s, %.6f)" %
+                                   (task.name, str(task.state), task.hosts[0].name, task.start_time))
+        else:
+            if task.state == csimdag.TASK_STATE_DONE:
+                self._logger.debug("%20s: %s (%s - %s, %.6f - %.6f)" %
+                                   (task.name, str(task.state), task.hosts[0].name,
+                                    (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
+                                    task.start_time, task.finish_time))
+            else:
+                self._logger.debug("%20s: %s (%s - %s, %.6f)" %
+                                   (task.name, str(task.state), task.hosts[0].name,
+                                    (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
+                                    task.start_time))
+
+    return changed_tasks
 
   def get_task_graph(self):
     """

@@ -77,6 +77,17 @@ from .. import simdag
 import multiprocessing.pool
 
 
+_LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+_LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
+_LOG_LEVEL_FROM_STRING = {
+  "debug": logging.DEBUG,
+  "info": logging.INFO,
+  "warning": logging.WARNING,
+  "error": logging.ERROR,
+  "critical": logging.CRITICAL
+}
+
+
 class NoDaemonProcess(multiprocessing.context.SpawnProcess):
     @property
     def daemon(self):
@@ -125,7 +136,7 @@ def run_experiment(job):
   platform, tasks, estimator, algorithm, config = job
   python_log_level, simgrid_log_level = config["log_level"], config["simgrid_log_level"]
   stop_on_error = config["stop_on_error"]
-  logging.getLogger().setLevel(python_log_level)
+  logging.basicConfig(level=config["log_level"], format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
   logger = logging.getLogger("pysimgrid.tools.Experiment")
   logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
@@ -169,16 +180,6 @@ def progress_reporter(iterable, length, logger):
 
 
 def main():
-  _LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-  _LOG_FORMAT = "[%(name)s] [%(levelname)5s] [%(asctime)s] %(message)s"
-  _LOG_LEVEL_FROM_STRING = {
-    "debug": logging.DEBUG,
-    "info": logging.INFO,
-    "warning": logging.WARNING,
-    "error": logging.ERROR,
-    "critical": logging.CRITICAL
-  }
-
   parser = argparse.ArgumentParser(description="Run experiments for a set of scheduling algorithms")
   parser.add_argument("platforms", type=str, help="path to file or directory containing platform definitions (*.xml)")
   parser.add_argument("tasks", type=str, help="path to file or directory containing task definitions (*.dax, *.dot)")
@@ -195,7 +196,7 @@ def main():
   parser.add_argument("--estimator", type=str, help="estimator to generate estimates (Accurate, SimpleDispersion:percentage)")
   args = parser.parse_args()
 
-  logging.basicConfig(level=logging.DEBUG, format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
+  logging.basicConfig(level=_LOG_LEVEL_FROM_STRING[args.log_level], format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
   logger = logging.getLogger("Experiment")
 
   with open(args.algorithms, "r") as alg_file:
