@@ -196,7 +196,7 @@ class Simulation(object):
           task.amount_estimate = self._estimator.generate(task.amount)
       self._logger.debug("Generated estimates using provided estimator")
 
-    self._logger.info("Simulation initialized")
+    self._logger.debug("Simulation initialized")
     Simulation._INSTANCE = self
     return self
 
@@ -204,7 +204,7 @@ class Simulation(object):
     """
     Context interface implementation.
     """
-    self._logger.info("Finalizing the simulation (clock: %.2f)", self.clock)
+    self._logger.debug("Finalizing the simulation (clock: %.2f)", self.clock)
     csimdag.exit()
     return False
 
@@ -231,11 +231,11 @@ class _SimulationTask(csimdag.Task):
     return self.__remap(super(_SimulationTask, self).parents, self._sim.all_tasks)
 
   def schedule(self, host):
-    self._logger.info("Scheduling task '%s' to host '%s'", self.name, host.name)
+    self._logger.debug("Scheduling task '%s' to host '%s'", self.name, host.name)
     super(_SimulationTask, self).schedule(host)
 
   def schedule_after(self, host, predecessor):
-    self._logger.info("Scheduling task '%s' to host '%s' after '%s'", self.name, host.name, predecessor.name)
+    self._logger.debug("Scheduling task '%s' to host '%s' after '%s'", self.name, host.name, predecessor.name)
     super(_SimulationTask, self).schedule_after(host, predecessor)
 
   def __remap(self, internal_list, public_list):

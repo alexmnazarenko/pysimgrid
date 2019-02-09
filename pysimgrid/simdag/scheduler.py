@@ -154,14 +154,14 @@ class StaticScheduler(Scheduler):
     start_time = time.time()
     schedule = self.get_schedule(self._simulation)
     self.__scheduler_time = time.time() - start_time
-    self._log.info("Scheduling time: %f", self.__scheduler_time)
+    self._log.debug("Scheduling time: %f", self.__scheduler_time)
     if not isinstance(schedule, (dict, tuple)):
       raise Exception("'get_schedule' must return a dictionary or a tuple")
     if isinstance(schedule, tuple):
       if len(schedule) != 2 or not isinstance(schedule[0], dict) or not isinstance(schedule[1], float):
         raise Exception("'get_schedule' returned tuple should have format (<schedule>, <expected_makespan>)")
       schedule, self.__expected_makespan = schedule
-      self._log.info("Expected makespan: %f", self.__expected_makespan)
+      self._log.debug("Expected makespan: %f", self.__expected_makespan)
     for host, task_list in schedule.items():
       if not (isinstance(host, cplatform.Host) and isinstance(task_list, list)):
         raise Exception("'get_schedule' must return a dictionary Host:List_of_tasks")

@@ -138,7 +138,7 @@ def run_experiment(job):
   stop_on_error = config["stop_on_error"]
   logging.basicConfig(level=config["log_level"], format=_LOG_FORMAT, datefmt=_LOG_DATE_FORMAT)
   logger = logging.getLogger("pysimgrid.tools.Experiment")
-  logger.info("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
+  logger.debug("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
   scheduler_class = import_algorithm(algorithm["class"])
   # init return values with NaN's
   makespan, exec_time, comm_time, sched_time, exp_makespan = [float("NaN")] * 5
