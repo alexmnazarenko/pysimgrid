@@ -235,8 +235,12 @@ cdef class Task:
     self.__check_impl()
     if not host.impl:
       raise RuntimeError("host instance is invalid")
+    parents = set()
+    for comm in self.parents:
+      parents.add(comm.parents[0].name)
     cdef bytes utf8name = common.utf8_string("scheduled-after")
-    csimdag.SD_task_dependency_add(utf8name, NULL, predecessor.impl, self.impl)
+    if predecessor.name not in parents:
+      csimdag.SD_task_dependency_add(utf8name, NULL, predecessor.impl, self.impl)
     csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
 
   def get_eet(self, cplatform.Host host not None):
