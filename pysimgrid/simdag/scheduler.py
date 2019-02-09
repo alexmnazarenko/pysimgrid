@@ -19,11 +19,40 @@
 import abc
 import itertools
 import logging
+import os
 import time
+
+from enum import Enum
 
 from .. import six
 from .. import csimdag
 from .. import cplatform
+
+
+class DispatchMode(Enum):
+  """
+  Defines the strategy used for dispatching scheduled tasks to hosts (actually passing task assignments to SimDAG).
+
+  FREE_HOST:
+  - the task is dispatched to host only after all previously scheduled host tasks are completed
+
+  IMMEDIATE:
+  - the task is dispatched immediately but will execute only after all previously scheduled host tasks are completed
+  - the dependency on the previous host task is added to DAG to ensure that task executions are not overlapping
+  - this mode allows to start downloading input data as soon as possible
+
+  PARENTS_DONE:
+  - the task is dispatched only after all its parents are completed
+  - the task will execute only after all previously scheduled host tasks are completed, similarly to IMMEDIATE mode
+
+  IMMEDIATE_OVERLAP:
+  - same as IMMEDIATE, but the tasks dispatched to the same host are allowed to execute concurrently
+  """
+  FREE_HOST = 1
+  IMMEDIATE = 2
+  PARENTS_DONE = 3
+  IMMEDIATE_OVERLAP = 4
+
 
 class Scheduler(six.with_metaclass(abc.ABCMeta)):
   """
@@ -111,6 +140,13 @@ class StaticScheduler(Scheduler):
     self.__total_time = -1.
     self.__expected_makespan = None
 
+    # Dispatch mode is configured via environment variable.
+    # Default mode is FREE_HOST.
+    if "PYSIMGRID_DISPATCH_MODE" in os.environ:
+      self.__dispatch_mode = DispatchMode[os.environ["PYSIMGRID_DISPATCH_MODE"]]
+    else:
+      self.__dispatch_mode = DispatchMode.FREE_HOST
+
   def run(self):
     """
     Execute a static schedule produced by algorithm implementation.
@@ -123,7 +159,7 @@ class StaticScheduler(Scheduler):
       raise Exception("'get_schedule' must return a dictionary or a tuple")
     if isinstance(schedule, tuple):
       if len(schedule) != 2 or not isinstance(schedule[0], dict) or not isinstance(schedule[1], float):
-        raise Exception("'get_schedule' returned tuple should have format (<expected_makespan>, <schedule>)")
+        raise Exception("'get_schedule' returned tuple should have format (<schedule>, <expected_makespan>)")
       schedule, self.__expected_makespan = schedule
       self._log.info("Expected makespan: %f", self.__expected_makespan)
     for host, task_list in schedule.items():
@@ -136,7 +172,24 @@ class StaticScheduler(Scheduler):
     if len(unscheduled) != len(self._simulation.tasks):
       raise Exception("static scheduler should not directly schedule tasks")
 
-    hosts_status = {h: True for h in self._simulation.hosts}
+    if self.__dispatch_mode == DispatchMode.FREE_HOST:
+      hosts_status = {h: True for h in self._simulation.hosts}
+    elif self.__dispatch_mode in [DispatchMode.IMMEDIATE, DispatchMode.IMMEDIATE_OVERLAP]:
+      for host, tasks in schedule.items():
+        prev = None
+        for task in tasks:
+          if prev is None or self.__dispatch_mode == DispatchMode.IMMEDIATE_OVERLAP:
+            task.schedule(host)
+          else:
+            task.schedule_after(host, prev)
+          prev = task
+    elif self.__dispatch_mode == DispatchMode.PARENTS_DONE:
+      task_assignments = {}
+      for host, tasks in schedule.items():
+        prev = None
+        for task in tasks:
+          task_assignments[task] = (host, prev)
+          prev = task
 
     for t in self._simulation.tasks:
       t.watch(csimdag.TASK_STATE_DONE)
@@ -165,8 +218,17 @@ class StaticScheduler(Scheduler):
       #                                           (task.hosts[1].name if len(task.hosts) == 2 else task.hosts[0].name),
       #                                           task.start_time))
 
-      self.__update_host_status(hosts_status, changed)
-      self.__schedule_to_free_hosts(schedule, hosts_status)
+      if self.__dispatch_mode == DispatchMode.FREE_HOST:
+        self.__update_host_status(hosts_status, changed)
+        self.__schedule_to_free_hosts(schedule, hosts_status)
+      elif self.__dispatch_mode == DispatchMode.PARENTS_DONE:
+        for task in self._simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
+          host, prev = task_assignments[task]
+          if prev is not None and prev.state < csimdag.TaskState.TASK_STATE_DONE:
+            task.schedule_after(host, prev)
+          else:
+            task.schedule(host)
+
       changed = self._simulation.simulate()
       if not changed:
         break

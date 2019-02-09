@@ -228,6 +228,17 @@ cdef class Task:
       raise RuntimeError("host instance is invalid")
     csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
 
+  def schedule_after(self, cplatform.Host host not None, csimdag.Task predecessor not None):
+    """
+    Schedule this task to a given host after the predecessor task.
+    """
+    self.__check_impl()
+    if not host.impl:
+      raise RuntimeError("host instance is invalid")
+    cdef bytes utf8name = common.utf8_string("scheduled-after")
+    csimdag.SD_task_dependency_add(utf8name, NULL, predecessor.impl, self.impl)
+    csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
+
   def get_eet(self, cplatform.Host host not None):
     """
     Estimate task execution time on a given host.

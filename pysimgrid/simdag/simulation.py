@@ -211,6 +211,10 @@ class _SimulationTask(csimdag.Task):
     self._logger.info("Scheduling task '%s' to host '%s'", self.name, host.name)
     super(_SimulationTask, self).schedule(host)
 
+  def schedule_after(self, host, predecessor):
+    self._logger.info("Scheduling task '%s' to host '%s' after '%s'", self.name, host.name, predecessor.name)
+    super(_SimulationTask, self).schedule_after(host, predecessor)
+
   def __remap(self, internal_list, public_list):
     """
     A bit ugly instance remapper. Strange implementation is to preserve original order (it may suddenly matter).
