@@ -19,8 +19,10 @@
 import collections
 import logging
 import networkx
+import operator
 import os
 
+from .scheduler import DispatchMode
 from .. import csimdag
 from .. import tools
 
@@ -160,6 +162,25 @@ class Simulation(object):
     """
     return csimdag.get_clock()
 
+  def sanity_check(self):
+    """
+    Check whether task executions overlap on hosts or not.
+    """
+    timetable_per_host = {}
+    for task in self.tasks:
+      host = task.hosts
+      assert(len(host) == 1)
+      if host[0].name not in timetable_per_host:
+        timetable_per_host[host[0].name] = []
+      timetable_per_host[host[0].name].append((task.start_time, task.finish_time))
+    for host in timetable_per_host:
+      last_ended = -1
+      for task_time in sorted(timetable_per_host[host], key=operator.itemgetter(0)):
+        if task_time[0] < last_ended:
+          return False
+        last_ended = task_time[1]
+    return True
+
   def __enter__(self):
     """
     Context interface implementation.
@@ -205,6 +226,19 @@ class Simulation(object):
     Context interface implementation.
     """
     self._logger.debug("Finalizing the simulation (clock: %.2f)", self.clock)
+
+    # perform sanity check of produced execution
+    dispatch_mode = DispatchMode.FREE_HOST
+    if "PYSIMGRID_DISPATCH_MODE" in os.environ:
+      dispatch_mode = DispatchMode[os.environ["PYSIMGRID_DISPATCH_MODE"]]
+    if dispatch_mode != DispatchMode.IMMEDIATE_OVERLAP:
+      if self.sanity_check():
+        self._logger.debug("Sanity check PASSED")
+      else:
+        raise Exception("Sanity check FAILED (task executions overlap on hosts!)")
+    else:
+      self._logger.debug("Sanity check SKIPPED (dispatch mode is IMMEDIATE_OVERLAP)")
+
     csimdag.exit()
     return False
 
