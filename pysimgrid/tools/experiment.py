@@ -57,9 +57,11 @@ import fnmatch
 import itertools
 import json
 import logging
+import math
 import multiprocessing
 import ntpath
 import os
+import re
 import textwrap
 import time
 
@@ -159,7 +161,7 @@ def run_experiment(job):
             if scheduler.expected_makespan is not None:
                 exp_makespan = scheduler.expected_makespan
             if make_charts:
-                make_chart(simulation, platform, tasks, algorithm["name"])
+                make_chart(simulation, platform, tasks, algorithm["name"], scheduler)
     except Exception:
         # output is not pretty, but complete and robust. it is a crash anyway.
         #   note the wrapping of job into a tuple
@@ -187,7 +189,7 @@ def progress_reporter(iterable, length, logger):
     logger.info("Finished. %d experiments in %f seconds", length, time.time() - start_time)
 
 
-def make_chart(simulation, platform, tasks, algorithm):
+def make_chart(simulation, platform, tasks, algorithm, scheduler):
     TASK_COLOR1 = 'dodgerblue'
     TASK_COLOR2 = 'royalblue'
     UPLOAD_COLOR = 'lime'
@@ -207,8 +209,10 @@ def make_chart(simulation, platform, tasks, algorithm):
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    plt.title("System: %s\nApplication: %s\nAlgorithm: %s\nMakespan: %.2f\n" %
-              (platform_name, app_name, algorithm, simulation.clock), loc='left')
+    plt.title("System: %s\nApplication: %s\nAlgorithm: %s\nMakespan: %.2f (%.2f)\n" %
+              (platform_name, app_name, algorithm, simulation.clock,
+               scheduler.expected_makespan if scheduler.expected_makespan is not None else math.nan),
+              loc='left')
     plt.margins(x=0)
 
     # hosts on the chart are sorted by their speed in decreasing order
@@ -252,7 +256,7 @@ def make_chart(simulation, platform, tasks, algorithm):
                                color=TASK_COLOR2, linewidth=0)
             # draw task names only for small apps
             if task_count <= 10:
-                ax.text(task.start_time + duration / 2.0, idx, task.name,
+                ax.text(task.start_time + duration / 2.0, idx, re.sub('[^0-9]', '', task.name),
                         ha='center', va='center', color='white')
 
     # draw data transfers
@@ -263,7 +267,7 @@ def make_chart(simulation, platform, tasks, algorithm):
         dst = comm.hosts[1].name
         if src != dst:
             duration = comm.finish_time - comm.start_time
-            if duration > 0.01:
+            if duration > 0.1:
                 ax.broken_barh([(comm.start_time, duration)], (hosts_idx[src] + 0.2, 0.2),
                                color=UPLOAD_COLOR, linewidth=0)
                 ax.broken_barh([(comm.start_time, duration)], (hosts_idx[dst] - 0.4, 0.2),
