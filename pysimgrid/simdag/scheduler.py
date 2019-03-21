@@ -29,29 +29,58 @@ from .. import csimdag
 from .. import cplatform
 
 
-class DispatchMode(Enum):
+class TaskExecutionMode(Enum):
   """
-  Defines the strategy used for dispatching scheduled tasks to hosts (actually passing task assignments to SimDAG).
+  Execution mode defines how tasks are executed on a host.
 
-  FREE_HOST:
-  - the task is dispatched to host only after all previously scheduled host tasks are completed
+  - SEQUENTIAL (default):
+    task are executed strictly one by one, in order specified by the scheduler.
 
-  IMMEDIATE:
-  - the task is dispatched immediately but will execute only after all previously scheduled host tasks are completed
-  - the dependency on the previous host task is added to DAG to ensure that task executions are not overlapping
-  - this mode allows to start downloading input data as soon as possible
-
-  PARENTS_DONE:
-  - the task is dispatched only after all its parents are completed
-  - the task will execute only after all previously scheduled host tasks are completed, similarly to IMMEDIATE mode
-
-  IMMEDIATE_OVERLAP:
-  - same as IMMEDIATE, but the tasks dispatched to the same host are allowed to execute concurrently
+  - PARALLEL:
+    tasks can execute in parallel, host speed is fairly shared between concurrent tasks.
   """
-  FREE_HOST = 1
-  IMMEDIATE = 2
-  PARENTS_DONE = 3
-  IMMEDIATE_OVERLAP = 4
+  SEQUENTIAL = 1
+  PARALLEL = 2
+
+
+class DataTransferMode(Enum):
+  """
+  Data transfer strategy defines when and in what order data transfers, corresponding to edges in a workflow DAG,
+  are scheduled during the workflow execution. For each data transfer, the source task is called producer and
+  the destination task is called consumer. Applicable for SEQUENTIAL execution mode only.
+
+  - EAGER (default):
+    Data transfer is scheduled when the data is ready, i.e. the producer is completed,
+    and the destination node is known, i.e. the consumer is scheduled.
+
+  - LAZY:
+    Data transfer is scheduled when the destination node is ready to execute the consumer task.
+
+  - PREFETCH:
+    Data transfer is scheduled when the destination node is ready to execute a task
+    immediately preceding the consumer task.
+
+  - QUEUE:
+    Data transfers on each destination node are scheduled sequentially in the order of planned execution
+    of consumer tasks on this node.
+
+  - QUEUE_ECT:
+    Data transfers on each destination node are scheduled sequentially in the order of expected completion time
+    of producer tasks, breaking the ties with the order of planned execution of consumer tasks.
+
+  - PARENTS:
+    Data transfer is scheduled when all parents of the consumer task are completed.
+
+  - LAZY_PARENTS:
+    Combination of LAZY and PARENTS strategies.
+  """
+  EAGER = 1
+  LAZY = 2
+  PREFETCH = 3
+  QUEUE = 4
+  QUEUE_ECT = 5
+  PARENTS = 6
+  LAZY_PARENTS = 7
 
 
 class Scheduler(six.with_metaclass(abc.ABCMeta)):
@@ -77,6 +106,21 @@ class Scheduler(six.with_metaclass(abc.ABCMeta)):
     """
     self._simulation = simulation
     self._log = logging.getLogger(type(self).__name__)
+
+    # Task execution and data transfer modes are configured via environment variables.
+    if "PYSIMGRID_TASK_EXECUTION" in os.environ:
+      self._task_exec_mode = TaskExecutionMode[os.environ["PYSIMGRID_TASK_EXECUTION"]]
+    else:
+      self._task_exec_mode = TaskExecutionMode.SEQUENTIAL
+    if "PYSIMGRID_DATA_TRANSFER" in os.environ:
+      self._data_transfer_mode = DataTransferMode[os.environ["PYSIMGRID_DATA_TRANSFER"]]
+    else:
+      self._data_transfer_mode = DataTransferMode.EAGER
+
+    algo = type(self).__name__
+    if self._data_transfer_mode == DataTransferMode.QUEUE_ECT:
+      if algo not in ['HEFT', 'Lookahead']:
+        raise Exception('%s does not support %s mode' % (algo, self._data_transfer_mode))
 
   @abc.abstractmethod
   def run(self):
@@ -140,13 +184,6 @@ class StaticScheduler(Scheduler):
     self.__total_time = -1.
     self.__expected_makespan = None
 
-    # Dispatch mode is configured via environment variable.
-    # Default mode is FREE_HOST.
-    if "PYSIMGRID_DISPATCH_MODE" in os.environ:
-      self.__dispatch_mode = DispatchMode[os.environ["PYSIMGRID_DISPATCH_MODE"]]
-    else:
-      self.__dispatch_mode = DispatchMode.FREE_HOST
-
   def run(self):
     """
     Execute a static schedule produced by algorithm implementation.
@@ -172,45 +209,104 @@ class StaticScheduler(Scheduler):
     if len(unscheduled) != len(self._simulation.tasks):
       raise Exception("static scheduler should not directly schedule tasks")
 
-    if self.__dispatch_mode == DispatchMode.FREE_HOST:
-      hosts_status = {h: True for h in self._simulation.hosts}
-    elif self.__dispatch_mode in [DispatchMode.IMMEDIATE, DispatchMode.IMMEDIATE_OVERLAP]:
+    # schedule tasks according to task execution and data transfer modes
+    for host, tasks in schedule.items():
+      if self._data_transfer_mode in [DataTransferMode.QUEUE, DataTransferMode.QUEUE_ECT]:
+        data_transfers = []
+
+      for pos, task in enumerate(tasks):
+        task.schedule(host)
+
+        # do not add any constraints for boundary tasks
+        if task.name in self.BOUNDARY_TASKS:
+          continue
+
+        # do not add any constraints for PARALLEL mode
+        if self._task_exec_mode == TaskExecutionMode.PARALLEL:
+          continue
+
+        prev_task = schedule[host][pos - 1] if pos > 0 else None
+        prev2_task = schedule[host][pos - 2] if pos > 1 else None
+
+        # SEQUENTIAL task execution mode:
+        # forbid task overlapping by adding dependency on previous task
+        if prev_task is not None:
+          parent_tasks = set()
+          for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+            parent_tasks.add(comm.parents[0])
+          if prev_task not in parent_tasks:
+            self._simulation.add_dependency(prev_task, task)
+
+        # data transfer modes
+        if self._data_transfer_mode == DataTransferMode.EAGER:
+          # no additional dependencies are needed
+          pass
+        elif self._data_transfer_mode in [DataTransferMode.LAZY, DataTransferMode.LAZY_PARENTS]:
+          # add dependency from previous task to input data transfer
+          if prev_task is not None:
+            for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+              if comm.parents[0] != prev_task:
+                self._simulation.add_dependency(prev_task, comm)
+        elif self._data_transfer_mode == DataTransferMode.PREFETCH:
+          # add dependency from previous task data transfer to input data transfer
+          if prev_task is not None:
+            for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+              for prev_comm in prev_task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+                self._simulation.add_dependency(prev_comm, comm)
+          # add dependency from pre-previous task to input data transfer
+          # (this ensures that data transfer starts only when previous task is ready to run!)
+          if prev2_task is not None:
+            for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+              if comm.parents[0] != prev2_task:
+                self._simulation.add_dependency(prev2_task, comm)
+        elif self._data_transfer_mode == DataTransferMode.QUEUE:
+          # build a list of host inbound data transfers
+          for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+            data_transfers.append((comm, pos))
+        elif self._data_transfer_mode == DataTransferMode.QUEUE_ECT:
+          # build a list of host inbound data transfers
+          for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+            data_transfers.append((comm, (comm.parents[0].data["ect"], pos)))
+
+      if self._data_transfer_mode in [DataTransferMode.QUEUE, DataTransferMode.QUEUE_ECT]:
+        # form a queue from host inbound data transfers
+        data_transfers.sort(key=lambda t: t[1])
+        prev_comm = None
+        for comm, _ in data_transfers:
+          if prev_comm is not None:
+            self._simulation.add_dependency(prev_comm, comm)
+          prev_comm = comm
+
+    # PARENTS / LAZY_PARENTS modes
+    # (separate loop to avoid breaking the data transfers)
+    if self._data_transfer_mode in [DataTransferMode.PARENTS, DataTransferMode.LAZY_PARENTS]:
       for host, tasks in schedule.items():
-        prev = None
-        for task in tasks:
-          if prev is None or self.__dispatch_mode == DispatchMode.IMMEDIATE_OVERLAP:
-            task.schedule(host)
-          else:
-            task.schedule_after(host, prev)
-          prev = task
-    elif self.__dispatch_mode == DispatchMode.PARENTS_DONE:
-      task_assignments = {}
-      for host, tasks in schedule.items():
-        prev = None
-        for task in tasks:
-          task_assignments[task] = (host, prev)
-          prev = task
+        for pos, task in enumerate(tasks):
+          if task.name in self.BOUNDARY_TASKS:
+            continue
+          if self._task_exec_mode == TaskExecutionMode.PARALLEL:
+            continue
+          # add dependency from parents to input data transfers
+          for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+            for comm2 in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+              if comm2 != comm:
+                parent = comm2.parents[0]
+                if comm.parents[0] != parent:
+                  self._simulation.add_dependency(parent, comm)
 
-    for t in self._simulation.tasks:
-      t.watch(csimdag.TASK_STATE_DONE)
+    # make sure that our manipulations with dependencies do not break the data transfers
+    for task in self._simulation.tasks:
+      task_host = task.hosts[0]
+      for comm in task.parents[csimdag.TaskKind.TASK_KIND_COMM_E2E]:
+        parent_task = comm.parents[0]
+        parent_task_host = parent_task.hosts[0]
+        src = comm.hosts[0]
+        dst = comm.hosts[1] if len(comm.hosts) == 2 else src
+        if src != parent_task_host or dst != task_host:
+          raise Exception("Sanity check FAILED! Data transfer: %s [%s] -> %s [%s] has wrong hosts: %s -> %s"
+                          % (parent_task.name, parent_task_host.name, task.name, task_host.name, src.name, dst.name))
 
-    changed = self._simulation.tasks.by_func(lambda t: False)
-    while True:
-      if self.__dispatch_mode == DispatchMode.FREE_HOST:
-        self.__update_host_status(hosts_status, changed)
-        self.__schedule_to_free_hosts(schedule, hosts_status)
-      elif self.__dispatch_mode == DispatchMode.PARENTS_DONE:
-        for task in self._simulation.tasks[csimdag.TaskState.TASK_STATE_SCHEDULABLE]:
-          host, prev = task_assignments[task]
-          if prev is not None and prev.state < csimdag.TaskState.TASK_STATE_DONE:
-            task.schedule_after(host, prev)
-          else:
-            task.schedule(host)
-
-      changed = self._simulation.simulate()
-      if not changed:
-        break
-
+    self._simulation.simulate()
     self._check_done()
     self.__total_time = time.time() - start_time
 
@@ -240,18 +336,6 @@ class StaticScheduler(Scheduler):
   @property
   def expected_makespan(self):
     return self.__expected_makespan
-
-  def __update_host_status(self, hosts_status, changed):
-    for t in changed.by_prop("kind", csimdag.TASK_KIND_COMM_E2E, True)[csimdag.TASK_STATE_DONE]:
-      for h in t.hosts:
-        hosts_status[h] = True
-
-  def __schedule_to_free_hosts(self, schedule, hosts_status):
-    for host, tasks in schedule.items():
-      if tasks and hosts_status[host] == True:
-        task = tasks.pop(0)
-        task.schedule(host)
-        hosts_status[host] = False
 
 
 class DynamicScheduler(Scheduler):

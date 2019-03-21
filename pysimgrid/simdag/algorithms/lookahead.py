@@ -70,7 +70,8 @@ class Lookahead(scheduler.StaticScheduler):
         eet = platform_model.eet(task, host)
         pos, start, finish = cscheduling.timesheet_insertion(timesheet, est, eet)
         temp_state.update(task, host, pos, start, finish)
-        cscheduling.heft_schedule(nxgraph, platform_model, temp_state, ordered_tasks[(idx + 1):])
+        cscheduling.heft_schedule(nxgraph, platform_model, temp_state, ordered_tasks[(idx + 1):],
+                                  self._data_transfer_mode.name)
         total_time = max([state["ect"] for state in temp_state.task_states.values()])
         # key order to ensure stable sorting:
         #  first sort by HEFT makespan (as Lookahead requires)
@@ -80,5 +81,8 @@ class Lookahead(scheduler.StaticScheduler):
       host, pos, start, finish = current_min.value
       state.update(task, host, pos, start, finish)
 
+    # store ECT in tasks for QUEUE_ECT data transfer mode
+    for task, task_state in state.task_states.items():
+      task.data = {"ect": task_state["ect"]}
     expected_makespan = max([state["ect"] for state in state.task_states.values()])
     return state.schedule, expected_makespan

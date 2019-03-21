@@ -173,6 +173,18 @@ def get_clock():
   return csimdag.SD_get_clock()
 
 
+def add_dependency(csimdag.Task src, csimdag.Task dst):
+  """
+  Add dependency between given tasks, if not already exists.
+  """
+  cdef bytes utf8name = common.utf8_string("scheduled-after")
+  parents = set()
+  for parent in dst.parents:
+    parents.add(parent.name)
+  if src.name not in parents:
+    csimdag.SD_task_dependency_add(utf8name, NULL, src.impl, dst.impl)
+
+
 def exit():
   """
   Finalize simulator operation.
@@ -239,7 +251,7 @@ cdef class Task:
     for comm in self.parents:
       parents.add(comm.parents[0].name)
     cdef bytes utf8name = common.utf8_string("scheduled-after")
-    if predecessor.name not in parents:
+    if predecessor.name not in parents and predecessor.state < TaskState.TASK_STATE_DONE:
       csimdag.SD_task_dependency_add(utf8name, NULL, predecessor.impl, self.impl)
     csimdag.SD_task_schedulev(self.impl, 1, &host.impl)
 

@@ -67,6 +67,9 @@ class HEFT(scheduler.StaticScheduler):
 
     ordered_tasks = cscheduling.heft_order(nxgraph, platform_model)
 
-    cscheduling.heft_schedule(nxgraph, platform_model, state, ordered_tasks)
+    cscheduling.heft_schedule(nxgraph, platform_model, state, ordered_tasks, self._data_transfer_mode.name)
+    # store ECT in tasks for QUEUE_ECT data transfer mode
+    for task, task_state in state.task_states.items():
+      task.data = {"ect": task_state["ect"]}
     expected_makespan = max([state["ect"] for state in state.task_states.values()])
     return state.schedule, expected_makespan

@@ -222,6 +222,53 @@ cdef class PlatformModel(object):
         result = parent_time
     return result
 
+  cpdef max_ect(self, list tasks, SchedulerState state):
+    """
+    Get max ECT (estimated completion time) for given tasks.
+    """
+    cdef double result = 0.
+    cdef double task_ect
+    cdef dict task_states = state._task_states
+    cdef dict task_state
+
+    for task in tasks:
+      task_state = task_states[task]
+      task_ect = task_state["ect"]
+      if task_ect > result:
+        result = task_ect
+    return result
+
+  cpdef max_comm_time(self, cplatform.Host host, dict tasks, SchedulerState state):
+    """
+    Get max data transfer time from given tasks to a given host.
+    """
+    cdef double result = 0.
+    cdef double comm_time
+
+    cdef dict task_states = state._task_states
+    cdef dict task_state
+    cdef int dst_idx = self._host_map[host]
+    cdef int src_idx
+    cdef csimdag.Task parent
+    cdef dict edge_dict
+    cdef double comm_amount
+
+    # force ndarray types to ensure fast indexing
+    cdef cnumpy.ndarray[double, ndim=2] bw = self._bandwidth
+    cdef cnumpy.ndarray[double, ndim=2] lat = self._latency
+
+    for task, edge_dict in tasks.items():
+      task_state = task_states[task]
+      src_idx = self._host_map[task_state["host"]]
+      if src_idx == dst_idx:
+        comm_time =  0.
+      else:
+        comm_amount = edge_dict["weight"]
+        comm_time = comm_amount / bw[src_idx, dst_idx] + lat[src_idx, dst_idx]
+      if comm_time > result:
+        result = comm_time
+    return result
+
   def host_idx(self, cplatform.Host host):
     return self._host_map[host]
 
@@ -414,7 +461,8 @@ def heft_order(object nxgraph, PlatformModel platform_model):
   return sorted(nxgraph.nodes(), key=lambda node: (task_ranku[node], node.name), reverse=True)
 
 
-cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks):
+cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState state, list ordered_tasks,
+                    str data_transfer_mode):
   """
   Build a HEFT schedule for a given state.
   Implemented as a separate function to be used in lookahead scheduler.
@@ -435,6 +483,7 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
   cdef int pos
   cdef cplatform.Host host
   cdef double est, eet, start, finish
+
   for task in ordered_tasks:
     if try_schedule_boundary_task(task, nxgraph, platform_model, state):
       continue
@@ -442,8 +491,16 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
     for host, timesheet in state.timetable.items():
       if is_master_host(host):
         continue
-      est = platform_model.est(host, dict(nxgraph.pred[task]), state)
-      eet = platform_model.eet(task, host)
+      if data_transfer_mode in ["LAZY", "LAZY_PARENTS"]:
+        est = platform_model.max_ect(list(nxgraph.pred[task]), state)
+        eet = platform_model.max_comm_time(host, dict(nxgraph.pred[task]), state) + platform_model.eet(task, host)
+      elif data_transfer_mode == "PARENTS":
+        est = platform_model.max_ect(list(nxgraph.pred[task]), state) + \
+              platform_model.max_comm_time(host, dict(nxgraph.pred[task]), state)
+        eet = platform_model.eet(task, host)
+      else: # classic HEFT, i.e. EAGER data transfers
+        est = platform_model.est(host, dict(nxgraph.pred[task]), state)
+        eet = platform_model.eet(task, host)
       pos, start, finish = timesheet_insertion(timesheet, est, eet)
       # strange key order to ensure stable sorting:
       #  first sort by ECT (as HEFT requires)
@@ -451,7 +508,6 @@ cpdef heft_schedule(object nxgraph, PlatformModel platform_model, SchedulerState
       #  if equal - sort by host name (guaranteed to be unique)
       current_min.update((finish, host.speed, host.name), (host, pos, start, finish))
     host, pos, start, finish = current_min.value
-    #print(task.name, host.name, pos, est, start, finish)
     state.update(task, host, pos, start, finish)
   return state
 

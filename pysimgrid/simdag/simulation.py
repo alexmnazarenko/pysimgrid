@@ -22,7 +22,7 @@ import networkx
 import operator
 import os
 
-from .scheduler import DispatchMode
+from .scheduler import TaskExecutionMode
 from .. import csimdag
 from .. import tools
 
@@ -116,6 +116,8 @@ class Simulation(object):
     for e in self.connections:
       parents, children = e.parents, e.children
       assert len(parents) == 1 and len(children) == 1
+      # make sure that the original task graph is not multigraph!
+      assert not graph.has_edge(parents[0], children[0])
       graph.add_edge(parents[0], children[0], weight=e.amount)
 
     return graph
@@ -161,6 +163,12 @@ class Simulation(object):
     Get current SimGrid clock.
     """
     return csimdag.get_clock()
+
+  def add_dependency(self, src_task, dst_task):
+    """
+    Add dependency between given tasks, if not already exists.
+    """
+    csimdag.add_dependency(src_task, dst_task)
 
   def sanity_check(self):
     """
@@ -228,16 +236,17 @@ class Simulation(object):
     self._logger.debug("Finalizing the simulation (clock: %.2f)", self.clock)
 
     # perform sanity check of produced execution
-    dispatch_mode = DispatchMode.FREE_HOST
-    if "PYSIMGRID_DISPATCH_MODE" in os.environ:
-      dispatch_mode = DispatchMode[os.environ["PYSIMGRID_DISPATCH_MODE"]]
-    if dispatch_mode != DispatchMode.IMMEDIATE_OVERLAP:
+    if "PYSIMGRID_TASK_EXECUTION" in os.environ:
+      task_exec_mode = TaskExecutionMode[os.environ["PYSIMGRID_TASK_EXECUTION"]]
+    else:
+      task_exec_mode = TaskExecutionMode.SEQUENTIAL
+    if task_exec_mode != TaskExecutionMode.PARALLEL:
       if self.sanity_check():
         self._logger.debug("Sanity check PASSED")
       else:
         raise Exception("Sanity check FAILED (task executions overlap on hosts!)")
     else:
-      self._logger.debug("Sanity check SKIPPED (dispatch mode is IMMEDIATE_OVERLAP)")
+      self._logger.debug("Sanity check SKIPPED (task execution mode is PARALLEL)")
 
     csimdag.exit()
     return False

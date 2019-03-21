@@ -146,6 +146,8 @@ def run_experiment(job):
     logger = logging.getLogger("pysimgrid.tools.Experiment")
     logger.debug("Starting experiment (platform=%s, tasks=%s, algorithm=%s)", platform, tasks, algorithm["class"])
     scheduler_class = import_algorithm(algorithm["class"])
+    if "data-transfer-mode" in algorithm:
+        os.environ["PYSIMGRID_DATA_TRANSFER"] = algorithm["data-transfer-mode"]
     # init return values with NaN's
     makespan, exec_time, comm_time, sched_time, exp_makespan = [float("NaN")] * 5
     try:
@@ -190,10 +192,47 @@ def progress_reporter(iterable, length, logger):
 
 
 def make_chart(simulation, platform, tasks, algorithm, scheduler):
-    TASK_COLOR1 = 'dodgerblue'
-    TASK_COLOR2 = 'royalblue'
-    UPLOAD_COLOR = 'lime'
-    DOWNLOAD_COLOR = 'deeppink'
+    if 'Montage' in tasks:
+        TASK_COLORS = {
+            'mProject': 'yellow',
+            'mProjectPP': 'yellow',
+            'mDiffFit': 'deepskyblue',
+            'mConcatFit': 'salmon',
+            'mBgModel': 'orange',
+            'mBackground': 'darkgreen',
+            'mImgtbl': 'paleturquoise',
+            'mImgTbl': 'paleturquoise',
+            'mShrink': 'gray',
+            'mAdd': 'orchid',
+            'mJPEG': 'palegreen'
+        }
+    elif '1000Genome' in tasks:
+        TASK_COLORS = {
+            'sifting': 'red',
+            'individuals': 'deepskyblue',
+            'mutation': 'orange',
+            'frequency': 'salmon'
+        }
+    else:
+        TASK_COLORS = [
+            'dodgerblue',
+            'royalblue'
+        ]
+
+    if type(TASK_COLORS) is dict:
+        UPLOAD_COLOR = 'gray'
+        DOWNLOAD_COLOR = 'black'
+
+        task_labels = {}
+        with open(tasks, "r") as f:
+            for line in f:
+                if 'label="' in line:
+                    task_label = line.split('label="')[1].split('"')[0]
+                    task_id = line.split('[')[0].strip()
+                    task_labels[task_id] = task_label
+    else:
+        UPLOAD_COLOR = 'lime'
+        DOWNLOAD_COLOR = 'deeppink'
 
     params = {'legend.fontsize': 'small',
               'figure.figsize': (8, 5),
@@ -203,8 +242,8 @@ def make_chart(simulation, platform, tasks, algorithm, scheduler):
               'ytick.labelsize': 'small'}
     pylab.rcParams.update(params)
 
-    platform_name = ntpath.basename(platform).split(".")[0]
-    app_name = ntpath.basename(tasks).split(".")[0]
+    platform_name = ntpath.basename(platform).rsplit(".", 1)[0]
+    app_name = ntpath.basename(tasks).rsplit(".", 1)[0]
     fig_name = "%s_%s_%s" % (platform_name, app_name, algorithm)
 
     fig = plt.figure()
@@ -248,12 +287,15 @@ def make_chart(simulation, platform, tasks, algorithm, scheduler):
         if task.name not in ["root", "end"]:
             idx = hosts_idx[host]
             host_task_count[host] += 1
-            if host_task_count[host] % 2 != 0:
-                ax.broken_barh([(task.start_time, duration)], (idx - 0.4, 0.8),
-                               color=TASK_COLOR1, linewidth=0)
+
+            if type(TASK_COLORS) is dict:
+                task_group = task_labels[task.name].split("_")[0]
+                task_color = TASK_COLORS[task_group]
             else:
-                ax.broken_barh([(task.start_time, duration)], (idx - 0.4, 0.8),
-                               color=TASK_COLOR2, linewidth=0)
+                task_color = TASK_COLORS[host_task_count[host] % 2]
+
+            ax.broken_barh([(task.start_time, duration)], (idx - 0.4, 0.8), color=task_color, linewidth=0)
+
             # draw task names only for small apps
             if task_count <= 10:
                 ax.text(task.start_time + duration / 2.0, idx, re.sub('[^0-9]', '', task.name),
