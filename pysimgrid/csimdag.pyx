@@ -185,6 +185,14 @@ def add_dependency(csimdag.Task src, csimdag.Task dst):
     csimdag.SD_task_dependency_add(utf8name, NULL, src.impl, dst.impl)
 
 
+def add_task(name, amount):
+  """
+  Add computational task to SimDAG graph.
+  """
+  cdef bytes utf8name = common.utf8_string(name)
+  return Task.wrap(csimdag.SD_task_create_comp_seq(utf8name, NULL, amount));
+
+
 def exit():
   """
   Finalize simulator operation.

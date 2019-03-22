@@ -170,6 +170,15 @@ class Simulation(object):
     """
     csimdag.add_dependency(src_task, dst_task)
 
+  def add_task(self, name, amount):
+    """
+    Add computational task.
+    """
+    task = csimdag.add_task(name, amount)
+    sim_task = _SimulationTask(task.native, self, self._logger)
+    self._tasks.append(sim_task)
+    return sim_task
+
   def sanity_check(self):
     """
     Check whether task executions overlap on hosts or not.
