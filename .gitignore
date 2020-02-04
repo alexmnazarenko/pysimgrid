@@ -2,3 +2,7 @@
 /**/build*
 # dependencies
 /opt
+# misc
+/pysimgrid/*.c
+/pysimgrid/*.so
+__pycache__
